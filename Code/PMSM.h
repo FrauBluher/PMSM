@@ -81,8 +81,8 @@
  * -           PIN FUNCTIONS         -  PIN #  -  HEADER,#
  * - AN10/RPI28/RA12                 - PIN 11  -  JP5,2
  * - AN8/RPI27/RA11                  - PIN 12  -  JP5,3
- * - AN4/RPI34/RB2	                 - PIN 17  -  JP5,4
- * - AN5/RP35/RB3 	                 - PIN 18  -  JP5,5
+ * - AN4/RPI34/RB2	             - PIN 17  -  JP5,4
+ * - AN5/RP35/RB3 	             - PIN 18  -  JP5,5
  *
  * - AN3/OA1OUT/RPI33/STED1/RB1      - PIN 16  -  JP2,2
  * - AN6/OA3OUT/C4IN1+/OCFB/RC0      - PIN 21  -  JP2,3
