@@ -102,7 +102,6 @@ void MotorInit(void);
 void TimersInit(void);
 void ClockInit(void);
 void DigitalPinsInit(void);
-void SetDutyCycle(float dutyU, float dutyV, float dutyW);
 
 MotorInfo motorInformation;
 
@@ -117,13 +116,17 @@ int main(void) {
     }
 
     GateControl(1);
+    //Set torque and field weakening value here.
 
-
-
-
-
-
-    while (1);
+    while (1) {
+    	//State machine goes here.
+    	
+    	//Control position of motor with the PMSM library and feed back the QEI counter value into the control loop.
+    	//512 count encoder can be turned into a 2048 count encoder with the QEI peripheral.  If the motor has 6 poles,
+    	//two rotations from 0 - 2pi are required to spin the motor once.  That means that the base step commanded position
+    	//of the motor should be 2pi / 1024.  Unless of course you want to interpolate position between steps using estimated
+    	//speed.
+    }
 }
 
 void MotorInit() {
