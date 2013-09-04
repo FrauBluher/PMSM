@@ -63,41 +63,6 @@
  * - RPI46/PWM1H/RB14   - PIN 2   -  PWM1
  * - AN0/OA2OUT/RA0     - PIN 13  -  CRNT1 (Current Sens)
  * - AN1/C2IN1+/RA1     - PIN 14  -  CRNT2 (Current Sens)
- *
- *
- * Pins connected to solderjumpers allow for specific ID's to be set on a CAN network with
- * one unified compiled image on multiple PMSM boards. (2^5 Unique ID's)
- *
- * - Digital Pin -  SJ
- * - RB15        -  SJ1
- * - RG6         -  SJ4
- * - RG7         -  SJ5
- * - RG8         -  SJ6
- * - RG9         -  SJ7
- * 
- *
- * The following pins and peripherals are available on headers JP1, JP2, and JP5:
- *
- * -           PIN FUNCTIONS         -  PIN #  -  HEADER,#
- * - AN10/RPI28/RA12                 - PIN 11  -  JP5,2
- * - AN8/RPI27/RA11                  - PIN 12  -  JP5,3
- * - AN4/RPI34/RB2	             - PIN 17  -  JP5,4
- * - AN5/RP35/RB3 	             - PIN 18  -  JP5,5
- *
- * - AN3/OA1OUT/RPI33/STED1/RB1      - PIN 16  -  JP2,2
- * - AN6/OA3OUT/C4IN1+/OCFB/RC0      - PIN 21  -  JP2,3
- * - AN7/C3IN1-/C4IN1+/RC1           - PIN 22  -  JP2,4
- * - AN8/C3IN1+/Y1RTS/BCLK1/FLT3/RC2 - PIN 23  -  JP2,5
- *
- * - AN12/C2IN2-/U2RTS/BCLK2/RE12    - PIN 27  -  JP1,1
- * - AN13/C3IN20/U2CTS/RE13          - PIN 28  -  JP1,2
- * - AN14/RPI94/RE14                 - PIN 29  -  JP1,3
- * - AN14/RPI95/RE15                 - PIN 30  -  JP1,4
- * - SDA2/RPI24/RA8                  - PIN 31  -  JP1,5
- * - FLT32/SCL2/RPI36/RB4            - PIN 32  -  JP1,6
- *
- * --Note: RPIx pins can only be remapped to be a peripheral input, while RPx function as I/O.
- *
  */
 
 #ifndef PMSM_H
@@ -110,8 +75,10 @@
 #warning The 33F PMSM implementation is unsupported at this time.
 #endif
 #if defined(__dsPIC33EP256MC506__)
-#define FCY 60000000
+#define FCY 70000000
 #endif
+
+#define MOTOR_PWM_FREQ 20000
 
 //Provided for implementation.  Use floats.
 #define RADTODEG(x) ((x) * 57.29578)
@@ -124,43 +91,32 @@
  * be passed to PMSM_Init.
  */
 typedef struct {
-    uint16_t encoderCount;
-	uint8_t overtemp;
-	uint16_t crrnt1;
-    uint16_t crrnt2;
-	uint8_t newData;
-    uint8_t hallA;
-    uint8_t hallB;
-    uint8_t hallC;
-    uint8_t fault;
+    double t1;
+    double t2;
+    double t3;
+    uint8_t newData;
 } MotorInfo;
 
 /**
  * @brief PMSM initialization call. Sets up hardware and timers.
  * @param *information a pointer to the MotorInfo struct that will be updated.
- * @param mode What kind of control scheme will be used.
- * @param differentialEncoder Does the encoder use differential signals?
  * @return Returns 1 if successful, returns 0 otherwise.
  *
- *  Change the mode value to the following values to
- *  define what kind of controller you want to implement.
- *
- *  Open Loop PMSM                  = 0
- *  Closed Loop PMSM w/Halls	    = 1
- *  Closed Loop PMSM w/Op. Encoder  = 2
- *  Sensorless PMSM FOC BEMF        = 3
- *
- * If using an encoder which uses differential signaling set differentialEncoder to one
- * or zero otherwise.
- *
- * This needs to be called before any other hardware peripheral is initialized.
- * The passed MotorInfo struct will be updated at 100 Hz and the newData flag will be
- * set to 1 when it has been updated.  It is up to you to set newData to zero.  Setting
- * newData to zero isn't required and is provided only for implementation purposes.
+ * This needs to be called after all other hardware peripherals have been initialized.
+ * It is up to you to set newData to zero, it is set to one every time a new position is commanded.
+ * Setting newData to zero isn't required and newData itself is provided only for implementation purposes.
  * 
  * PMSM_Init uses Timer2 and sets up the processor.
  */
-uint8_t PMSM_Init(MotorInfo *information, uint8_t mode, uint8_t differentialEncoder);
+uint8_t PMSM_Init(MotorInfo *information);
+
+/**
+ * @brief calculates PMSM vectors and updates the init'd MotorInfo struct with duty values.
+ *
+ * This should be called after one is done updating position, field weakening, and torque.
+ * Call only once after all three are updated, not after setting each individual parameter.
+ */
+void PMSM_Update(void);
 
 /**
  * @brief Sets the commanded position of the motor.
