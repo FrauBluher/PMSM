@@ -6,7 +6,7 @@
 <setting alwaysvectorfont="no"/>
 <setting verticaltext="up"/>
 </settings>
-<grid distance="1" unitdist="mm" unit="mm" style="lines" multiple="1" display="no" altdistance="0.1" altunitdist="mm" altunit="mm"/>
+<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="no" altdistance="0.01" altunitdist="inch" altunit="inch"/>
 <layers>
 <layer number="1" name="Top" color="4" fill="1" visible="no" active="no"/>
 <layer number="2" name="Route2" color="1" fill="3" visible="no" active="no"/>
@@ -8045,6 +8045,11 @@ Standard 11x14 US Ledger frame</description>
 <pinref part="U$1" gate="A" pin="VSS_2"/>
 <wire x1="88.34" y1="167.66" x2="109.22" y2="167.64" width="0.1524" layer="91"/>
 </segment>
+<segment>
+<pinref part="JP5" gate="G$1" pin="2"/>
+<wire x1="62.94" y1="193.06" x2="65.48" y2="193.06" width="0.1524" layer="91"/>
+<label x="65.48" y="193.06" size="1.778" layer="95"/>
+</segment>
 </net>
 <net name="N$2" class="0">
 <segment>
@@ -8410,11 +8415,6 @@ Standard 11x14 US Ledger frame</description>
 <pinref part="U$1" gate="A" pin="AN10/RPI28/RA12"/>
 <wire x1="109.22" y1="162.56" x2="106.12" y2="162.58" width="0.1524" layer="91"/>
 <label x="101.04" y="162.58" size="1.778" layer="95"/>
-</segment>
-<segment>
-<pinref part="JP5" gate="G$1" pin="2"/>
-<wire x1="62.94" y1="193.06" x2="65.48" y2="193.06" width="0.1524" layer="91"/>
-<label x="65.48" y="193.06" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="RA11" class="0">
@@ -9292,29 +9292,6 @@ Standard 11x14 US Ledger frame</description>
 <busses>
 </busses>
 <nets>
-<net name="GND" class="0">
-<segment>
-<pinref part="J1" gate="G$1" pin="2"/>
-<wire x1="330.78" y1="157.66" x2="330.78" y2="155.12" width="0.1524" layer="91"/>
-<label x="330.78" y="152.58" size="1.778" layer="95"/>
-</segment>
-<segment>
-<pinref part="J2" gate="G$1" pin="2"/>
-<wire x1="343.48" y1="157.66" x2="343.48" y2="155.12" width="0.1524" layer="91"/>
-<label x="343.48" y="152.58" size="1.778" layer="95"/>
-</segment>
-<segment>
-<pinref part="C28" gate="G$1" pin="2"/>
-<pinref part="C27" gate="G$1" pin="-"/>
-<wire x1="113.46" y1="151.82" x2="123.62" y2="151.82" width="0.1524" layer="91"/>
-<label x="116" y="149.28" size="1.778" layer="95"/>
-</segment>
-<segment>
-<pinref part="U$9" gate="G$1" pin="P$1"/>
-<wire x1="162.56" y1="66.04" x2="157.48" y2="66.04" width="0.1524" layer="91"/>
-<label x="152.4" y="66.04" size="1.778" layer="95"/>
-</segment>
-</net>
 <net name="PVDD" class="3">
 <segment>
 <pinref part="F1" gate="1" pin="1"/>
@@ -9565,6 +9542,22 @@ Standard 11x14 US Ledger frame</description>
 <wire x1="205.74" y1="66.04" x2="210.82" y2="66.04" width="0.1524" layer="91"/>
 <label x="210.82" y="66.04" size="1.778" layer="95"/>
 </segment>
+<segment>
+<pinref part="J1" gate="G$1" pin="2"/>
+<wire x1="330.78" y1="157.66" x2="330.78" y2="155.12" width="0.1524" layer="91"/>
+<label x="330.78" y="152.58" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="J2" gate="G$1" pin="2"/>
+<wire x1="343.48" y1="157.66" x2="343.48" y2="155.12" width="0.1524" layer="91"/>
+<label x="343.48" y="152.58" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="C28" gate="G$1" pin="2"/>
+<pinref part="C27" gate="G$1" pin="-"/>
+<wire x1="113.46" y1="151.82" x2="123.62" y2="151.82" width="0.1524" layer="91"/>
+<label x="116" y="149.28" size="1.778" layer="95"/>
+</segment>
 </net>
 <net name="SP1" class="3">
 <segment>
@@ -9590,6 +9583,13 @@ Standard 11x14 US Ledger frame</description>
 <pinref part="U$10" gate="G$1" pin="P$1"/>
 <wire x1="180.34" y1="66.04" x2="187.96" y2="66.04" width="0.1524" layer="91"/>
 <label x="180.34" y="66.04" size="1.778" layer="95"/>
+</segment>
+</net>
+<net name="GND" class="0">
+<segment>
+<pinref part="U$9" gate="G$1" pin="P$1"/>
+<wire x1="162.56" y1="66.04" x2="157.48" y2="66.04" width="0.1524" layer="91"/>
+<label x="152.4" y="66.04" size="1.778" layer="95"/>
 </segment>
 </net>
 </nets>

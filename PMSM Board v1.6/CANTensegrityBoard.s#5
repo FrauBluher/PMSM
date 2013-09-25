@@ -8838,7 +8838,7 @@ Standard 11x14 US Ledger frame</description>
 <junction x="259.08" y="152.654"/>
 </segment>
 </net>
-<net name="OUT_W" class="0">
+<net name="SH_C" class="0">
 <segment>
 <pinref part="C11" gate="G$1" pin="2"/>
 <wire x1="273.82" y1="124.66" x2="268.74" y2="124.66" width="0.1524" layer="91"/>
@@ -9311,13 +9311,6 @@ Standard 11x14 US Ledger frame</description>
 <label x="243" y="132" size="1.778" layer="95"/>
 </segment>
 </net>
-<net name="OUT_W" class="0">
-<segment>
-<pinref part="JP7" gate="G$1" pin="1"/>
-<wire x1="228" y1="204" x2="228" y2="200" width="0.1524" layer="91"/>
-<label x="228" y="191" size="1.778" layer="95" rot="R90"/>
-</segment>
-</net>
 <net name="SN1" class="0">
 <segment>
 <pinref part="U$6" gate="G$1" pin="S"/>
@@ -9404,6 +9397,11 @@ Standard 11x14 US Ledger frame</description>
 <wire x1="260" y1="147" x2="261" y2="147" width="0.1524" layer="91"/>
 <wire x1="261" y1="147" x2="262" y2="147" width="0.1524" layer="91"/>
 <label x="263" y="147" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="JP7" gate="G$1" pin="1"/>
+<wire x1="228" y1="204" x2="228" y2="200" width="0.1524" layer="91"/>
+<label x="228" y="191" size="1.778" layer="95" rot="R90"/>
 </segment>
 </net>
 <net name="SL_A" class="0">

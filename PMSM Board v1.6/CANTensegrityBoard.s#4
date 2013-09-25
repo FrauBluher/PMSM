@@ -6253,48 +6253,10 @@ will be further integrated into the Sparkfun Library for other footprints.  It c
 <smd name="55" x="3.81" y="6.2484" dx="1.27" dy="0.3048" layer="1"/>
 <smd name="56" x="3.81" y="6.7564" dx="1.27" dy="0.3048" layer="1"/>
 <smd name="57" x="0" y="0" dx="3.6068" dy="6.35" layer="1" thermals="no"/>
-<pad name="V_3" x="-1.1684" y="-2.7432" drill="0.254" thermals="no"/>
-<pad name="V_2" x="-1.1684" y="-1.9812" drill="0.254" thermals="no"/>
-<pad name="V_4" x="-1.1684" y="-1.1684" drill="0.254" thermals="no"/>
-<pad name="V_5" x="-1.1684" y="-0.4064" drill="0.254" thermals="no"/>
-<pad name="V_6" x="-1.1684" y="0.4064" drill="0.254" thermals="no"/>
-<pad name="V_7" x="-1.1684" y="1.1684" drill="0.254" thermals="no"/>
-<pad name="V_8" x="-1.1684" y="1.9812" drill="0.254" thermals="no"/>
-<pad name="V_9" x="-1.1684" y="2.7432" drill="0.254" thermals="no"/>
-<pad name="V_10" x="-0.4064" y="-2.7432" drill="0.254" thermals="no"/>
-<pad name="V_11" x="-0.4064" y="-1.9812" drill="0.254" thermals="no"/>
-<pad name="V_12" x="-0.4064" y="-1.1684" drill="0.254" thermals="no"/>
-<pad name="V_13" x="-0.4064" y="-0.4064" drill="0.254" thermals="no"/>
-<pad name="V_14" x="-0.4064" y="0.4064" drill="0.254" thermals="no"/>
-<pad name="V_15" x="-0.4064" y="1.1684" drill="0.254" thermals="no"/>
-<pad name="V_16" x="-0.4064" y="1.9812" drill="0.254" thermals="no"/>
-<pad name="V_17" x="-0.4064" y="2.7432" drill="0.254" thermals="no"/>
-<pad name="V_18" x="0.4064" y="-2.7432" drill="0.254" thermals="no"/>
-<pad name="V_19" x="0.4064" y="-1.9812" drill="0.254" thermals="no"/>
-<pad name="V_20" x="0.4064" y="-1.1684" drill="0.254" thermals="no"/>
-<pad name="V_21" x="0.4064" y="-0.4064" drill="0.254" thermals="no"/>
-<pad name="V_22" x="0.4064" y="0.4064" drill="0.254" thermals="no"/>
-<pad name="V_23" x="0.4064" y="1.1684" drill="0.254" thermals="no"/>
-<pad name="V_24" x="0.4064" y="1.9812" drill="0.254" thermals="no"/>
-<pad name="V_25" x="0.4064" y="2.7432" drill="0.254" thermals="no"/>
-<pad name="V_26" x="1.1684" y="-2.7432" drill="0.254" thermals="no"/>
-<pad name="V_27" x="1.1684" y="-1.9812" drill="0.254" thermals="no"/>
-<pad name="V_28" x="1.1684" y="-1.1684" drill="0.254" thermals="no"/>
-<pad name="V_29" x="1.1684" y="-0.4064" drill="0.254" thermals="no"/>
-<pad name="V_30" x="1.1684" y="0.4064" drill="0.254" thermals="no"/>
-<pad name="V_31" x="1.1684" y="1.1684" drill="0.254" thermals="no"/>
-<pad name="V_32" x="1.1684" y="1.9812" drill="0.254" thermals="no"/>
-<pad name="V" x="1.1684" y="2.7432" drill="0.254" thermals="no"/>
 <wire x1="2.8956" y1="7.0612" x2="0.3048" y2="7.0612" width="0.1524" layer="51"/>
 <wire x1="-0.3048" y1="7.0612" x2="-2.8956" y2="7.0612" width="0.1524" layer="51"/>
 <wire x1="0.3048" y1="7.0612" x2="-0.3048" y2="7.0612" width="0.1524" layer="51" curve="-180"/>
 <text x="-4.6482" y="6.9342" size="1.27" layer="51" ratio="6" rot="SR0">*</text>
-<text x="-3.2766" y="-0.635" size="1.27" layer="51" ratio="6" rot="SR0">RefDes</text>
-<text x="-1.7272" y="-0.635" size="1.27" layer="51" ratio="6" rot="SR0">DEV</text>
-<text x="-1.143" y="-0.635" size="1.27" layer="51" ratio="6" rot="SR0">PN</text>
-<text x="-1.7272" y="-0.635" size="1.27" layer="51" ratio="6" rot="SR0">DEV</text>
-<text x="-1.7272" y="-0.635" size="1.27" layer="51" ratio="6" rot="SR0">VAL</text>
-<text x="-1.7272" y="-0.635" size="1.27" layer="51" ratio="6" rot="SR0">TOL</text>
 <wire x1="3.0988" y1="-7.0612" x2="3.0988" y2="-6.9088" width="0" layer="21"/>
 <wire x1="3.0988" y1="-6.604" x2="3.0988" y2="-6.4008" width="0" layer="21"/>
 <wire x1="3.0988" y1="-6.096" x2="3.0988" y2="-5.8928" width="0" layer="21"/>
@@ -6355,30 +6317,16 @@ will be further integrated into the Sparkfun Library for other footprints.  It c
 <wire x1="-3.0988" y1="-6.9088" x2="-3.0988" y2="-7.0612" width="0" layer="21"/>
 <wire x1="0.3048" y1="7.0612" x2="-0.3048" y2="7.0612" width="0" layer="21" curve="-180"/>
 <text x="-4.6482" y="6.9342" size="1.27" layer="21" ratio="6" rot="SR0">*</text>
-<text x="-3.8354" y="-0.635" size="1.27" layer="21" ratio="6" rot="SR0">RefDes2</text>
 <wire x1="0.3048" y1="7.0612" x2="-0.3048" y2="7.0612" width="0.1524" layer="51" curve="-180"/>
 <text x="-4.6482" y="6.9342" size="1.27" layer="51" ratio="6" rot="SR0">*</text>
-<text x="-3.2766" y="-0.635" size="1.27" layer="51" ratio="6" rot="SR0">RefDes</text>
-<text x="-1.7272" y="-0.635" size="1.27" layer="51" ratio="6" rot="SR0">DEV</text>
-<text x="-1.143" y="-0.635" size="1.27" layer="51" ratio="6" rot="SR0">PN</text>
-<text x="-1.7272" y="-0.635" size="1.27" layer="51" ratio="6" rot="SR0">DEV</text>
-<text x="-1.7272" y="-0.635" size="1.27" layer="51" ratio="6" rot="SR0">VAL</text>
-<text x="-1.7272" y="-0.635" size="1.27" layer="51" ratio="6" rot="SR0">TOL</text>
 <wire x1="3.0988" y1="-0.1016" x2="3.0988" y2="0.1016" width="0" layer="21"/>
 <wire x1="-3.0988" y1="0.1016" x2="-3.0988" y2="-0.1016" width="0" layer="21"/>
 <wire x1="0.3048" y1="7.0612" x2="-0.3048" y2="7.0612" width="0" layer="21" curve="-180"/>
 <text x="-4.6482" y="6.9342" size="1.27" layer="21" ratio="6" rot="SR0">*</text>
-<text x="-3.8354" y="-0.635" size="1.27" layer="21" ratio="6" rot="SR0">RefDes2</text>
 <wire x1="-2.8956" y1="-7.0612" x2="2.8956" y2="-7.0612" width="0.1524" layer="51"/>
 <wire x1="0.3048" y1="7.0612" x2="-0.3048" y2="7.0612" width="0.1524" layer="51"/>
 <wire x1="0.3048" y1="7.0612" x2="-0.3048" y2="7.0612" width="0.1524" layer="51" curve="-180"/>
 <text x="-4.6482" y="6.9342" size="1.27" layer="51" ratio="6" rot="SR0">*</text>
-<text x="-3.2766" y="-0.635" size="1.27" layer="51" ratio="6" rot="SR0">RefDes</text>
-<text x="-1.7272" y="-0.635" size="1.27" layer="51" ratio="6" rot="SR0">DEV</text>
-<text x="-1.143" y="-0.635" size="1.27" layer="51" ratio="6" rot="SR0">PN</text>
-<text x="-1.7272" y="-0.635" size="1.27" layer="51" ratio="6" rot="SR0">DEV</text>
-<text x="-1.7272" y="-0.635" size="1.27" layer="51" ratio="6" rot="SR0">VAL</text>
-<text x="-1.7272" y="-0.635" size="1.27" layer="51" ratio="6" rot="SR0">TOL</text>
 <wire x1="-3.0988" y1="6.604" x2="-3.0988" y2="6.9088" width="0" layer="21"/>
 <wire x1="-3.0988" y1="6.9088" x2="-4.1656" y2="6.9088" width="0" layer="21"/>
 <wire x1="-4.1656" y1="6.9088" x2="-4.1656" y2="6.604" width="0" layer="21"/>
@@ -6609,7 +6557,24 @@ will be further integrated into the Sparkfun Library for other footprints.  It c
 <wire x1="-3.0988" y1="6.604" x2="-3.0988" y2="-6.604" width="0" layer="21"/>
 <wire x1="0.3048" y1="7.0612" x2="-0.3048" y2="7.0612" width="0" layer="21" curve="-180"/>
 <text x="-4.6482" y="6.9342" size="1.27" layer="21" ratio="6" rot="SR0">*</text>
-<text x="-3.8354" y="-0.635" size="1.27" layer="21" ratio="6" rot="SR0">RefDes2</text>
+<pad name="P$1" x="-1.1" y="2.5" drill="0.4" shape="square" stop="no" thermals="no"/>
+<pad name="P$2" x="1.1" y="2.5" drill="0.4" shape="square" stop="no" thermals="no"/>
+<pad name="P$3" x="0" y="2.5" drill="0.4" shape="square" stop="no" thermals="no"/>
+<pad name="P$4" x="0" y="1.5" drill="0.4" shape="square" stop="no" thermals="no"/>
+<pad name="P$5" x="0" y="0.5" drill="0.4" shape="square" stop="no"/>
+<pad name="P$6" x="0" y="-0.5" drill="0.4" shape="square" stop="no" thermals="no"/>
+<pad name="P$7" x="0" y="-1.5" drill="0.4" shape="square" stop="no" thermals="no"/>
+<pad name="P$8" x="0" y="-2.5" drill="0.4" shape="square" stop="no" thermals="no"/>
+<pad name="P$9" x="-1.1" y="1.5" drill="0.4" shape="square" stop="no" thermals="no"/>
+<pad name="P$10" x="-1.1" y="0.5" drill="0.4" shape="square" stop="no" thermals="no"/>
+<pad name="P$11" x="-1.1" y="-0.5" drill="0.4" shape="square" stop="no" thermals="no"/>
+<pad name="P$12" x="-1.1" y="-1.5" drill="0.4" shape="square" stop="no" thermals="no"/>
+<pad name="P$13" x="-1.1" y="-2.5" drill="0.4" shape="square" stop="no" thermals="no"/>
+<pad name="P$14" x="1.1" y="1.5" drill="0.4" shape="square" stop="no" thermals="no"/>
+<pad name="P$15" x="1.1" y="0.5" drill="0.4" shape="square" stop="no" thermals="no"/>
+<pad name="P$16" x="1.1" y="-0.5" drill="0.4" shape="square" stop="no" thermals="no"/>
+<pad name="P$17" x="1.1" y="-1.5" drill="0.4" shape="square" stop="no" thermals="no"/>
+<pad name="P$18" x="1.1" y="-2.5" drill="0.4" shape="square" stop="no" thermals="no"/>
 </package>
 <package name="1206">
 <wire x1="-2.473" y1="0.983" x2="2.473" y2="0.983" width="0.0508" layer="39"/>
@@ -7609,7 +7574,7 @@ Standard 11x14 US Ledger frame</description>
 <connect gate="G$1" pin="DVDD" pad="23"/>
 <connect gate="G$1" pin="EN_BUCK" pad="55"/>
 <connect gate="G$1" pin="EN_GATE" pad="16"/>
-<connect gate="G$1" pin="EPAD" pad="57 V V_2 V_3 V_4 V_5 V_6 V_7 V_8 V_9 V_10 V_11 V_12 V_13 V_14 V_15 V_16 V_17 V_18 V_19 V_20 V_21 V_22 V_23 V_24 V_25 V_26 V_27 V_28 V_29 V_30 V_31 V_32"/>
+<connect gate="G$1" pin="EPAD" pad="57"/>
 <connect gate="G$1" pin="GH_A" pad="47"/>
 <connect gate="G$1" pin="GH_B" pad="42"/>
 <connect gate="G$1" pin="GH_C" pad="37"/>
@@ -7895,9 +7860,9 @@ Standard 11x14 US Ledger frame</description>
 <part name="SJ2" library="jumper" deviceset="SJ" device=""/>
 <part name="U$9" library="pavlo" deviceset="H1206T500R-10" device=""/>
 <part name="U10" library="pavlo" deviceset="H1206T500R-10" device=""/>
-<part name="U$11" library="pavlo" deviceset="MH1608-600Y" device=""/>
-<part name="U$12" library="pavlo" deviceset="MH1608-600Y" device=""/>
-<part name="U$13" library="pavlo" deviceset="MH1608-600Y" device=""/>
+<part name="U11" library="pavlo" deviceset="MH1608-600Y" device=""/>
+<part name="U12" library="pavlo" deviceset="MH1608-600Y" device=""/>
+<part name="U13" library="pavlo" deviceset="MH1608-600Y" device=""/>
 <part name="U14" library="pavlo" deviceset="MH1608-600Y" device=""/>
 <part name="U15" library="pavlo" deviceset="MH1608-600Y" device=""/>
 </parts>
@@ -8838,7 +8803,7 @@ Standard 11x14 US Ledger frame</description>
 <junction x="259.08" y="152.654"/>
 </segment>
 </net>
-<net name="OUT_W" class="0">
+<net name="SH_C" class="0">
 <segment>
 <pinref part="C11" gate="G$1" pin="2"/>
 <wire x1="273.82" y1="124.66" x2="268.74" y2="124.66" width="0.1524" layer="91"/>
@@ -9235,9 +9200,9 @@ Standard 11x14 US Ledger frame</description>
 <instance part="FRAME3" gate="A" x="330" y="0"/>
 <instance part="U$9" gate="G$1" x="172.72" y="66.04"/>
 <instance part="U10" gate="G$1" x="198.12" y="66.04"/>
-<instance part="U$11" gate="G$1" x="219.48" y="115.7"/>
-<instance part="U$12" gate="G$1" x="196.58" y="127"/>
-<instance part="U$13" gate="G$1" x="167.7" y="116.7"/>
+<instance part="U11" gate="G$1" x="219.48" y="115.7"/>
+<instance part="U12" gate="G$1" x="196.58" y="127"/>
+<instance part="U13" gate="G$1" x="167.7" y="116.7"/>
 <instance part="U14" gate="G$1" x="244.9" y="115.6"/>
 <instance part="U15" gate="G$1" x="266.7" y="125.9"/>
 </instances>
@@ -9327,7 +9292,7 @@ Standard 11x14 US Ledger frame</description>
 <wire x1="184" y1="127" x2="172" y2="127" width="0.1524" layer="91"/>
 <wire x1="172" y1="127" x2="166" y2="127" width="0.1524" layer="91"/>
 <label x="160" y="127" size="1.778" layer="95"/>
-<pinref part="U$12" gate="G$1" pin="P$1"/>
+<pinref part="U12" gate="G$1" pin="P$1"/>
 <junction x="191.5" y="127"/>
 </segment>
 </net>
@@ -9408,7 +9373,7 @@ Standard 11x14 US Ledger frame</description>
 <segment>
 <wire x1="199.898" y1="127" x2="199.12" y2="127" width="0.1524" layer="91"/>
 <label x="200.66" y="127" size="1.778" layer="95"/>
-<pinref part="U$12" gate="G$1" pin="P$2"/>
+<pinref part="U12" gate="G$1" pin="P$2"/>
 <wire x1="199.12" y1="127" x2="200.66" y2="127" width="0.1524" layer="91"/>
 <junction x="199.12" y="127"/>
 </segment>
@@ -9417,7 +9382,7 @@ Standard 11x14 US Ledger frame</description>
 <segment>
 <wire x1="213.5" y1="115.7" x2="214.4" y2="115.7" width="0.1524" layer="91"/>
 <label x="206.5" y="115.7" size="1.778" layer="95"/>
-<pinref part="U$11" gate="G$1" pin="P$1"/>
+<pinref part="U11" gate="G$1" pin="P$1"/>
 <wire x1="214.4" y1="115.7" x2="212.5" y2="115.7" width="0.1524" layer="91"/>
 <junction x="214.4" y="115.7"/>
 </segment>
@@ -9444,7 +9409,7 @@ Standard 11x14 US Ledger frame</description>
 <wire x1="184" y1="116.82" x2="184" y2="116.8" width="0.1524" layer="91"/>
 <junction x="184" y="116.82"/>
 <label x="176" y="114" size="1.778" layer="95"/>
-<pinref part="U$13" gate="G$1" pin="P$2"/>
+<pinref part="U13" gate="G$1" pin="P$2"/>
 <junction x="170.24" y="116.7"/>
 </segment>
 <segment>
@@ -9466,7 +9431,7 @@ Standard 11x14 US Ledger frame</description>
 <label x="224.5" y="111.7" size="1.778" layer="95"/>
 <wire x1="222.02" y1="115.7" x2="223.6" y2="115.7" width="0.1524" layer="91"/>
 <wire x1="225.5" y1="115.7" x2="225.5" y2="113.7" width="0.1524" layer="91"/>
-<pinref part="U$11" gate="G$1" pin="P$2"/>
+<pinref part="U11" gate="G$1" pin="P$2"/>
 <junction x="222.02" y="115.7"/>
 </segment>
 <segment>
@@ -9491,7 +9456,7 @@ Standard 11x14 US Ledger frame</description>
 <wire x1="162.62" y1="116.7" x2="161.838" y2="116.7" width="0.1524" layer="91"/>
 <wire x1="162.62" y1="116.7" x2="160.4" y2="116.7" width="0.1524" layer="91"/>
 <label x="156" y="117" size="1.778" layer="95"/>
-<pinref part="U$13" gate="G$1" pin="P$1"/>
+<pinref part="U13" gate="G$1" pin="P$1"/>
 <junction x="162.62" y="116.7"/>
 </segment>
 </net>
