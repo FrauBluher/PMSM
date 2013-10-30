@@ -26,43 +26,11 @@
  * @file	PMSM.h
  * @author 	Pavlo Manovi
  * @date 	July, 2013
- * @brief 	Provides methods for controlling PMSM motors with dsPIC 33F/E's
+ * @brief 	Provides methods for controlling PMSM motors sinusoidally.
  * 
  * This library provides methods for controlling torque, position, and air
- * gap flux linkages of permemant magnet synchronous motors, sinusoidally.  It has
- * been written for use with the dsPIC33F/E on DRV8302 based controllers, specifically
- * the PMSM board available on pavlo.me.
+ * gap flux linkages of permemant magnet synchronous motors, sinusoidally.
  * 
- * With these methods it is possible to implement a controller wrapping position,
- * speed, or torque into any control schema.
- *
- * If being used with the CAN enabled PMSM Board obtained at either pavlo.me or off of
- * http://github.com/FrauBluher/ as of v 1.4 the following pins are reserved on the
- * dsPIC33EP256MC506:
- *
- * -    PIN FUNCTIONS   -  PIN #  -  USAGE
- * - RPI44/PWM2H/RB12   - Pin 62  -  PWM2
- * - RP42/PWM3H/RB10    - Pin 60  -  PWM3
- * - RP97/RF1           - PIN 59  -  CANTX (VIA PPS)
- * - RPI96/RF0          - PIN 58  -  CANRX (VIA PPS)
- * - RD6                - PIN 54  -  PWRGD
- * - RD5                - PIN 53  -  OCTW
- * - RP56/RC8           - PIN 52  -  FAULT
- * - RP55/RC7           - PIN 51  -  GAIN
- * - RP54/RC6           - PIN 50  -  EN_GATE
- * - TMS/ASDA1/RP41/RB9 - PIN 49  -  DC_CAL
- * - TP40/T4CK/ACL1/RB8 - PIN 48  -  LED1
- * - RC13               - PIN 47  -  LED2
- * - RP39/INT0/RB7      - PIN 46  -  LED3
- * - RPI58/RC10         - PIN 45  -  LED4
- * - PGEC2/RP38/RB6     - PIN 44  -  PGC
- * - PGED2/RP37/RB5     - PIN 43  -  PGD
- * - SDA1/RPI52/RC4     - PIN 36  -  EN_A
- * - SCK1/RPI51/RC3     - PIN 35  -  EN_B
- * - SDI1/RPI25/RA9     - PIN 34  -  EN_C
- * - RPI46/PWM1H/RB14   - PIN 2   -  PWM1
- * - AN0/OA2OUT/RA0     - PIN 13  -  CRNT1 (Current Sens)
- * - AN1/C2IN1+/RA1     - PIN 14  -  CRNT2 (Current Sens)
  */
 
 #ifndef PMSM_H
@@ -156,20 +124,5 @@ void SetTorque(uint8_t power);
  */
 void SetAirGapFluxLinkage(float Id);
 
-/**
- * @brief Allows for you to turn the half bridges to high-impedance mode.
- * @param gateEnable One or zero for on and off.
- */
-void GateControl(uint8_t gateEnable);
-
-/**
- * @brief Puts the driver board into current sensor calibration mode.
- * @param dcCal One or zero for on and off respectively.
- *
- * When DC calibration is enabled, the zero current reading is output from the driver board
- * with every gate driver or noise creating hardware disabled.  This allows for ADC 
- * and offset parameter calibration.
- */
-void CurrentSenseCalibration(uint8_t dcCal);
 
 #endif    /*PMSM_H  */

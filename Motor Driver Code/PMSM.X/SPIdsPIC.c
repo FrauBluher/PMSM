@@ -1,25 +1,37 @@
-/**
+/*
  * The MIT License (MIT)
  *
  * Copyright (c) 2013 Pavlo Milo Manovi
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of
- * this software and associated documentation files (the "Software"), to deal in
- * the Software without restriction, including without limitation the rights to
- * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
- * the Software, and to permit persons to whom the Software is furnished to do so,
- * subject to the following conditions:
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
  */
+
+/**
+ * @file	SPIdsPIC.c
+ * @author 	Pavlo Manovi
+ * @date	October, 2013
+ * @brief 	This library provides implementation of SPI2 for the PMSM Board v1.6
+ *
+ * This file provides initialization/read/write implemenation of the SPI2 module
+ * on the dsPIC33EP256MC506 and the PMSM board as of v1.6.
+ */
+
 
 #include <xc.h>
 #include <stdint.h>
@@ -70,7 +82,7 @@ uint8_t SPI2_Init(void)
 	//Set up PPS
 	PPSOutput(OUT_FN_PPS_SDO2, OUT_PIN_PPS_RP55);
 	PPSOutput(OUT_FN_PPS_SCK2, OUT_PIN_PPS_RP41);
-	PPSInput(IN_FN_PPS_SDI2, IN_PIN_PPS_RP54);
+	PPSInput(PPS_SDI2, PPS_RP54);
 
 	OpenSPI2(config1, config2, config3);
 
@@ -108,7 +120,7 @@ uint16_t SPI2_ReadFromReg(uint16_t deviceRegister)
 }
 
 #ifdef SPI_INTERRUPT
-void __attribute__((__interrupt__)) _SPI2Interrupt(void)
+void __attribute__((__interrupt__, no_auto_psv)) _SPI2Interrupt(void)
 {
 	//Handles overflows.
 	IFS2bits.SPI2IF = 0;

@@ -45,11 +45,11 @@ OBJECTDIR=build/${CND_CONF}/${IMAGE_TYPE}
 DISTDIR=dist/${CND_CONF}/${IMAGE_TYPE}
 
 # Object Files Quoted if spaced
-OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/main.o ${OBJECTDIR}/SPIdsPIC.o ${OBJECTDIR}/PMSM.o ${OBJECTDIR}/PMSM_Sinusoidal_Drive.o ${OBJECTDIR}/PMSM_Sinusoidal_Drive_data.o ${OBJECTDIR}/DRV8301.o
-POSSIBLE_DEPFILES=${OBJECTDIR}/main.o.d ${OBJECTDIR}/SPIdsPIC.o.d ${OBJECTDIR}/PMSM.o.d ${OBJECTDIR}/PMSM_Sinusoidal_Drive.o.d ${OBJECTDIR}/PMSM_Sinusoidal_Drive_data.o.d ${OBJECTDIR}/DRV8301.o.d
+OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/main.o ${OBJECTDIR}/SPIdsPIC.o ${OBJECTDIR}/PMSM.o ${OBJECTDIR}/PMSM_Sinusoidal_Drive.o ${OBJECTDIR}/PMSM_Sinusoidal_Drive_data.o ${OBJECTDIR}/DRV8301.o ${OBJECTDIR}/PMSMBoard.o
+POSSIBLE_DEPFILES=${OBJECTDIR}/main.o.d ${OBJECTDIR}/SPIdsPIC.o.d ${OBJECTDIR}/PMSM.o.d ${OBJECTDIR}/PMSM_Sinusoidal_Drive.o.d ${OBJECTDIR}/PMSM_Sinusoidal_Drive_data.o.d ${OBJECTDIR}/DRV8301.o.d ${OBJECTDIR}/PMSMBoard.o.d
 
 # Object Files
-OBJECTFILES=${OBJECTDIR}/main.o ${OBJECTDIR}/SPIdsPIC.o ${OBJECTDIR}/PMSM.o ${OBJECTDIR}/PMSM_Sinusoidal_Drive.o ${OBJECTDIR}/PMSM_Sinusoidal_Drive_data.o ${OBJECTDIR}/DRV8301.o
+OBJECTFILES=${OBJECTDIR}/main.o ${OBJECTDIR}/SPIdsPIC.o ${OBJECTDIR}/PMSM.o ${OBJECTDIR}/PMSM_Sinusoidal_Drive.o ${OBJECTDIR}/PMSM_Sinusoidal_Drive_data.o ${OBJECTDIR}/DRV8301.o ${OBJECTDIR}/PMSMBoard.o
 
 
 CFLAGS=
@@ -109,6 +109,12 @@ ${OBJECTDIR}/DRV8301.o: DRV8301.c  nbproject/Makefile-${CND_CONF}.mk
 	${MP_CC} $(MP_EXTRA_CC_PRE)  DRV8301.c  -o ${OBJECTDIR}/DRV8301.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/DRV8301.o.d"        -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1  -omf=elf -O0 -msmart-io=1 -Wall -msfr-warn=off
 	@${FIXDEPS} "${OBJECTDIR}/DRV8301.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
 	
+${OBJECTDIR}/PMSMBoard.o: PMSMBoard.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} ${OBJECTDIR} 
+	@${RM} ${OBJECTDIR}/PMSMBoard.o.d 
+	${MP_CC} $(MP_EXTRA_CC_PRE)  PMSMBoard.c  -o ${OBJECTDIR}/PMSMBoard.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/PMSMBoard.o.d"        -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1  -omf=elf -O0 -msmart-io=1 -Wall -msfr-warn=off
+	@${FIXDEPS} "${OBJECTDIR}/PMSMBoard.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
+	
 else
 ${OBJECTDIR}/main.o: main.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR} 
@@ -145,6 +151,12 @@ ${OBJECTDIR}/DRV8301.o: DRV8301.c  nbproject/Makefile-${CND_CONF}.mk
 	@${RM} ${OBJECTDIR}/DRV8301.o.d 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  DRV8301.c  -o ${OBJECTDIR}/DRV8301.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/DRV8301.o.d"        -g -omf=elf -O0 -msmart-io=1 -Wall -msfr-warn=off
 	@${FIXDEPS} "${OBJECTDIR}/DRV8301.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
+	
+${OBJECTDIR}/PMSMBoard.o: PMSMBoard.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} ${OBJECTDIR} 
+	@${RM} ${OBJECTDIR}/PMSMBoard.o.d 
+	${MP_CC} $(MP_EXTRA_CC_PRE)  PMSMBoard.c  -o ${OBJECTDIR}/PMSMBoard.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/PMSMBoard.o.d"        -g -omf=elf -O0 -msmart-io=1 -Wall -msfr-warn=off
+	@${FIXDEPS} "${OBJECTDIR}/PMSMBoard.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
 	
 endif
 

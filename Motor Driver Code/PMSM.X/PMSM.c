@@ -26,45 +26,13 @@
  * @file	PMSM.c
  * @author 	Pavlo Manovi
  * @date 	July, 2013
- * @brief 	Provides implementation for controlling PMSM motors with dsPIC 33F/E's
- * 
- * This library provides methods for controlling torque, position, and air
- * gap flux linkages of permemant magnet synchronous motors, sinusoidally.  It has
- * been written for use with the dsPIC33F/E on DRV8302 based controllers, specifically
- * the PMSM board available on pavlo.me.
- * 
- * With these methods it is possible to implement a controller wrapping position,
- * speed, or torque into any control schema.
+ * @brief 	Provides methods for controlling PMSM motors sinusoidally.
  *
- * If being used with the CAN enabled PMSM Board obtained at either pavlo.me or off of
- * http://github.com/FrauBluher/ as of v 1.4 the following pins are reserved on the
- * dsPIC33EP256MC506:
- *
- * -    PIN FUNCTIONS   -  PIN #  -  USAGE
- * - RPI44/PWM2H/RB12   - Pin 62  -  PWM2
- * - RP42/PWM3H/RB10    - Pin 60  -  PWM3
- * - RP97/RF1           - PIN 59  -  CANTX (VIA PPS)
- * - RPI96/RF0          - PIN 58  -  CANRX (VIA PPS)
- * - RD6                - PIN 54  -  PWRGD
- * - RD5                - PIN 53  -  OCTW
- * - RP56/RC8           - PIN 52  -  FAULT
- * - RP55/RC7           - PIN 51  -  GAIN
- * - RP54/RC6           - PIN 50  -  EN_GATE
- * - TMS/ASDA1/RP41/RB9 - PIN 49  -  DC_CAL
- * - TP40/T4CK/ACL1/RB8 - PIN 48  -  LED1
- * - RC13               - PIN 47  -  LED2
- * - RP39/INT0/RB7      - PIN 46  -  LED3
- * - RPI58/RC10         - PIN 45  -  LED4
- * - PGEC2/RP38/RB6     - PIN 44  -  PGC
- * - PGED2/RP37/RB5     - PIN 43  -  PGD
- * - SDA1/RPI52/RC4     - PIN 36  -  EN_A
- * - SCK1/RPI51/RC3     - PIN 35  -  EN_B
- * - SDI1/RPI25/RA9     - PIN 34  -  EN_C
- * - RPI46/PWM1H/RB14   - PIN 2   -  PWM1
- * - AN0/OA2OUT/RA0     - PIN 13  -  CRNT1 (Current Sens)
- * - AN1/C2IN1+/RA1     - PIN 14  -  CRNT2 (Current Sens)
+ * This file provides wrapping implementation of torque, position, and air
+ * gap flux linkage control for permemant magnet synchronous motors, sinusoidally.
  *
  */
+
 
 #include <xc.h>
 #include <stdlib.h>
@@ -73,12 +41,7 @@
 #include "PMSM_Sinusoidal_Drive.h"     /* Model's header file */
 #include "rtwtypes.h"                  /* MathWorks types */
 
-#if defined(__dsPIC33FJ128MC802__)
-#warning The 33F PMSM implementation is unsupported at this time.
-#endif
-#if defined(__dsPIC33EP256MC502__)
 #warning The motor driver code is in alpha.
-#endif
 
 extern D_Work_PMSM_Sinusoidal_Drive PMSM_Sinusoidal_Drive_DWork;
 extern real32_T commandedAngle; 		/* '<Root>/Data Store Memory' */
