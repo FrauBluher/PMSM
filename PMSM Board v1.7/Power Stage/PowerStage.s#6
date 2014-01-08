@@ -1307,8 +1307,6 @@ Basic schematic elements and footprints for 0603, 1206, and PTH resistors.</desc
 <part name="C5" library="SwitcherPowerStage" deviceset="CAP" device="1210" value="270pF"/>
 <part name="D1" library="SwitcherPowerStage" deviceset="DIODE-SCHOTTKY" device="240A"/>
 <part name="U$1" library="SwitcherPowerStage" deviceset="SLF12555T" device=""/>
-<part name="R5" library="SwitcherPowerStage" deviceset="RESISTOR" device="0805-RES" value="7.68k"/>
-<part name="R6" library="SwitcherPowerStage" deviceset="RESISTOR" device="0805-RES" value="7.68k"/>
 </parts>
 <sheets>
 <sheet>
@@ -1329,8 +1327,6 @@ Basic schematic elements and footprints for 0603, 1206, and PTH resistors.</desc
 <instance part="C5" gate="G$1" x="116.84" y="22.86"/>
 <instance part="D1" gate="G$1" x="129.54" y="35.56" rot="R90"/>
 <instance part="U$1" gate="G$1" x="147.32" y="45.72"/>
-<instance part="R5" gate="G$1" x="157.48" y="35.56" rot="R90"/>
-<instance part="R6" gate="G$1" x="157.48" y="20.32" rot="R90"/>
 </instances>
 <busses>
 </busses>
@@ -1455,15 +1451,6 @@ Basic schematic elements and footprints for 0603, 1206, and PTH resistors.</desc
 <pinref part="R4" gate="G$1" pin="1"/>
 <pinref part="C4" gate="G$1" pin="1"/>
 <wire x1="106.68" y1="30.48" x2="106.68" y2="27.94" width="0.1524" layer="91"/>
-</segment>
-</net>
-<net name="N$8" class="0">
-<segment>
-<pinref part="U$1" gate="G$1" pin="2"/>
-<wire x1="154.94" y1="45.72" x2="157.48" y2="45.72" width="0.1524" layer="91"/>
-<wire x1="157.48" y1="45.72" x2="162.56" y2="45.72" width="0.1524" layer="91"/>
-<wire x1="157.48" y1="45.72" x2="157.48" y2="40.64" width="0.1524" layer="91"/>
-<pinref part="R5" gate="G$1" pin="2"/>
 </segment>
 </net>
 </nets>

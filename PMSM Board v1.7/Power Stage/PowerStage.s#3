@@ -756,6 +756,48 @@ Yageo CFR series &lt;a href="http://www.yageo.com/pdf/yageo/Leaded-R_CFR_2008.pd
 <text x="-7.62" y="3.175" size="0.8128" layer="25" font="vector" ratio="15">&gt;Name</text>
 <text x="-5.969" y="-0.381" size="0.8128" layer="21" font="vector" ratio="15">&gt;Value</text>
 </package>
+<package name="SMA-DIODE">
+<description>&lt;B&gt;Diode&lt;/B&gt;&lt;p&gt;
+Basic SMA packaged diode. Good for reverse polarization protection. Common part #: MBRA140</description>
+<wire x1="-2.3" y1="1" x2="-2.3" y2="1.45" width="0.2032" layer="21"/>
+<wire x1="-2.3" y1="1.45" x2="2.3" y2="1.45" width="0.2032" layer="21"/>
+<wire x1="2.3" y1="1.45" x2="2.3" y2="1" width="0.2032" layer="21"/>
+<wire x1="2.3" y1="-1" x2="2.3" y2="-1.45" width="0.2032" layer="21"/>
+<wire x1="2.3" y1="-1.45" x2="-2.3" y2="-1.45" width="0.2032" layer="21"/>
+<wire x1="-2.3" y1="-1.45" x2="-2.3" y2="-1" width="0.2032" layer="21"/>
+<wire x1="1" y1="1" x2="1" y2="-1" width="0.2032" layer="21"/>
+<smd name="A" x="-2.15" y="0" dx="1.27" dy="1.47" layer="1" rot="R180"/>
+<smd name="C" x="2.15" y="0" dx="1.27" dy="1.47" layer="1"/>
+<text x="-2.286" y="1.651" size="1.27" layer="25" ratio="15">&gt;NAME</text>
+<text x="0.254" y="1.651" size="0.4064" layer="27">&gt;VALUE</text>
+</package>
+<package name="SMA-DIODE-B240A">
+<wire x1="-0.1" y1="1.55" x2="-0.1" y2="1.9" width="0.2032" layer="21"/>
+<wire x1="-0.1" y1="1.9" x2="4.5" y2="1.9" width="0.2032" layer="21"/>
+<wire x1="4.5" y1="1.9" x2="4.5" y2="1.55" width="0.2032" layer="21"/>
+<wire x1="4.5" y1="-1.55" x2="4.5" y2="-1.9" width="0.2032" layer="21"/>
+<wire x1="4.5" y1="-1.9" x2="-0.1" y2="-1.9" width="0.2032" layer="21"/>
+<wire x1="-0.1" y1="-1.9" x2="-0.1" y2="-1.55" width="0.2032" layer="21"/>
+<wire x1="2.7" y1="1.05" x2="2.7" y2="-0.95" width="0.2032" layer="21"/>
+<smd name="A" x="0" y="0" dx="1.7" dy="2.5" layer="1"/>
+<smd name="C" x="4" y="0" dx="1.7" dy="2.5" layer="1"/>
+<text x="0.014" y="2.301" size="1.27" layer="25" ratio="15">&gt;NAME</text>
+<text x="0.014" y="-2.779" size="0.4064" layer="27">&gt;VALUE</text>
+</package>
+<package name="SLF12555">
+<wire x1="-6.25" y1="-6.25" x2="-6.25" y2="6.25" width="0.127" layer="21"/>
+<wire x1="6.25" y1="6.25" x2="6.25" y2="-6.25" width="0.127" layer="21"/>
+<wire x1="-6.25" y1="6.25" x2="6.25" y2="6.25" width="0.127" layer="21"/>
+<wire x1="-6.25" y1="-6.25" x2="6.25" y2="-6.25" width="0.127" layer="21"/>
+<smd name="P$1" x="-5.55" y="0" dx="2.6" dy="3.2" layer="1"/>
+<smd name="P$2" x="5.55" y="0" dx="2.6" dy="3.2" layer="1"/>
+<wire x1="-6" y1="5" x2="-5" y2="5" width="0.127" layer="21"/>
+<wire x1="-5" y1="5" x2="-5" y2="6" width="0.127" layer="21"/>
+<wire x1="-7" y1="6" x2="-7" y2="-6" width="0.127" layer="39"/>
+<wire x1="-7" y1="-6" x2="7" y2="-6" width="0.127" layer="39"/>
+<wire x1="7" y1="-6" x2="7" y2="6" width="0.127" layer="39"/>
+<wire x1="7" y1="6" x2="-7" y2="6" width="0.127" layer="39"/>
+</package>
 </packages>
 <symbols>
 <symbol name="TPS73733-Q1_DRB_8">
@@ -832,6 +874,26 @@ Yageo CFR series &lt;a href="http://www.yageo.com/pdf/yageo/Leaded-R_CFR_2008.pd
 <text x="-3.81" y="-3.302" size="1.778" layer="96">&gt;VALUE</text>
 <pin name="2" x="5.08" y="0" visible="off" length="short" direction="pas" swaplevel="1" rot="R180"/>
 <pin name="1" x="-5.08" y="0" visible="off" length="short" direction="pas" swaplevel="1"/>
+</symbol>
+<symbol name="DIODE-SCHOTTKY">
+<wire x1="-1.27" y1="-1.27" x2="1.27" y2="0" width="0.254" layer="94"/>
+<wire x1="1.27" y1="0" x2="-1.27" y2="1.27" width="0.254" layer="94"/>
+<wire x1="1.27" y1="1.27" x2="1.27" y2="0" width="0.254" layer="94"/>
+<wire x1="-1.27" y1="1.27" x2="-1.27" y2="-1.27" width="0.254" layer="94"/>
+<wire x1="1.27" y1="0" x2="1.27" y2="-1.27" width="0.254" layer="94"/>
+<wire x1="1.27" y1="1.27" x2="1.778" y2="1.524" width="0.254" layer="94"/>
+<wire x1="1.27" y1="-1.27" x2="0.762" y2="-1.524" width="0.254" layer="94"/>
+<text x="2.54" y="0.4826" size="1.778" layer="95">&gt;NAME</text>
+<text x="2.54" y="-2.3114" size="1.778" layer="96">&gt;VALUE</text>
+<pin name="A" x="-2.54" y="0" visible="off" length="short" direction="pas"/>
+<pin name="C" x="2.54" y="0" visible="off" length="short" direction="pas" rot="R180"/>
+</symbol>
+<symbol name="DR">
+<text x="-3.81" y="1.3716" size="1.778" layer="95">&gt;NAME</text>
+<text x="-3.81" y="-2.921" size="1.778" layer="96">&gt;VALUE</text>
+<rectangle x1="-3.81" y1="-0.889" x2="3.81" y2="0.889" layer="94"/>
+<pin name="2" x="7.62" y="0" visible="pad" length="middle" direction="pas" swaplevel="1" rot="R180"/>
+<pin name="1" x="-7.62" y="0" visible="pad" length="middle" direction="pas" swaplevel="1"/>
 </symbol>
 </symbols>
 <devicesets>
@@ -1178,6 +1240,47 @@ Basic schematic elements and footprints for 0603, 1206, and PTH resistors.</desc
 </device>
 </devices>
 </deviceset>
+<deviceset name="DIODE-SCHOTTKY" prefix="D">
+<gates>
+<gate name="G$1" symbol="DIODE-SCHOTTKY" x="0" y="0"/>
+</gates>
+<devices>
+<device name="_" package="SMA-DIODE">
+<connects>
+<connect gate="G$1" pin="A" pad="A"/>
+<connect gate="G$1" pin="C" pad="C"/>
+</connects>
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+<device name="240A" package="SMA-DIODE-B240A">
+<connects>
+<connect gate="G$1" pin="A" pad="A"/>
+<connect gate="G$1" pin="C" pad="C"/>
+</connects>
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+</devices>
+</deviceset>
+<deviceset name="SLF12555T">
+<gates>
+<gate name="G$1" symbol="DR" x="0" y="0"/>
+</gates>
+<devices>
+<device name="" package="SLF12555">
+<connects>
+<connect gate="G$1" pin="1" pad="P$1"/>
+<connect gate="G$1" pin="2" pad="P$2"/>
+</connects>
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+</devices>
+</deviceset>
 </devicesets>
 </library>
 </libraries>
@@ -1198,10 +1301,15 @@ Basic schematic elements and footprints for 0603, 1206, and PTH resistors.</desc
 <part name="R2" library="SwitcherPowerStage" deviceset="RESISTOR" device="0805-RES" value="88.7k"/>
 <part name="C2" library="SwitcherPowerStage" deviceset="CAP" device="0805" value=".01uF"/>
 <part name="R3" library="SwitcherPowerStage" deviceset="RESISTOR" device="0805-RES" value="237k"/>
-<part name="C3" library="SwitcherPowerStage" deviceset="CAP" device="0805"/>
+<part name="C3" library="SwitcherPowerStage" deviceset="CAP" device="0805" value=".1uF"/>
 <part name="R4" library="SwitcherPowerStage" deviceset="RESISTOR" device="0805-RES" value="7.68k"/>
 <part name="C4" library="SwitcherPowerStage" deviceset="CAP" device="1210" value="5600pF"/>
 <part name="C5" library="SwitcherPowerStage" deviceset="CAP" device="1210" value="270pF"/>
+<part name="D1" library="SwitcherPowerStage" deviceset="DIODE-SCHOTTKY" device="240A"/>
+<part name="U$1" library="SwitcherPowerStage" deviceset="SLF12555T" device=""/>
+<part name="R5" library="SwitcherPowerStage" deviceset="RESISTOR" device="0805-RES" value="59k"/>
+<part name="R6" library="SwitcherPowerStage" deviceset="RESISTOR" device="0805-RES" value="10k"/>
+<part name="C6" library="SwitcherPowerStage" deviceset="CAP" device="" value="47uF\"/>
 </parts>
 <sheets>
 <sheet>
@@ -1217,9 +1325,14 @@ Basic schematic elements and footprints for 0603, 1206, and PTH resistors.</desc
 <instance part="C2" gate="G$1" x="20.32" y="27.94"/>
 <instance part="R3" gate="G$1" x="27.94" y="20.32" rot="R90"/>
 <instance part="C3" gate="G$1" x="68.58" y="60.96" rot="R90"/>
-<instance part="R4" gate="G$1" x="106.68" y="35.56" rot="R90"/>
-<instance part="C4" gate="G$1" x="106.68" y="22.86"/>
-<instance part="C5" gate="G$1" x="116.84" y="22.86"/>
+<instance part="R4" gate="G$1" x="109.22" y="35.56" rot="R90"/>
+<instance part="C4" gate="G$1" x="109.22" y="22.86"/>
+<instance part="C5" gate="G$1" x="119.38" y="22.86"/>
+<instance part="D1" gate="G$1" x="132.08" y="35.56" rot="R90"/>
+<instance part="U$1" gate="G$1" x="147.32" y="45.72"/>
+<instance part="R5" gate="G$1" x="157.48" y="35.56" rot="R90"/>
+<instance part="R6" gate="G$1" x="157.48" y="20.32" rot="R90"/>
+<instance part="C6" gate="G$1" x="172.72" y="22.86"/>
 </instances>
 <busses>
 </busses>
@@ -1264,13 +1377,28 @@ Basic schematic elements and footprints for 0603, 1206, and PTH resistors.</desc
 </segment>
 <segment>
 <pinref part="C4" gate="G$1" pin="2"/>
-<wire x1="106.68" y1="20.32" x2="106.68" y2="10.16" width="0.1524" layer="91"/>
-<label x="104.14" y="7.62" size="1.778" layer="95"/>
+<wire x1="109.22" y1="20.32" x2="109.22" y2="10.16" width="0.1524" layer="91"/>
+<label x="106.68" y="7.62" size="1.778" layer="95"/>
 </segment>
 <segment>
 <pinref part="C5" gate="G$1" pin="2"/>
-<wire x1="116.84" y1="20.32" x2="116.84" y2="10.16" width="0.1524" layer="91"/>
-<label x="114.3" y="7.62" size="1.778" layer="95"/>
+<wire x1="119.38" y1="20.32" x2="119.38" y2="10.16" width="0.1524" layer="91"/>
+<label x="116.84" y="7.62" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="D1" gate="G$1" pin="A"/>
+<wire x1="132.08" y1="33.02" x2="132.08" y2="10.16" width="0.1524" layer="91"/>
+<label x="129.54" y="7.62" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="R6" gate="G$1" pin="1"/>
+<wire x1="157.48" y1="15.24" x2="157.48" y2="10.16" width="0.1524" layer="91"/>
+<label x="154.94" y="7.62" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="C6" gate="G$1" pin="2"/>
+<wire x1="172.72" y1="20.32" x2="172.72" y2="10.16" width="0.1524" layer="91"/>
+<label x="170.18" y="7.62" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="N$1" class="0">
@@ -1316,25 +1444,56 @@ Basic schematic elements and footprints for 0603, 1206, and PTH resistors.</desc
 <wire x1="109.22" y1="60.96" x2="109.22" y2="45.72" width="0.1524" layer="91"/>
 <pinref part="U2" gate="A" pin="PH"/>
 <wire x1="99.06" y1="45.72" x2="109.22" y2="45.72" width="0.1524" layer="91"/>
-<wire x1="109.22" y1="45.72" x2="121.92" y2="45.72" width="0.1524" layer="91"/>
+<wire x1="109.22" y1="45.72" x2="132.08" y2="45.72" width="0.1524" layer="91"/>
+<pinref part="D1" gate="G$1" pin="C"/>
+<wire x1="132.08" y1="45.72" x2="139.7" y2="45.72" width="0.1524" layer="91"/>
+<wire x1="132.08" y1="38.1" x2="132.08" y2="45.72" width="0.1524" layer="91"/>
+<pinref part="U$1" gate="G$1" pin="1"/>
 </segment>
 </net>
 <net name="N$6" class="0">
 <segment>
 <pinref part="U2" gate="A" pin="COMP"/>
-<wire x1="99.06" y1="40.64" x2="106.68" y2="40.64" width="0.1524" layer="91"/>
+<wire x1="99.06" y1="40.64" x2="109.22" y2="40.64" width="0.1524" layer="91"/>
 <pinref part="R4" gate="G$1" pin="2"/>
-<wire x1="106.68" y1="40.64" x2="116.84" y2="40.64" width="0.1524" layer="91"/>
-<junction x="106.68" y="40.64"/>
+<wire x1="109.22" y1="40.64" x2="119.38" y2="40.64" width="0.1524" layer="91"/>
+<junction x="109.22" y="40.64"/>
 <pinref part="C5" gate="G$1" pin="1"/>
-<wire x1="116.84" y1="27.94" x2="116.84" y2="40.64" width="0.1524" layer="91"/>
+<wire x1="119.38" y1="27.94" x2="119.38" y2="40.64" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="N$7" class="0">
 <segment>
 <pinref part="R4" gate="G$1" pin="1"/>
 <pinref part="C4" gate="G$1" pin="1"/>
-<wire x1="106.68" y1="30.48" x2="106.68" y2="27.94" width="0.1524" layer="91"/>
+<wire x1="109.22" y1="30.48" x2="109.22" y2="27.94" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="5V5" class="0">
+<segment>
+<pinref part="U$1" gate="G$1" pin="2"/>
+<wire x1="154.94" y1="45.72" x2="157.48" y2="45.72" width="0.1524" layer="91"/>
+<wire x1="157.48" y1="45.72" x2="157.48" y2="40.64" width="0.1524" layer="91"/>
+<pinref part="R5" gate="G$1" pin="2"/>
+<wire x1="157.48" y1="45.72" x2="172.72" y2="45.72" width="0.1524" layer="91"/>
+<pinref part="C6" gate="G$1" pin="1"/>
+<wire x1="172.72" y1="45.72" x2="177.8" y2="45.72" width="0.1524" layer="91"/>
+<wire x1="172.72" y1="27.94" x2="172.72" y2="45.72" width="0.1524" layer="91"/>
+<label x="177.8" y="45.72" size="1.778" layer="95"/>
+</segment>
+</net>
+<net name="N$9" class="0">
+<segment>
+<pinref part="R5" gate="G$1" pin="1"/>
+<pinref part="R6" gate="G$1" pin="2"/>
+<wire x1="157.48" y1="30.48" x2="157.48" y2="27.94" width="0.1524" layer="91"/>
+<pinref part="U2" gate="A" pin="VSENSE"/>
+<wire x1="157.48" y1="27.94" x2="157.48" y2="25.4" width="0.1524" layer="91"/>
+<wire x1="99.06" y1="38.1" x2="101.6" y2="38.1" width="0.1524" layer="91"/>
+<wire x1="101.6" y1="38.1" x2="101.6" y2="5.08" width="0.1524" layer="91"/>
+<wire x1="101.6" y1="5.08" x2="147.32" y2="5.08" width="0.1524" layer="91"/>
+<wire x1="147.32" y1="5.08" x2="147.32" y2="27.94" width="0.1524" layer="91"/>
+<wire x1="147.32" y1="27.94" x2="157.48" y2="27.94" width="0.1524" layer="91"/>
 </segment>
 </net>
 </nets>
