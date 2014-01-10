@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE eagle SYSTEM "eagle.dtd">
-<eagle version="6.5.0">
+<eagle version="6.4">
 <drawing>
 <settings>
 <setting alwaysvectorfont="no"/>
@@ -7377,9 +7377,9 @@ Source:</description>
 <smd name="6" x="1.4732" y="-0.3302" dx="0.8382" dy="0.3556" layer="1"/>
 <smd name="7" x="1.4732" y="0.3302" dx="0.8382" dy="0.3556" layer="1"/>
 <smd name="8" x="1.4732" y="0.9652" dx="0.8382" dy="0.3556" layer="1"/>
-<smd name="9" x="0" y="0" dx="1.4986" dy="1.7526" layer="1"/>
-<pad name="V" x="0" y="-0.4064" drill="0.254"/>
-<pad name="V_2" x="0" y="0.4064" drill="0.254"/>
+<smd name="9" x="0" y="0" dx="1.4986" dy="1.7526" layer="1" thermals="no"/>
+<pad name="V" x="0" y="-0.4064" drill="0.254" thermals="no"/>
+<pad name="V_2" x="0" y="0.4064" drill="0.254" thermals="no"/>
 <wire x1="-1.5748" y1="1.1684" x2="-1.5748" y2="0.7874" width="0.1524" layer="25"/>
 <wire x1="-1.5748" y1="0.508" x2="-1.5748" y2="0.1524" width="0.1524" layer="25"/>
 <wire x1="-1.5748" y1="-0.1524" x2="-1.5748" y2="-0.508" width="0.1524" layer="25"/>
@@ -7428,22 +7428,6 @@ Source:</description>
 <wire x1="1.0668" y1="0.8128" x2="1.8796" y2="0.8128" width="0.1524" layer="31"/>
 <wire x1="1.8796" y1="0.8128" x2="1.8796" y2="1.1176" width="0.1524" layer="31"/>
 <wire x1="1.8796" y1="1.1176" x2="1.0668" y2="1.1176" width="0.1524" layer="31"/>
-<wire x1="-0.508" y1="0.9144" x2="-0.508" y2="1.524" width="0.1524" layer="31"/>
-<wire x1="-0.508" y1="1.524" x2="-0.3556" y2="1.524" width="0.1524" layer="31"/>
-<wire x1="-0.3556" y1="1.524" x2="-0.3556" y2="0.9144" width="0.1524" layer="31"/>
-<wire x1="-0.3556" y1="0.9144" x2="-0.508" y2="0.9144" width="0.1524" layer="31"/>
-<wire x1="0.508" y1="0.9144" x2="0.508" y2="1.524" width="0.1524" layer="31"/>
-<wire x1="0.508" y1="1.524" x2="0.3556" y2="1.524" width="0.1524" layer="31"/>
-<wire x1="0.3556" y1="1.524" x2="0.3556" y2="0.9144" width="0.1524" layer="31"/>
-<wire x1="0.3556" y1="0.9144" x2="0.508" y2="0.9144" width="0.1524" layer="31"/>
-<wire x1="0.508" y1="-0.9144" x2="0.508" y2="-1.524" width="0.1524" layer="31"/>
-<wire x1="0.508" y1="-1.524" x2="0.3556" y2="-1.524" width="0.1524" layer="31"/>
-<wire x1="0.3556" y1="-1.524" x2="0.3556" y2="-0.9144" width="0.1524" layer="31"/>
-<wire x1="0.3556" y1="-0.9144" x2="0.508" y2="-0.9144" width="0.1524" layer="31"/>
-<wire x1="-0.508" y1="-0.9144" x2="-0.508" y2="-1.524" width="0.1524" layer="31"/>
-<wire x1="-0.508" y1="-1.524" x2="-0.3556" y2="-1.524" width="0.1524" layer="31"/>
-<wire x1="-0.3556" y1="-1.524" x2="-0.3556" y2="-0.9144" width="0.1524" layer="31"/>
-<wire x1="-0.3556" y1="-0.9144" x2="-0.508" y2="-0.9144" width="0.1524" layer="31"/>
 <wire x1="-0.6858" y1="0.7874" x2="-0.6858" y2="0.4826" width="0.1524" layer="31"/>
 <wire x1="-0.6858" y1="0.4826" x2="-0.254" y2="0.4826" width="0.1524" layer="31"/>
 <wire x1="-0.1016" y1="0.7874" x2="-0.6858" y2="0.7874" width="0.1524" layer="31"/>
@@ -7494,7 +7478,6 @@ Source:</description>
 <wire x1="1.9812" y1="1.2192" x2="0.9906" y2="1.2192" width="0.1524" layer="29"/>
 <wire x1="-0.5588" y1="0.8636" x2="-0.5588" y2="1.5748" width="0.1524" layer="29"/>
 <wire x1="-0.5588" y1="1.5748" x2="-0.3048" y2="1.5748" width="0.1524" layer="29"/>
-<wire x1="-0.3048" y1="1.5748" x2="-0.3048" y2="0.8636" width="0.1524" layer="29"/>
 <wire x1="-0.3048" y1="0.8636" x2="-0.5588" y2="0.8636" width="0.1524" layer="29"/>
 <wire x1="0.5588" y1="0.8636" x2="0.5588" y2="1.5748" width="0.1524" layer="29"/>
 <wire x1="0.5588" y1="1.5748" x2="0.3048" y2="1.5748" width="0.1524" layer="29"/>
@@ -7528,27 +7511,15 @@ Source:</description>
 <wire x1="0.8128" y1="0.5842" x2="0.8128" y2="-0.5842" width="0.1524" layer="29"/>
 <wire x1="0.8128" y1="-0.9398" x2="0.2032" y2="-0.9398" width="0.1524" layer="29"/>
 <wire x1="0.2032" y1="-0.9398" x2="0.2032" y2="0.9398" width="0.1524" layer="29"/>
-<wire x1="-0.5588" y1="0.8636" x2="-0.5588" y2="1.5748" width="0.1524" layer="1"/>
-<wire x1="-0.5588" y1="1.5748" x2="-0.3048" y2="1.5748" width="0.1524" layer="1"/>
-<wire x1="-0.3048" y1="1.5748" x2="-0.3048" y2="0.8636" width="0.1524" layer="1"/>
-<wire x1="-0.3048" y1="0.8636" x2="-0.5588" y2="0.8636" width="0.1524" layer="1"/>
-<wire x1="0.5588" y1="0.8636" x2="0.5588" y2="1.5748" width="0.1524" layer="1"/>
-<wire x1="0.5588" y1="1.5748" x2="0.3048" y2="1.5748" width="0.1524" layer="1"/>
-<wire x1="0.3048" y1="1.5748" x2="0.3048" y2="0.8636" width="0.1524" layer="1"/>
-<wire x1="0.3048" y1="0.8636" x2="0.5588" y2="0.8636" width="0.1524" layer="1"/>
-<wire x1="0.5588" y1="-0.8636" x2="0.5588" y2="-1.5748" width="0.1524" layer="1"/>
-<wire x1="0.5588" y1="-1.5748" x2="0.3048" y2="-1.5748" width="0.1524" layer="1"/>
-<wire x1="0.3048" y1="-1.5748" x2="0.3048" y2="-0.8636" width="0.1524" layer="1"/>
-<wire x1="0.3048" y1="-0.8636" x2="0.5588" y2="-0.8636" width="0.1524" layer="1"/>
-<wire x1="-0.5588" y1="-0.8636" x2="-0.5588" y2="-1.5748" width="0.1524" layer="1"/>
-<wire x1="-0.5588" y1="-1.5748" x2="-0.3048" y2="-1.5748" width="0.1524" layer="1"/>
-<wire x1="-0.3048" y1="-1.5748" x2="-0.3048" y2="-0.8636" width="0.1524" layer="1"/>
-<wire x1="-0.3048" y1="-0.8636" x2="-0.5588" y2="-0.8636" width="0.1524" layer="1"/>
 <wire x1="0.889" y1="-1.5748" x2="1.5748" y2="-1.5748" width="0.1524" layer="51"/>
 <wire x1="-1.5748" y1="-1.5748" x2="-0.889" y2="-1.5748" width="0.1524" layer="51"/>
 <wire x1="1.5748" y1="1.5748" x2="0.889" y2="1.5748" width="0.1524" layer="51"/>
 <wire x1="-0.889" y1="1.5748" x2="-1.5748" y2="1.5748" width="0.1524" layer="51"/>
 <text x="-2.286" y="1.1938" size="1.27" layer="51" ratio="6" rot="SR0">*</text>
+<smd name="P$1" x="-0.44" y="1.25" dx="0.8" dy="0.4" layer="1" rot="R270" thermals="no"/>
+<smd name="P$2" x="0.44" y="1.25" dx="0.8" dy="0.4" layer="1" rot="R270" thermals="no"/>
+<smd name="P$3" x="-0.44" y="-1.25" dx="0.8" dy="0.4" layer="1" rot="R270" thermals="no"/>
+<smd name="P$4" x="0.44" y="-1.25" dx="0.8" dy="0.4" layer="1" rot="R270" thermals="no"/>
 </package>
 <package name="DRC10_2P4X1P65">
 <smd name="1" x="-1.4732" y="0.9906" dx="0.8382" dy="0.2794" layer="1"/>
@@ -7657,11 +7628,6 @@ Source:</description>
 <wire x1="-2.1844" y1="0.9906" x2="-2.3368" y2="0.9906" width="0.1524" layer="25" curve="-180"/>
 <wire x1="-2.3368" y1="0.9906" x2="-2.1844" y2="0.9906" width="0.1524" layer="25" curve="-180"/>
 <wire x1="0.3048" y1="1.5494" x2="-0.3048" y2="1.5494" width="0" layer="25" curve="-180"/>
-<smd name="P$1" x="0" y="0" dx="2.4" dy="1.65" layer="1" rot="R90"/>
-<smd name="P$2" x="-0.39" y="1.54" dx="0.7" dy="0.28" layer="1" rot="R90"/>
-<smd name="P$3" x="0.39" y="1.54" dx="0.7" dy="0.28" layer="1" rot="R90"/>
-<smd name="P$4" x="-0.39" y="-1.54" dx="0.7" dy="0.28" layer="1" rot="R90"/>
-<smd name="P$5" x="0.39" y="-1.54" dx="0.7" dy="0.28" layer="1" rot="R90"/>
 </package>
 <package name="SDE06A">
 <smd name="1" x="-1.397" y="0.9398" dx="0.6096" dy="0.3556" layer="1"/>
@@ -8174,7 +8140,7 @@ Basic SMA packaged diode. Good for reverse polarization protection. Common part 
 <device name="" package="DRB8_1P75X1P5">
 <connects>
 <connect gate="A" pin="EN" pad="5"/>
-<connect gate="A" pin="EPAD" pad="9"/>
+<connect gate="A" pin="EPAD" pad="9 P$1 P$2 P$3 P$4"/>
 <connect gate="A" pin="GND" pad="4"/>
 <connect gate="A" pin="IN" pad="8"/>
 <connect gate="A" pin="NC" pad="7"/>
@@ -8210,7 +8176,7 @@ Basic SMA packaged diode. Good for reverse polarization protection. Common part 
 <connect gate="A" pin="BOOT" pad="1"/>
 <connect gate="A" pin="COMP" pad="8"/>
 <connect gate="A" pin="EN" pad="3"/>
-<connect gate="A" pin="GND" pad="9 P$1 P$2 P$3 P$4 P$5"/>
+<connect gate="A" pin="GND" pad="9"/>
 <connect gate="A" pin="PH" pad="10"/>
 <connect gate="A" pin="PWRGD" pad="6"/>
 <connect gate="A" pin="RT/CLK" pad="5"/>
@@ -8623,8 +8589,6 @@ Basic schematic elements and footprints for 0603, 1206, and PTH resistors.</desc
 <part name="U$8" library="pavlo" deviceset="PSMN013-80YS" device=""/>
 <part name="JP7" library="pavlo" deviceset="M03" device="-SCREW-5MM"/>
 <part name="SJ1" library="jumper" deviceset="SJ" device=""/>
-<part name="C1" library="ASL" deviceset="CAP" device="0805" value=".1 uF 100V"/>
-<part name="C2" library="ASL" deviceset="CAP" device="0805" value="2.2uF 100V"/>
 <part name="C3" library="ASL" deviceset="CAP" device="0805" value=".1 uF 100V"/>
 <part name="C4" library="ASL" deviceset="CAP" device="0805" value="2.2 uF"/>
 <part name="U3" library="pavlo" deviceset="SN65LVDT348_PW_1" device=""/>
@@ -9231,7 +9195,7 @@ Basic schematic elements and footprints for 0603, 1206, and PTH resistors.</desc
 <label x="314" y="112" size="1.778" layer="95"/>
 </segment>
 </net>
-<net name="VCC5V" class="0">
+<net name="VCC5V0" class="0">
 <segment>
 <pinref part="JP5" gate="G$1" pin="6"/>
 <wire x1="62.94" y1="182.9" x2="65.48" y2="182.9" width="0.1524" layer="91"/>
@@ -9337,28 +9301,20 @@ Basic schematic elements and footprints for 0603, 1206, and PTH resistors.</desc
 </instance>
 <instance part="C18" gate="G$1" x="162.06" y="122.12" rot="R180"/>
 <instance part="C19" gate="G$1" x="177.3" y="111.96" rot="R180"/>
-<instance part="C1" gate="G$1" x="355" y="203.8" smashed="yes">
-<attribute name="NAME" x="356.524" y="206.721" size="1.778" layer="95"/>
-<attribute name="VALUE" x="341.284" y="201.641" size="1.778" layer="96"/>
+<instance part="C3" gate="G$1" x="234.3" y="193.84" smashed="yes">
+<attribute name="NAME" x="235.824" y="196.761" size="1.778" layer="95"/>
+<attribute name="VALUE" x="220.584" y="191.681" size="1.778" layer="96"/>
 </instance>
-<instance part="C2" gate="G$1" x="364" y="204" smashed="yes">
-<attribute name="NAME" x="365.524" y="206.921" size="1.778" layer="95"/>
-<attribute name="VALUE" x="357.904" y="214.541" size="1.778" layer="96"/>
-</instance>
-<instance part="C3" gate="G$1" x="374" y="204" smashed="yes">
-<attribute name="NAME" x="375.524" y="206.921" size="1.778" layer="95"/>
-<attribute name="VALUE" x="370.444" y="194.221" size="1.778" layer="96"/>
-</instance>
-<instance part="C4" gate="G$1" x="381" y="204" smashed="yes">
-<attribute name="NAME" x="382.524" y="206.921" size="1.778" layer="95"/>
-<attribute name="VALUE" x="382.524" y="201.841" size="1.778" layer="96"/>
+<instance part="C4" gate="G$1" x="241.3" y="193.84" smashed="yes">
+<attribute name="NAME" x="242.824" y="196.761" size="1.778" layer="95"/>
+<attribute name="VALUE" x="242.824" y="191.681" size="1.778" layer="96"/>
 </instance>
 <instance part="FRAME2" gate="G$1" x="0" y="0"/>
 <instance part="FRAME2" gate="A" x="330" y="0"/>
-<instance part="TP1" gate="G$1" x="228.6" y="215.9"/>
-<instance part="TP2" gate="G$1" x="233.68" y="215.9"/>
-<instance part="TP3" gate="G$1" x="238.76" y="215.9"/>
-<instance part="TP4" gate="G$1" x="243.84" y="215.9"/>
+<instance part="TP1" gate="G$1" x="193.04" y="198.12"/>
+<instance part="TP2" gate="G$1" x="198.12" y="198.12"/>
+<instance part="TP3" gate="G$1" x="203.2" y="198.12"/>
+<instance part="TP4" gate="G$1" x="208.28" y="198.12"/>
 <instance part="TP6" gate="G$1" x="184.15" y="170.434" rot="R90"/>
 <instance part="TP7" gate="G$1" x="184.15" y="167.894" rot="R90"/>
 <instance part="IC1" gate="G$1" x="218.44" y="142.494"/>
@@ -9389,18 +9345,12 @@ Basic schematic elements and footprints for 0603, 1206, and PTH resistors.</desc
 <junction x="187.96" y="112.014"/>
 </segment>
 <segment>
-<pinref part="C1" gate="G$1" pin="2"/>
-<wire x1="355" y1="201.26" x2="355" y2="201" width="0.1524" layer="91"/>
-<pinref part="C2" gate="G$1" pin="2"/>
-<wire x1="364" y1="201.46" x2="364" y2="201" width="0.1524" layer="91"/>
-<wire x1="355" y1="201" x2="364" y2="201" width="0.1524" layer="91"/>
-<wire x1="374" y1="201" x2="374" y2="201.46" width="0.1524" layer="91"/>
+<wire x1="234.3" y1="190.84" x2="234.3" y2="191.3" width="0.1524" layer="91"/>
 <pinref part="C3" gate="G$1" pin="2"/>
-<wire x1="364" y1="201" x2="374" y2="201" width="0.1524" layer="91"/>
-<wire x1="381" y1="201" x2="381" y2="201.46" width="0.1524" layer="91"/>
+<wire x1="241.3" y1="190.84" x2="241.3" y2="191.3" width="0.1524" layer="91"/>
 <pinref part="C4" gate="G$1" pin="2"/>
-<wire x1="374" y1="201" x2="381" y2="201" width="0.1524" layer="91"/>
-<label x="365" y="198" size="1.778" layer="95"/>
+<label x="231.904" y="187.84" size="1.778" layer="95"/>
+<wire x1="234.3" y1="190.84" x2="241.3" y2="190.84" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="R1" gate="G$1" pin="1"/>
@@ -9415,18 +9365,12 @@ Basic schematic elements and footprints for 0603, 1206, and PTH resistors.</desc
 </net>
 <net name="PVDD" class="3">
 <segment>
-<pinref part="C1" gate="G$1" pin="1"/>
-<wire x1="355" y1="208.88" x2="355" y2="210" width="0.1524" layer="91"/>
-<pinref part="C2" gate="G$1" pin="1"/>
-<wire x1="364" y1="209.08" x2="364" y2="210" width="0.1524" layer="91"/>
-<wire x1="355" y1="210" x2="364" y2="210" width="0.1524" layer="91"/>
 <pinref part="C3" gate="G$1" pin="1"/>
-<wire x1="374" y1="209.08" x2="374" y2="210" width="0.1524" layer="91"/>
-<wire x1="364" y1="210" x2="374" y2="210" width="0.1524" layer="91"/>
+<wire x1="234.3" y1="198.92" x2="234.3" y2="199.84" width="0.1524" layer="91"/>
 <pinref part="C4" gate="G$1" pin="1"/>
-<wire x1="381" y1="209.08" x2="381" y2="210" width="0.1524" layer="91"/>
-<wire x1="374" y1="210" x2="381" y2="210" width="0.1524" layer="91"/>
-<label x="365" y="211" size="1.778" layer="95"/>
+<wire x1="241.3" y1="198.92" x2="241.3" y2="199.84" width="0.1524" layer="91"/>
+<wire x1="234.3" y1="199.84" x2="241.3" y2="199.84" width="0.1524" layer="91"/>
+<label x="234.444" y="200.078" size="1.778" layer="95"/>
 </segment>
 <segment>
 <pinref part="IC1" gate="G$1" pin="PVDD"/>
@@ -9637,8 +9581,8 @@ Basic schematic elements and footprints for 0603, 1206, and PTH resistors.</desc
 </segment>
 <segment>
 <pinref part="TP4" gate="G$1" pin="TP"/>
-<wire x1="243.84" y1="213.36" x2="243.84" y2="210.82" width="0.1524" layer="91"/>
-<label x="241.3" y="208.28" size="1.778" layer="95"/>
+<wire x1="208.28" y1="195.58" x2="208.28" y2="193.04" width="0.1524" layer="91"/>
+<label x="205.74" y="190.5" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="PWM2L" class="0">
@@ -9667,8 +9611,8 @@ Basic schematic elements and footprints for 0603, 1206, and PTH resistors.</desc
 </segment>
 <segment>
 <pinref part="TP1" gate="G$1" pin="TP"/>
-<wire x1="228.6" y1="213.36" x2="228.6" y2="210.82" width="0.1524" layer="91"/>
-<label x="226.06" y="205.74" size="1.778" layer="95"/>
+<wire x1="193.04" y1="195.58" x2="193.04" y2="193.04" width="0.1524" layer="91"/>
+<label x="190.5" y="187.96" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="MOSI" class="0">
@@ -9681,8 +9625,8 @@ Basic schematic elements and footprints for 0603, 1206, and PTH resistors.</desc
 </segment>
 <segment>
 <pinref part="TP2" gate="G$1" pin="TP"/>
-<wire x1="233.68" y1="213.36" x2="233.68" y2="210.82" width="0.1524" layer="91"/>
-<label x="231.14" y="208.28" size="1.778" layer="95"/>
+<wire x1="198.12" y1="195.58" x2="198.12" y2="193.04" width="0.1524" layer="91"/>
+<label x="195.58" y="190.5" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="MISO" class="0">
@@ -9695,8 +9639,8 @@ Basic schematic elements and footprints for 0603, 1206, and PTH resistors.</desc
 </segment>
 <segment>
 <pinref part="TP3" gate="G$1" pin="TP"/>
-<wire x1="238.76" y1="213.36" x2="238.76" y2="210.82" width="0.1524" layer="91"/>
-<label x="236.22" y="205.74" size="1.778" layer="95"/>
+<wire x1="203.2" y1="195.58" x2="203.2" y2="193.04" width="0.1524" layer="91"/>
+<label x="200.66" y="187.96" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="SL_C" class="0">
@@ -9774,7 +9718,7 @@ Basic schematic elements and footprints for 0603, 1206, and PTH resistors.</desc
 <label x="251.46" y="157.48" size="1.778" layer="95"/>
 </segment>
 </net>
-<net name="N$11" class="0">
+<net name="SH_A" class="0">
 <segment>
 <pinref part="IC1" gate="G$1" pin="SH_A"/>
 <wire x1="248.92" y1="155.194" x2="258.572" y2="155.194" width="0.1524" layer="91"/>
@@ -10271,7 +10215,7 @@ Basic schematic elements and footprints for 0603, 1206, and PTH resistors.</desc
 <junction x="139.7" y="121.92"/>
 </segment>
 </net>
-<net name="GND" class="0">
+<net name="PGND" class="3">
 <segment>
 <pinref part="C5" gate="G$1" pin="2"/>
 <wire x1="132.08" y1="93.98" x2="132.08" y2="88.9" width="0.1524" layer="91"/>
