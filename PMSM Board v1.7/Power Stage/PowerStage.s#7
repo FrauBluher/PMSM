@@ -784,6 +784,20 @@ Basic SMA packaged diode. Good for reverse polarization protection. Common part 
 <text x="0.014" y="2.301" size="1.27" layer="25" ratio="15">&gt;NAME</text>
 <text x="0.014" y="-2.779" size="0.4064" layer="27">&gt;VALUE</text>
 </package>
+<package name="SLF12555">
+<wire x1="-6.25" y1="-6.25" x2="-6.25" y2="6.25" width="0.127" layer="21"/>
+<wire x1="6.25" y1="6.25" x2="6.25" y2="-6.25" width="0.127" layer="21"/>
+<wire x1="-6.25" y1="6.25" x2="6.25" y2="6.25" width="0.127" layer="21"/>
+<wire x1="-6.25" y1="-6.25" x2="6.25" y2="-6.25" width="0.127" layer="21"/>
+<smd name="P$1" x="-5.55" y="0" dx="2.6" dy="3.2" layer="1"/>
+<smd name="P$2" x="5.55" y="0" dx="2.6" dy="3.2" layer="1"/>
+<wire x1="-6" y1="5" x2="-5" y2="5" width="0.127" layer="21"/>
+<wire x1="-5" y1="5" x2="-5" y2="6" width="0.127" layer="21"/>
+<wire x1="-7" y1="6" x2="-7" y2="-6" width="0.127" layer="39"/>
+<wire x1="-7" y1="-6" x2="7" y2="-6" width="0.127" layer="39"/>
+<wire x1="7" y1="-6" x2="7" y2="6" width="0.127" layer="39"/>
+<wire x1="7" y1="6" x2="-7" y2="6" width="0.127" layer="39"/>
+</package>
 </packages>
 <symbols>
 <symbol name="TPS73733-Q1_DRB_8">
@@ -873,6 +887,13 @@ Basic SMA packaged diode. Good for reverse polarization protection. Common part 
 <text x="2.54" y="-2.3114" size="1.778" layer="96">&gt;VALUE</text>
 <pin name="A" x="-2.54" y="0" visible="off" length="short" direction="pas"/>
 <pin name="C" x="2.54" y="0" visible="off" length="short" direction="pas" rot="R180"/>
+</symbol>
+<symbol name="DR">
+<text x="-3.81" y="1.3716" size="1.778" layer="95">&gt;NAME</text>
+<text x="-3.81" y="-2.921" size="1.778" layer="96">&gt;VALUE</text>
+<rectangle x1="-3.81" y1="-0.889" x2="3.81" y2="0.889" layer="94"/>
+<pin name="2" x="7.62" y="0" visible="pad" length="middle" direction="pas" swaplevel="1" rot="R180"/>
+<pin name="1" x="-7.62" y="0" visible="pad" length="middle" direction="pas" swaplevel="1"/>
 </symbol>
 </symbols>
 <devicesets>
@@ -1244,6 +1265,22 @@ Basic schematic elements and footprints for 0603, 1206, and PTH resistors.</desc
 </device>
 </devices>
 </deviceset>
+<deviceset name="SLF12555T">
+<gates>
+<gate name="G$1" symbol="DR" x="0" y="0"/>
+</gates>
+<devices>
+<device name="" package="SLF12555">
+<connects>
+<connect gate="G$1" pin="1" pad="P$1"/>
+<connect gate="G$1" pin="2" pad="P$2"/>
+</connects>
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+</devices>
+</deviceset>
 </devicesets>
 </library>
 </libraries>
@@ -1269,6 +1306,9 @@ Basic schematic elements and footprints for 0603, 1206, and PTH resistors.</desc
 <part name="C4" library="SwitcherPowerStage" deviceset="CAP" device="1210" value="5600pF"/>
 <part name="C5" library="SwitcherPowerStage" deviceset="CAP" device="1210" value="270pF"/>
 <part name="D1" library="SwitcherPowerStage" deviceset="DIODE-SCHOTTKY" device="240A"/>
+<part name="U$1" library="SwitcherPowerStage" deviceset="SLF12555T" device=""/>
+<part name="R5" library="SwitcherPowerStage" deviceset="RESISTOR" device="0805-RES" value="7.68k"/>
+<part name="R6" library="SwitcherPowerStage" deviceset="RESISTOR" device="0805-RES" value="7.68k"/>
 </parts>
 <sheets>
 <sheet>
@@ -1288,6 +1328,9 @@ Basic schematic elements and footprints for 0603, 1206, and PTH resistors.</desc
 <instance part="C4" gate="G$1" x="106.68" y="22.86"/>
 <instance part="C5" gate="G$1" x="116.84" y="22.86"/>
 <instance part="D1" gate="G$1" x="129.54" y="35.56" rot="R90"/>
+<instance part="U$1" gate="G$1" x="147.32" y="45.72"/>
+<instance part="R5" gate="G$1" x="157.48" y="35.56" rot="R90"/>
+<instance part="R6" gate="G$1" x="157.48" y="20.32" rot="R90"/>
 </instances>
 <busses>
 </busses>
@@ -1340,6 +1383,11 @@ Basic schematic elements and footprints for 0603, 1206, and PTH resistors.</desc
 <wire x1="116.84" y1="20.32" x2="116.84" y2="10.16" width="0.1524" layer="91"/>
 <label x="114.3" y="7.62" size="1.778" layer="95"/>
 </segment>
+<segment>
+<pinref part="D1" gate="G$1" pin="A"/>
+<wire x1="129.54" y1="33.02" x2="129.54" y2="10.16" width="0.1524" layer="91"/>
+<label x="127" y="7.62" size="1.778" layer="95"/>
+</segment>
 </net>
 <net name="N$1" class="0">
 <segment>
@@ -1388,6 +1436,7 @@ Basic schematic elements and footprints for 0603, 1206, and PTH resistors.</desc
 <pinref part="D1" gate="G$1" pin="C"/>
 <wire x1="129.54" y1="45.72" x2="139.7" y2="45.72" width="0.1524" layer="91"/>
 <wire x1="129.54" y1="38.1" x2="129.54" y2="45.72" width="0.1524" layer="91"/>
+<pinref part="U$1" gate="G$1" pin="1"/>
 </segment>
 </net>
 <net name="N$6" class="0">
@@ -1410,8 +1459,11 @@ Basic schematic elements and footprints for 0603, 1206, and PTH resistors.</desc
 </net>
 <net name="N$8" class="0">
 <segment>
-<pinref part="D1" gate="G$1" pin="A"/>
-<wire x1="129.54" y1="33.02" x2="129.54" y2="10.16" width="0.1524" layer="91"/>
+<pinref part="U$1" gate="G$1" pin="2"/>
+<wire x1="154.94" y1="45.72" x2="157.48" y2="45.72" width="0.1524" layer="91"/>
+<wire x1="157.48" y1="45.72" x2="162.56" y2="45.72" width="0.1524" layer="91"/>
+<wire x1="157.48" y1="45.72" x2="157.48" y2="40.64" width="0.1524" layer="91"/>
+<pinref part="R5" gate="G$1" pin="2"/>
 </segment>
 </net>
 </nets>

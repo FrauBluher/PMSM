@@ -8550,7 +8550,7 @@ new: Attribute TP_SIGNAL_NAME&lt;br&gt;
 <part name="FRAME6" library="pavlo" deviceset="FRAME-LEDGER" device=""/>
 <part name="U$2" library="pavlo" deviceset="DRV8301" device=""/>
 <part name="SJ2" library="jumper" deviceset="SJ" device=""/>
-<part name="U$9" library="pavlo" deviceset="H1206T500R-10" device=""/>
+<part name="U9" library="pavlo" deviceset="H1206T500R-10" device=""/>
 <part name="U10" library="pavlo" deviceset="H1206T500R-10" device=""/>
 <part name="U11" library="pavlo" deviceset="MH1608-600Y" device=""/>
 <part name="U12" library="pavlo" deviceset="MH1608-600Y" device=""/>
@@ -9953,7 +9953,7 @@ new: Attribute TP_SIGNAL_NAME&lt;br&gt;
 <instance part="JP7" gate="G$1" x="225" y="211" rot="R270"/>
 <instance part="FRAME3" gate="G$1" x="0" y="0"/>
 <instance part="FRAME3" gate="A" x="330" y="0"/>
-<instance part="U$9" gate="G$1" x="172.72" y="66.04"/>
+<instance part="U9" gate="G$1" x="172.72" y="66.04"/>
 <instance part="U10" gate="G$1" x="198.12" y="66.04"/>
 <instance part="U11" gate="G$1" x="219.48" y="115.7"/>
 <instance part="U12" gate="G$1" x="196.58" y="127"/>
@@ -10226,7 +10226,7 @@ new: Attribute TP_SIGNAL_NAME&lt;br&gt;
 </net>
 <net name="DRV_GND" class="3">
 <segment>
-<pinref part="U$9" gate="G$1" pin="P$2"/>
+<pinref part="U9" gate="G$1" pin="P$2"/>
 <pinref part="U10" gate="G$1" pin="P$1"/>
 <wire x1="180.34" y1="66.04" x2="187.96" y2="66.04" width="0.1524" layer="91"/>
 <label x="180.34" y="66.04" size="1.778" layer="95"/>
@@ -10234,7 +10234,7 @@ new: Attribute TP_SIGNAL_NAME&lt;br&gt;
 </net>
 <net name="GND" class="0">
 <segment>
-<pinref part="U$9" gate="G$1" pin="P$1"/>
+<pinref part="U9" gate="G$1" pin="P$1"/>
 <wire x1="162.56" y1="66.04" x2="157.48" y2="66.04" width="0.1524" layer="91"/>
 <label x="152.4" y="66.04" size="1.778" layer="95"/>
 </segment>

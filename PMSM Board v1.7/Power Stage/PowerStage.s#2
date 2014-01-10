@@ -393,6 +393,11 @@
 <wire x1="-2.1844" y1="0.9906" x2="-2.3368" y2="0.9906" width="0.1524" layer="25" curve="-180"/>
 <wire x1="-2.3368" y1="0.9906" x2="-2.1844" y2="0.9906" width="0.1524" layer="25" curve="-180"/>
 <wire x1="0.3048" y1="1.5494" x2="-0.3048" y2="1.5494" width="0" layer="25" curve="-180"/>
+<smd name="P$1" x="0" y="0" dx="2.4" dy="1.65" layer="1" rot="R90"/>
+<smd name="P$2" x="-0.39" y="1.54" dx="0.7" dy="0.28" layer="1" rot="R90"/>
+<smd name="P$3" x="0.39" y="1.54" dx="0.7" dy="0.28" layer="1" rot="R90"/>
+<smd name="P$4" x="-0.39" y="-1.54" dx="0.7" dy="0.28" layer="1" rot="R90"/>
+<smd name="P$5" x="0.39" y="-1.54" dx="0.7" dy="0.28" layer="1" rot="R90"/>
 </package>
 <package name="SDE06A">
 <smd name="1" x="-1.397" y="0.9398" dx="0.6096" dy="0.3556" layer="1"/>
@@ -941,7 +946,7 @@ Basic SMA packaged diode. Good for reverse polarization protection. Common part 
 <connect gate="A" pin="BOOT" pad="1"/>
 <connect gate="A" pin="COMP" pad="8"/>
 <connect gate="A" pin="EN" pad="3"/>
-<connect gate="A" pin="GND" pad="9"/>
+<connect gate="A" pin="GND" pad="9 P$1 P$2 P$3 P$4 P$5"/>
 <connect gate="A" pin="PH" pad="10"/>
 <connect gate="A" pin="PWRGD" pad="6"/>
 <connect gate="A" pin="RT/CLK" pad="5"/>
@@ -1303,8 +1308,8 @@ Basic schematic elements and footprints for 0603, 1206, and PTH resistors.</desc
 <part name="R3" library="SwitcherPowerStage" deviceset="RESISTOR" device="0805-RES" value="237k"/>
 <part name="C3" library="SwitcherPowerStage" deviceset="CAP" device="0805" value=".1uF"/>
 <part name="R4" library="SwitcherPowerStage" deviceset="RESISTOR" device="0805-RES" value="7.68k"/>
-<part name="C4" library="SwitcherPowerStage" deviceset="CAP" device="1210" value="5600pF"/>
-<part name="C5" library="SwitcherPowerStage" deviceset="CAP" device="1210" value="270pF"/>
+<part name="C4" library="SwitcherPowerStage" deviceset="CAP" device="0805" value="5600pF"/>
+<part name="C5" library="SwitcherPowerStage" deviceset="CAP" device="0805" value="270pF"/>
 <part name="D1" library="SwitcherPowerStage" deviceset="DIODE-SCHOTTKY" device="240A"/>
 <part name="U$1" library="SwitcherPowerStage" deviceset="SLF12555T" device=""/>
 <part name="R5" library="SwitcherPowerStage" deviceset="RESISTOR" device="0805-RES" value="59k"/>

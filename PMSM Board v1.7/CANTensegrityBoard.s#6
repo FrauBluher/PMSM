@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE eagle SYSTEM "eagle.dtd">
-<eagle version="6.1">
+<eagle version="6.4">
 <drawing>
 <settings>
 <setting alwaysvectorfont="no"/>
@@ -8561,6 +8561,15 @@ new: Attribute TP_SIGNAL_NAME&lt;br&gt;
 <part name="TP2" library="testpad" deviceset="TP" device="TP06R"/>
 <part name="TP3" library="testpad" deviceset="TP" device="TP06R"/>
 <part name="TP4" library="testpad" deviceset="TP" device="TP06R"/>
+<part name="TP5" library="testpad" deviceset="TP" device="TP06R">
+<attribute name="TP_SIGNAL_NAME" value=""/>
+</part>
+<part name="TP6" library="testpad" deviceset="TP" device="TP06R">
+<attribute name="TP_SIGNAL_NAME" value=""/>
+</part>
+<part name="TP7" library="testpad" deviceset="TP" device="TP06R">
+<attribute name="TP_SIGNAL_NAME" value=""/>
+</part>
 </parts>
 <sheets>
 <sheet>
@@ -9280,6 +9289,9 @@ new: Attribute TP_SIGNAL_NAME&lt;br&gt;
 <instance part="TP2" gate="G$1" x="233.68" y="215.9"/>
 <instance part="TP3" gate="G$1" x="238.76" y="215.9"/>
 <instance part="TP4" gate="G$1" x="243.84" y="215.9"/>
+<instance part="TP5" gate="G$1" x="184.15" y="172.974" rot="R90"/>
+<instance part="TP6" gate="G$1" x="184.15" y="170.434" rot="R90"/>
+<instance part="TP7" gate="G$1" x="184.15" y="167.894" rot="R90"/>
 </instances>
 <busses>
 </busses>
@@ -9887,6 +9899,29 @@ new: Attribute TP_SIGNAL_NAME&lt;br&gt;
 <pinref part="U$2" gate="G$1" pin="SL_A"/>
 <wire x1="259.08" y1="147.574" x2="261.12" y2="147.52" width="0.1524" layer="91"/>
 <junction x="259.08" y="147.574"/>
+</segment>
+</net>
+<net name="N$7" class="0">
+<segment>
+<pinref part="U$2" gate="G$1" pin="PWRGD"/>
+<wire x1="187.96" y1="172.974" x2="186.69" y2="172.974" width="0.1524" layer="91"/>
+<pinref part="TP5" gate="G$1" pin="TP"/>
+</segment>
+</net>
+<net name="N$12" class="0">
+<segment>
+<pinref part="U$2" gate="G$1" pin="*OCTW"/>
+<wire x1="187.96" y1="170.434" x2="186.69" y2="170.434" width="0.1524" layer="91"/>
+<pinref part="TP6" gate="G$1" pin="TP"/>
+<wire x1="186.69" y1="170.434" x2="186.944" y2="170.434" width="0.1524" layer="91"/>
+<junction x="186.69" y="170.434"/>
+</segment>
+</net>
+<net name="N$24" class="0">
+<segment>
+<pinref part="U$2" gate="G$1" pin="*FAULT"/>
+<wire x1="187.96" y1="167.894" x2="186.69" y2="167.894" width="0.1524" layer="91"/>
+<pinref part="TP7" gate="G$1" pin="TP"/>
 </segment>
 </net>
 </nets>

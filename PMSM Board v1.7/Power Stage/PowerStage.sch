@@ -1442,6 +1442,11 @@ Basic schematic elements and footprints for 0603, 1206, and PTH resistors.</desc
 <wire x1="15.24" y1="124.46" x2="15.24" y2="119.38" width="0.1524" layer="91"/>
 <label x="12.7" y="116.84" size="1.778" layer="95"/>
 </segment>
+<segment>
+<pinref part="U3" gate="A" pin="7"/>
+<wire x1="83.82" y1="86.36" x2="91.44" y2="86.36" width="0.1524" layer="91"/>
+<label x="86.36" y="86.36" size="1.778" layer="95"/>
+</segment>
 </net>
 <net name="N$1" class="0">
 <segment>
@@ -1528,8 +1533,11 @@ Basic schematic elements and footprints for 0603, 1206, and PTH resistors.</desc
 <net name="VCC5V5" class="0">
 <segment>
 <pinref part="U3" gate="A" pin="VIN_2"/>
-<wire x1="25.4" y1="93.98" x2="48.26" y2="93.98" width="0.1524" layer="91"/>
+<wire x1="25.4" y1="93.98" x2="33.02" y2="93.98" width="0.1524" layer="91"/>
 <label x="22.86" y="93.98" size="1.778" layer="95"/>
+<pinref part="C7" gate="G$1" pin="1"/>
+<junction x="33.02" y="93.98"/>
+<wire x1="33.02" y1="93.98" x2="48.26" y2="93.98" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="U$1" gate="G$1" pin="2"/>
@@ -1559,10 +1567,13 @@ Basic schematic elements and footprints for 0603, 1206, and PTH resistors.</desc
 <wire x1="83.82" y1="93.98" x2="88.9" y2="93.98" width="0.1524" layer="91"/>
 <label x="111.76" y="93.98" size="1.778" layer="95"/>
 <pinref part="U3" gate="A" pin="SNS"/>
-<wire x1="88.9" y1="93.98" x2="111.76" y2="93.98" width="0.1524" layer="91"/>
+<wire x1="88.9" y1="93.98" x2="99.06" y2="93.98" width="0.1524" layer="91"/>
+<wire x1="99.06" y1="93.98" x2="111.76" y2="93.98" width="0.1524" layer="91"/>
 <wire x1="83.82" y1="91.44" x2="88.9" y2="91.44" width="0.1524" layer="91"/>
 <wire x1="88.9" y1="91.44" x2="88.9" y2="93.98" width="0.1524" layer="91"/>
 <junction x="88.9" y="93.98"/>
+<pinref part="C8" gate="G$1" pin="1"/>
+<junction x="99.06" y="93.98"/>
 </segment>
 <segment>
 <pinref part="U1" gate="A" pin="IN"/>
@@ -1582,6 +1593,7 @@ Basic schematic elements and footprints for 0603, 1206, and PTH resistors.</desc
 <label x="25.4" y="134.62" size="1.778" layer="95"/>
 <wire x1="15.24" y1="134.62" x2="15.24" y2="132.08" width="0.1524" layer="91"/>
 <pinref part="C9" gate="G$1" pin="1"/>
+<junction x="15.24" y="132.08"/>
 </segment>
 </net>
 </nets>

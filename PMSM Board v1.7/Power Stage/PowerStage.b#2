@@ -703,17 +703,17 @@ design rules under a new name.</description>
 </pass>
 </autorouter>
 <elements>
-<element name="U1" library="SwitcherPowerStage" package="DRB8_1P75X1P5" value="TPS73733-Q1_DRB_8" x="9.44" y="20.74" rot="R90">
-<attribute name="DATASHEETURL" value="http://www.ti.com/lit/gpn/TPS73733-Q1" x="24.68" y="44.87" size="1.778" layer="27" rot="R90" display="off"/>
-<attribute name="PIN_COUNT" value="8" x="24.68" y="44.87" size="1.778" layer="27" rot="R90" display="off"/>
-<attribute name="GENERIC_PART_NUMBER" value="TPS73733-Q1" x="24.68" y="44.87" size="1.778" layer="27" rot="R90" display="off"/>
-<attribute name="DESCRIPTION" value="Automotive Catalog Automotive Catalog Single Output LDO, 1A, Fixed (3.3V), Reverse Current Protect" x="24.68" y="44.87" size="1.778" layer="27" rot="R90" display="off"/>
-<attribute name="FAMILY_NAME" value="SINGLE CHANNEL LDO" x="24.68" y="44.87" size="1.778" layer="27" rot="R90" display="off"/>
-<attribute name="MANUFACTURER" value="Texas Instruments" x="24.68" y="44.87" size="1.778" layer="27" rot="R90" display="off"/>
-<attribute name="INDUSTRY_STD_PKG_TYPE" value="SON" x="24.68" y="44.87" size="1.778" layer="27" rot="R90" display="off"/>
-<attribute name="VENDOR" value="Texas Instruments" x="24.68" y="44.87" size="1.778" layer="27" rot="R90" display="off"/>
-<attribute name="MANUFACTURER_PART_NUMBER" value="tps73733-q1_drb_8" x="24.68" y="44.87" size="1.778" layer="27" rot="R90" display="off"/>
-<attribute name="PACKAGE_DESIGNATOR" value="DRB" x="24.68" y="44.87" size="1.778" layer="27" rot="R90" display="off"/>
+<element name="U1" library="SwitcherPowerStage" package="DRB8_1P75X1P5" value="TPS73733-Q1_DRB_8" x="13.44" y="23.59" rot="R90">
+<attribute name="DATASHEETURL" value="http://www.ti.com/lit/gpn/TPS73733-Q1" x="28.68" y="47.72" size="1.778" layer="27" rot="R90" display="off"/>
+<attribute name="PIN_COUNT" value="8" x="28.68" y="47.72" size="1.778" layer="27" rot="R90" display="off"/>
+<attribute name="GENERIC_PART_NUMBER" value="TPS73733-Q1" x="28.68" y="47.72" size="1.778" layer="27" rot="R90" display="off"/>
+<attribute name="DESCRIPTION" value="Automotive Catalog Automotive Catalog Single Output LDO, 1A, Fixed (3.3V), Reverse Current Protect" x="28.68" y="47.72" size="1.778" layer="27" rot="R90" display="off"/>
+<attribute name="FAMILY_NAME" value="SINGLE CHANNEL LDO" x="28.68" y="47.72" size="1.778" layer="27" rot="R90" display="off"/>
+<attribute name="MANUFACTURER" value="Texas Instruments" x="28.68" y="47.72" size="1.778" layer="27" rot="R90" display="off"/>
+<attribute name="INDUSTRY_STD_PKG_TYPE" value="SON" x="28.68" y="47.72" size="1.778" layer="27" rot="R90" display="off"/>
+<attribute name="VENDOR" value="Texas Instruments" x="28.68" y="47.72" size="1.778" layer="27" rot="R90" display="off"/>
+<attribute name="MANUFACTURER_PART_NUMBER" value="tps73733-q1_drb_8" x="28.68" y="47.72" size="1.778" layer="27" rot="R90" display="off"/>
+<attribute name="PACKAGE_DESIGNATOR" value="DRB" x="28.68" y="47.72" size="1.778" layer="27" rot="R90" display="off"/>
 </element>
 <element name="U2" library="SwitcherPowerStage" package="DRC10_2P4X1P65" value="TPS54240_DRC_10" x="17.21" y="15.95">
 <attribute name="DATASHEETURL" value="http://www.ti.com/lit/gpn/TPS54240" x="43.88" y="-11.99" size="1.778" layer="27" display="off"/>
@@ -727,16 +727,16 @@ design rules under a new name.</description>
 <attribute name="MANUFACTURER_PART_NUMBER" value="tps54240_drc_10" x="43.88" y="-11.99" size="1.778" layer="27" display="off"/>
 <attribute name="PACKAGE_DESIGNATOR" value="DRC" x="43.88" y="-11.99" size="1.778" layer="27" display="off"/>
 </element>
-<element name="U3" library="SwitcherPowerStage" package="SDE06A" value="LP38692_NGG_6" x="9.43" y="26.35" rot="R270">
-<attribute name="PIN" value="Count6" x="-18.51" y="-5.4" size="1.778" layer="27" rot="R270" display="off"/>
-<attribute name="BASE_PN" value="LP38692" x="-18.51" y="-5.4" size="1.778" layer="27" rot="R270" display="off"/>
-<attribute name="VERSION" value="1" x="-18.51" y="-5.4" size="1.778" layer="27" rot="R270" display="off"/>
-<attribute name="LIBRARY" value="ReferenceLP38692SD" x="-18.51" y="-5.4" size="1.778" layer="27" rot="R270" display="off"/>
-<attribute name="PARTNUMBER" value="LP38692SD-18" x="-18.51" y="-5.4" size="1.778" layer="27" rot="R270" display="off"/>
-<attribute name="SYMBOL" value="NameLP38692SD-18" x="-18.51" y="-5.4" size="1.778" layer="27" rot="R270" display="off"/>
-<attribute name="VENDOR" value="NationalSemiconductor" x="-18.51" y="-5.4" size="1.778" layer="27" rot="R270" display="off"/>
-<attribute name="TYPE" value="LP38692SD-1.8" x="-18.51" y="-5.4" size="1.778" layer="27" rot="R270" display="off"/>
-<attribute name="COMP" value="TypeLDO" x="-18.51" y="-5.4" size="1.778" layer="27" rot="R270" display="off"/>
+<element name="U3" library="SwitcherPowerStage" package="SDE06A" value="LP38692_NGG_6" x="13.48" y="28.3" rot="R270">
+<attribute name="PIN" value="Count6" x="-14.46" y="-3.45" size="1.778" layer="27" rot="R270" display="off"/>
+<attribute name="BASE_PN" value="LP38692" x="-14.46" y="-3.45" size="1.778" layer="27" rot="R270" display="off"/>
+<attribute name="VERSION" value="1" x="-14.46" y="-3.45" size="1.778" layer="27" rot="R270" display="off"/>
+<attribute name="LIBRARY" value="ReferenceLP38692SD" x="-14.46" y="-3.45" size="1.778" layer="27" rot="R270" display="off"/>
+<attribute name="PARTNUMBER" value="LP38692SD-18" x="-14.46" y="-3.45" size="1.778" layer="27" rot="R270" display="off"/>
+<attribute name="SYMBOL" value="NameLP38692SD-18" x="-14.46" y="-3.45" size="1.778" layer="27" rot="R270" display="off"/>
+<attribute name="VENDOR" value="NationalSemiconductor" x="-14.46" y="-3.45" size="1.778" layer="27" rot="R270" display="off"/>
+<attribute name="TYPE" value="LP38692SD-1.8" x="-14.46" y="-3.45" size="1.778" layer="27" rot="R270" display="off"/>
+<attribute name="COMP" value="TypeLDO" x="-14.46" y="-3.45" size="1.778" layer="27" rot="R270" display="off"/>
 </element>
 <element name="C1" library="SwitcherPowerStage" package="1210" value="4.7uF" x="13.53" y="18.56" rot="R90"/>
 <element name="R1" library="SwitcherPowerStage" package="0805" value="348k" x="11.04" y="16.23" rot="R90"/>
@@ -752,9 +752,9 @@ design rules under a new name.</description>
 <element name="R5" library="SwitcherPowerStage" package="0805" value="59k" x="24.8" y="12.89"/>
 <element name="R6" library="SwitcherPowerStage" package="0805" value="10k" x="18.54" y="12.94"/>
 <element name="C6" library="SwitcherPowerStage" package="C2220K" value="47uF\" x="19.78" y="26.55" rot="R270"/>
-<element name="C7" library="SwitcherPowerStage" package="0805" value="1uF" x="1.39" y="15.36" rot="R90"/>
-<element name="C8" library="SwitcherPowerStage" package="0805" value="1uF" x="6.54" y="25.85" rot="R90"/>
-<element name="C9" library="SwitcherPowerStage" package="0805" value="1uF" x="4.89" y="19.44" rot="R90"/>
+<element name="C7" library="SwitcherPowerStage" package="0805" value="1uF" x="3.39" y="28.11" rot="R90"/>
+<element name="C8" library="SwitcherPowerStage" package="0805" value="1uF" x="6.94" y="28.3" rot="R90"/>
+<element name="C9" library="SwitcherPowerStage" package="0805" value="1uF" x="9.99" y="23.24" rot="R90"/>
 </elements>
 <signals>
 <signal name="PVDD">
@@ -786,7 +786,6 @@ design rules under a new name.</description>
 <contactref element="U2" pad="P$3"/>
 <contactref element="U2" pad="P$4"/>
 <contactref element="U2" pad="P$5"/>
-<contactref element="U3" pad="7"/>
 <wire x1="17.68" y1="20.41" x2="19.78" y2="24" width="0" layer="19" extent="1-1"/>
 <wire x1="17.6" y1="17.49" x2="17.68" y2="20.41" width="0" layer="19" extent="1-1"/>
 <wire x1="16.82" y1="17.49" x2="17.6" y2="17.49" width="0" layer="19" extent="1-1"/>
@@ -800,14 +799,13 @@ design rules under a new name.</description>
 <wire x1="14.49" y1="12.46" x2="16.82" y2="14.41" width="0" layer="19" extent="1-1"/>
 <wire x1="12.99" y1="12.46" x2="14.49" y2="12.46" width="0" layer="19" extent="1-1"/>
 <wire x1="11.04" y1="12.47" x2="12.99" y2="12.46" width="0" layer="19" extent="1-1"/>
-<wire x1="13.53" y1="20.16" x2="17.68" y2="20.41" width="0" layer="19" extent="1-1"/>
-<wire x1="10.4052" y1="19.2668" x2="13.53" y2="20.16" width="0" layer="19" extent="1-1"/>
-<wire x1="9.44" y1="20.74" x2="10.4052" y2="19.2668" width="0" layer="19" extent="1-1"/>
-<wire x1="4.89" y1="20.34" x2="9.44" y2="20.74" width="0" layer="19" extent="1-1"/>
-<wire x1="1.39" y1="16.26" x2="4.89" y2="20.34" width="0" layer="19" extent="1-1"/>
-<wire x1="9.43" y1="26.35" x2="9.44" y2="20.74" width="0" layer="19" extent="1-1"/>
-<wire x1="9.43" y1="27.747" x2="9.43" y2="26.35" width="0" layer="19" extent="1-1"/>
-<wire x1="6.54" y1="26.75" x2="9.43" y2="26.35" width="0" layer="19" extent="1-1"/>
+<wire x1="14.4052" y1="22.1168" x2="17.68" y2="20.41" width="0" layer="19" extent="1-1"/>
+<wire x1="13.44" y1="23.59" x2="14.4052" y2="22.1168" width="0" layer="19" extent="1-1"/>
+<wire x1="13.53" y1="20.16" x2="14.4052" y2="22.1168" width="0" layer="19" extent="1-1"/>
+<wire x1="9.99" y1="24.14" x2="13.44" y2="23.59" width="0" layer="19" extent="1-1"/>
+<wire x1="6.94" y1="29.2" x2="9.99" y2="24.14" width="0" layer="19" extent="1-1"/>
+<wire x1="3.39" y1="29.01" x2="6.94" y2="29.2" width="0" layer="19" extent="1-1"/>
+<wire x1="13.48" y1="29.697" x2="13.44" y2="23.59" width="0" layer="19" extent="1-1"/>
 </signal>
 <signal name="N$1">
 <contactref element="R1" pad="1"/>
@@ -868,10 +866,10 @@ design rules under a new name.</description>
 <contactref element="U3" pad="3"/>
 <contactref element="C7" pad="1"/>
 <wire x1="19.78" y1="29.1" x2="29.24" y2="29.17" width="0" layer="19" extent="1-1"/>
-<wire x1="10.3698" y1="27.747" x2="19.78" y2="29.1" width="0" layer="19" extent="1-1"/>
-<wire x1="8.4902" y1="27.747" x2="10.3698" y2="27.747" width="0" layer="19" extent="1-1"/>
-<wire x1="10.3698" y1="24.953" x2="10.3698" y2="27.747" width="0" layer="19" extent="1-1"/>
-<wire x1="1.39" y1="14.46" x2="10.3698" y2="24.953" width="0" layer="19" extent="1-1"/>
+<wire x1="14.4198" y1="29.697" x2="19.78" y2="29.1" width="0" layer="19" extent="1-1"/>
+<wire x1="12.5402" y1="29.697" x2="14.4198" y2="29.697" width="0" layer="19" extent="1-1"/>
+<wire x1="14.4198" y1="26.903" x2="14.4198" y2="29.697" width="0" layer="19" extent="1-1"/>
+<wire x1="3.39" y1="27.21" x2="12.5402" y2="29.697" width="0" layer="19" extent="1-1"/>
 <wire x1="25.7" y1="12.89" x2="29.24" y2="29.17" width="0" layer="19" extent="1-1"/>
 </signal>
 <signal name="VCC5V0">
@@ -880,15 +878,15 @@ design rules under a new name.</description>
 <contactref element="U1" pad="8"/>
 <contactref element="U1" pad="5"/>
 <contactref element="C8" pad="1"/>
-<wire x1="9.43" y1="24.953" x2="8.4902" y2="24.953" width="0" layer="19" extent="1-1"/>
-<wire x1="6.54" y1="24.95" x2="8.4902" y2="24.953" width="0" layer="19" extent="1-1"/>
-<wire x1="8.4748" y1="22.2132" x2="8.4902" y2="24.953" width="0" layer="19" extent="1-1"/>
-<wire x1="10.4052" y1="22.2132" x2="8.4748" y2="22.2132" width="0" layer="19" extent="1-1"/>
+<wire x1="12.5402" y1="26.903" x2="13.48" y2="26.903" width="0" layer="19" extent="1-1"/>
+<wire x1="12.4748" y1="25.0632" x2="12.5402" y2="26.903" width="0" layer="19" extent="1-1"/>
+<wire x1="14.4052" y1="25.0632" x2="12.4748" y2="25.0632" width="0" layer="19" extent="1-1"/>
+<wire x1="6.94" y1="27.4" x2="12.5402" y2="26.903" width="0" layer="19" extent="1-1"/>
 </signal>
 <signal name="VCC3V3">
 <contactref element="U1" pad="1"/>
 <contactref element="C9" pad="1"/>
-<wire x1="4.89" y1="18.54" x2="8.4748" y2="19.2668" width="0" layer="19" extent="1-1"/>
+<wire x1="9.99" y1="22.34" x2="12.4748" y2="22.1168" width="0" layer="19" extent="1-1"/>
 </signal>
 </signals>
 </board>
