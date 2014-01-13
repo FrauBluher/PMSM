@@ -695,6 +695,18 @@ Source:</description>
 </device>
 </devices>
 </deviceset>
+<deviceset name="MINIFITJR6PIN">
+<gates>
+<gate name="G$1" symbol="0039288060" x="-7.62" y="0"/>
+</gates>
+<devices>
+<device name="">
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+</devices>
+</deviceset>
 </devicesets>
 </library>
 </drawing>
