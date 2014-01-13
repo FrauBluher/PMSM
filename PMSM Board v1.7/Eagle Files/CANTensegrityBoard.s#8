@@ -8288,25 +8288,11 @@ Basic schematic elements and footprints for 0603, 1206, and PTH resistors.</desc
 <busses>
 </busses>
 <nets>
-<net name="N$11" class="0">
-<segment>
-<pinref part="U$15" gate="G$1" pin="9"/>
-<wire x1="165" y1="165" x2="167" y2="165" width="0.1524" layer="91"/>
-<label x="167" y="165" size="1.778" layer="95"/>
-</segment>
-</net>
 <net name="VCC5V5" class="0">
 <segment>
 <pinref part="U$15" gate="G$1" pin="10"/>
 <wire x1="165" y1="168" x2="167" y2="168" width="0.1524" layer="91"/>
 <label x="167" y="168" size="1.778" layer="95"/>
-</segment>
-</net>
-<net name="N$23" class="0">
-<segment>
-<pinref part="U$15" gate="G$1" pin="8"/>
-<wire x1="165" y1="162" x2="167" y2="162" width="0.1524" layer="91"/>
-<label x="167" y="162" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="CH_A+" class="0">

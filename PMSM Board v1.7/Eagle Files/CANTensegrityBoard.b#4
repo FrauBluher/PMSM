@@ -8,8 +8,8 @@
 </settings>
 <grid distance="1" unitdist="mm" unit="mm" style="lines" multiple="1" display="no" altdistance="0.1" altunitdist="mm" altunit="mm"/>
 <layers>
-<layer number="1" name="Top" color="4" fill="1" visible="no" active="yes"/>
-<layer number="2" name="Route2" color="3" fill="1" visible="no" active="yes"/>
+<layer number="1" name="Top" color="4" fill="1" visible="yes" active="yes"/>
+<layer number="2" name="Route2" color="3" fill="1" visible="yes" active="yes"/>
 <layer number="3" name="Route3" color="4" fill="3" visible="no" active="no"/>
 <layer number="4" name="Route4" color="1" fill="4" visible="no" active="no"/>
 <layer number="5" name="Route5" color="4" fill="4" visible="no" active="no"/>
@@ -22,7 +22,7 @@
 <layer number="12" name="Route12" color="1" fill="5" visible="no" active="no"/>
 <layer number="13" name="Route13" color="4" fill="5" visible="no" active="no"/>
 <layer number="14" name="Route14" color="1" fill="6" visible="no" active="no"/>
-<layer number="15" name="Route15" color="5" fill="1" visible="no" active="yes"/>
+<layer number="15" name="Route15" color="5" fill="1" visible="yes" active="yes"/>
 <layer number="16" name="Bottom" color="1" fill="1" visible="yes" active="yes"/>
 <layer number="17" name="Pads" color="2" fill="1" visible="yes" active="yes"/>
 <layer number="18" name="Vias" color="2" fill="1" visible="yes" active="yes"/>
@@ -32,7 +32,7 @@
 <layer number="22" name="bPlace" color="7" fill="1" visible="yes" active="yes"/>
 <layer number="23" name="tOrigins" color="15" fill="1" visible="yes" active="yes"/>
 <layer number="24" name="bOrigins" color="15" fill="1" visible="yes" active="yes"/>
-<layer number="25" name="tNames" color="7" fill="1" visible="no" active="yes"/>
+<layer number="25" name="tNames" color="7" fill="1" visible="yes" active="yes"/>
 <layer number="26" name="bNames" color="7" fill="1" visible="yes" active="yes"/>
 <layer number="27" name="tValues" color="7" fill="1" visible="no" active="yes"/>
 <layer number="28" name="bValues" color="7" fill="1" visible="no" active="yes"/>
@@ -1895,10 +1895,10 @@ design rules under a new name.</description>
 </element>
 <element name="R4" library="pavlo" package="SMT-REF" value="WSH2818R0100FEA" x="86.16" y="34.47" smashed="yes" rot="R180">
 <attribute name="NAME" x="81.2548" y="35.2578" size="1.016" layer="25" rot="R270"/>
-<attribute name="VALUE" x="89.0556" y="36.0702" size="1.27" layer="27" rot="R180"/>
+<attribute name="VALUE" x="85.0556" y="52.0702" size="1.27" layer="27" rot="R180"/>
 </element>
 <element name="R7" library="pavlo" package="SMT-REF" value="WSH2818R0100FEA" x="81.96" y="12.07" smashed="yes" rot="R180">
-<attribute name="VALUE" x="84.8556" y="13.6702" size="1.27" layer="27" rot="R180"/>
+<attribute name="VALUE" x="84.8556" y="53.6702" size="1.27" layer="27" rot="R180"/>
 </element>
 <element name="U$3" library="pavlo" package="TO127P600X120-5N" value="PSMN013-80YS" x="86.3" y="17.5" smashed="yes" rot="R180">
 <attribute name="VALUE" x="86.935" y="21.31" size="0.7" layer="27" ratio="5" rot="R180"/>
@@ -1907,13 +1907,13 @@ design rules under a new name.</description>
 <attribute name="VALUE" x="75.77" y="19.135" size="0.7" layer="27" ratio="5" rot="R270"/>
 </element>
 <element name="U$5" library="pavlo" package="TO127P600X120-5N" value="PSMN013-80YS" x="86.3" y="28.9" smashed="yes" rot="R180">
-<attribute name="VALUE" x="86.935" y="32.71" size="0.7" layer="27" ratio="5" rot="R180"/>
+<attribute name="VALUE" x="85.935" y="49.71" size="0.7" layer="27" ratio="5" rot="R180"/>
 </element>
 <element name="U$6" library="pavlo" package="TO127P600X120-5N" value="PSMN013-80YS" x="89.69" y="11.9" smashed="yes">
 <attribute name="VALUE" x="89.055" y="8.09" size="0.7" layer="27" ratio="5"/>
 </element>
 <element name="U$7" library="pavlo" package="TO127P600X120-5N" value="PSMN013-80YS" x="79.58" y="26.16" smashed="yes" rot="R270">
-<attribute name="VALUE" x="75.77" y="26.795" size="0.7" layer="27" ratio="5" rot="R270"/>
+<attribute name="VALUE" x="79.205" y="54.77" size="0.7" layer="27" ratio="5"/>
 </element>
 <element name="U$8" library="pavlo" package="TO127P600X120-5N" value="PSMN013-80YS" x="93.92" y="34.5" smashed="yes">
 <attribute name="VALUE" x="93.285" y="30.69" size="0.7" layer="27" ratio="5"/>
