@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE eagle SYSTEM "eagle.dtd">
-<eagle version="6.4">
+<eagle version="6.5.0">
 <drawing>
 <settings>
 <setting alwaysvectorfont="no"/>
@@ -2380,6 +2380,11 @@ design rules under a new name.</description>
 <wire x1="16.0198" y1="15.8894" x2="16.0198" y2="17.4198" width="0.3048" layer="1"/>
 <wire x1="16.0198" y1="17.4198" x2="15.8" y2="17.6" width="0.3048" layer="1"/>
 <contactref element="JP1" pad="6"/>
+<contactref element="U6" pad="38"/>
+<wire x1="18.8866" y1="25.1446" x2="17.8554" y2="25.1446" width="0.2032" layer="1"/>
+<via x="16" y="27.5" extent="1-16" drill="0.4" shape="square"/>
+<wire x1="16" y1="27.5" x2="16" y2="27" width="0.2032" layer="1"/>
+<wire x1="16" y1="27" x2="17.8554" y2="25.1446" width="0.2032" layer="1"/>
 </signal>
 <signal name="N$31">
 <contactref element="C20" pad="1"/>
@@ -4050,9 +4055,6 @@ design rules under a new name.</description>
 <wire x1="26.2526" y1="29.5134" x2="26.2526" y2="34.5526" width="0.254" layer="1"/>
 <wire x1="26.2526" y1="34.5526" x2="26.6" y2="34.9" width="0.254" layer="1"/>
 <wire x1="26.6" y1="34.9" x2="26.6" y2="36.05" width="0.254" layer="1"/>
-</signal>
-<signal name="N$5">
-<contactref element="U6" pad="38"/>
 </signal>
 <signal name="QEI_A">
 <contactref element="U6" pad="55"/>

@@ -17,12 +17,13 @@
 #include "DRV8301.h"
 #include "SPIdsPIC.h"
 #include "PMSM.h"
+#include <spi.h>
 #include "PMSMBoard.h"
 
-_FOSCSEL(FNOSC_FRC & IESO_OFF);
+_FOSCSEL(FNOSC_FRC & IESO_OFF & PWMLOCK_OFF);
 _FOSC(FCKSM_CSECMD & OSCIOFNC_OFF & POSCMD_NONE);
 _FWDT(FWDTEN_OFF);
-_FICD(ICS_PGD2);
+_FICD(ICS_PGD1 & JTAGEN_OFF);
 
 
 MotorInfo motorInformation;
@@ -30,35 +31,87 @@ DRV8301_Info motorDriverInfo;
 
 int main(void)
 {
+	int i;
 	ClockInit();
 	PinInit();
-	PMSM_Init(&motorInformation); //Fix Gate Control
-	TimersInit();
-	SPI2_Init();
-	DRV8301_Init(&motorDriverInfo);
 	MotorInit();
+	SPI3_Init();
+	TimersInit();
+	for (i = 0; i < 20; i++) {
+		WriteSPI3(0xDEAD);
+		while (SPI3STATbits.SPITBF);
+
+	}
+	PMSM_Init(&motorInformation); //Fix Gate Control
+	DRV8301_Init(&motorDriverInfo);
+
+	LED1 = 1;
+	LED2 = 1;
+	LED3 = 1;
+	LED4 = 1;
 
 	while (1) {
 	};
 	//Sit and Spin
 }
 
-/* Since we're just worried about getting data off of the IMU at a constant time
- * interval, we're going to just put it all of the stringification/sensing/sending
- * in this interrupt.  Usually a no-no, but this is fine.  Just don't use this in any
- * code that has any other timing requirements.
- */
 void __attribute__((__interrupt__, no_auto_psv)) _T1Interrupt(void)
 {
-	PDC1 = 0;
-	PDC2 = 0;
-	PDC3 = 0;
-
 	IFS0bits.T1IF = 0; // Clear Timer1 Interrupt Flag
 }
 
 void __attribute__((__interrupt__, no_auto_psv)) _T2Interrupt(void)
 {
+	int torque = 500;
+	if (HALL1 && HALL2 && !HALL3) {
+		GH_A_DC = 0;
+		GL_A_DC = 0;
+		GH_B_DC = torque;
+		GL_B_DC = 0;
+		GH_C_DC = 0;
+		GL_C_DC = torque;
+	} else if (!HALL1 && HALL2 && !HALL3) {
+		GH_A_DC = 0;
+		GL_A_DC = torque;
+		GH_B_DC = torque;
+		GL_B_DC = 0;
+		GH_C_DC = 0;
+		GL_C_DC = 0;
+	} else if (!HALL1 && HALL2 && HALL3) {
+		GH_A_DC = 0;
+		GL_A_DC = torque;
+		GH_B_DC = 0;
+		GL_B_DC = 0;
+		GH_C_DC = torque;
+		GL_C_DC = 0;
+	} else if (!HALL1 && !HALL2 && HALL3) {
+		GH_A_DC = 0;
+		GL_A_DC = 0;
+		GH_B_DC = 0;
+		GL_B_DC = torque;
+		GH_C_DC = torque;
+		GL_C_DC = 0;
+	} else if (HALL1 && !HALL2 && HALL3) {
+		GH_A_DC = torque;
+		GL_A_DC = 0;
+		GH_B_DC = 0;
+		GL_B_DC = torque;
+		GH_C_DC = 0;
+		GL_C_DC = 0;
+	} else if (HALL1 && HALL2 && HALL3) {
+		GH_A_DC = torque;
+		GL_A_DC = 0;
+		GH_B_DC = 0;
+		GL_B_DC = 0;
+		GH_C_DC = 0;
+		GL_C_DC = torque;
+	}
+	//	SetPosition();
+	//	SetTorque();
+	//	PMSM_Update();
+	DRV8301_UpdateStatus();
+
+	LED2 ^= 1;
 	IFS0bits.T2IF = 0; // Clear Timer1 Interrupt Flag
 }
 

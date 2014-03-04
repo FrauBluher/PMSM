@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE eagle SYSTEM "eagle.dtd">
-<eagle version="6.4">
+<eagle version="6.5.0">
 <drawing>
 <settings>
 <setting alwaysvectorfont="no"/>
 <setting verticaltext="up"/>
 </settings>
-<grid distance="1" unitdist="mm" unit="mm" style="lines" multiple="1" display="no" altdistance="0.1" altunitdist="mm" altunit="mm"/>
+<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="no" altdistance="0.01" altunitdist="inch" altunit="inch"/>
 <layers>
 <layer number="1" name="Top" color="4" fill="1" visible="no" active="no"/>
 <layer number="2" name="Route2" color="1" fill="3" visible="no" active="no"/>
@@ -7697,9 +7697,9 @@ Basic schematic elements and footprints for 0603, 1206, and PTH resistors.</desc
 <pinref part="JP3" gate="G$1" pin="4"/>
 </segment>
 <segment>
-<pinref part="U6" gate="A" pin="PGEC1/AN6/RPI38/RB6"/>
-<wire x1="114.3" y1="147.32" x2="111.76" y2="147.32" width="0.1524" layer="91"/>
-<label x="109.22" y="147.32" size="1.778" layer="95"/>
+<pinref part="U6" gate="A" pin="PGED1/AN7/RCV/RPI39/RB7"/>
+<wire x1="114.3" y1="144.78" x2="111.76" y2="144.78" width="0.1524" layer="91"/>
+<label x="109.22" y="144.78" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="PGC" class="0">
@@ -7709,9 +7709,9 @@ Basic schematic elements and footprints for 0603, 1206, and PTH resistors.</desc
 <pinref part="JP3" gate="G$1" pin="5"/>
 </segment>
 <segment>
-<pinref part="U6" gate="A" pin="PGED1/AN7/RCV/RPI39/RB7"/>
-<wire x1="114.3" y1="144.78" x2="111.76" y2="144.78" width="0.1524" layer="91"/>
-<label x="109.22" y="144.78" size="1.778" layer="95"/>
+<pinref part="U6" gate="A" pin="PGEC1/AN6/RPI38/RB6"/>
+<wire x1="114.3" y1="147.32" x2="111.76" y2="147.32" width="0.1524" layer="91"/>
+<label x="109.22" y="147.32" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="VCC3V3" class="3">
@@ -7767,6 +7767,10 @@ Basic schematic elements and footprints for 0603, 1206, and PTH resistors.</desc
 <segment>
 <pinref part="JP1" gate="G$1" pin="6"/>
 <wire x1="325.12" y1="96.52" x2="325.12" y2="99.06" width="0.1524" layer="91"/>
+</segment>
+<segment>
+<pinref part="U6" gate="A" pin="VDD_4"/>
+<wire x1="312.42" y1="121.92" x2="302.26" y2="121.92" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="AN4" class="0">
@@ -8010,12 +8014,6 @@ Basic schematic elements and footprints for 0603, 1206, and PTH resistors.</desc
 <pinref part="U6" gate="A" pin="TDI/AN13/PMA10/RPI45/RB13"/>
 <wire x1="114.3" y1="119.38" x2="111.76" y2="119.38" width="0.1524" layer="91"/>
 <label x="109.22" y="119.38" size="1.778" layer="95"/>
-</segment>
-</net>
-<net name="N$5" class="0">
-<segment>
-<pinref part="U6" gate="A" pin="VDD_4"/>
-<wire x1="312.42" y1="121.92" x2="302.26" y2="121.92" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="QEI_A" class="0">

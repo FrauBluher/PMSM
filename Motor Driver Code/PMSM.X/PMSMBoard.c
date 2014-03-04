@@ -33,9 +33,42 @@ void UART2Init(void)
 
 void MotorInit()
 {
-	//EN_GATE
-	TRISDbits.TRISD6 = 0;
-	LATDbits.LATD6 = 1;
+	/* Set PWM Period on Primary Time Base */
+	PTPER = 1000;
+	/* Set Phase Shift */
+	PHASE4 = 0;
+	SPHASE4 = 0;
+	PHASE2 = 0;
+	SPHASE2 = 0;
+	PHASE3 = 0;
+	SPHASE3 = 0;
+	/* Set Duty Cycles */
+	PDC2 = 0;
+	SDC2 = 0;
+	PDC3 = 0;
+	SDC3 = 0;
+	PDC4 = 0;
+	SDC4 = 0;
+	/* Set Dead Time Values */
+	DTR4 = DTR2 = DTR3 = 0;
+	ALTDTR4 = ALTDTR2 = ALTDTR3 = 0;
+	/* Set PWM Mode to Independent */
+	IOCON2 = IOCON3 = IOCON4 = 0xCC00;
+	//Set unused PWM outputs as GPIO driven
+	IOCON1 = 0;
+	IOCON5 = 0;
+	IOCON6 = 0;
+	/* Set Primary Time Base, Edge-Aligned Mode and Independent Duty Cycles */
+	PWMCON4 = PWMCON2 = PWMCON3 = 0x0000;
+	/* Configure Faults */
+	FCLCON4 = FCLCON2 = FCLCON3 = 0x0003;
+	/* 1:1 Prescaler */
+	PTCON2 = 0x0000;
+	/* Enable PWM Module */
+	PTCON = 0x8000;
+
+	EN_GATE = 1;
+	DC_CAL = 0;
 }
 
 void ClockInit(void)
@@ -59,7 +92,38 @@ void ClockInit(void)
 
 void PinInit(void)
 {
+	// 0 - Output, 1 - Input
+	TRIS_EN_GATE = 0;
+	TRIS_DC_CAL = 0;
+	
+	TRIS_HALL1 = 1;
+	TRIS_HALL2 = 1;
+	TRIS_HALL3 = 1;
 
+	TRISGbits.TRISG6 = 0;
+	TRISGbits.TRISG7 = 0;
+	TRISGbits.TRISG8 = 0;
+	TRISCbits.TRISC8 = 0;
+	TRISCbits.TRISC7 = 0;
+	TRISCbits.TRISC6 = 0;
+
+	TRIS_LED1 = 0;
+	TRIS_LED2 = 0;
+	TRIS_LED3 = 0;
+	TRIS_LED4 = 0;
+	
+	ANSELA = 0;
+	ANSELB = 0;
+	ANSELC = 0;
+	ANSELD = 0;
+	ANSELE = 0;
+	ANSELF = 0;
+	ANSELG = 0;
+
+	TRISCbits.TRISC7 = 0; //Pin 51, RP55, RC7
+	TRISCbits.TRISC6 = 0; //Pin 50, RP54, RC6
+	TRISGbits.TRISG6 = 0; //Pin 4, RP118, RG6
+	TRISBbits.TRISB14 = 1; //Pin 3, RPI47, RB14
 
 }
 
@@ -77,12 +141,14 @@ void TimersInit(void)
 	IEC0bits.T1IE = 1;
 	T1CONbits.TON = 1;
 
-	T2CON = 0; // Ensure Timer 2 is in reset
-	IFS0bits.T2IF = 0; // Clear Timer2 interrupt flag status bit
-	IPC1bits.T2IP2 = 1; // Set interrupt priority
-	IEC0bits.T2IE = 1; // Enable Timer 2 interrupt
-	PR2 = 0xF; // Load the timer period value with the prescalar value
-	T2CON = 0x8030; // Set Timer2 control register TON = 1, TCKPS1:TCKPS0 = 0b11 (1:256 prescaler)
-	T2CONbits.TCKPS = 3; // Set Timer2 control register TON = 1, TCKPS1:TCKPS0 = 0b11 (1:256 prescaler)
-	// Use system clock Fosc/2 = 40 MHz. Result is a 156,250 Hz clock.
+	T2CONbits.TON = 0;
+	T2CONbits.TCS = 0;
+	T2CONbits.TGATE = 0;
+	T2CONbits.TCKPS = 0b11; // Select 1:256 Prescaler
+	TMR2 = 0x00;
+	PR2 = 20;
+	IPC1bits.T2IP = 0x01;
+	IFS0bits.T2IF = 0;
+	IEC0bits.T2IE = 1;
+	T2CONbits.TON = 1;
 }

@@ -35,10 +35,10 @@
 /**
  * @brief Status and Control register values.
  */
-#define STATUS_REGISTER1_ADDR    0x0 //Fault reports
-#define STATUS_REGISTER2_ADDR    0x1 //Device ID and Fault Reports
-#define CONTROL_REGISTER1_ADDR   0x2
-#define CONTROL_REGISTER2_ADDR   0x3
+#define STATUS_REGISTER1_ADDR    0x0000 //Fault reports
+#define STATUS_REGISTER2_ADDR    0x0001 //Device ID and Fault Reports
+#define CONTROL_REGISTER1_ADDR   0x0002
+#define CONTROL_REGISTER2_ADDR   0x0003
 
 /**
  * @brief STATUS_REGISTER1 Data bit positions.
