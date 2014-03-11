@@ -26,9 +26,9 @@
  * @file	SPIdsPIC.h
  * @author 	Pavlo Manovi
  * @date	October, 2013
- * @brief 	This library provides methods for SPI3 on the PMSM Board v1.6
+ * @brief 	This library provides methods for SPI2 on the PMSM Board v1.6
  *
- * This file provides initialization/read/write methods for the SPI3 module
+ * This file provides initialization/read/write methods for the SPI2 module
  * on the dsPIC33EP256MC506 and the PMSM board as of v1.6. *
  */
 
@@ -42,10 +42,10 @@
 #define USED_I2C    I2C1
 
 /**
- * @brief Sets up SPI3 at a rate of 156,250Hz
+ * @brief Sets up SPI2 at a rate of 156,250Hz
  * @see spi.h for pound-define significance
  *
- * Note: Only SPI3 is remappable on the dsPIC33EPxxxMC506
+ * Note: Only SPI2 is remappable on the dsPIC33EPxxxMC506
  *
  * As of PMSM v1.6:
  *	Chip Select = RP56/RC8
@@ -53,7 +53,7 @@
  *	MISO = RP54
  *	SCLK = RP41
  */
-uint8_t SPI3_Init(void);
+uint8_t SPI2_Init(void);
 
 /**
  * @brief Writes 11 bits of data, to a 4 bit address.
@@ -61,14 +61,14 @@ uint8_t SPI3_Init(void);
  * @param data 11 bits of data to be written to an address
  * @return data word response
  */
-uint16_t SPI3_WriteToReg(uint16_t deviceRegister, uint16_t data);
+uint16_t SPI2_WriteToReg(uint16_t deviceRegister, uint16_t data);
 
 /**
  * @brief Reads the 11 bit register data at a 4 bit address
  * @param deviceRegister 4 bit address
  * @return data word response
  */
-uint16_t SPI3_ReadFromReg(uint16_t deviceRegister);
+uint16_t SPI2_ReadFromReg(uint16_t deviceRegister);
 
 #endif	/* SPIDSPIC_H */
 

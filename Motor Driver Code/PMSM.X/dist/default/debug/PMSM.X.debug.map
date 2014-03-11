@@ -6,7 +6,7 @@ Tool Name:
 Command:
   -p33EP512GM306 \
   -o \
-  dist/default/production/PMSM.X.production.elf \
+  dist/default/debug/PMSM.X.debug.elf \
   -L/opt/microchip/xc16/v1.20/bin/bin/.. \
   -L/opt/microchip/xc16/v1.20/bin/bin/../../lib \
   -L/opt/microchip/xc16/v1.20/bin/bin/../../lib/PIC24E \
@@ -21,15 +21,19 @@ Command:
   -L/opt/microchip/xc16/v1.20/bin/bin/../../support/dsPIC33E/gld \
   -L/opt/microchip/xc16/v1.20/bin/bin/../../lib/dsPIC33F \
   -L/opt/microchip/xc16/v1.20/bin/bin/../../support/dsPIC33F/gld \
-  build/default/production/main.o \
-  build/default/production/SPIdsPIC.o \
-  build/default/production/PMSM.o \
-  build/default/production/PMSM_Sinusoidal_Drive.o \
-  build/default/production/PMSM_Sinusoidal_Drive_data.o \
-  build/default/production/DRV8301.o \
-  build/default/production/PMSMBoard.o \
+  build/default/debug/main.o \
+  build/default/debug/SPIdsPIC.o \
+  build/default/debug/PMSM.o \
+  build/default/debug/PMSM_Sinusoidal_Drive.o \
+  build/default/debug/PMSM_Sinusoidal_Drive_data.o \
+  build/default/debug/DRV8301.o \
+  build/default/debug/PMSMBoard.o \
   --local-stack \
   --defsym=__MPLAB_BUILD=1 \
+  --defsym=__ICD2RAM=1 \
+  --defsym=__MPLAB_DEBUG=1 \
+  --defsym=__DEBUG=1 \
+  --defsym=__MPLAB_DEBUGGER_PK3=1 \
   -Tp33EP512GM306.gld.00 \
   --stack=16 \
   --check-sections \
@@ -42,7 +46,7 @@ Command:
   --stackguard=16 \
   --no-force-link \
   --smart-io \
-  -Map=dist/default/production/PMSM.X.production.map \
+  -Map=dist/default/debug/PMSM.X.debug.map \
   --report-mem \
   -start-group \
   --library=fx-elf \
@@ -54,23 +58,23 @@ Command:
 Archive member included because of file (symbol)
 
 /opt/microchip/xc16/v1.20/bin/bin/../../lib/dsPIC33E/libp33EP512GM306-elf.a(CloseSPI2.o)
-                              build/default/production/SPIdsPIC.o (_CloseSPI2)
+                              build/default/debug/SPIdsPIC.o (_CloseSPI2)
 /opt/microchip/xc16/v1.20/bin/bin/../../lib/dsPIC33E/libp33EP512GM306-elf.a(OpenSPI2.o)
-                              build/default/production/SPIdsPIC.o (_OpenSPI2)
+                              build/default/debug/SPIdsPIC.o (_OpenSPI2)
 /opt/microchip/xc16/v1.20/bin/bin/../../lib/dsPIC33E/libp33EP512GM306-elf.a(ReadSPI2.o)
-                              build/default/production/SPIdsPIC.o (_ReadSPI2)
+                              build/default/debug/SPIdsPIC.o (_ReadSPI2)
 /opt/microchip/xc16/v1.20/bin/bin/../../lib/libpic30-elf.a(crt0_extendedep.o)
                               (__resetPRI)
 /opt/microchip/xc16/v1.20/bin/bin/../../lib/libpic30-elf.a(data_init_extendedep.o)
                               /opt/microchip/xc16/v1.20/bin/bin/../../lib/libpic30-elf.a(crt0_extendedep.o) (__data_init_extended)
 /opt/microchip/xc16/v1.20/bin/bin/../../lib/libm-elf.a(addsf3.epeo)
-                              build/default/production/PMSM_Sinusoidal_Drive.o (___subsf3)
+                              build/default/debug/PMSM_Sinusoidal_Drive.o (___subsf3)
 /opt/microchip/xc16/v1.20/bin/bin/../../lib/libm-elf.a(cosf.epeo)
-                              build/default/production/PMSM_Sinusoidal_Drive.o (_cosf)
+                              build/default/debug/PMSM_Sinusoidal_Drive.o (_cosf)
 /opt/microchip/xc16/v1.20/bin/bin/../../lib/libm-elf.a(fgtge.epeo)
-                              build/default/production/PMSM_Sinusoidal_Drive.o (___gesf2)
+                              build/default/debug/PMSM_Sinusoidal_Drive.o (___gesf2)
 /opt/microchip/xc16/v1.20/bin/bin/../../lib/libm-elf.a(floatunsisf.epeo)
-                              build/default/production/PMSM.o (___floatunsisf)
+                              build/default/debug/PMSM.o (___floatunsisf)
 /opt/microchip/xc16/v1.20/bin/bin/../../lib/libm-elf.a(fpack.epeo)
                               /opt/microchip/xc16/v1.20/bin/bin/../../lib/libm-elf.a(addsf3.epeo) (__fpack)
 /opt/microchip/xc16/v1.20/bin/bin/../../lib/libm-elf.a(funpack2.epeo)
@@ -78,11 +82,11 @@ Archive member included because of file (symbol)
 /opt/microchip/xc16/v1.20/bin/bin/../../lib/libm-elf.a(futil.epeo)
                               /opt/microchip/xc16/v1.20/bin/bin/../../lib/libm-elf.a(addsf3.epeo) (__fPropagateNaN)
 /opt/microchip/xc16/v1.20/bin/bin/../../lib/libm-elf.a(mulsf3.epeo)
-                              build/default/production/PMSM_Sinusoidal_Drive.o (___mulsf3)
+                              build/default/debug/PMSM_Sinusoidal_Drive.o (___mulsf3)
 /opt/microchip/xc16/v1.20/bin/bin/../../lib/libm-elf.a(sincosf.epeo)
                               /opt/microchip/xc16/v1.20/bin/bin/../../lib/libm-elf.a(cosf.epeo) (__sincosf)
 /opt/microchip/xc16/v1.20/bin/bin/../../lib/libm-elf.a(sinf.epeo)
-                              build/default/production/PMSM_Sinusoidal_Drive.o (_sinf)
+                              build/default/debug/PMSM_Sinusoidal_Drive.o (_sinf)
 /opt/microchip/xc16/v1.20/bin/bin/../../lib/libm-elf.a(errno.epeo)
                               /opt/microchip/xc16/v1.20/bin/bin/../../lib/libm-elf.a(sincosf.epeo) (_errno)
 /opt/microchip/xc16/v1.20/bin/bin/../../lib/libm-elf.a(fcompare.epeo)
@@ -104,7 +108,7 @@ Archive member included because of file (symbol)
 /opt/microchip/xc16/v1.20/bin/bin/../../lib/libm-elf.a(floatdisf.epeo)
                               /opt/microchip/xc16/v1.20/bin/bin/../../lib/libm-elf.a(floatsisf.epeo) (___floatdisf)
 /opt/microchip/xc16/v1.20/bin/bin/../../lib/libc-elf.a(memset.epeo)
-                              build/default/production/PMSM_Sinusoidal_Drive.o (_memset)
+                              build/default/debug/PMSM_Sinusoidal_Drive.o (_memset)
 
 
 Program Memory  [Origin = 0x200, Length = 0x555ea]
@@ -113,20 +117,21 @@ section                    address   length (PC units)   length (bytes) (dec)
 -------                    -------   -----------------   --------------------
 .text                        0x200               0x568           0x81c  (2076)
 .const                       0x768                 0x2             0x3  (3)
-.text                        0x76a               0xb62          0x1113  (4371)
-.dinit                      0x12cc                0x50            0x78  (120)
+.text                        0x76a               0xb32          0x10cb  (4299)
+.dinit                      0x129c                0x50            0x78  (120)
 
-                     Total program memory used (bytes):         0x19aa  (6570) 1%
+                     Total program memory used (bytes):         0x1962  (6498) 1%
 
 
 Data Memory  [Origin = 0x1000, Length = 0xc000]
 
 section                    address      alignment gaps    total length  (dec)
 -------                    -------      --------------    -------------------
-.ndata                      0x1000                   0            0x34  (52)
-.nbss                       0x1034                   0            0x4c  (76)
+.icd                        0x1000                0x50            0x50  (80)
+.ndata                      0x1050                   0            0x34  (52)
+.nbss                       0x1084                   0            0x4c  (76)
 
-                        Total data memory used (bytes):           0x80  (128) <1%
+                        Total data memory used (bytes):           0xd0  (208) <1%
 
 
 Dynamic Memory Usage
@@ -134,34 +139,34 @@ Dynamic Memory Usage
 region                     address                      maximum length  (dec)
 ------                     -------                      ---------------------
 heap                             0                                   0  (0)
-stack                       0x1080                              0xbf80  (49024)
+stack                       0x10d0                              0xbf30  (48944)
 
-                        Maximum dynamic memory (bytes):         0xbf80  (49024)
+                        Maximum dynamic memory (bytes):         0xbf30  (48944)
 
 
 External Symbols in Data Memory (by address):
 
-                    0x1000                  _PMSM_Sinusoidal_Drive_P
-                    0x1034                  _motorInformation
-                    0x1042                  _motorDriverInfo
-                    0x1052                  _commandedAngle
-                    0x1056                  _torqueInput
-                    0x105a                  _fieldWeakening
-                    0x105e                  _PMSM_Sinusoidal_Drive_DWork
-                    0x106e                  _PMSM_Sinusoidal_Drive_M_
-                    0x107c                  _passedLocation
+                    0x1050                  _PMSM_Sinusoidal_Drive_P
+                    0x1084                  _motorInformation
+                    0x1092                  _motorDriverInfo
+                    0x10a2                  _commandedAngle
+                    0x10a6                  _torqueInput
+                    0x10aa                  _fieldWeakening
+                    0x10ae                  _PMSM_Sinusoidal_Drive_DWork
+                    0x10be                  _PMSM_Sinusoidal_Drive_M_
+                    0x10cc                  _passedLocation
 
 External Symbols in Data Memory (by name):
 
-                    0x105e                  _PMSM_Sinusoidal_Drive_DWork
-                    0x106e                  _PMSM_Sinusoidal_Drive_M_
-                    0x1000                  _PMSM_Sinusoidal_Drive_P
-                    0x1052                  _commandedAngle
-                    0x105a                  _fieldWeakening
-                    0x1042                  _motorDriverInfo
-                    0x1034                  _motorInformation
-                    0x107c                  _passedLocation
-                    0x1056                  _torqueInput
+                    0x10ae                  _PMSM_Sinusoidal_Drive_DWork
+                    0x10be                  _PMSM_Sinusoidal_Drive_M_
+                    0x1050                  _PMSM_Sinusoidal_Drive_P
+                    0x10a2                  _commandedAngle
+                    0x10aa                  _fieldWeakening
+                    0x1092                  _motorDriverInfo
+                    0x1084                  _motorInformation
+                    0x10cc                  _passedLocation
+                    0x10a6                  _torqueInput
 
 External Symbols in Program Memory (by address):
 
@@ -200,59 +205,59 @@ External Symbols in Program Memory (by address):
                   0x000736                  ___floatdisf
                   0x000756                  _memset
                   0x000768                  _PMSM_Sinusoidal_Drive_M
-                  0x00076a                  _main
-                  0x000a8a                  __T1Interrupt
-                  0x000a92                  __T2Interrupt
-                  0x000aca                  _PMSM_Sinusoidal_Drive_step
-                  0x000db6                  _PMSM_Sinusoidal_Drive_initialize
-                  0x000e14                  _PMSM_Sinusoidal_Drive_terminate
-                  0x000e1a                  _UART2Init
-                  0x000e5a                  _MotorInit
-                  0x000ee8                  _ClockInit
-                  0x000f3c                  _PinInit
-                  0x000f84                  _TimersInit
-                  0x000fd6                  _SPI2_Init
-                  0x001054                  _SPI2_WriteToReg
-                  0x0010be                  _SPI2_ReadFromReg
-                  0x00111e                  _DRV8301_Init
-                  0x0011d4                  _DRV8301_UpdateStatus
-                  0x001200                  _DRV8301_Reset
-                  0x001218                  _DRV8301_DCCalibration
-                  0x001252                  _PMSM_Init
-                  0x00126e                  _SetPosition
-                  0x00127c                  _SetTorque
-                  0x001294                  _SetAirGapFluxLinkage
-                  0x0012a2                  _PMSM_Update
+                  0x00076a                  _PMSM_Sinusoidal_Drive_step
+                  0x000a56                  _PMSM_Sinusoidal_Drive_initialize
+                  0x000ab4                  _PMSM_Sinusoidal_Drive_terminate
+                  0x000aba                  _main
+                  0x000dba                  __T1Interrupt
+                  0x000dc2                  __T2Interrupt
+                  0x000dfa                  _UART2Init
+                  0x000e3a                  _MotorInit
+                  0x000ec8                  _ClockInit
+                  0x000f1c                  _PinInit
+                  0x000f64                  _TimersInit
+                  0x000fb6                  _SPI2_Init
+                  0x001034                  _SPI2_WriteToReg
+                  0x00109e                  _SPI2_ReadFromReg
+                  0x0010fe                  _DRV8301_Init
+                  0x0011a4                  _DRV8301_UpdateStatus
+                  0x0011d0                  _DRV8301_Reset
+                  0x0011e8                  _DRV8301_DCCalibration
+                  0x001222                  _PMSM_Init
+                  0x00123e                  _SetPosition
+                  0x00124c                  _SetTorque
+                  0x001264                  _SetAirGapFluxLinkage
+                  0x001272                  _PMSM_Update
 
 External Symbols in Program Memory (by name):
 
-                  0x000ee8                  _ClockInit
+                  0x000ec8                  _ClockInit
                   0x0002d0                  _CloseSPI2
-                  0x001218                  _DRV8301_DCCalibration
-                  0x00111e                  _DRV8301_Init
-                  0x001200                  _DRV8301_Reset
-                  0x0011d4                  _DRV8301_UpdateStatus
-                  0x000e5a                  _MotorInit
+                  0x0011e8                  _DRV8301_DCCalibration
+                  0x0010fe                  _DRV8301_Init
+                  0x0011d0                  _DRV8301_Reset
+                  0x0011a4                  _DRV8301_UpdateStatus
+                  0x000e3a                  _MotorInit
                   0x0002dc                  _OpenSPI2
-                  0x001252                  _PMSM_Init
+                  0x001222                  _PMSM_Init
                   0x000768                  _PMSM_Sinusoidal_Drive_M
-                  0x000db6                  _PMSM_Sinusoidal_Drive_initialize
-                  0x000aca                  _PMSM_Sinusoidal_Drive_step
-                  0x000e14                  _PMSM_Sinusoidal_Drive_terminate
-                  0x0012a2                  _PMSM_Update
-                  0x000f3c                  _PinInit
+                  0x000a56                  _PMSM_Sinusoidal_Drive_initialize
+                  0x00076a                  _PMSM_Sinusoidal_Drive_step
+                  0x000ab4                  _PMSM_Sinusoidal_Drive_terminate
+                  0x001272                  _PMSM_Update
+                  0x000f1c                  _PinInit
                   0x0002e8                  _ReadSPI2
-                  0x000fd6                  _SPI2_Init
-                  0x0010be                  _SPI2_ReadFromReg
-                  0x001054                  _SPI2_WriteToReg
-                  0x001294                  _SetAirGapFluxLinkage
-                  0x00126e                  _SetPosition
-                  0x00127c                  _SetTorque
-                  0x000f84                  _TimersInit
-                  0x000e1a                  _UART2Init
+                  0x000fb6                  _SPI2_Init
+                  0x00109e                  _SPI2_ReadFromReg
+                  0x001034                  _SPI2_WriteToReg
+                  0x001264                  _SetAirGapFluxLinkage
+                  0x00123e                  _SetPosition
+                  0x00124c                  _SetTorque
+                  0x000f64                  _TimersInit
+                  0x000dfa                  _UART2Init
                   0x0002cc                  __DefaultInterrupt
-                  0x000a8a                  __T1Interrupt
-                  0x000a92                  __T2Interrupt
+                  0x000dba                  __T1Interrupt
+                  0x000dc2                  __T2Interrupt
                   0x00030a                  ___addsf3
                   0x0005c0                  ___eqsf2
                   0x0005c4                  ___fixsfsi
@@ -281,7 +286,7 @@ External Symbols in Program Memory (by name):
                   0x0004b4                  __sincosf
                   0x0003c4                  _cosf
                   0x00066a                  _fmodf
-                  0x00076a                  _main
+                  0x000aba                  _main
                   0x000756                  _memset
                   0x000586                  _sinf
 
@@ -306,14 +311,18 @@ FUID3            0x800ffe           0x000002
 
 Linker script and memory map
 
-LOAD build/default/production/main.o
-LOAD build/default/production/SPIdsPIC.o
-LOAD build/default/production/PMSM.o
-LOAD build/default/production/PMSM_Sinusoidal_Drive.o
-LOAD build/default/production/PMSM_Sinusoidal_Drive_data.o
-LOAD build/default/production/DRV8301.o
-LOAD build/default/production/PMSMBoard.o
+LOAD build/default/debug/main.o
+LOAD build/default/debug/SPIdsPIC.o
+LOAD build/default/debug/PMSM.o
+LOAD build/default/debug/PMSM_Sinusoidal_Drive.o
+LOAD build/default/debug/PMSM_Sinusoidal_Drive_data.o
+LOAD build/default/debug/DRV8301.o
+LOAD build/default/debug/PMSMBoard.o
                     0x0001                  __MPLAB_BUILD = 0x1
+                    0x0001                  __ICD2RAM = 0x1
+                    0x0001                  __MPLAB_DEBUG = 0x1
+                    0x0001                  __DEBUG = 0x1
+                    0x0001                  __MPLAB_DEBUGGER_PK3 = 0x1
 LOAD /opt/microchip/xc16/v1.20/bin/bin/../../lib/dsPIC33E/libp33EP512GM306-elf.a
                     0x557f0                  __FICD = 0x557f0
                     0x557f2                  __FPOR = 0x557f2
@@ -426,22 +435,22 @@ usercode
 
 __FICD            0x0557f0          0x2
  *(__FICD.sec*)
- __FICD.sec       0x0557f0          0x2 build/default/production/main.o
+ __FICD.sec       0x0557f0          0x2 build/default/debug/main.o
 
 __FPOR
  *(__FPOR.sec*)
 
 __FWDT            0x0557f4          0x2
  *(__FWDT.sec*)
- __FWDT.sec       0x0557f4          0x2 build/default/production/main.o
+ __FWDT.sec       0x0557f4          0x2 build/default/debug/main.o
 
 __FOSC            0x0557f6          0x2
  *(__FOSC.sec*)
- __FOSC.sec       0x0557f6          0x2 build/default/production/main.o
+ __FOSC.sec       0x0557f6          0x2 build/default/debug/main.o
 
 __FOSCSEL         0x0557f8          0x2
  *(__FOSCSEL.sec*)
- __FOSCSEL.sec    0x0557f8          0x2 build/default/production/main.o
+ __FOSCSEL.sec    0x0557f8          0x2 build/default/debug/main.o
 
 __FGS
  *(__FGS.sec*)
@@ -458,57 +467,61 @@ __FUID2
 __FUID3
  *(__FUID3.sec*)
 
+.icd                0x1000         0x50
+                    0x1050                  . = (. + DEFINED (__ICD2RAM)?0x50:0x0)
+ *fill*             0x1000         0x5000
+
 .comment
  *(.comment)
 
 .debug_info       0x000000       0x44bb
  *(.debug_info)
- .debug_info      0x000000        0xd53 build/default/production/main.o
- .debug_info      0x000d53        0x949 build/default/production/SPIdsPIC.o
- .debug_info      0x00169c        0x392 build/default/production/PMSM.o
- .debug_info      0x001a2e        0x568 build/default/production/PMSM_Sinusoidal_Drive.o
- .debug_info      0x001f96        0x2f8 build/default/production/PMSM_Sinusoidal_Drive_data.o
- .debug_info      0x00228e        0x62b build/default/production/DRV8301.o
- .debug_info      0x0028b9       0x1c02 build/default/production/PMSMBoard.o
+ .debug_info      0x000000        0xd53 build/default/debug/main.o
+ .debug_info      0x000d53        0x949 build/default/debug/SPIdsPIC.o
+ .debug_info      0x00169c        0x392 build/default/debug/PMSM.o
+ .debug_info      0x001a2e        0x568 build/default/debug/PMSM_Sinusoidal_Drive.o
+ .debug_info      0x001f96        0x2f8 build/default/debug/PMSM_Sinusoidal_Drive_data.o
+ .debug_info      0x00228e        0x62b build/default/debug/DRV8301.o
+ .debug_info      0x0028b9       0x1c02 build/default/debug/PMSMBoard.o
  *(.gnu.linkonce.wi.*)
 
 .debug_abbrev     0x000000        0x6b6
  *(.debug_abbrev)
- .debug_abbrev    0x000000        0x15a build/default/production/main.o
- .debug_abbrev    0x00015a        0x10d build/default/production/SPIdsPIC.o
- .debug_abbrev    0x000267         0xc7 build/default/production/PMSM.o
- .debug_abbrev    0x00032e        0x10e build/default/production/PMSM_Sinusoidal_Drive.o
- .debug_abbrev    0x00043c         0x6d build/default/production/PMSM_Sinusoidal_Drive_data.o
- .debug_abbrev    0x0004a9         0xf3 build/default/production/DRV8301.o
- .debug_abbrev    0x00059c        0x11a build/default/production/PMSMBoard.o
+ .debug_abbrev    0x000000        0x15a build/default/debug/main.o
+ .debug_abbrev    0x00015a        0x10d build/default/debug/SPIdsPIC.o
+ .debug_abbrev    0x000267         0xc7 build/default/debug/PMSM.o
+ .debug_abbrev    0x00032e        0x10e build/default/debug/PMSM_Sinusoidal_Drive.o
+ .debug_abbrev    0x00043c         0x6d build/default/debug/PMSM_Sinusoidal_Drive_data.o
+ .debug_abbrev    0x0004a9         0xf3 build/default/debug/DRV8301.o
+ .debug_abbrev    0x00059c        0x11a build/default/debug/PMSMBoard.o
 
-.debug_line       0x000000       0x10d6
+.debug_line       0x000000       0x10b6
  *(.debug_line)
- .debug_line      0x000000        0x398 build/default/production/main.o
- .debug_line      0x000398        0x23a build/default/production/SPIdsPIC.o
- .debug_line      0x0005d2        0x187 build/default/production/PMSM.o
- .debug_line      0x000759        0x2ba build/default/production/PMSM_Sinusoidal_Drive.o
- .debug_line      0x000a13         0x8e build/default/production/PMSM_Sinusoidal_Drive_data.o
- .debug_line      0x000aa1        0x232 build/default/production/DRV8301.o
- .debug_line      0x000cd3        0x403 build/default/production/PMSMBoard.o
+ .debug_line      0x000000        0x388 build/default/debug/main.o
+ .debug_line      0x000388        0x23a build/default/debug/SPIdsPIC.o
+ .debug_line      0x0005c2        0x187 build/default/debug/PMSM.o
+ .debug_line      0x000749        0x2ba build/default/debug/PMSM_Sinusoidal_Drive.o
+ .debug_line      0x000a03         0x8e build/default/debug/PMSM_Sinusoidal_Drive_data.o
+ .debug_line      0x000a91        0x222 build/default/debug/DRV8301.o
+ .debug_line      0x000cb3        0x403 build/default/debug/PMSMBoard.o
 
 .debug_frame      0x000000        0x1e8
  *(.debug_frame)
- .debug_frame     0x000000         0x44 build/default/production/main.o
- .debug_frame     0x000044         0x44 build/default/production/SPIdsPIC.o
- .debug_frame     0x000088         0x64 build/default/production/PMSM.o
- .debug_frame     0x0000ec         0x44 build/default/production/PMSM_Sinusoidal_Drive.o
- .debug_frame     0x000130         0x54 build/default/production/DRV8301.o
- .debug_frame     0x000184         0x64 build/default/production/PMSMBoard.o
+ .debug_frame     0x000000         0x44 build/default/debug/main.o
+ .debug_frame     0x000044         0x44 build/default/debug/SPIdsPIC.o
+ .debug_frame     0x000088         0x64 build/default/debug/PMSM.o
+ .debug_frame     0x0000ec         0x44 build/default/debug/PMSM_Sinusoidal_Drive.o
+ .debug_frame     0x000130         0x54 build/default/debug/DRV8301.o
+ .debug_frame     0x000184         0x64 build/default/debug/PMSMBoard.o
 
 .debug_str        0x000000        0x229
  *(.debug_str)
- .debug_str       0x000000         0x55 build/default/production/main.o
- .debug_str       0x000055         0x39 build/default/production/SPIdsPIC.o
- .debug_str       0x00008e         0x55 build/default/production/PMSM.o
- .debug_str       0x0000e3         0xae build/default/production/PMSM_Sinusoidal_Drive.o
- .debug_str       0x000191          0xe build/default/production/DRV8301.o
- .debug_str       0x00019f         0x8a build/default/production/PMSMBoard.o
+ .debug_str       0x000000         0x55 build/default/debug/main.o
+ .debug_str       0x000055         0x39 build/default/debug/SPIdsPIC.o
+ .debug_str       0x00008e         0x55 build/default/debug/PMSM.o
+ .debug_str       0x0000e3         0xae build/default/debug/PMSM_Sinusoidal_Drive.o
+ .debug_str       0x000191          0xe build/default/debug/DRV8301.o
+ .debug_str       0x00019f         0x8a build/default/debug/PMSMBoard.o
 
 .debug_loc
  *(.debug_loc)
@@ -520,19 +533,19 @@ __FUID3
                   0x000000        0x34a
  *(.debug_pubnames)
  .debug_pubnames
-                  0x000000         0x91 build/default/production/main.o
+                  0x000000         0x91 build/default/debug/main.o
  .debug_pubnames
-                  0x000091         0x49 build/default/production/SPIdsPIC.o
+                  0x000091         0x49 build/default/debug/SPIdsPIC.o
  .debug_pubnames
-                  0x0000da         0x7a build/default/production/PMSM.o
+                  0x0000da         0x7a build/default/debug/PMSM.o
  .debug_pubnames
-                  0x000154        0x109 build/default/production/PMSM_Sinusoidal_Drive.o
+                  0x000154        0x109 build/default/debug/PMSM_Sinusoidal_Drive.o
  .debug_pubnames
-                  0x00025d         0x2e build/default/production/PMSM_Sinusoidal_Drive_data.o
+                  0x00025d         0x2e build/default/debug/PMSM_Sinusoidal_Drive_data.o
  .debug_pubnames
-                  0x00028b         0x68 build/default/production/DRV8301.o
+                  0x00028b         0x68 build/default/debug/DRV8301.o
  .debug_pubnames
-                  0x0002f3         0x57 build/default/production/PMSMBoard.o
+                  0x0002f3         0x57 build/default/debug/PMSMBoard.o
 
 .debug_ranges
  *(.debug_ranges)
@@ -540,17 +553,17 @@ __FUID3
 .debug_aranges    0x000000         0x90
  *(.debug_aranges)
  .debug_aranges
-                  0x000000         0x18 build/default/production/main.o
+                  0x000000         0x18 build/default/debug/main.o
  .debug_aranges
-                  0x000018         0x18 build/default/production/SPIdsPIC.o
+                  0x000018         0x18 build/default/debug/SPIdsPIC.o
  .debug_aranges
-                  0x000030         0x18 build/default/production/PMSM.o
+                  0x000030         0x18 build/default/debug/PMSM.o
  .debug_aranges
-                  0x000048         0x18 build/default/production/PMSM_Sinusoidal_Drive.o
+                  0x000048         0x18 build/default/debug/PMSM_Sinusoidal_Drive.o
  .debug_aranges
-                  0x000060         0x18 build/default/production/DRV8301.o
+                  0x000060         0x18 build/default/debug/DRV8301.o
  .debug_aranges
-                  0x000078         0x18 build/default/production/PMSMBoard.o
+                  0x000078         0x18 build/default/debug/PMSMBoard.o
 
 .ivt              0x000004        0x13e
                   0x000004          0x4 LONG 0x2cc DEFINED (__OscillatorFail)?ABSOLUTE (__OscillatorFail):ABSOLUTE (__DefaultInterrupt)
@@ -564,11 +577,11 @@ __FUID3
                   0x000014          0x4 LONG 0x2cc DEFINED (__INT0Interrupt)?ABSOLUTE (__INT0Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000016          0x4 LONG 0x2cc DEFINED (__IC1Interrupt)?ABSOLUTE (__IC1Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000018          0x4 LONG 0x2cc DEFINED (__OC1Interrupt)?ABSOLUTE (__OC1Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x00001a          0x4 LONG 0xa8a DEFINED (__T1Interrupt)?ABSOLUTE (__T1Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x00001a          0x4 LONG 0xdba DEFINED (__T1Interrupt)?ABSOLUTE (__T1Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x00001c          0x4 LONG 0x2cc DEFINED (__DMA0Interrupt)?ABSOLUTE (__DMA0Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x00001e          0x4 LONG 0x2cc DEFINED (__IC2Interrupt)?ABSOLUTE (__IC2Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000020          0x4 LONG 0x2cc DEFINED (__OC2Interrupt)?ABSOLUTE (__OC2Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x000022          0x4 LONG 0xa92 DEFINED (__T2Interrupt)?ABSOLUTE (__T2Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x000022          0x4 LONG 0xdc2 DEFINED (__T2Interrupt)?ABSOLUTE (__T2Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000024          0x4 LONG 0x2cc DEFINED (__T3Interrupt)?ABSOLUTE (__T3Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000026          0x4 LONG 0x2cc DEFINED (__SPI1ErrInterrupt)?ABSOLUTE (__SPI1ErrInterrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000028          0x4 LONG 0x2cc DEFINED (__SPI1Interrupt)?ABSOLUTE (__SPI1Interrupt):ABSOLUTE (__DefaultInterrupt)
@@ -2548,43 +2561,43 @@ LOAD /opt/microchip/xc16/v1.20/bin/bin/../../lib/libpic30-elf.a
 LOAD /opt/microchip/xc16/v1.20/bin/bin/../../lib/libm-elf.a
 LOAD /opt/microchip/xc16/v1.20/bin/bin/../../lib/libc-elf.a
 END GROUP
-OUTPUT(dist/default/production/PMSM.X.production.elf elf32-pic30)
+OUTPUT(dist/default/debug/PMSM.X.debug.elf elf32-pic30)
 LOAD default_isr
 LOAD data_init
 
 .debug_pubtypes
                   0x000090        0x5f4
  .debug_pubtypes
-                  0x000090        0x134 build/default/production/main.o
+                  0x000090        0x134 build/default/debug/main.o
  .debug_pubtypes
-                  0x0001c4         0xb7 build/default/production/SPIdsPIC.o
+                  0x0001c4         0xb7 build/default/debug/SPIdsPIC.o
  .debug_pubtypes
-                  0x00027b         0x5a build/default/production/PMSM.o
+                  0x00027b         0x5a build/default/debug/PMSM.o
  .debug_pubtypes
-                  0x0002d5         0xe6 build/default/production/PMSM_Sinusoidal_Drive.o
+                  0x0002d5         0xe6 build/default/debug/PMSM_Sinusoidal_Drive.o
  .debug_pubtypes
-                  0x0003bb         0x68 build/default/production/PMSM_Sinusoidal_Drive_data.o
+                  0x0003bb         0x68 build/default/debug/PMSM_Sinusoidal_Drive_data.o
  .debug_pubtypes
-                  0x000423         0xa1 build/default/production/DRV8301.o
+                  0x000423         0xa1 build/default/debug/DRV8301.o
  .debug_pubtypes
-                  0x0004c4        0x1c0 build/default/production/PMSMBoard.o
+                  0x0004c4        0x1c0 build/default/debug/PMSMBoard.o
 
 __c30_signature
                   0x000684         0xc6
  __c30_signature
-                  0x000684          0x6 build/default/production/main.o
+                  0x000684          0x6 build/default/debug/main.o
  __c30_signature
-                  0x00068a          0x6 build/default/production/SPIdsPIC.o
+                  0x00068a          0x6 build/default/debug/SPIdsPIC.o
  __c30_signature
-                  0x000690          0x6 build/default/production/PMSM.o
+                  0x000690          0x6 build/default/debug/PMSM.o
  __c30_signature
-                  0x000696          0x6 build/default/production/PMSM_Sinusoidal_Drive.o
+                  0x000696          0x6 build/default/debug/PMSM_Sinusoidal_Drive.o
  __c30_signature
-                  0x00069c          0x6 build/default/production/PMSM_Sinusoidal_Drive_data.o
+                  0x00069c          0x6 build/default/debug/PMSM_Sinusoidal_Drive_data.o
  __c30_signature
-                  0x0006a2          0x6 build/default/production/DRV8301.o
+                  0x0006a2          0x6 build/default/debug/DRV8301.o
  __c30_signature
-                  0x0006a8          0x6 build/default/production/PMSMBoard.o
+                  0x0006a8          0x6 build/default/debug/PMSMBoard.o
  __c30_signature
                   0x0006ae          0x6 /opt/microchip/xc16/v1.20/bin/bin/../../lib/dsPIC33E/libp33EP512GM306-elf.a(CloseSPI2.o)
  __c30_signature
@@ -2638,61 +2651,61 @@ __c30_signature
  __c30_signature
                   0x000744          0x6 /opt/microchip/xc16/v1.20/bin/bin/../../lib/libc-elf.a(memset.epeo)
 
-.ndata              0x1000         0x34
- .ndata             0x1000         0x34 build/default/production/PMSM_Sinusoidal_Drive_data.o
-                    0x1000                  _PMSM_Sinusoidal_Drive_P
+.ndata              0x1050         0x34
+ .ndata             0x1050         0x34 build/default/debug/PMSM_Sinusoidal_Drive_data.o
+                    0x1050                  _PMSM_Sinusoidal_Drive_P
 
-.nbss               0x1034         0x4c
- .nbss              0x1034         0x1e build/default/production/main.o
-                    0x1034                  _motorInformation
-                    0x1042                  _motorDriverInfo
- .nbss              0x1052         0x1e build/default/production/PMSM_Sinusoidal_Drive.o
-                    0x1052                  _commandedAngle
-                    0x1056                  _torqueInput
-                    0x105a                  _fieldWeakening
-                    0x105e                  _PMSM_Sinusoidal_Drive_DWork
-                    0x106e                  _PMSM_Sinusoidal_Drive_M_
- .nbss              0x1070          0x8 build/default/production/SPIdsPIC.o
- .nbss              0x1078          0x4 build/default/production/DRV8301.o
- .nbss              0x107c          0x2 build/default/production/PMSM.o
-                    0x107c                  _passedLocation
- .nbss              0x107e          0x2 /opt/microchip/xc16/v1.20/bin/bin/../../lib/libm-elf.a(errno.epeo)
-                    0x107e                  _errno
+.nbss               0x1084         0x4c
+ .nbss              0x1084         0x1e build/default/debug/main.o
+                    0x1084                  _motorInformation
+                    0x1092                  _motorDriverInfo
+ .nbss              0x10a2         0x1e build/default/debug/PMSM_Sinusoidal_Drive.o
+                    0x10a2                  _commandedAngle
+                    0x10a6                  _torqueInput
+                    0x10aa                  _fieldWeakening
+                    0x10ae                  _PMSM_Sinusoidal_Drive_DWork
+                    0x10be                  _PMSM_Sinusoidal_Drive_M_
+ .nbss              0x10c0          0x8 build/default/debug/SPIdsPIC.o
+ .nbss              0x10c8          0x4 build/default/debug/DRV8301.o
+ .nbss              0x10cc          0x2 build/default/debug/PMSM.o
+                    0x10cc                  _passedLocation
+ .nbss              0x10ce          0x2 /opt/microchip/xc16/v1.20/bin/bin/../../lib/libm-elf.a(errno.epeo)
+                    0x10ce                  _errno
 
 .const              0x8768          0x2 load address 0x000768  
- .const             0x8768          0x2 build/default/production/PMSM_Sinusoidal_Drive.o
+ .const             0x8768          0x2 build/default/debug/PMSM_Sinusoidal_Drive.o
                     0x8768                  _PMSM_Sinusoidal_Drive_M
 
-.text             0x00076a        0xb62
- .text            0x00076a        0x360 build/default/production/main.o
-                  0x00076a                  _main
-                  0x000a8a                  __T1Interrupt
-                  0x000a92                  __T2Interrupt
- .text            0x000aca        0x350 build/default/production/PMSM_Sinusoidal_Drive.o
-                  0x000aca                  _PMSM_Sinusoidal_Drive_step
-                  0x000db6                  _PMSM_Sinusoidal_Drive_initialize
-                  0x000e14                  _PMSM_Sinusoidal_Drive_terminate
- .text            0x000e1a        0x1bc build/default/production/PMSMBoard.o
-                  0x000e1a                  _UART2Init
-                  0x000e5a                  _MotorInit
-                  0x000ee8                  _ClockInit
-                  0x000f3c                  _PinInit
-                  0x000f84                  _TimersInit
- .text            0x000fd6        0x148 build/default/production/SPIdsPIC.o
-                  0x000fd6                  _SPI2_Init
-                  0x001054                  _SPI2_WriteToReg
-                  0x0010be                  _SPI2_ReadFromReg
- .text            0x00111e        0x134 build/default/production/DRV8301.o
-                  0x00111e                  _DRV8301_Init
-                  0x0011d4                  _DRV8301_UpdateStatus
-                  0x001200                  _DRV8301_Reset
-                  0x001218                  _DRV8301_DCCalibration
- .text            0x001252         0x7a build/default/production/PMSM.o
-                  0x001252                  _PMSM_Init
-                  0x00126e                  _SetPosition
-                  0x00127c                  _SetTorque
-                  0x001294                  _SetAirGapFluxLinkage
-                  0x0012a2                  _PMSM_Update
+.text             0x00076a        0xb32
+ .text            0x00076a        0x350 build/default/debug/PMSM_Sinusoidal_Drive.o
+                  0x00076a                  _PMSM_Sinusoidal_Drive_step
+                  0x000a56                  _PMSM_Sinusoidal_Drive_initialize
+                  0x000ab4                  _PMSM_Sinusoidal_Drive_terminate
+ .text            0x000aba        0x340 build/default/debug/main.o
+                  0x000aba                  _main
+                  0x000dba                  __T1Interrupt
+                  0x000dc2                  __T2Interrupt
+ .text            0x000dfa        0x1bc build/default/debug/PMSMBoard.o
+                  0x000dfa                  _UART2Init
+                  0x000e3a                  _MotorInit
+                  0x000ec8                  _ClockInit
+                  0x000f1c                  _PinInit
+                  0x000f64                  _TimersInit
+ .text            0x000fb6        0x148 build/default/debug/SPIdsPIC.o
+                  0x000fb6                  _SPI2_Init
+                  0x001034                  _SPI2_WriteToReg
+                  0x00109e                  _SPI2_ReadFromReg
+ .text            0x0010fe        0x124 build/default/debug/DRV8301.o
+                  0x0010fe                  _DRV8301_Init
+                  0x0011a4                  _DRV8301_UpdateStatus
+                  0x0011d0                  _DRV8301_Reset
+                  0x0011e8                  _DRV8301_DCCalibration
+ .text            0x001222         0x7a build/default/debug/PMSM.o
+                  0x001222                  _PMSM_Init
+                  0x00123e                  _SetPosition
+                  0x00124c                  _SetTorque
+                  0x001264                  _SetAirGapFluxLinkage
+                  0x001272                  _PMSM_Update
 
-.dinit            0x0012cc         0x50
- .dinit           0x0012cc         0x50 data_init
+.dinit            0x00129c         0x50
+ .dinit           0x00129c         0x50 data_init

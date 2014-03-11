@@ -123,7 +123,7 @@ void PinInit(void)
 	TRISCbits.TRISC7 = 0; //Pin 51, RP55, RC7
 	TRISCbits.TRISC6 = 0; //Pin 50, RP54, RC6
 	TRISGbits.TRISG6 = 0; //Pin 4, RP118, RG6
-	TRISBbits.TRISB14 = 1; //Pin 3, RPI47, RB14
+	TRISBbits.TRISB15 = 1; //Pin 3, RPI47, RB14
 
 }
 
@@ -133,10 +133,10 @@ void TimersInit(void)
 	T1CONbits.TON = 0;
 	T1CONbits.TCS = 0;
 	T1CONbits.TGATE = 0;
-	T1CONbits.TCKPS = 0b11; // Select 1:256 Prescaler
+	T1CONbits.TCKPS = 0b00; // Select 1:256 Prescaler
 	TMR1 = 0x00;
-	PR1 = 400;
-	IPC0bits.T1IP = 0x01;
+	PR1 = 0;
+	IPC0bits.T1IP = 7;
 	IFS0bits.T1IF = 0;
 	IEC0bits.T1IE = 1;
 	T1CONbits.TON = 1;
@@ -146,7 +146,7 @@ void TimersInit(void)
 	T2CONbits.TGATE = 0;
 	T2CONbits.TCKPS = 0b11; // Select 1:256 Prescaler
 	TMR2 = 0x00;
-	PR2 = 20;
+	PR2 = 1200;
 	IPC1bits.T2IP = 0x01;
 	IFS0bits.T2IF = 0;
 	IEC0bits.T2IE = 1;

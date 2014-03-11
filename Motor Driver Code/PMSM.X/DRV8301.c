@@ -54,10 +54,10 @@ uint8_t DRV8301_Init(DRV8301_Info *drv8301Info)
 	}
 
 	drv8301Info->controlRegister1.GATE_CURRENT = GATE_CURRENT_1_7A;
-	drv8301Info->controlRegister1.PWM_MODE = PWM_MODE_SIX_CHAN;
+	drv8301Info->controlRegister1.PWM_MODE = PWM_MODE_THREE_CHAN;
 	drv8301Info->controlRegister1.GATE_RESET = GATE_RESET_OFF;
 	drv8301Info->controlRegister1.OC_MODE = GD_OC_MODE_LIMIT;
-	drv8301Info->controlRegister1.OC_ADJ_SET = OC_ADJ_SET_0_511V;
+	drv8301Info->controlRegister1.OC_ADJ_SET = OC_ADJ_SET_0_926V;
 
 	drv8301Info->controlRegister2.DC_CAL_CH1 = DC_CAL_CH1_OFF;
 	drv8301Info->controlRegister2.DC_CAL_CH2 = DC_CAL_CH2_OFF;
@@ -65,20 +65,22 @@ uint8_t DRV8301_Init(DRV8301_Info *drv8301Info)
 	drv8301Info->controlRegister2.OC_TOFF = OC_TOFF_CBC;
 	drv8301Info->controlRegister2.OCTW_SET = OCTW_SET_OCTW;
 
-	SPI3_WriteToReg(CONTROL_REGISTER1_ADDR,
+	//Dummy Reads
+	tempStatus.wholeRegister = SPI2_ReadFromReg(CONTROL_REGISTER1_ADDR);
+	tempStatus.wholeRegister = SPI2_ReadFromReg(CONTROL_REGISTER2_ADDR);
+
+	SPI2_WriteToReg(CONTROL_REGISTER1_ADDR,
 		drv8301Info->controlRegister1.wholeRegister);
-	SPI3_WriteToReg(CONTROL_REGISTER2_ADDR,
+	SPI2_WriteToReg(CONTROL_REGISTER2_ADDR,
 		drv8301Info->controlRegister2.wholeRegister);
 
-	tempStatus.wholeRegister = SPI3_ReadFromReg(STATUS_REGISTER2_ADDR);
+	tempStatus.wholeRegister = SPI2_ReadFromReg(CONTROL_REGISTER1_ADDR);
+	tempStatus.wholeRegister = SPI2_ReadFromReg(CONTROL_REGISTER2_ADDR);
 
-	if (tempStatus.DEVICE_ID != 0) {
-		passedInfoStruct = drv8301Info;
-		initGuardDRV8301 = 1;
-		return(EXIT_SUCCESS);
-	} else {
-		return(EXIT_FAILURE);
-	}
+	passedInfoStruct = drv8301Info;
+	initGuardDRV8301 = 1;
+
+	return(EXIT_SUCCESS);
 }
 
 /**
@@ -88,9 +90,11 @@ uint8_t DRV8301_Init(DRV8301_Info *drv8301Info)
 void DRV8301_UpdateStatus(void)
 {
 	passedInfoStruct->statusRegister1.wholeRegister =
-		SPI3_ReadFromReg(STATUS_REGISTER1_ADDR);
+		SPI2_ReadFromReg(STATUS_REGISTER1_ADDR);
 	passedInfoStruct->statusRegister1.wholeRegister =
-		SPI3_ReadFromReg(STATUS_REGISTER1_ADDR);
+		SPI2_ReadFromReg(STATUS_REGISTER2_ADDR); //TODO: Change this to Register 2
+	SPI2_ReadFromReg(CONTROL_REGISTER1_ADDR);
+	SPI2_ReadFromReg(CONTROL_REGISTER2_ADDR);
 	passedInfoStruct->newData = 1;
 }
 
@@ -100,7 +104,7 @@ void DRV8301_UpdateStatus(void)
 void DRV8301_Reset(void)
 {
 	passedInfoStruct->controlRegister1.GATE_RESET = GATE_RESET_ON;
-	SPI3_WriteToReg(CONTROL_REGISTER1_ADDR,
+	SPI2_WriteToReg(CONTROL_REGISTER1_ADDR,
 		passedInfoStruct->controlRegister1.wholeRegister);
 }
 
@@ -118,6 +122,6 @@ void DRV8301_DCCalibration(uint8_t enable)
 		passedInfoStruct->controlRegister2.DC_CAL_CH2 = DC_CAL_CH2_OFF;
 	}
 
-	SPI3_WriteToReg(CONTROL_REGISTER2_ADDR,
+	SPI2_WriteToReg(CONTROL_REGISTER2_ADDR,
 		passedInfoStruct->controlRegister2.wholeRegister);
 }

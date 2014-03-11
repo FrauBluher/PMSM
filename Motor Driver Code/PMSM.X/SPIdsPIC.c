@@ -26,9 +26,9 @@
  * @file	SPIdsPIC.c
  * @author 	Pavlo Manovi
  * @date	October, 2013
- * @brief 	This library provides implementation of SPI3 for the PMSM Board v1.6
+ * @brief 	This library provides implementation of SPI2 for the PMSM Board v1.6
  *
- * This file provides initialization/read/write implemenation of the SPI3 module
+ * This file provides initialization/read/write implemenation of the SPI2 module
  * on the dsPIC33EP256MC506 and the PMSM board as of v1.6.
  */
 
@@ -41,13 +41,13 @@
 #include "SPIdsPIC.h"
 #include "PMSMBoard.h"
 
-#define SPI_INTERRUPT
+//#define SPI_INTERRUPT
 
 static uint8_t initGuard = 0;
 static uint16_t config1, config2, config3;
 
 /**
- * @brief Sets up SPI3 at a rate of 156,250Hz
+ * @brief Sets up SPI2 at a rate of 156,250Hz
  * @see spi.h for pound-define significance
  *
  * Note: Only SPI3 is remappable on the dsPIC33EPxxxMC506
@@ -58,27 +58,12 @@ static uint16_t config1, config2, config3;
  *      MISO = RP47
  *      SCLK = RP54 (Greenwire fix to EXT3)
  */
-uint8_t SPI3_Init(void)
+uint8_t SPI2_Init(void)
 {
 	//Make sure init only gets called once.
 	if (initGuard == 1) {
 		return(EXIT_FAILURE);
 	}
-	CloseSPI3();
-
-	config1 = ENABLE_SCK_PIN & ENABLE_SDO_PIN &
-		SPI_MODE16_ON & SPI_SMP_OFF &
-		SPI_CKE_OFF & SLAVE_ENABLE_OFF &
-		MASTER_ENABLE_ON & CLK_POL_ACTIVE_LOW &
-		SEC_PRESCAL_7_1 & PRI_PRESCAL_64_1;
-
-	config2 = FRAME_ENABLE_OFF & FRAME_SYNC_OUTPUT;
-
-	config3 = SPI_ENABLE & SPI_IDLE_CON & SPI_RX_OVFLOW_CLR;
-
-#ifdef SPI_INTERRUPT
-	ConfigIntSPI3(SPI_INT_EN & SPI_INT_PRI_6);
-#endif
 
 	//Unlock PPS Registers
 	__builtin_write_OSCCONL(OSCCON & ~(1 << 6));
@@ -87,9 +72,15 @@ uint8_t SPI3_Init(void)
 #ifdef __33EP512GM306_H
 
 	//RPOR6bits.RP55R = 0x0021;
-	RPINR29bits.SDI3R = 47;
-	RPOR10bits.RP118R = 0x001F;
-	RPOR6bits.RP54R = 0x0020;
+	//SPI3 CONFIG ----
+	//	RPINR29bits.SDI3R = 0x002F;
+	//	RPOR10bits.RP118R = 0x001F;
+	//	RPOR6bits.RP54R = 0x0020;
+
+	//SPI2 CONFIG ----
+	RPINR22bits.SDI2R = 0x002F;
+	RPOR10bits.RP118R = 0b00001000;
+	RPOR6bits.RP54R = 0b00001001;
 
 #elif __33EP256MU806_H
 	//PPS for MU806 goes here.
@@ -98,7 +89,24 @@ uint8_t SPI3_Init(void)
 	//Lock PPS Registers
 	__builtin_write_OSCCONL(OSCCON | (1 << 6));
 
-	OpenSPI3(config1, config2, config3);
+
+	CloseSPI2();
+
+	config1 = ENABLE_SCK_PIN & ENABLE_SDO_PIN &
+		SPI_MODE16_ON & SPI_SMP_OFF &
+		SPI_CKE_OFF & SLAVE_ENABLE_OFF &
+		MASTER_ENABLE_ON & CLK_POL_ACTIVE_HIGH &
+		SEC_PRESCAL_7_1 & PRI_PRESCAL_64_1;
+
+	config2 = FRAME_ENABLE_OFF & FRAME_SYNC_OUTPUT;
+
+	config3 = SPI_ENABLE & SPI_IDLE_CON & SPI_RX_OVFLOW_CLR;
+
+#ifdef SPI_INTERRUPT
+	ConfigIntSPI2(SPI_INT_EN & SPI_INT_PRI_6 & FIFO_BUFFER_DISABLE);
+#endif
+
+	OpenSPI2(config1, config2, config3);
 
 	initGuard = 1;
 	return(EXIT_SUCCESS);
@@ -110,35 +118,23 @@ uint8_t SPI3_Init(void)
  * @param data 11 bits of data to be written to an address
  * @return data word response
  */
-uint16_t SPI3_WriteToReg(uint16_t deviceRegister, uint16_t data)
+uint16_t SPI2_WriteToReg(uint16_t deviceRegister, uint16_t data)
 {
+	int16_t temp;
+
 	CS = 0;
-	WriteSPI3(deviceRegister << 11 | data);
-	while (SPI3STATbits.SPITBF);
+	temp = SPI2BUF;
+	temp = (deviceRegister << 11 | data);
+	SPI2BUF = (deviceRegister << 11 | data);
+	for (temp = 0; temp < 1500; temp++);
+	//while (!SPI2STATbits.SPIRBF);  Broken on the GM306
 	CS = 1;
-	Nop();
-	Nop();
-	Nop();
-	Nop();
-	Nop();
-	Nop();
-	Nop();
-	Nop();
-	Nop();
-	Nop();
-	Nop();
-	Nop();
-	Nop();
-	Nop();
-	Nop();
-	Nop();
-	Nop();
-	Nop();
+	for (temp = 0; temp < 20; temp++);
 	CS = 0;
-	WriteSPI3(0);
-	while (SPI3STATbits.SPITBF);
-	CS = 1;
-	return(ReadSPI3());
+	temp = SPI2BUF;
+	SPI2BUF = (deviceRegister << 11 | data);
+	for (temp = 0; temp < 1500; temp++);
+	return(ReadSPI2());
 }
 
 /**
@@ -146,44 +142,33 @@ uint16_t SPI3_WriteToReg(uint16_t deviceRegister, uint16_t data)
  * @param deviceRegister 4 bit address
  * @return data word response
  */
-uint16_t SPI3_ReadFromReg(uint16_t deviceRegister)
+uint16_t SPI2_ReadFromReg(uint16_t deviceRegister)
 {
+	uint16_t temp;
+
 	CS = 0;
-	WriteSPI3(0x8000 | (deviceRegister << 11));
-	while (SPI3STATbits.SPITBF);
+	temp = SPI2BUF;
+	SPI2BUF = (1 << 15 | deviceRegister << 11);
+	for (temp = 0; temp < 1500; temp++);
+	//while (!SPI2STATbits.SPIRBF);  Broken on the GM306
 	CS = 1;
-	Nop();
-	Nop();
-	Nop();
-	Nop();
-	Nop();
-	Nop();
-	Nop();
-	Nop();
-	Nop();
-	Nop();
-	Nop();
-	Nop();
-	Nop();
-	Nop();
-	Nop();
-	Nop();
-	Nop();
-	Nop();
+	for (temp = 0; temp < 20; temp++);
 	CS = 0;
-	WriteSPI3(0);
-	while (SPI3STATbits.SPITBF);
+	temp = SPI2BUF;
+	SPI2BUF = (1 << 15 | deviceRegister << 11);
+	for (temp = 0; temp < 1500; temp++);
+	//while (!SPI2STATbits.SPIRBF);  Broken on the GM306
 	CS = 1;
-	return(ReadSPI3());
+	return(ReadSPI2());
 }
 
 #ifdef SPI_INTERRUPT
 
-void __attribute__((__interrupt__, no_auto_psv)) _SPI3Interrupt(void)
+void __attribute__((__interrupt__, no_auto_psv)) _SPI2Interrupt(void)
 {
 	//Handles overflows.
-	IFS5bits.SPI3IF = 0;
-	SPI3STATbits.SPIROV = 0; // Clear SPI3 receive overflow flag if set
+	IFS2bits.SPI2IF = 0;
+	SPI2STATbits.SPIROV = 0; // Clear SPI2 receive overflow flag if set
 
 }
 #endif

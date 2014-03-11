@@ -31,19 +31,17 @@ DRV8301_Info motorDriverInfo;
 
 int main(void)
 {
-	int i;
+	int temp;
 	ClockInit();
 	PinInit();
 	MotorInit();
-	SPI3_Init();
-	TimersInit();
-	for (i = 0; i < 20; i++) {
-		WriteSPI3(0xDEAD);
-		while (SPI3STATbits.SPITBF);
-
-	}
+	SPI2_Init();
 	PMSM_Init(&motorInformation); //Fix Gate Control
+	for (temp = 0; temp < 30000; temp++);
+	for (temp = 0; temp < 30000; temp++);
+	for (temp = 0; temp < 30000; temp++);
 	DRV8301_Init(&motorDriverInfo);
+	TimersInit();
 
 	LED1 = 1;
 	LED2 = 1;
@@ -51,61 +49,78 @@ int main(void)
 	LED4 = 1;
 
 	while (1) {
+		if (counter > 10000) {
+			if (HALL1 && HALL2 && !HALL3) {
+				force1 = 2;
+			} else if (!HALL1 && HALL2 && !HALL3) {
+				force1 = 3;
+			} else if (!HALL1 && HALL2 && HALL3) {
+				force1 = 4;
+			} else if (!HALL1 && !HALL2 && HALL3) {
+				force1 = 5;
+			} else if (HALL1 && !HALL2 && HALL3) {
+				force1 = 6;
+			} else if (HALL1 && HALL2 && HALL3) {
+				force1 = 1;
+			}
+		}
+		int torque = 990;
+		if ((HALL1 && HALL2 && !HALL3) || force1 == 1) {
+			GH_A_DC = 0;
+			GL_A_DC = 0;
+			GH_B_DC = torque;
+			GL_B_DC = 0;
+			GH_C_DC = 0;
+			GL_C_DC = torque;
+		} else if ((!HALL1 && HALL2 && !HALL3) || force1 == 2) {
+			GH_A_DC = 0;
+			GL_A_DC = torque;
+			GH_B_DC = torque;
+			GL_B_DC = 0;
+			GH_C_DC = 0;
+			GL_C_DC = 0;
+		} else if ((!HALL1 && HALL2 && HALL3) || force1 == 3) {
+			GH_A_DC = 0;
+			GL_A_DC = torque;
+			GH_B_DC = 0;
+			GL_B_DC = 0;
+			GH_C_DC = torque;
+			GL_C_DC = 0;
+		} else if ((!HALL1 && !HALL2 && HALL3) || force1 == 4) {
+			GH_A_DC = 0;
+			GL_A_DC = 0;
+			GH_B_DC = 0;
+			GL_B_DC = torque;
+			GH_C_DC = torque;
+			GL_C_DC = 0;
+		} else if ((HALL1 && !HALL2 && HALL3) || force1 == 5) {
+			GH_A_DC = torque;
+			GL_A_DC = 0;
+			GH_B_DC = 0;
+			GL_B_DC = torque;
+			GH_C_DC = 0;
+			GL_C_DC = 0;
+		} else if ((HALL1 && HALL2 && HALL3) || force1 == 6) {
+			GH_A_DC = torque;
+			GL_A_DC = 0;
+			GH_B_DC = 0;
+			GL_B_DC = 0;
+			GH_C_DC = 0;
+			GL_C_DC = torque;
+		}
 	};
 	//Sit and Spin
 }
 
 void __attribute__((__interrupt__, no_auto_psv)) _T1Interrupt(void)
 {
+
 	IFS0bits.T1IF = 0; // Clear Timer1 Interrupt Flag
 }
 
 void __attribute__((__interrupt__, no_auto_psv)) _T2Interrupt(void)
 {
-	int torque = 500;
-	if (HALL1 && HALL2 && !HALL3) {
-		GH_A_DC = 0;
-		GL_A_DC = 0;
-		GH_B_DC = torque;
-		GL_B_DC = 0;
-		GH_C_DC = 0;
-		GL_C_DC = torque;
-	} else if (!HALL1 && HALL2 && !HALL3) {
-		GH_A_DC = 0;
-		GL_A_DC = torque;
-		GH_B_DC = torque;
-		GL_B_DC = 0;
-		GH_C_DC = 0;
-		GL_C_DC = 0;
-	} else if (!HALL1 && HALL2 && HALL3) {
-		GH_A_DC = 0;
-		GL_A_DC = torque;
-		GH_B_DC = 0;
-		GL_B_DC = 0;
-		GH_C_DC = torque;
-		GL_C_DC = 0;
-	} else if (!HALL1 && !HALL2 && HALL3) {
-		GH_A_DC = 0;
-		GL_A_DC = 0;
-		GH_B_DC = 0;
-		GL_B_DC = torque;
-		GH_C_DC = torque;
-		GL_C_DC = 0;
-	} else if (HALL1 && !HALL2 && HALL3) {
-		GH_A_DC = torque;
-		GL_A_DC = 0;
-		GH_B_DC = 0;
-		GL_B_DC = torque;
-		GH_C_DC = 0;
-		GL_C_DC = 0;
-	} else if (HALL1 && HALL2 && HALL3) {
-		GH_A_DC = torque;
-		GL_A_DC = 0;
-		GH_B_DC = 0;
-		GL_B_DC = 0;
-		GH_C_DC = 0;
-		GL_C_DC = torque;
-	}
+
 	//	SetPosition();
 	//	SetTorque();
 	//	PMSM_Update();
