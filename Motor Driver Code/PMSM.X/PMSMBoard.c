@@ -1,5 +1,8 @@
+
+
 #include "PMSMBoard.h"
 #include "SPIdsPIC.h"
+#include "pps.h"
 
 void UART2Init(void)
 {
@@ -19,12 +22,12 @@ void UART2Init(void)
 	IPC7 = 0x4400;
 	// U2STA Register
 	// ==============
-	U2STAbits.URXISEL = 0; // RX interrupt on every character
+	U2STAbits.URXISEL = 1; // RX interrupt on every character
 	U2STAbits.OERR = 0; // clear overun error
 
 	// U2BRG Register
 	// ==============
-	U2BRG = 26; //115200
+	U2BRG = 37; //115200
 
 	// Enable the port;
 	U2MODEbits.UARTEN = 1; // Enable the port
@@ -95,15 +98,15 @@ void PinInit(void)
 	// 0 - Output, 1 - Input
 	TRIS_EN_GATE = 0;
 	TRIS_DC_CAL = 0;
-	
+
 	TRIS_HALL1 = 1;
 	TRIS_HALL2 = 1;
 	TRIS_HALL3 = 1;
 
+	//Ensuring that remapped pins are set as outputs.
 	TRISGbits.TRISG6 = 0;
 	TRISGbits.TRISG7 = 0;
 	TRISGbits.TRISG8 = 0;
-	TRISCbits.TRISC8 = 0;
 	TRISCbits.TRISC7 = 0;
 	TRISCbits.TRISC6 = 0;
 
@@ -111,7 +114,9 @@ void PinInit(void)
 	TRIS_LED2 = 0;
 	TRIS_LED3 = 0;
 	TRIS_LED4 = 0;
-	
+
+	//Right now no analog peripherals are being used, so we let digital
+	//peripherals take over.
 	ANSELA = 0;
 	ANSELB = 0;
 	ANSELC = 0;
@@ -125,28 +130,67 @@ void PinInit(void)
 	TRISGbits.TRISG6 = 0; //Pin 4, RP118, RG6
 	TRISBbits.TRISB15 = 1; //Pin 3, RPI47, RB14
 
+	TRIS_CANRX = 1;
+	TRIS_CANTX = 0;
+
+	//Temp UART Debugging Input
+	TRISCbits.TRISC8 = 1;
+
+	//Unlock PPS Registers
+	__builtin_write_OSCCONL(OSCCON & ~(1 << 6));
+
+	//Set up PPS
+#ifdef __33EP512GM306_H
+
+	//RPOR6bits.RP55R = 0x0021;
+	//SPI3 CONFIG ----
+	//	RPINR29bits.SDI3R = 0x002F;
+	//	RPOR10bits.RP118R = 0x001F;
+	//	RPOR6bits.RP54R = 0x0020;
+
+	//SPI2 CONFIG ----
+	RPINR22bits.SDI2R = 0x002F;
+	RPOR10bits.RP118R = 0b00001000;
+	RPOR6bits.RP54R = 0b00001001;
+
+	//CAN CONFIG ----
+	RPINR26 = 24;
+	RPOR1bits.RP36R = 0b00001110;
+
+	//UART CONFIG ----
+	RPINR19bits.U2RXR = 56; //RP56
+
+#elif __33EP256MU806_H
+	//PPS for MU806 goes here.
+#endif
+
+	//Lock PPS Registers
+	__builtin_write_OSCCONL(OSCCON | (1 << 6));
+
+
 }
 
 void TimersInit(void)
 {
-	//Timer1 Init 500Hz.
+	/*  Timer 1 Init Code
 	T1CONbits.TON = 0;
 	T1CONbits.TCS = 0;
 	T1CONbits.TGATE = 0;
 	T1CONbits.TCKPS = 0b00; // Select 1:256 Prescaler
 	TMR1 = 0x00;
-	PR1 = 0;
-	IPC0bits.T1IP = 7;
+	PR1 = 1;
+	IPC0bits.T1IP = 0x02;
 	IFS0bits.T1IF = 0;
 	IEC0bits.T1IE = 1;
 	T1CONbits.TON = 1;
+	 */
 
 	T2CONbits.TON = 0;
 	T2CONbits.TCS = 0;
 	T2CONbits.TGATE = 0;
 	T2CONbits.TCKPS = 0b11; // Select 1:256 Prescaler
 	TMR2 = 0x00;
-	PR2 = 1200;
+	PR2 = 2400;
 	IPC1bits.T2IP = 0x01;
 	IFS0bits.T2IF = 0;
 	IEC0bits.T2IE = 1;

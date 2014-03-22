@@ -65,31 +65,6 @@ uint8_t SPI2_Init(void)
 		return(EXIT_FAILURE);
 	}
 
-	//Unlock PPS Registers
-	__builtin_write_OSCCONL(OSCCON & ~(1 << 6));
-
-	//Set up PPS
-#ifdef __33EP512GM306_H
-
-	//RPOR6bits.RP55R = 0x0021;
-	//SPI3 CONFIG ----
-	//	RPINR29bits.SDI3R = 0x002F;
-	//	RPOR10bits.RP118R = 0x001F;
-	//	RPOR6bits.RP54R = 0x0020;
-
-	//SPI2 CONFIG ----
-	RPINR22bits.SDI2R = 0x002F;
-	RPOR10bits.RP118R = 0b00001000;
-	RPOR6bits.RP54R = 0b00001001;
-
-#elif __33EP256MU806_H
-	//PPS for MU806 goes here.
-#endif
-
-	//Lock PPS Registers
-	__builtin_write_OSCCONL(OSCCON | (1 << 6));
-
-
 	CloseSPI2();
 
 	config1 = ENABLE_SCK_PIN & ENABLE_SDO_PIN &

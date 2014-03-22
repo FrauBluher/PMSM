@@ -13,6 +13,12 @@
 
 #ifdef __33EP512GM306_H
 /**
+ * @brief CAN Tristate Mapping
+ */
+#define TRIS_CANRX TRISAbits.TRISA8
+#define TRIS_CANTX TRISBbits.TRISB4
+
+/**
  * @brief GPIO Tristate Mapping
  */
 #define TRIS_EN_GATE  TRISGbits.TRISG7

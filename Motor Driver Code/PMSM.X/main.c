@@ -14,11 +14,14 @@
 #include <string.h>
 #include <stdlib.h>
 #include <uart.h>
+#include <spi.h>
+#include <string.h>
 #include "DRV8301.h"
 #include "SPIdsPIC.h"
 #include "PMSM.h"
-#include <spi.h>
 #include "PMSMBoard.h"
+#include "BasicMotorControl.h"
+#include "Uart2.h"
 
 _FOSCSEL(FNOSC_FRC & IESO_OFF & PWMLOCK_OFF);
 _FOSC(FCKSM_CSECMD & OSCIOFNC_OFF & POSCMD_NONE);
@@ -33,6 +36,7 @@ int main(void)
 {
 	int temp;
 	ClockInit();
+	Uart2Init(37);
 	PinInit();
 	MotorInit();
 	SPI2_Init();
@@ -48,85 +52,71 @@ int main(void)
 	LED3 = 1;
 	LED4 = 1;
 
+	//	For example API use.
+	//	uint8_t commandChar;
+	//	uint8_t commandSentence[16] = {};
+	//	uint8_t i = 0;
+	//	uint8_t zero[16] = {};
+
 	while (1) {
-		if (counter > 10000) {
-			if (HALL1 && HALL2 && !HALL3) {
-				force1 = 2;
-			} else if (!HALL1 && HALL2 && !HALL3) {
-				force1 = 3;
-			} else if (!HALL1 && HALL2 && HALL3) {
-				force1 = 4;
-			} else if (!HALL1 && !HALL2 && HALL3) {
-				force1 = 5;
-			} else if (HALL1 && !HALL2 && HALL3) {
-				force1 = 6;
-			} else if (HALL1 && HALL2 && HALL3) {
-				force1 = 1;
-			}
-		}
-		int torque = 990;
-		if ((HALL1 && HALL2 && !HALL3) || force1 == 1) {
-			GH_A_DC = 0;
-			GL_A_DC = 0;
-			GH_B_DC = torque;
-			GL_B_DC = 0;
-			GH_C_DC = 0;
-			GL_C_DC = torque;
-		} else if ((!HALL1 && HALL2 && !HALL3) || force1 == 2) {
-			GH_A_DC = 0;
-			GL_A_DC = torque;
-			GH_B_DC = torque;
-			GL_B_DC = 0;
-			GH_C_DC = 0;
-			GL_C_DC = 0;
-		} else if ((!HALL1 && HALL2 && HALL3) || force1 == 3) {
-			GH_A_DC = 0;
-			GL_A_DC = torque;
-			GH_B_DC = 0;
-			GL_B_DC = 0;
-			GH_C_DC = torque;
-			GL_C_DC = 0;
-		} else if ((!HALL1 && !HALL2 && HALL3) || force1 == 4) {
-			GH_A_DC = 0;
-			GL_A_DC = 0;
-			GH_B_DC = 0;
-			GL_B_DC = torque;
-			GH_C_DC = torque;
-			GL_C_DC = 0;
-		} else if ((HALL1 && !HALL2 && HALL3) || force1 == 5) {
-			GH_A_DC = torque;
-			GL_A_DC = 0;
-			GH_B_DC = 0;
-			GL_B_DC = torque;
-			GH_C_DC = 0;
-			GL_C_DC = 0;
-		} else if ((HALL1 && HALL2 && HALL3) || force1 == 6) {
-			GH_A_DC = torque;
-			GL_A_DC = 0;
-			GH_B_DC = 0;
-			GL_B_DC = 0;
-			GH_C_DC = 0;
-			GL_C_DC = torque;
-		}
-	};
-	//Sit and Spin
+		TrapUpdate(900, CCW);
+
+		//An example of how to use the basic motor control API is found below.
+		//		if(Uart2ReadByte(&commandChar)) {
+		//			if(commandChar == '\n') {
+		//				commandSentence[i] = '\0';
+		//				if (strcmp((const char *) commandSentence, "s")) {
+		//					torque = 0;
+		//				} else if (strcmp((const char *) commandSentence, "cw")) {
+		//					direction = CW;
+		//				} else if (strcmp((const char *) commandSentence, "ccw")) {
+		//					direction = CCW;
+		//				} else {
+		//					uint8_t commanded = atoi((const char *) commandSentence);
+		//					if (commanded < 100) {
+		//						torque = commanded * 100;
+		//					} else {
+		//						torque = 0;
+		//					}
+		//				}
+		//				memcpy(commandSentence, &zero, 16);
+		//				i = 0;
+		//			} else if (i > 4) {
+		//				memcpy(commandSentence, &zero, 16);
+		//				i = 0;
+		//			} else {
+		//				commandSentence[i] =  commandChar;
+		//				i++;
+		//			}
+		//		}
+	}
+
 }
 
 void __attribute__((__interrupt__, no_auto_psv)) _T1Interrupt(void)
 {
+
+#ifdef SINUSOIDAL
+	SetPosition();
+	SetTorque();
+	PMSM_Update();
+#else
+	//Do something here controls related, who knows!
+#endif
 
 	IFS0bits.T1IF = 0; // Clear Timer1 Interrupt Flag
 }
 
 void __attribute__((__interrupt__, no_auto_psv)) _T2Interrupt(void)
 {
+	LED1 = HALL1 ? 1 : 0;
+	LED2 = HALL2 ? 1 : 0;
+	LED3 = HALL3 ? 1 : 0;
 
-	//	SetPosition();
-	//	SetTorque();
-	//	PMSM_Update();
-	DRV8301_UpdateStatus();
-
-	LED2 ^= 1;
+	//Yes, PMSM_Init is supposed to be called here over and over again,
+	//explaination in DRV8301.c  This is temporary.
+	DRV8301_Init(&motorDriverInfo);
+	LED4 ^= 1;
 	IFS0bits.T2IF = 0; // Clear Timer1 Interrupt Flag
 }
 

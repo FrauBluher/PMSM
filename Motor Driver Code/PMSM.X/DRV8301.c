@@ -49,15 +49,18 @@ static DRV8301_Info *passedInfoStruct;
 uint8_t DRV8301_Init(DRV8301_Info *drv8301Info)
 {
 	DRV8301_STATUSREGISTER2 tempStatus;
-	if (initGuardDRV8301 == 1) {
-		return(EXIT_FAILURE);
-	}
+
+	//Until the 8301 error reporting state machine is finished this is to remain
+	//commented out!
+	//	if (initGuardDRV8301 == 1) {
+	//		return(EXIT_FAILURE);
+	//	}
 
 	drv8301Info->controlRegister1.GATE_CURRENT = GATE_CURRENT_1_7A;
-	drv8301Info->controlRegister1.PWM_MODE = PWM_MODE_THREE_CHAN;
+	drv8301Info->controlRegister1.PWM_MODE = PWM_MODE_SIX_CHAN;
 	drv8301Info->controlRegister1.GATE_RESET = GATE_RESET_OFF;
-	drv8301Info->controlRegister1.OC_MODE = GD_OC_MODE_LIMIT;
-	drv8301Info->controlRegister1.OC_ADJ_SET = OC_ADJ_SET_0_926V;
+	drv8301Info->controlRegister1.OC_MODE = GD_OC_MODE_OFF;
+	drv8301Info->controlRegister1.OC_ADJ_SET = OC_ADJ_SET_0_822V;
 
 	drv8301Info->controlRegister2.DC_CAL_CH1 = DC_CAL_CH1_OFF;
 	drv8301Info->controlRegister2.DC_CAL_CH2 = DC_CAL_CH2_OFF;
@@ -92,7 +95,7 @@ void DRV8301_UpdateStatus(void)
 	passedInfoStruct->statusRegister1.wholeRegister =
 		SPI2_ReadFromReg(STATUS_REGISTER1_ADDR);
 	passedInfoStruct->statusRegister1.wholeRegister =
-		SPI2_ReadFromReg(STATUS_REGISTER2_ADDR); //TODO: Change this to Register 2
+		SPI2_ReadFromReg(STATUS_REGISTER2_ADDR);
 	SPI2_ReadFromReg(CONTROL_REGISTER1_ADDR);
 	SPI2_ReadFromReg(CONTROL_REGISTER2_ADDR);
 	passedInfoStruct->newData = 1;
