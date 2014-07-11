@@ -1,0 +1,86 @@
+#--------------------------- Tool Specifications -------------------------
+#
+# Modify the following macros to reflect the tools you wish to use for
+# compiling and linking your code.
+#
+CC = /usr/local/MATLAB/R2014a/bin/mex
+LD = $(CC)
+ 
+MACHINE     = FOCsim
+TARGET      = sfun
+CHART_SRCS   = c1_FOCsim.c c2_FOCsim.c
+MACHINE_SRC  = FOCsim_sfun.c
+MACHINE_REG = FOCsim_sfun_registry.c
+MAKEFILE    = FOCsim_sfun.mku
+MATLAB_ROOT  = /usr/local/MATLAB/R2014a
+BUILDARGS   = 
+#------------------------------ Include/Lib Path ------------------------------
+ 
+USER_INCLUDES = 
+AUX_INCLUDES = 
+MLSLSF_INCLUDES  = \
+    -I"/usr/local/MATLAB/R2014a/extern/include" \
+    -I"/usr/local/MATLAB/R2014a/simulink/include" \
+    -I"/usr/local/MATLAB/R2014a/stateflow/c/mex/include" \
+    -I"/usr/local/MATLAB/R2014a/rtw/c/src" \
+    -I"/home/pavlo/Documents/PMSM/Simulink Models/slprj/_sfprj/FOCsim/_self/sfun/src" 
+
+THIRD_PARTY_INCLUDES = 
+
+INCLUDE_PATH = $(USER_INCLUDES) $(AUX_INCLUDES) $(MLSLSF_INCLUDES) $(COMPILER_INCLUDES) $(THIRD_PARTY_INCLUDES)
+ 
+#----------------- Compiler and Linker Options --------------------------------
+ 
+# Optimization Options
+ 
+CC_OPTS = -O 
+CPP_REQ_DEFINES = -DMATLAB_MEX_FILE
+ 
+# Uncomment this line to move warning level to W4
+# cflags = $(cflags:W3=W4)
+CFLAGS = $(CC_OPTS) $(CPP_REQ_DEFINES) $(INCLUDE_PATH)
+ 
+LDFLAGS =  
+ 
+AUXLDFLAGS = 
+#----------------------------- Source Files -----------------------------------
+ 
+REQ_SRCS  = $(MACHINE_SRC) $(MACHINE_REG) $(CHART_SRCS)
+
+USER_ABS_OBJS =
+
+AUX_ABS_OBJS =
+THIRD_PARTY_OBJS =
+
+REQ_OBJS = $(REQ_SRCS:.cpp=.o)
+REQ_OBJS2 = $(REQ_OBJS:.c=.o)
+OBJS = $(REQ_OBJS2) $(USER_ABS_OBJS) $(AUX_ABS_OBJS) $(THIRD_PARTY_OBJS)
+OBJLIST_FILE = FOCsim_sfun.mol
+SFCLIB = 
+AUX_LNK_OBJS = 
+USER_LIBS = 
+LINK_MACHINE_LIBS = 
+TMWLIB = -L/usr/local/MATLAB/R2014a/bin/glnxa64 -lmwsf_runtime -L/usr/local/MATLAB/R2014a/bin/glnxa64 -lfixedpoint -L/usr/local/MATLAB/R2014a/bin/glnxa64 -lut -L/usr/local/MATLAB/R2014a/bin/glnxa64 -lemlrt -L/usr/local/MATLAB/R2014a/bin/glnxa64 -lmwmathutil -L/usr/local/MATLAB/R2014a/bin/glnxa64 -lmwblas -L/usr/local/MATLAB/R2014a/bin/glnxa64 -lmwsl_log_load_blocks -L/usr/local/MATLAB/R2014a/bin/glnxa64 -lippmwipt 
+PARLIB = 
+  MAPCSF = /usr/local/MATLAB/R2014a/tools/glnxa64/mapcsf
+   # RUN_MAPCSF_ON_UNIX is defined only if MAPCSF exists on this platform.
+   ifneq ($(wildcard $(MAPCSF)),) # run MAPCSF if it exists on this platform
+      RUN_MAPCSF_ON_UNIX =  /usr/local/MATLAB/R2014a/tools/glnxa64/mapcsf $@
+   endif
+THIRD_PARTY_LIBS = 
+ 
+#--------------------------------- Rules --------------------------------------
+ 
+MEX_FILE_NAME = $(MACHINE)_$(TARGET).mexa64
+ 
+ $(MEX_FILE_NAME): $(MAKEFILE) $(OBJS) $(SFCLIB) $(AUX_LNK_OBJS) $(USER_LIBS)
+	@echo ### Linking ...
+	$(CC) -silent LDFLAGS="\$$LDFLAGS $(AUXLDFLAGS)" -output $(MEX_FILE_NAME) $(OBJS) $(AUX_LNK_OBJS) $(USER_LIBS) $(LINK_MACHINE_LIBS) $(SFCLIB) $(TMWLIB) $(PARLIB) $(IPPLIB) $(THIRD_PARTY_LIBS)
+	$(RUN_MAPCSF_ON_UNIX)
+
+%.o :    %.c
+	$(CC) -c $(CFLAGS) $<
+
+%.o :    %.cpp
+	$(CC) -c $(CFLAGS) $<
+

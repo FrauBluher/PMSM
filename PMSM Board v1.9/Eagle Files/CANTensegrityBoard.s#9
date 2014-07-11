@@ -9207,7 +9207,7 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <instance part="R28" gate="G$1" x="295" y="156"/>
 <instance part="R29" gate="G$1" x="295" y="133"/>
 <instance part="U$2" gate="G$1" x="220.5" y="150.8" rot="R180"/>
-<instance part="U$3" gate="G$1" x="258.3" y="150.8" rot="R180"/>
+<instance part="U$3" gate="G$1" x="251.7" y="149.5" rot="R180"/>
 <instance part="U$6" gate="G$1" x="308.4" y="150.8" rot="R180"/>
 <instance part="U$9" gate="G$1" x="304.2" y="129.6" rot="R90"/>
 </instances>

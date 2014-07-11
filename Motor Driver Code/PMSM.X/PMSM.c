@@ -38,15 +38,8 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include "PMSM.h"
-#include "PMSM_Sinusoidal_Drive.h"     /* Model's header file */
-#include "rtwtypes.h"                  /* MathWorks types */
-
 #warning The motor driver code is in alpha.
 
-extern D_Work_PMSM_Sinusoidal_Drive PMSM_Sinusoidal_Drive_DWork;
-extern real32_T commandedAngle; 		/* '<Root>/Data Store Memory' */
-extern real32_T torqueInput; 			/* '<Root>/Data Store Memory11' */
-extern real32_T fieldWeakening; 		/* '<Root>/Data Store Memory9' */
 
 MotorInfo *passedLocation;
 
@@ -57,8 +50,7 @@ MotorInfo *passedLocation;
  */
 uint8_t PMSM_Init(MotorInfo *information) {
         if (information != NULL) {
-            PMSM_Sinusoidal_Drive_initialize();
-            passedLocation = information;
+
             return(1);
         } else {
             return(0);
