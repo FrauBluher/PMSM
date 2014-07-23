@@ -37,6 +37,7 @@
 #include <stdint.h>
 #include "BasicMotorControl.h"
 #include "PMSMBoard.h"
+#include <xc.h>
 
 void ForceDuty(int GH_A, int GL_A, int GH_B, int GL_B, int GH_C, int GL_C)
 {

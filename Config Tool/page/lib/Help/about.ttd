@@ -1,0 +1,235 @@
+# -*- tcl -*-
+#
+
+ttd.version 1.0
+
+ttd.tagdef Header -background white -font {-family helvetica -weight bold -slant roman -size 12 -underline 0 -overstrike 0} -foreground #000000 -justify left
+ttd.tagdef Separator -background #8e3634 -font {-family helvetica -weight normal -slant roman -size 4 -underline 0 -overstrike 0} -foreground #000000 -justify left
+ttd.tagdef body -background #fefefe -font {-family helvetica -weight normal -slant roman -size 10 -underline 0 -overstrike 0} -foreground #000000 -justify left
+ttd.tagdef italics -background #fefefe -font {-family helvetica -weight normal -slant italic -size 10 -underline 0 -overstrike 0} -foreground #000000 -justify left
+ttd.tagdef {Centered Title} -background #fefefe -font {-family helvetica -weight bold -slant roman -size 18 -underline 0 -overstrike 0} -foreground #640000 -justify center
+ttd.tagdef center -background white -font {-family helvetica -weight normal -slant roman -size 10 -underline 0 -overstrike 0} -foreground #000000 -justify center
+
+ttd.tagon {Centered Title}
+ttd.text {Visual Tcl 1.6.x-development}
+ttd.tagoff {Centered Title}
+ttd.text {
+}
+ttd.text {
+}
+ttd.text {
+}
+ttd.tagon center
+ttd.tagon body
+ttd.text {Copyright (C) 1996-2000 Stewart Allen (stewart@neuron.com)}
+ttd.tagoff body
+ttd.tagoff center
+ttd.text {
+}
+ttd.tagon body
+ttd.tagon center
+ttd.text http://vtcl.sourceforge.net
+ttd.tagoff center
+ttd.tagoff body
+ttd.text {
+}
+ttd.text {
+}
+ttd.tagon Separator
+ttd.text {
+}
+ttd.tagoff Separator
+ttd.text {
+}
+ttd.tagon Header
+ttd.text {Originally created by:}
+ttd.tagoff Header
+ttd.text {
+}
+ttd.tagon body
+ttd.text {Stewart Allen (stewart@neuron.com)}
+ttd.tagoff body
+ttd.text {
+}
+ttd.text {
+}
+ttd.tagon Header
+ttd.text {Previously Maintained by:}
+ttd.tagoff Header
+ttd.text {
+}
+ttd.tagon body
+ttd.text {Christian Gavin (cgavin@dnai.com)
+}
+ttd.text {Damon Courtney (damon@unreality.com)
+}
+ttd.text {Luke Myers
+}
+ttd.text {Kenneth Parker (kenparkerjr@users.sourceforge.net)
+}
+ttd.tagoff body
+ttd.text {
+}
+ttd.tagon Header
+ttd.text {Currently maintained by:}
+ttd.tagoff Header
+ttd.text {
+}
+ttd.tagon body
+ttd.text {Richard Nelson (unixabg@users.sourceforge.net)
+}
+ttd.tagoff body
+ttd.text {
+}
+ttd.tagon Separator
+ttd.text {
+}
+ttd.tagoff Separator
+ttd.text {
+}
+ttd.tagon Header
+ttd.text Freewrap
+ttd.tagoff Header
+ttd.text {
+}
+ttd.tagon body
+ttd.text {Copyright (C) 1998 by Dennis LaBelle
+}
+ttd.text {(dlabelle@albany.net) All Rights Reserved.
+}
+ttd.tagoff body
+ttd.text {
+}
+ttd.tagon Header
+ttd.text Ttd
+ttd.tagoff Header
+ttd.text {
+}
+ttd.tagon body
+ttd.text {Tcl/Tk text dump
+}
+ttd.text {Copyright (c) 1999, Bryan Douglas Oakley
+}
+ttd.text {All Rights Reserved.
+}
+ttd.tagoff body
+ttd.tagon italics
+ttd.text {This code is provided as-is, with no warranty expressed or implied. Use at your own risk.
+}
+ttd.tagoff italics
+ttd.text {
+}
+ttd.tagon Header
+ttd.text {Portions of this software from the book}
+ttd.tagoff Header
+ttd.text {
+}
+ttd.tagon body
+ttd.text {"Effective Tcl/Tk Programming"
+}
+ttd.text {Mark Harrison, DSC Communications Corp.
+}
+ttd.text {Michael McLennan, Bell Labs Innovations for Lucent Technologies
+}
+ttd.text {Addison-Wesley Professional Computing Series
+}
+ttd.text {Copyright (c) 1996-1997 Lucent Technologies Inc. and Mark Harrison
+}
+ttd.tagoff body
+ttd.text {
+}
+ttd.tagon Header
+ttd.text {Routines for encoding and decoding base64}
+ttd.tagoff Header
+ttd.text {
+}
+ttd.tagon body
+ttd.text {encoding from Time Janes,
+}
+ttd.text {decoding from Pascual Alonso,
+}
+ttd.text {namespace'ing and bugs from Parand Tony Darugar (tdarugar@binevolve.com)
+}
+ttd.tagoff body
+ttd.text {
+}
+ttd.tagon Header
+ttd.text {Combobox and Multicolumn listbox}
+ttd.tagoff Header
+ttd.text {
+}
+ttd.tagon body
+ttd.text {Copyright (c) 1999, Bryan Oakley}
+ttd.tagoff body
+ttd.text {
+}
+ttd.text {
+}
+ttd.tagon Header
+ttd.text Progressbar
+ttd.tagoff Header
+ttd.text {
+}
+ttd.tagon body
+ttd.text {Copyright (c) 2000 Alexander Schoepe}
+ttd.tagoff body
+ttd.text {
+}
+ttd.text {
+}
+ttd.tagon Separator
+ttd.text {
+}
+ttd.tagoff Separator
+ttd.text {
+}
+ttd.tagon Header
+ttd.text {Enhanced Tk Console, part of the VerTcl system}
+ttd.tagoff Header
+ttd.text {
+}
+ttd.tagon body
+ttd.text {Originally based off Brent Welch's Tcl Shell Widget
+}
+ttd.text {(from "Practical Programming in Tcl and Tk")
+}
+ttd.text {
+}
+ttd.text {Thanks to the following (among many) for early bug reports & code ideas:
+}
+ttd.text {Steven Wahl <steven@indra.com>, Jan Nijtmans <nijtmans@nici.kun.nl>
+}
+ttd.text {Crimmins <markcrim@umich.edu>, Wart <wart@ugcs.caltech.edu>
+}
+ttd.text {
+}
+ttd.text {Copyright 1995-2000 Jeffrey Hobbs
+}
+ttd.text {Initiated: Thu Aug 17 15:36:47 PDT 1995
+}
+ttd.text {
+}
+ttd.text jeff.hobbs@acm.org
+ttd.tagoff body
+ttd.text {
+}
+ttd.text {
+}
+ttd.tagon Separator
+ttd.text {
+}
+ttd.tagoff Separator
+ttd.text {
+}
+ttd.tagon Header
+ttd.text {Other credits}
+ttd.tagoff Header
+ttd.text {
+}
+ttd.tagon body
+ttd.text {Many thanks to the persons not listed here who contributed to the development of Visual Tcl}
+ttd.tagoff body
+ttd.text {!
+}
+
+

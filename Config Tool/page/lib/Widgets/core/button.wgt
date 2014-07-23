@@ -1,0 +1,80 @@
+# $Id: button.wgt,v 1.7 2002/10/29 06:07:50 cgavin Exp $
+
+##############################################################################
+#
+# Visual TCL - A cross-platform application development environment
+#
+# Copyright (C) 2001 Damon Courtney
+#
+# Description file for Tk Widget
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
+##############################################################################
+#
+
+Class       Button
+Lib     core
+
+Icon        icon_button.gif
+DefaultOptions  -text Button -font \$vTcl(actual_gui_font_dft_name) \
+    -background \$vTcl(actual_gui_bg) -foreground \$vTcl(actual_gui_fg) \
+    -activebackground \$vTcl(analog_color_m) \
+    -activeforeground \$vTcl(actual_gui_fg) \
+    -highlightbackground \$vTcl(actual_gui_bg) 
+
+#DefaultValues   -activebackground -activeforeground -activeborderwidth \
+                -background -foreground -highlightbackground -highlightcolor
+if {$vTcl(pr,balloon)} { ;# Rozen
+    ClassOption     -_tooltip
+}
+DoubleClickCmd  vTcl::widgets::core::button::dblClk
+TreeLabel   @vTcl::widgets::core::button::getWidgetTreeLabel
+
+Function    "Set Text"  vTcl::widgets::core::button::setText
+Function    "Set Multiline Text"  vTcl::widgets::core::button::setMultilineText
+Function    "Set Command"   vTcl::widgets::core::button::setCommand
+
+namespace eval vTcl::widgets::core::button {
+
+    proc setText {} {
+        global vTcl
+        vTcl:set_label $vTcl(w,widget)
+    }
+
+    proc setMultilineText {} {
+        vTcl:set_text $::vTcl(w,widget)
+    }
+
+    proc setCommand {} {
+        global vTcl
+        vTcl:set_command $vTcl(w,widget) -command $vTcl(w,opt,-command)
+    }
+
+    proc dblClk {target} {
+        vTcl:set_command $target -command $::vTcl(w,opt,-command)
+    }
+
+    proc getWidgetTreeLabel {target} {
+        set ttt1 [$target cget -text]
+        set ttt2 [$target cget -textvariable]
+        if {$ttt2 == ""} {
+            return "BUT: $ttt1"
+        } else {
+            return "BUT: $ttt1 var=$ttt2"
+        }
+    }
+}
+

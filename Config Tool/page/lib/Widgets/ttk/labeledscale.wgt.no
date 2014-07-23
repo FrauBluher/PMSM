@@ -1,0 +1,173 @@
+##############################################################################
+#
+# Copyright (C) 2007 Tristan  http://www.tcltk.cn
+#
+# Description file for Tile Widget
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
+##############################################################################
+
+Class       LabeledScale
+Lib         ttk
+
+Icon        @vTcl::widgets::ttk::labeledscale::getIcon
+TreeLabel   @vTcl::widgets::ttk::labeledscale::getWidgetTreeLabel
+InsertCmd   vTcl::widgets::ttk::labeledscale::insertCmd
+
+DefaultValues   -activebackground -background -foreground \
+                -highlightbackground -highlightcolor -troughcolor
+
+if {$vTcl(pr,balloon)} {
+ClassOption     -_tooltip   ;# Rozen not yet supporting tooltips.
+}
+
+
+#CreateCmd scale
+CreateCmd  vTcl::widgets::ttk::labeledscale::CreateCmd
+DumpCmd    vTcl::widgets::ttk::labeledscale::DumpCmd
+
+
+DumpChildren    no
+#MegaWidget yes
+
+## Special proc for setting up icons on the toolbar.
+proc vTcl:LabeledScale:ToolBarSetup {} {
+    vTcl:toolbar_add ttk LabeledScale "vertical labeledscale" \
+        icon_scale_v.gif "-orient vertical"
+    vTcl:toolbar_add ttk LabeledScale "horizontal labeledscale" \
+        icon_scale_h.gif "-orient horizontal"
+}
+
+namespace eval vTcl::widgets::ttk::labeledscale {
+
+    proc getIcon {{w ""}} {
+        if {[lempty $w]} {
+            return [list icon_scale_h.gif icon_scale_v.gif]
+        }
+        if {[catch {$w cget -orient} orient]} {
+            #return "icon_scale.gif"
+            return "icon_scale_h.gif"
+        }
+        if {$orient == "horizontal"} {
+            return "icon_scale_h.gif"
+        }
+        return "icon_scale_v.gif"
+    }
+
+    proc getWidgetTreeLabel {w} {
+        if {[catch {$w cget -orient} orient]} {
+            return "Labeledscale"
+    }
+        set var [$w cget -variable]
+        if {$var != ""} {
+            set var " VAR: $var"
+        }
+        if {$orient == "horizontal"} {
+            return "Horz Labeledscale$var"
+        }
+        return "Vert Labeledscale$var"
+    }
+
+    proc insertCmd {target} {
+        set last [lindex [split $target .] end]
+        set last [vTcl:rename $last]
+
+        #$target configure -variable "[winfo toplevel $target]::$last"
+    }
+
+    proc CreateCmd {target args} {
+        # Rozen Routine Based on the compound widget -"Scrollable Text"
+        namespace eval ::widgets::${target}::options {}
+        namespace eval ::widgets::${target}::save    {}
+        namespace eval ::widgets::${target}.01::options {}
+        namespace eval ::widgets::${target}.01::save    {}
+        namespace eval ::widgets::${target}.02::options {}
+        namespace eval ::widgets::${target}.02::save    {}
+        namespace eval ::widgets::${target}.03::options {}
+        namespace eval ::widgets::${target}.03::save    {}
+
+        set items [split $target .]
+        set parent [join [lrange $items 0 end-1] .]
+        set top [winfo toplevel $parent]vTcl::widgets::ttk::labeledscale::CreateCmd
+        ttk::frame $target  -class LabeledScale ;# -height 75 -width 125
+        vTcl:DefineAlias "$target" "Frame8" vTcl:WidgetProc "Toplevel1" 1
+        set site_3_0 $target
+
+        ttk::label $target.01  -text 0 -justify center
+        ttk::scale $target.02
+
+        grid $target.01 -column 0 -row 0  -sticky new
+        grid $target.02 -column 0 -row 1 -sticky ews
+
+    }
+
+    # Picked up this routine from frame.wgt
+    proc DumpCmd {target basename} {
+        global vTcl basenames classes
+        set result [vTcl:dump_widget_opt $target $basename]
+# NEEDS WORK - conf1 seems to have the stuff I want, but I never seem
+# to use it.
+#        set conf1 [vTcl:dump_widget_opt $target.01 $basename.01]
+        set class_opt [vTcl:get_class_opts $target.01]
+        foreach {co val} $class_opt {
+            append result $vTcl(tab)
+            append result "global vTcl\n"
+            append result $vTcl(tab)
+            append result "set vTcl($target.01,$co) $val\n"
+            append result $vTcl(tab)
+            append result "namespace eval ::widgets::$target.01 \{\}\n"
+            append result $vTcl(tab)
+            append result "set ::widgets::$target.01::ClassOption($co) $val\n"
+            append result $vTcl(tab)
+            append result "set ::widgets::$target.01::options($co) $val\n"
+            append result $vTcl(tab)
+            append result "set ::widgets::$target.01::save($co) [expr {$val != ""}]\n"
+    }
+
+
+        set config [$target.02 configure]
+
+         # I am trying to get the options with nondefault values.
+
+         #append result "\n$vTcl(tab)$target.01 configure"
+         set attr {}
+         foreach i $config {
+             set option [lindex $i 0]
+             set default [lindex $i 3]
+             set value [lindex $i 4]
+             if {$default == $value} { continue }
+             if {[string first " " $value] > -1} {
+                 set new {}
+                 set value [append new "\"" $value "\""]
+             }
+             if {[string bytelength $attr] > 0} {
+                 append attr " \\\n" $vTcl(tab)$vTcl(tab)$option " " $value
+             } else {
+                 append attr "\n$vTcl(tab)$target.02 configure "
+                 append attr $option " " $value
+             }
+
+
+
+        }
+        append attr "\n"  ;# Ends the attributs of the list box.
+        #set clean [vTcl:clean_pairs $c1]
+        append result $attr
+        return $result
+
+    }
+
+}

@@ -1,0 +1,672 @@
+# $Id: panedwindow.wgt,v 1.5 2005/12/05 06:59:27 kenparkerjr Exp $
+
+##############################################################################
+#
+# Visual TCL - A cross-platform application development environment
+#
+# Copyright (C) 2001 Damon Courtney
+#
+# Description file for Tk Widget
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
+##############################################################################
+
+# Rozen. Rationalized with tile.
+
+Class       TPanedwindow
+Lib     ttk
+MegaWidget      yes
+DefaultOptions  -class TPanedwindow -width 200 -height 200
+CreateCmd       ttk::panedwindow
+TtkWidget       yes
+
+Icon        @vTcl::widgets::ttk::panedwindow::getIcon
+TreeLabel   TPanedwindow
+InsertCmd       vTcl::widgets::ttk::panedwindow::insertCmd
+TreeChildrenCmd {vTcl::widgets::ttk::panedwindow::treeChildrenCmd
+         vTcl::widgets::ttk::panedwindow::treeChildrenChildsite}
+DumpCmd         vTcl::widgets::ttk::panedwindow::dumpCmd
+DumpInfoCmd     vTcl::widgets::ttk::panedwindow::dumpInfoCmd
+
+DeleteCmd       vTcl::widgets::ttk::panedwindow::deleteCmd
+
+# ResizePane      vTcl::widgets::ttk::panedwindow::ResizePane
+
+lappend vTcl(complex_class) TPanedwindow    ;# Rozen
+
+## Right-click menu
+Function        "Edit Panes..."         vTcl::widgets::ttk::panedwindow::editCmd
+
+## Pane specific options
+NewOption -after        "after"     type
+NewOption -before       "before"        type
+NewOption -minsize  "min size"      type
+NewOption -sticky       "sticky"        type
+
+## Special proc for setting up icons on the toolbar.
+proc vTcl:TPanedwindow:ToolBarSetup {} {
+    vTcl:toolbar_add ttk TPanedwindow \
+    "horizontal paned window" \
+    ../lib/Widgets/ttk/panedwindowhoriz.gif "-orient horizontal"
+
+    vTcl:toolbar_add ttk TPanedwindow \
+        "vertical paned window" \
+    ../lib/Widgets/ttk/panedwindow.gif "-orient vertical"
+}
+
+namespace eval vTcl::widgets::ttk::panedwindow {
+
+    proc getIcon {{w ""}} {
+        if {[lempty $w]} {
+            return [list ../lib/Widgets/ttk/panedwindow.gif \
+                     ../lib/Widgets/ttk/panedwindowhoriz.gif]
+        }
+        switch [$w cget -orient] {
+            horizontal {
+                return ../lib/Widgets/ttk/panedwindowhoriz.gif
+            }
+            vertical {
+                return ../lib/Widgets/ttk/panedwindow.gif
+            }
+        }
+    }
+
+    proc editCmd {} {
+        set target $::vTcl(w,widget)
+        ::vTcl::itemEdit::edit $target vTcl::widgets::ttk::panedwindow::edit
+    }
+
+    proc insertCmd {target} {
+        # Inserts the intial labelframes into the panedwindow.
+        global vTcl
+        set o [$target cget -orient]
+        switch $o {
+            horizontal {
+                ttk::labelframe $target.f1 -width 75 -text "Pane 1"
+                ttk::labelframe $target.f2 -width 125 -text "Pane 2"
+                $target.f1 configure -height 200
+                $target.f2 configure -height 200
+            }
+            vertical {
+                ttk::labelframe $target.f1 -height 75 -text "Pane 1"
+                ttk::labelframe $target.f2 -height 125 -text "Pane 2"
+                $target.f1 configure -width 200
+                $target.f2 configure -width 200
+            }
+        }
+        $target add $target.f1
+        $target add $target.f2
+        $target pane $target.f1
+        $target pane $target.f2
+        set vTcl(pane_used,$target) [list $target.f1 $target.f2]
+    }
+
+    proc dumpCmd {target basename} {
+        global vTcl
+        set result [vTcl:dump_widget_opt $target $basename]
+        set i 0
+        set panes [$target panes]
+        foreach pane $panes {
+            set last [lindex [split $pane .] end]
+            append result [vTcl:dump_widget_opt $pane $basename.$last]
+            append result "$::vTcl(tab)"
+            set sitevariable "site_[llength [split $pane .]]_$i"
+            append result "set $sitevariable $basename.$last\n"
+            append result \
+                [vTcl::widgets::ttk::dump_subwidgets $pane \$$sitevariable]
+            set conf [$target pane $pane]
+            set pairs [vTcl:get_subopts_special $conf $target]
+            append result "$::vTcl(tab)$basename add $basename.$last \n"
+            append result "[vTcl:clean_pairs $pairs]\n"
+            incr i
+        }
+return $result
+
+# NEEDS WORK Remove all this stuff....!!!!
+        # This gathers stuff on sash positions.  Since the sash
+        # position informat is not availiable in the option info I
+        # will have to keep the sash information in a separate
+        # location to be appended at the end of the paste/dump
+        # operations.  I don't know how to do that as yet. So we have
+        # paste without the ash stuff.  It is now set so that it is
+        # ignored in the dump.tcl file. See dump.tcl at about line
+        # 730.
+
+        set widget_name  [lrange [split $basename .] end end] ;# 2/27/12
+        for {set i 0;set p [expr [llength $panes]-1]} {$i < $p} {incr i} {
+            set found 0
+            set coord [$target sashpos $i]
+            set candidate  "$::vTcl(tab)$target sashpos $i $coord\n"
+            if {$vTcl(copy)} {
+                # Strip from the $target the name of the copy target.
+                # regsub ?switches? exp string subSpec ?varName?
+#                 regsub $vTcl(copy_target) $target "" new_target
+#                 switch $vTcl(copy_class) {
+#                     TNotebook {
+#                         set new_target "pg0.$new_target"
+#                     }
+#                 }
+#                 if {$vTcl(copy_class) == "TNotebook"} {
+#                 }
+                #set candidate  "sashpos $i $coord\n"
+                set candidate  "$basename sashpos $i $coord\n" ;#  2/27/12
+                # This handles the special case where the top thing we
+                # are copying is the paned window rather than an
+                # embedded one.
+                if {$basename == {$target}} {
+                    set candidate "sashpos $i $coord\n"
+                }
+            }
+
+            if {[info exists ::vTcl(set_sash,$basename)]} {
+                # Check to see if the candidate is already in the list.
+                foreach m $::vTcl(set_sash,$basename) {           ;# 2/27/12
+                    if {[string first $candidate $m] > -1} {
+                        # Candidate in list. Bail.
+                        incr found
+                        break
+                    }
+                }
+                if {$found == 0} {
+                    # Candidate was not in the list.
+                    lappend new_list $candidate
+                }
+            } else {
+                #lappend new_list "$::vTcl(tab)update idletasks\n"
+                # List does not exist, so add candidate
+                lappend new_list $candidate
+            }
+        }
+
+        if {[info exists new_list]} {
+            if {$basename == {$target}} {
+                set basename "target"
+            }
+            # I assume that new_list is not empty
+            if {$vTcl(copy)} {
+                #append result "$::vTcl(tab)update idletasks\n"
+                #lappend vTcl(sash_pos) ";update idletasks"
+            }
+            foreach item  $new_list {
+                lappend ::vTcl(set_sash,$basename) $item    ;# 2/27/12
+                if {$vTcl(copy)} {
+                    lappend vTcl(sash_pos) "$n"
+                } else {
+                    append result $item
+                }
+            }
+        }
+        #lappend ::vTcl(set_sash) $set_sash
+        return $result
+    }
+
+    proc dumpInfoCmd {target basename} {
+        global classes
+        # return "" Tempting but doesn't work
+        set result [vTcl:dump:widget_info $target $basename]
+        set panes [$target panes]
+        set i 0
+
+        foreach pane $panes {
+            append result "$::vTcl(tab)"
+            set sitevariable "site_[llength [split $pane .]]_$i"
+            append result "set $sitevariable $pane \n"
+            append result [$classes(Frame,dumpInfoCmd) $pane \$$sitevariable]
+            incr i
+        }
+        return $result
+    }
+
+    proc treeChildrenCmd {target {diff \#0}} {
+        set children ""
+        set wantsdiff [expr {$diff != ""}]
+
+        foreach site [treeChildrenChildsite $target] {
+            foreach child [::vTcl:complete_widget_tree $site $wantsdiff] {
+                lappend children $child$diff
+            }
+        }
+
+        return $children
+    }
+
+    proc deleteCmd {target} {
+        # set panes [$target panes]
+        # foreach pane $panes {
+        #     $target forget $pane
+        # }
+        set i 0
+        if {[info exists ::vTcl(set_sash)] } {
+            foreach sash $::vTcl(set_sash) {
+                if {[string first $target $sash] > -1} {
+                    lappend delete_list $i
+                }
+                incr i
+            }
+            if {[info exists delete_list]} {
+                # Delete them.
+                set newlist [lreverse $delete_list]
+                foreach ix $newlist {
+                    set ::vTcl(set_sash) [lreplace $::vTcl(set_sash) $ix $ix]
+                }
+            }
+        }
+        destroy $target
+    }
+
+
+    proc treeChildrenChildsite {target} {
+        return [$target panes]
+    }
+
+    proc resizeAdjacentPanes {parent widget index orient diff} {
+        set panes [$parent panes]
+        if {$orient == "horizontal"} {
+            set p1_index [expr $index - 1]
+            set pane1 [lrange $panes $p1_index $p1_index]
+            set pane1_width [$pane1 cget -width]
+            $pane1 configure -width [expr $pane1_width + $diff]
+            set p2_index [expr $index + 1]
+            set pane2 [lrange $panes $p2_index $p2_index]
+            set pane2_width [$pane2 cget -width]
+            $pane2 configure -width [expr $pane2_width - $diff]
+        }
+
+        if {$orient == "vertical"} {
+            set p1_index [expr $index - 1]
+            set pane1 [lrange $panes $p1_index $p1_index]
+            set pane1_height [$pane1 cget -height]
+
+            $pane1 configure -height [expr $pane1_height + $diff]
+            set p2_index [expr $index + 1]
+            set pane2 [lrange $panes $p2_index $p2_index]
+            set pane2_height [$pane2 cget -height]
+            $pane2 configure -height [expr $pane2_height - $diff]
+        }
+    }
+
+    proc resizePane {parent widget w h handle} {
+        # Code to resize pane. Widget is the labelframe. Parent is the
+        # paned window.  w and h are the new heights and
+        # widths. handle is the handle grabbed to do the resize.
+        set panes [$parent panes]
+        set W [$widget cget -width]
+        set H [$widget cget -height]
+        set pane_index [lsearch $panes $widget]
+        set o [$parent cget -orient]     ;# May not need.
+        set no_panes [llength $panes]
+        set pane $widget
+        set no_sashes [expr $no_panes -1]
+        if {$o == "horizontal"} {
+            switch -exact $handle {
+                nw -
+                sw -
+                w {
+                    if {$pane_index == 0} {return}
+                    set other_index [expr $pane_index - 1]
+                }
+                ne -
+                se -
+                e {
+                    if {$pane_index == [expr $no_panes - 1]} {return}
+                    set other_index [expr $pane_index + 1]
+                }
+                default {
+                    return
+                }
+            }
+            set diff [expr $w - $W]
+
+            set other_pane [lrange $panes $other_index $other_index]
+            set other_width [$other_pane cget -width]
+            $pane configure -width $w
+            $other_pane configure -width [expr $other_width - $diff]
+
+        }
+        if {$o == "vertical"} {  ;# First one and it seems to work.
+            switch -exact $handle {
+                ne -
+                nw -
+                n {
+
+                    if {$pane_index == 0} {return}
+                    set other_index [expr $pane_index - 1]
+                }
+                se -
+                sw -
+                s {
+                    if {$pane_index == [expr $no_panes - 1]} {return}
+                    set other_index [expr $pane_index + 1]
+                }
+                default {
+                    return
+                }
+            }
+            set diff [expr $h -$H]
+            set other_pane [lrange $panes $other_index $other_index]
+            set other_height [$other_pane cget -height]
+            $pane configure -height $h
+            $other_pane configure -height [expr $other_height - $diff]
+        }
+
+
+        # if {[set diff_W [eval $W - $w]]} {
+        #     $widget configure -width $w
+        #     $other  configure -width [eval $W_O - diff_W]
+        # }
+    }
+
+
+    proc resizeCmd {parent widget w h handle} {
+        # Code to resize the bottem pane when the whole window is
+        # resized.. Widget paned window.  w and h are the new heights
+        # and widths of the whole paned window. Handle is the handle
+        # grabbed to do the resize.
+return
+        set panes [$parent panes]
+        #set W [$widget cget -width]
+        #set H [$widget cget -height]
+        #set pane_index [lsearch $panes $widget]
+        set o [$parent cget -orient]
+        set no_panes [llength $panes]
+        #set pane $widget
+        #set no_sashes [expr $no_panes -1]
+        if {$o == "horizontal"} {
+            # Set all the pane heights to widght height.
+            foreach p $panes {
+                $p configure -height $h
+            }
+            switch -exact $handle {
+                nw -
+                sw -
+                w {
+                    # Moved right edge; all growth occurs in right pane.
+                    set growth_index 0
+                }
+                ne -
+                se -
+                e {
+                    # Moved left edge; all growth occurs in left pane.
+                    set growth_index [expr $no_panes - 1]
+                }
+                default {
+                    return
+                }
+            }
+            # Calculate growth in width.
+            set growth_pane [lindex $panes $growth_index]
+            set total 0
+            foreach p $panes {
+                # Get total width of the non-growth panes
+                if {$p == $growth_pane} continue
+                set total [expr $total + [$p cget -width]]
+             }
+             set new_width [expr ($w - $total)]
+             $growth_pane configure -width $new_width
+         }
+        if {$o == "vertical"} {  ;# First one and it seems to work.
+            # Vertical means that the panews are stacked verically.
+            # All panes will have the same width.
+            # Set all pane widths to the widget width
+            foreach p $panes {
+                $p configure -width $w
+            }
+           switch -exact $handle {
+                ne -
+                nw -
+                n {
+                    # Since we moved the top edge all growth will take
+                    # place with t top pane.  I do not check to see
+                    # whether one shrinks any of the windows too
+                    # much. So watch yourselves.
+                    set growth_index 0
+                }
+                se -
+                sw -
+                s {
+                    # We put growth in the bottom pane!
+                    set growth_index [expr $no_panes - 1]
+                }
+                default {
+
+                    return
+                }
+            }
+            # Calculate growth in height.
+            set growth_pane [lindex $panes $growth_index]
+            set total 0
+            foreach p $panes {
+                # Get total height of the non-growth panes
+                $p configure -width $w
+                if {$p == $growth_pane} continue
+                set total [expr $total + [$p cget -height]]
+             }
+             set new_height [expr ($h - $total)]
+        }
+    }
+}
+
+
+########################################################### -bg gray30
+## Code for editing pages in paned window widgets
+##
+namespace eval vTcl::widgets::ttk::panedwindow::edit {
+
+    proc getTitle {target} {
+        return "Edit panes for $target"
+    }
+
+    proc getLabelOption {} {
+        return -label
+    }
+
+    proc getItems {target} {
+        ## first item in the list is the current index
+
+        # This asumes that each pane is composed of a ttk::labelframe
+        # and we want to return the label of the labelframe. This may
+        # be called from init in lib_core.tcl.
+
+        set sites [$target panes]
+        set current 0
+        set values $current
+        #for {set i 1} {$i <= [llength $sites]} {incr i} {
+        #    lappend values "Pane $i"
+        #}
+        foreach s $sites {
+            set t [$s cget -text]
+            lappend values $t
+        }
+        return $values
+    }
+
+    proc addItem {target} {
+        global vTcl
+        # Adds a pane to the paned window. It creates a count that is
+        # simply the increment of the number of panes.
+
+        set panes [$target panes]
+        if {[info exists vTcl(pane_used,$target)] == 0} {
+            set vTcl(pane_used,$target) $panes
+        }
+        set index 1
+        ## repeat until we find an unused page number
+        while {1} {
+            set newpane "$target.f$index"
+            if {[lsearch -exact $vTcl(pane_used,$target) $newpane] == -1} break
+            incr index
+        }
+
+        set o [$target cget -orient]
+        set pane [lindex $panes end]
+        set no_panes [llength $panes]
+        # First -1 gives me the number of sashes; the second the index
+        # of the last one.
+        set last_shash_index [expr $no_panes - 1 - 1]
+        set last_sash [$target sashpos $last_shash_index]
+        set new_sash_index [expr $no_panes - 1]
+        foreach {w h} [split [winfo geometry $pane] "x+"] {
+            break ;# only want first pair}
+        switch $o {
+            horizontal {
+                set neww [expr $w * 0.70]
+                set new_sash [expr round($last_sash + $w * 0.30)]
+                ttk::labelframe $target.f$index -width $neww -text "Pane $index"
+                $target.f$index configure -width $neww
+                $pane configure -width [expr $w - $neww]
+            }
+            vertical {
+                set newh [expr $h * 0.70]
+                set new_sash [expr round($last_sash + $h * 0.30)]
+                ttk::labelframe $target.f$index -height $newh -text "Pane $index"
+                $target.f$index configure -height $newh
+                $pane configure -height [expr $h - $newh]
+            }
+        }
+        $target add $target.f$index
+        $target sashpos $new_sash_index $new_sash ;# This is key. Just
+                                                   # get the pane an -bg gray30d
+                                                   # the windowPane 1 right.
+        lappend vTcl(pane_used,$target) $target.f$index
+
+        # Update the edit window.
+        vTcl:init_wtree
+        return "Pane $index"
+    }
+
+    proc removeItem {target index} {
+        $target forget $index
+        vTcl:init_wtree
+        #error "Cannot delete a pane!"
+    }
+
+    proc itemConfigure {target index args} {
+
+        # This is a bit different from most of them because I generate
+        # paned windows with ttk labelframes in each pane.  That way I
+        # can use the label of the lableframes as the label for the
+        # panes.  But I have to fudge the editing so that one can use
+        # the edit pane window to change the name.  That means that I
+        # have to add the text of the label as though it were a bone
+        # fide property and that takes a fiddle.  Since it is ttk
+        # panedwindow there is only one option so I can handle that as
+        # very simple case,
+
+
+        set sites [$target panes]
+        set pane [lindex $sites $index]
+        if {$args == ""} {
+            # This if clause retrives the configuration.
+            set options [$target pane $pane]
+#NEEDS WORK
+            # Since the options are really only one option, options are a list
+            # like "-weight 0", I need to fudge it.
+#             set result ""
+#             foreach option $options {
+#                 ## only return valid options
+#                 #if {[llength $option] == 5} {
+#                 lappend result [list $option ]
+#                 #}
+#             }
+#             return $result
+            foreach {o v} $options { }
+            set p [list $o $v]
+            lappend result $p
+            #set result [list $o "x" "x" "x" $v]
+            #set result "-weight"
+            # Now add in the text for the label frame.
+            set label [$pane cget -text]
+            set p [list "-text" $label]
+            lappend result $p
+
+            # Lets add information about the sash associated with this
+            # pane if it is not the last pane.  What I am attempting
+            # to return is the sash position as a percentage of the
+            # width of the entire paned window. Will have to take into
+            # account the orientation.
+
+            set no_panes [llength $sites]
+            set orient [$target cget -orient]
+            if {$no_panes > [expr $index + 1]} {
+                 # we are not at last pane.
+                 update idletasks
+                 set pos [$target sashpos $index]
+                 if {$orient == "horizontal"} {
+                     set size [$target cget -width]
+                 } else {
+                     set size [$target cget -height]
+                 }
+                 set percentage [expr $pos.0 / $size.0 * 100.0]
+                 set percentage [format "%.1f" $percentage]
+                 set p [list "-sash_percent" $percentage]
+                 lappend result $p
+             }
+            return $result
+        } else {
+
+            # This part actually sets the configuration. I special case
+            # stuff since I know that there are only two
+            # possibilities.
+
+            foreach {o v} $args {
+                switch $o {
+                    -text {
+                        $pane configure -text $v
+                        # The following if clause sort of works. It
+                        # will set the value in the left side of the
+                        # edit window when the return key is hit.
+                        if {$v != ""} {
+                            set counter $index
+                            incr counter
+                            #set top .vTcl.itemEdit_$counter
+                            set top .vTcl.itemEdit_1
+                            set ::${top}::list_items [lreplace \
+                              [::vTcl:at ::${top}::list_items] $index $index $v]
+                        }
+                    }
+                    -weight {
+                        set arg [list $o $v]
+                        eval $target pane $pane $args
+                    }
+                    -sash_percent {
+                        if {$v != ""} {
+                            set orient [$target cget -orient]
+                            if {$orient == "horizontal"} {
+                                set size [$target cget -width]
+                            } else {
+                                set size [$target cget -height]
+                            }
+                            set s_pos [expr int($size.0 * $v.0 / 100.0)]
+                            update idletasks
+                            $target sashpos $index $s_pos
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    proc moveUpOrDown {target index direction} {
+        set offset(up) -1
+        set offset(down) 1
+        set pages [$target panes]
+        set length [llength $pages]
+        set final_pos [expr ($index + $offset($direction)) % $length]
+        set subwindow [lindex $pages $index]
+        $target insert $final_pos $subwindow
+        vTcl:init_wtree
+    }
+}

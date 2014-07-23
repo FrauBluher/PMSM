@@ -201,8 +201,8 @@ tapr.org/ohl.html</text>
 <text x="19.55" y="18.05" size="0.8128" layer="25">MOSI</text>
 <text x="19.55" y="16.85" size="0.8128" layer="25">MISO</text>
 <text x="19.55" y="15.05" size="0.8128" layer="25">SCLK</text>
-<text x="22.8" y="25.2" size="0.8128" layer="25" rot="R180">*FAULT</text>
-<text x="22.8" y="23.95" size="0.8128" layer="25" rot="R180">*OCTW</text>
+<text x="22.7" y="23.2" size="0.8128" layer="25" rot="R180">*FAULT</text>
+<text x="22.7" y="24.4" size="0.8128" layer="25" rot="R180">*OCTW</text>
 </plain>
 <libraries>
 <library name="ASL">

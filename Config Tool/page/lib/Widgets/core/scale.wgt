@@ -1,0 +1,88 @@
+# $Id: scale.wgt,v 1.7 2005/12/05 06:59:27 kenparkerjr Exp $
+
+##############################################################################
+#
+# Visual TCL - A cross-platform application development environment
+#
+# Copyright (C) 2001 Damon Courtney
+#
+# Description file for Tk Widget
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
+##############################################################################
+#
+
+Class       Scale
+
+Icon        @vTcl::widgets::core::scale::getIcon
+TreeLabel   @vTcl::widgets::core::scale::getWidgetTreeLabel
+InsertCmd   vTcl::widgets::core::scale::insertCmd
+DefaultOptions  -font \$vTcl(actual_gui_font_text_name) \
+    -background \$vTcl(actual_gui_bg) -foreground \$vTcl(actual_gui_fg) \
+    -activebackground \$vTcl(analog_color_m) \
+    -highlightbackground \$vTcl(actual_gui_bg) \
+    -troughcolor \$vTcl(actual_gui_bg)
+    #-activeforeground \$vTcl(actual_gui_fg)
+#DefaultValues   -activebackground -background -foreground \
+                -highlightbackground -highlightcolor -troughcolor
+if {$vTcl(pr,balloon)} { ;# Rozen
+    ClassOption     -_tooltip
+}
+
+## Special proc for setting up icons on the toolbar.
+proc vTcl:Scale:ToolBarSetup {} {
+    vTcl:toolbar_add core Scale "vertical scale" icon_scale_v.gif \
+        "-orient vertical"
+    vTcl:toolbar_add core Scale "horizontal scale" icon_scale_h.gif \
+        "-orient horizontal"
+}
+
+namespace eval vTcl::widgets::core::scale {
+
+    proc getIcon {{w ""}} {
+        if {[lempty $w]} {
+        return [list icon_scale_h.gif icon_scale_v.gif]
+    }
+    if {[catch {$w cget -orient} orient]} {
+        return "icon_scale.gif"
+    }
+        if {$orient == "horizontal"} {
+        return "icon_scale_h.gif"
+    }
+        return "icon_scale_v.gif"
+    }
+
+    proc getWidgetTreeLabel {w} {
+        if {[catch {$w cget -orient} orient]} {
+        return "Scale"
+    }
+        set var [$w cget -variable]
+        if {$var != ""} {
+            set var " VAR: $var"
+        }
+        if {$orient == "horizontal"} {
+        return "Horz Scale$var"
+    }
+        return "Vert Scale$var"
+    }
+
+    proc insertCmd {target} {
+        set last [lindex [split $target .] end]
+        set last [vTcl:rename $last]
+
+        #$target configure -variable "[winfo toplevel $target]::$last"
+    }
+}

@@ -1,0 +1,77 @@
+##############################################################################
+#
+# Visual TCL - A cross-platform application development environment
+#
+# Copyright (C) 2007 Tristan  http://www.tcltk.cn
+#
+# Description file for Tile Widget
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+##############################################################################
+
+Class       TCombobox
+Lib     ttk
+
+Icon        icon_combobox.gif
+DefaultOptions  -textvariable combobox
+TtkOptions  -background
+TtkWidget		yes
+
+if {$vTcl(pr,balloon)} {
+ClassOption     -_tooltip   ;# Rozen not yet supporting tooltips.
+}
+
+
+InsertCmd   vTcl::widgets::ttk::combobox::insertCmd
+CreateCmd ttk::combobox
+
+TreeLabel   @vTcl::widgets::ttk::combobox::getWidgetTreeLabel
+
+Function    "Set Values"    vTcl::widgets::ttk::combobox::setValues
+Function    "Set Text Variable"    vTcl::widgets::ttk::combobox::setTextVariable
+
+
+VirtualEvents <<ComboboxSelected>>
+
+namespace eval vTcl::widgets::ttk::combobox {
+
+    proc insertCmd {target} {
+        $target configure -takefocus ""
+    }
+
+    proc getWidgetTreeLabel {target} {
+        set ttt1 [$target cget -text]
+        set ttt2 [$target cget -textvariable]
+
+        if {$ttt2 == ""} {
+            return "TCombobox: $ttt1"
+        } else {
+            return "TCombobox: $ttt1 var=$ttt2"
+        }
+    }
+
+    proc setValues {} {
+        vTcl:set_values $::vTcl(w,widget)
+    }
+
+    proc setTextVariable {} {
+        global vTcl
+        vTcl:core:set_option $vTcl(w,widget)\
+                         -textvariable \
+            "Set variable"
+    }
+
+}
+

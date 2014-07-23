@@ -1,0 +1,35 @@
+# $Id: canvas.wgt,v 1.4 2002/03/17 00:36:28 cgavin Exp $
+
+##############################################################################
+#
+# Visual TCL - A cross-platform application development environment
+#
+# Copyright (C) 2001 Damon Courtney
+#
+# Description file for Tk Widget
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
+##############################################################################
+#
+
+Class		Canvas
+Lib		core
+
+Icon		icon_canvas.gif
+DefaultOptions	-bd 2 -relief ridge -background white
+#DefaultValues   -background -highlightbackground -highlightcolor
+DefaultValues    -highlightbackground -highlightcolor
+Insertable

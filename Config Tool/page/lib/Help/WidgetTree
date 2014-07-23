@@ -1,0 +1,13 @@
+The Widget Tree
+===============
+
+The widget tree displays all widgets in the current project.  It displays
+them in a tree style, showing each widget as a parent or children of other
+widgets in the project.
+
+Clicking on the button for a particular widget will set the focus on that
+widget and raise the toplevel window of the widget to the top of the
+work area.
+
+If a toplevel window is hidden, clicking its button in the widget tree will
+deiconify it and raise it.

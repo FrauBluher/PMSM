@@ -1,0 +1,80 @@
+# $Id: spinbox.wgt,v 1.3 2002/03/17 00:36:28 cgavin Exp $
+
+##############################################################################
+#
+# Visual TCL - A cross-platform application development environment
+#
+# Copyright (C) 2001 Damon Courtney
+#
+# Description file for Tk Widget
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
+##############################################################################
+#
+
+Class       Spinbox
+Lib     core
+
+Icon        ../lib/Widgets/core/spinbox.gif
+
+DefaultOptions -from 1 -to 100 -textvariable spinbox -background white \
+                 -font \$vTcl(actual_gui_font_text_name) \
+				 -buttonbackground \$vTcl(actual_gui_bg) \
+				 -highlightbackground black
+#DefaultValues    -buttonbackground
+
+DoubleClickCmd  vTcl:set_string
+
+TreeLabel   Spinbox
+
+
+NewOption -buttonbackground "button bg" color   {}  Colors
+NewOption -buttoncursor     "button cursor" type
+NewOption -buttondownrelief "down relief"   relief
+NewOption -buttonuprelief   "up relief" relief
+NewOption -format       "format"    type
+NewOption -from         "from"      type
+NewOption -increment        "increment" type
+NewOption -readonolybackground  "readonly bg"   color   {}  Colors
+NewOption -to           "to"        type
+NewOption -values       "values"    type
+
+## Options which we want to overwrite for this widget only.
+SpecialOpt -state       "state"     choice \
+  "normal disabled readonly"
+SpecialOpt -validate        "validate"  choice \
+  "none focus focusin focusout key all"
+SpecialOpt -wrap        "wrap"      boolean "0 1"
+
+Function    "Set Values"    vTcl::widgets::core::spinbox::setValues
+Function    "Set Text Variable"  vTcl::widgets::core::spinbox::setTextVariable
+
+namespace eval vTcl::widgets::core::spinbox {
+
+
+    proc setValues {} {
+        vTcl:set_values $::vTcl(w,widget)
+    }
+
+    proc setTextVariable {} {
+        global vTcl
+        vTcl:core:set_option $vTcl(w,widget)\
+                         -textvariable \
+            "Set variable"
+    }
+
+
+}

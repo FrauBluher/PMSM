@@ -10278,6 +10278,12 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <wire x1="381" y1="134.62" x2="360.68" y2="134.62" width="0.1524" layer="91"/>
 </segment>
 </net>
+<net name="N$13" class="0">
+<segment>
+<pinref part="U7" gate="A" pin="PH"/>
+<wire x1="111.76" y1="165.1" x2="114.3" y2="165.1" width="0.1524" layer="91"/>
+</segment>
+</net>
 </nets>
 </sheet>
 <sheet>

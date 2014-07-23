@@ -203,8 +203,6 @@ tapr.org/ohl.html</text>
 <text x="19.45" y="14.95" size="0.8128" layer="25">SCLK</text>
 <text x="22.6" y="23.1" size="0.8128" layer="25" rot="R180">*FAULT</text>
 <text x="22.6" y="24.3" size="0.8128" layer="25" rot="R180">*OCTW</text>
-<dimension x1="4" y1="44" x2="78" y2="44" x3="41" y3="52.35" textsize="1.778" layer="101"/>
-<dimension x1="78" y1="44" x2="78" y2="4" x3="85.9" y3="24" textsize="1.778" layer="101"/>
 </plain>
 <libraries>
 <library name="ASL">

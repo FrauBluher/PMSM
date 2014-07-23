@@ -8027,7 +8027,7 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <part name="TP3" library="testpad" deviceset="TP" device="TP06R"/>
 <part name="TP4" library="testpad" deviceset="TP" device="TP06R"/>
 <part name="IC1" library="OpenPMSM" deviceset="DRV8303" device=""/>
-<part name="R1" library="ASL" deviceset="RESISTOR" device="0805-RES" value="1 Ohm"/>
+<part name="R1" library="ASL" deviceset="RESISTOR" device="0805-RES" value="100k"/>
 <part name="U$14" library="OpenPMSM" deviceset="MICROCLASP3" device=""/>
 <part name="U$16" library="OpenPMSM" deviceset="MINIFITJR4PIN" device=""/>
 <part name="U$17" library="OpenPMSM" deviceset="MINIFITJR6PIN" device=""/>
@@ -8729,6 +8729,7 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <pinref part="R30" gate="G$1" pin="2"/>
 <pinref part="C15" gate="G$1" pin="1"/>
 <wire x1="93.98" y1="86.36" x2="96.52" y2="86.36" width="0.1524" layer="91"/>
+<label x="96.52" y="86.36" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="I2" class="0">
@@ -8741,6 +8742,7 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <pinref part="R31" gate="G$1" pin="2"/>
 <pinref part="C29" gate="G$1" pin="1"/>
 <wire x1="93.98" y1="73.66" x2="96.52" y2="73.66" width="0.1524" layer="91"/>
+<label x="96.52" y="73.66" size="1.778" layer="95"/>
 </segment>
 </net>
 </nets>

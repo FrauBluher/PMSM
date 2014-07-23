@@ -45,7 +45,7 @@
     <conf name="default" type="2">
       <toolsSet>
         <developmentServer>localhost</developmentServer>
-        <targetDevice>dsPIC33EP512GM306</targetDevice>
+        <targetDevice>dsPIC33EP256MU806</targetDevice>
         <targetHeader></targetHeader>
         <targetPluginBoard></targetPluginBoard>
         <platformTool>PICkit3PlatformTool</platformTool>
@@ -59,8 +59,11 @@
             <linkerLibFileItem>/opt/microchip/xc16/v1.20/src/lib/libdsp-elf.a</linkerLibFileItem>
           </linkerLibItems>
         </linkerTool>
+        <archiverTool>
+        </archiverTool>
         <loading>
           <useAlternateLoadableFile>false</useAlternateLoadableFile>
+          <parseOnProdLoad>false</parseOnProdLoad>
           <alternateLoadableFile></alternateLoadableFile>
         </loading>
       </compileType>
@@ -112,6 +115,8 @@
         <property key="use-cci" value="false"/>
         <property key="use-iar" value="false"/>
       </C30>
+      <C30-AR>
+      </C30-AR>
       <C30-AS>
         <property key="assembler-symbols" value=""/>
         <property key="expand-macros" value="false"/>
@@ -185,18 +190,36 @@
         <property key="relaxed-math" value="false"/>
         <property key="save-temps" value="false"/>
       </C30Global>
+      <item path="MotorControl.c" ex="true" overriding="false">
+        <C30>
+        </C30>
+        <C30-AR>
+        </C30-AR>
+        <C30-AS>
+        </C30-AS>
+        <C30-LD>
+        </C30-LD>
+        <C30Global>
+        </C30Global>
+      </item>
       <PICkit3PlatformTool>
         <property key="ADC 1" value="true"/>
         <property key="ADC 2" value="true"/>
         <property key="AutoSelectMemRanges" value="auto"/>
         <property key="COMPARATOR" value="true"/>
         <property key="CRC" value="true"/>
-        <property key="CTMU" value="true"/>
         <property key="DCI" value="true"/>
         <property key="Freeze All Other Peripherals" value="true"/>
         <property key="I2C1" value="true"/>
         <property key="I2C2" value="true"/>
         <property key="INPUT CAPTURE 1" value="true"/>
+        <property key="INPUT CAPTURE 10" value="true"/>
+        <property key="INPUT CAPTURE 11" value="true"/>
+        <property key="INPUT CAPTURE 12" value="true"/>
+        <property key="INPUT CAPTURE 13" value="true"/>
+        <property key="INPUT CAPTURE 14" value="true"/>
+        <property key="INPUT CAPTURE 15" value="true"/>
+        <property key="INPUT CAPTURE 16" value="true"/>
         <property key="INPUT CAPTURE 2" value="true"/>
         <property key="INPUT CAPTURE 3" value="true"/>
         <property key="INPUT CAPTURE 4" value="true"/>
@@ -204,7 +227,15 @@
         <property key="INPUT CAPTURE 6" value="true"/>
         <property key="INPUT CAPTURE 7" value="true"/>
         <property key="INPUT CAPTURE 8" value="true"/>
+        <property key="INPUT CAPTURE 9" value="true"/>
         <property key="OUTPUT COMPARE 1" value="true"/>
+        <property key="OUTPUT COMPARE 10" value="true"/>
+        <property key="OUTPUT COMPARE 11" value="true"/>
+        <property key="OUTPUT COMPARE 12" value="true"/>
+        <property key="OUTPUT COMPARE 13" value="true"/>
+        <property key="OUTPUT COMPARE 14" value="true"/>
+        <property key="OUTPUT COMPARE 15" value="true"/>
+        <property key="OUTPUT COMPARE 16" value="true"/>
         <property key="OUTPUT COMPARE 2" value="true"/>
         <property key="OUTPUT COMPARE 3" value="true"/>
         <property key="OUTPUT COMPARE 4" value="true"/>
@@ -212,13 +243,14 @@
         <property key="OUTPUT COMPARE 6" value="true"/>
         <property key="OUTPUT COMPARE 7" value="true"/>
         <property key="OUTPUT COMPARE 8" value="true"/>
+        <property key="OUTPUT COMPARE 9" value="true"/>
         <property key="PARALLEL MASTER/SLAVE PORT" value="true"/>
-        <property key="PTG" value="true"/>
         <property key="PWM" value="true"/>
         <property key="REAL TIME CLOCK AND CALENDAR" value="true"/>
         <property key="SPI 1" value="true"/>
         <property key="SPI 2" value="true"/>
         <property key="SPI 3" value="true"/>
+        <property key="SPI 4" value="true"/>
         <property key="SecureSegment.SegmentProgramming" value="FullChipProgramming"/>
         <property key="TIMER1" value="true"/>
         <property key="TIMER2" value="true"/>
@@ -236,6 +268,8 @@
         <property key="UART 2" value="true"/>
         <property key="UART 3" value="true"/>
         <property key="UART 4" value="true"/>
+        <property key="USB" value="true"/>
+        <property key="firmware.download.all" value="false"/>
         <property key="hwtoolclock.frcindebug" value="false"/>
         <property key="memories.aux" value="false"/>
         <property key="memories.bootflash" value="false"/>

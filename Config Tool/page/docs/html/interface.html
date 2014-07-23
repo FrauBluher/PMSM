@@ -1,0 +1,407 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>The PAGE Interface &mdash; PAGE 4.3 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '4.3',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="PAGE 4.3 documentation" href="index.html" />
+    <link rel="next" title="Defaults and Preferences" href="preferences.html" />
+    <link rel="prev" title="Introduction" href="intro.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="preferences.html" title="Defaults and Preferences"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="intro.html" title="Introduction"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">PAGE 4.3 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="the-page-interface">
+<h1>The PAGE Interface<a class="headerlink" href="#the-page-interface" title="Permalink to this headline">¶</a></h1>
+<p>This section discusses the menus and several of the windows in the
+PAGE interface.  Again, the PAGE interface is a modified version of the
+Visual Tcl interface.  It was modified because some of the original
+facilities and features of Visual Tcl are inappropriate for PAGE or
+because the Visual Tcl documentation is in such a sad state that I do
+not understand them.</p>
+<p>When PAGE is execute without an existing .pagerc file, which is the
+situation when PAGE is first installed, a number of windows are spread
+across the screen in what may appear as random locations and sizes. I
+have arranged them at the corners and the edges so that they will be
+out of the way of the GUI you are building.  They
+should then be resized and moved to more desirable locations.  Follow
+such placement with Windows-&gt;Save Window Locations or File-&gt;Quit and
+the geometry of the windows will be saved and used when PAGE is next
+invoked.</p>
+<p>Many PAGE parameters are are saved from one invocation of PAGE to the
+next in the file &#8220;HOME/.pagerc&#8221;. Included are the preferences and the
+geometry (size and location) of the various windows in the page
+interface as described above. This file is created when the user does
+a quit.</p>
+<p>Start PAGE by executing &#8216;page&#8217; on Linux, winpage.bat in a DOS window,
+or activating the PAGE icon on the Windows desktop. The page and
+winpage.bat scripts may specify a filename. If the filename includes
+an extension, it must be &#8221;.tcl&#8221;; in the case of no extension or a
+final &#8221;.&#8221;, the extension &#8221;.tcl&#8221; will be appended to the filename.</p>
+<p>The user is then greeted with a number PAGE windows and the main menu.</p>
+<p>The default interface for PAGE presents small font sizes and the Tk
+default scheme of black on gray. So for my personal use I made the
+fonts larger and wanted the background color Wheat. See the section on
+<a class="reference internal" href="preferences.html#preferences"><em>Defaults and Preferences</em></a>.</p>
+<p>PAGE may be terminated with File-&gt;Quit which cleanly stops execution
+while saving preferences and window geometry; Control-C and Control-Q
+also quit PAGE.</p>
+<div class="section" id="menus">
+<h2>Menus<a class="headerlink" href="#menus" title="Permalink to this headline">¶</a></h2>
+<p>The main menu of PAGE contains some of the usual stuff and there is
+nothing too surprising in the File, Edit, or Window menus.  There are
+several PAGE windows which popup for various functions and the user
+can relocate them and change their sizes with the mouse.  The Save
+Window Locations item in the Window menu saves the current locations
+for future invocations of PAGE.</p>
+<p>The Widget menu is dynamic depending on the widget selected. Commonly,
+it allows the invocation of things like the Menu editor, or Page
+editor for the TNotebook widget.</p>
+<p>The Gen_Python menu creates the Python code for the GUI module as well
+as the supporting module.</p>
+<p>Finally, the Help menu opens an About window containing some
+information about PAGE and can open the html version of the this
+documentation in the default browser. This has been tested in Linux
+with Firefox and Chrome, in OSX with Firefox and Safari, and XP with
+Firefox (I don&#8217;t have a reasonable version of IE).</p>
+<p>Let me emphasize that PAGE will contain bugs. So be sure to save
+often. That is the purpose of the save commands in the File menu.</p>
+<p>When PAGE starts for the first time, it throws up upon the screen a
+jumble of windows to be discussed below.  You should move them around
+to better locations, resize them, and then invoke Window-&gt;Save Window
+Location and quit. The next time you start PAGE, they will be where
+you put them. Of course this can be done anytime. Also, when you Quit
+PAGE, the current window locations and geometries are saved as default
+locations.</p>
+<p>Many of interface elements like the Widget Toolbar, the Attribute
+Editor, and the Widget Tree can be turned on from the Window item of
+the main toolbar. Others are invoked from the widget menu after a
+widget is selected.</p>
+</div>
+<div class="section" id="widget-toolbar">
+<h2>Widget Toolbar<a class="headerlink" href="#widget-toolbar" title="Permalink to this headline">¶</a></h2>
+<p>The Widget Toolbar is where one obtains widgets for inclusion in the
+GUI. One begins building a GUI by selecting Toplevel with Button-1 and
+a blank toplevel window appears on the screen.  For other widgets,
+click on the widget in the toolbar and then click in the parent.  The
+upper left hand corner of the widget appears at the spot where the
+user clicked.</p>
+<p>The Widget Toolbar appears below:</p>
+<img alt="_images/widget.png" src="_images/widget.png" />
+<p>Clicking on the gray bands causes the corresponding section to
+collapse or expand.</p>
+</div>
+<div class="section" id="attribute-editor">
+<h2>Attribute Editor<a class="headerlink" href="#attribute-editor" title="Permalink to this headline">¶</a></h2>
+<p>When one selects a widget the Attribute Editor displays all attributes
+of that widget.  The plum colored fields are not writable the others
+are. For instance, the Attribute Editor shown below allows one to
+change the title from &#8220;New Toplevel 1&#8221; to something more
+meaningful. That field is used to generate the Python
+class name for the GUI.</p>
+<img alt="_images/attribute.jpg" src="_images/attribute.jpg" />
+<p>There is the Alias field which is writable by the user.  The user can
+provide an alias to improve the readability of the generated code.</p>
+<blockquote>
+<div></div></blockquote>
+</div>
+<div class="section" id="widget-tree">
+<span id="widgettree"></span><h2>Widget Tree<a class="headerlink" href="#widget-tree" title="Permalink to this headline">¶</a></h2>
+<p>The Widget Tree shows all of widgets created by PAGE and how they are
+nested within their parent widgets, see below.</p>
+<img alt="_images/widget-tree.jpg" src="_images/widget-tree.jpg" />
+<p>The above tree shows that the selected widget is a Treeview subwidget
+in the TScrolledtreeview, that it is nested inside the toplevel
+titled Example.</p>
+<p>Remember that the Attribute Editor window displays the current
+attributes of the Quit button. The Widget Tree is a very good place to
+select a widget with Button-1.</p>
+<p>If you change an attribute like the text in a button, the Widget tree
+will not be updated until you hit the update button in the upper left
+of the Widget Tree.</p>
+<p>I frequently use this window to select the widget I want to modify and
+occasionally it fails to select the widget, particularly when doing
+copy and paste operations.  For unknown reasons,if I go and select
+another widget and then reselect the widget I want, it usually works.</p>
+<p>As described below in the section
+<a class="reference internal" href="use.html#use"><em>Using PAGE</em></a>
+is very important when trying to
+move or select some of the more complex widgets like paned windows or
+scrolled windows.</p>
+</div>
+<div class="section" id="bindings-window">
+<h2>Bindings Window<a class="headerlink" href="#bindings-window" title="Permalink to this headline">¶</a></h2>
+<p>This window which appears when Bindings is selected from the Widget
+menu allows one to add one of the possible bindings shown for the
+widget and to specify the action.  In the image below the event
+&lt;Button-1&gt; has been added for a Button widget and &#8220;quit&#8221; is specified
+for the action.</p>
+<img alt="_images/binding.jpg" src="_images/binding.jpg" />
+</div>
+<div class="section" id="menu-editor">
+<h2>Menu Editor<a class="headerlink" href="#menu-editor" title="Permalink to this headline">¶</a></h2>
+<p>This window easily builds a menu.  You can see below an example of its
+use.</p>
+<img alt="_images/menu.jpg" src="_images/menu.jpg" />
+<p>It is called forth from the Widget menus or from the Attribute
+editor. I made this menu with weird colors and fonts to confirm that
+such is possible.</p>
+<p>There is one thing that is a little strange in the menu editor is that
+colors like the background color is displayed on the button rather
+than on the entry field.  I may try to run that down in a future release.</p>
+</div>
+<div class="section" id="function-editor">
+<h2>Function Editor<a class="headerlink" href="#function-editor" title="Permalink to this headline">¶</a></h2>
+<p>I now, version 4.2,  consider this window to support the deprecated
+function of programming functions within PAGE.  It is just plain
+better to do that with a Python editor or IDE. See the section <a class="reference internal" href="use.html#defining-functions"><em>Defining Functions</em></a>.</p>
+<p>Here is a list of the functions that have been defined for the
+program. Obviously, the intended function in the original Visual Tcl
+was to build Tcl functions. Such functions have no meaning for Python.
+The best place to define your Python function is in the Python IDE
+that you are using. However, this facility does serve a purpose.  It
+allows you to easily build a skeleton function that are called when
+you try a test run of the GUI.  More on that later.</p>
+<img alt="_images/function-list.jpg" src="_images/function-list.jpg" />
+<p>If one selects the left button in the function list, the Function
+Editor appears.</p>
+<img alt="_images/function-editor.jpg" src="_images/function-editor.jpg" />
+<p>This is already set up with a skeleton python function named py:xxx. If
+you then go into the editor and change xxx to the name of the function
+that you may have specified in a menu, binding, or command attribute,
+you get the dummy Python function that will be needed to test the
+GUI. When you have your GUI window and are back in the Python IDE
+fleshing out your application, then complete the skeleton functions.</p>
+<p>Class methods are distinguished by having the &#8220;self&#8221; as the first
+parameter.</p>
+<p>The more I use PAGE the less that I use the function editor.  The IDE
+that I use to create the python functions in emacs.</p>
+</div>
+<div class="section" id="preferences-window">
+<h2>Preferences Window<a class="headerlink" href="#preferences-window" title="Permalink to this headline">¶</a></h2>
+<p>The Preferences Window allows one to set some PAGE preferences.
+I considered removing the Preferences Window completely, but on
+further thought I realized that the this is indeed a complex subject
+involving preferences for both PAGE and the GUI generated by
+page. Please see the section on         <a class="reference internal" href="preferences.html#preferences"><em>Defaults and Preferences</em></a>.</p>
+<p>The Colors tab of the Preferences Window is shown below.</p>
+<img alt="_images/colors.png" src="_images/colors.png" />
+</div>
+<div class="section" id="python-console">
+<span id="id1"></span><h2>Python Console<a class="headerlink" href="#python-console" title="Permalink to this headline">¶</a></h2>
+<p>NEEDS NEW IMAGE. console.jpg</p>
+<p>When the user generates Python for either the GUI module or the
+support module as described above, the Python Console window appears
+with the generated code inside the upper text box. It has the
+following appearance:</p>
+<img alt="_images/console.jpg" src="_images/console.jpg" />
+<p>The upper text box contains the generated text with a bit of
+colorization applied. The lower text box contains any generated output
+from running the source program. The Python Console is a
+ttk::panedwindow which allows one to move the sash between the two
+text boxes.</p>
+<p>To execute the generated Python module, just click on the Run button
+of the &#8216;Python console&#8217;.  Unless you have written the necessary
+functions not much will happen other than providing a preview of the
+GUI. The skeletal functions that are generated automatically for
+callbacks print the function name in the Execution Output window using
+the Print function.  On Linux or OS X the function name will appear
+immediately in the execution window; on Windows, when execution is
+terminated.  The Print function works fine for Python 2.7 or 3.x. See
+the penultimate paragraph of this section which discusses this
+more. As explained in the  <a class="reference internal" href="rework.html#rework"><em>Rework</em></a> section, the GUI module will
+not execute unless there is a existing support module. If the GUI code
+has been modified to include new callbacks then one shouldn&#8217;t expect
+the GUI code to execute until those callbacks have been incorporated
+in the support module.</p>
+<p>There are several buttons along the bottom of the window. They behave
+as follows:</p>
+<ul class="simple">
+<li>Save - Saves the contents of the upper text box into a file. It also saves the tcl file.</li>
+<li>Run - Attempts to execute the GUI source module even if the displayed code is the Python support module. It also may save the Python and the tcl file.</li>
+<li>Close - Closes the Python console.</li>
+</ul>
+<p>The upper text box can be modified (edited) by selecting a character
+position with the mouse and typing. Such changes will be saved with
+either the Save or Run buttons.</p>
+<p>As you can imagine the colorization is not fancy. Keywords, comments,
+and strings are set to distinct colors. The defaults are set to
+reasonable colors for light backgrounds. One place you may have
+trouble is with quotes that bracketed by &#8216;&#8217;&#8217; or &#8220;&#8221;&#8221;. You should start
+a line with one of these delimiters and end a following line with one.</p>
+<p>The Run Button attempts a trial run on your GUI. If you have enough
+skeleton functions in the support module and there are no errors in
+the generated code, you should see the python code executed and the
+GUI window will appear. From there you close the Python window go back
+to PAGE and refine the GUI by moving widgets around, adding additional
+widgets, or changing attributes.</p>
+<p>A problem was reported when users attempt to resize the
+window. Recent changes  allow the window to gracefully
+resize. This can be necessary if the screen resolution will not allow
+the entire window to be displayed. When the window is made smaller, it
+may appear to loose the Execution pane. However, it can be recovered
+by moving up the sash of the paned window.  When one quits and
+restarts PAGE after resizing the Python console, the new size will
+have been saved in ~/.pagerc and used when subsequently invoking the
+Python console including the placement of the sash. So invoke the
+Python console, resize it, re-position the sash quit PAGE, and restart
+PAGE to use the new Python console.</p>
+<p>Also, scroll wheel support in the Python console works.  To use the
+scroll wheel in Windows one must focus on the desired pane
+first. Finally, when the Python Console is in focus, Control-P and
+Control-I will have the effect of generating the GUI module and the
+supporting module respectively.</p>
+<p>Execution of the python module  on Linux
+communicates with the console through pipes; thus output from the
+execution now appears immediately in the Execution Output pane.
+Coupled with a recent change which embeds a print statement in the
+generated dummy functions, if a user specifies a command for a button,
+for example, and generates the python and runs it from the Python
+Console, and selects the button, the name of the command will appear
+in the Execution Console.
+This is useful because no output from selecting the widget means that
+you have not defined a callback function. Unfortunately, on Windows
+the this output does not appear until the execution
+terminates.</p>
+</div>
+<div class="section" id="color-dialog">
+<span id="id2"></span><h2>Color Dialog<a class="headerlink" href="#color-dialog" title="Permalink to this headline">¶</a></h2>
+<p>There are many cases where when setting preferences in the Preferences
+window or attributes for a widget in the Attribute Editor one selects
+a little button with an ellipsis and the invokes a color dialog window:</p>
+<img alt="_images/colorpicker.png" src="_images/colorpicker.png" />
+<p>When this window pops up you are given several different ways of
+selecting a color:</p>
+<ul class="simple">
+<li>Pick a color in the multicolored window with your mouse.</li>
+<li>Enter values in the Red, Green, and Blue entry fields.</li>
+<li>Enter values in the Hue, Saturation, and Value entry fields.</li>
+<li>Enter an Hex color value such as #f5deb3 in the Color entry field. That is the color wheat.</li>
+<li>Enter a color name such as wheat in the Color entry field.</li>
+</ul>
+<p>I found the color dialog on the web at <a class="reference external" href="http://http://jack.r.free.fr/index.php?lng=en&amp;page=colordlg">Le site de Jack</a>.
+It was very easy to use and allowed me to enter color names, a feature
+not allowed by the other color pickers I found.</p>
+</div>
+<div class="section" id="colors">
+<h2>Colors<a class="headerlink" href="#colors" title="Permalink to this headline">¶</a></h2>
+<p>Since PAGE is aimed at using ttk widgets which will obey the canned
+themes which are basically black on gray, I want the background of
+created windows to be gray.  Unless you are prepared to work with
+themes, I recommend that you stay with the tk default colors.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">The PAGE Interface</a><ul>
+<li><a class="reference internal" href="#menus">Menus</a></li>
+<li><a class="reference internal" href="#widget-toolbar">Widget Toolbar</a></li>
+<li><a class="reference internal" href="#attribute-editor">Attribute Editor</a></li>
+<li><a class="reference internal" href="#widget-tree">Widget Tree</a></li>
+<li><a class="reference internal" href="#bindings-window">Bindings Window</a></li>
+<li><a class="reference internal" href="#menu-editor">Menu Editor</a></li>
+<li><a class="reference internal" href="#function-editor">Function Editor</a></li>
+<li><a class="reference internal" href="#preferences-window">Preferences Window</a></li>
+<li><a class="reference internal" href="#python-console">Python Console</a></li>
+<li><a class="reference internal" href="#color-dialog">Color Dialog</a></li>
+<li><a class="reference internal" href="#colors">Colors</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="intro.html"
+                        title="previous chapter">Introduction</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="preferences.html"
+                        title="next chapter">Defaults and Preferences</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/interface.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="preferences.html" title="Defaults and Preferences"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="intro.html" title="Introduction"
+             >previous</a> |</li>
+        <li><a href="index.html">PAGE 4.3 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2008 - 2014 Donald Rozenberg.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

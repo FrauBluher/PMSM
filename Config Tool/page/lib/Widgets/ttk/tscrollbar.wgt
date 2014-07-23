@@ -1,0 +1,114 @@
+# $Id: scrollbar.wgt,v 1.6 2005/12/05 06:59:27 kenparkerjr Exp $
+
+##############################################################################
+#
+# Visual TCL - A cross-platform application development environment
+#
+# Copyright (C) 2001 Damon Courtney
+#
+# Description file for Tk Widget
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
+##############################################################################
+
+Class       TScrollbar
+Lib         ttk
+CreateCmd   ttk::scrollbar
+
+DoubleClickCmd  vTcl:set_command
+Icon        @vTcl::widgets::ttk::scrollbar::getIcon
+TreeLabel   @vTcl::widgets::ttk::scrollbar::getWidgetTreeLabel
+DefaultValues   -activebackground -background -cursor -highlightbackground \
+                -highlightcolor -troughcolor
+DontSaveOptions -width
+
+Function    "Attach to Widget"  vTcl::widgets::ttk::scrollbar::attach
+
+## Special proc for setting up icons on the toolbar.
+proc vTcl:TScrollbar:ToolBarSetup {} {
+    vTcl:toolbar_add ttk TScrollbar  \
+    "vertical scrollbar" \
+    icon_scrollbar_v.gif \
+    "-orient vertical"
+
+    vTcl:toolbar_add ttk TScrollbar \
+        "horizontal scrollbar" \
+    icon_scrollbar_h.gif \
+    "-orient horizontal"
+}
+
+namespace eval vTcl::widgets::ttk::scrollbar {
+
+    proc getIcon {{w ""}} {
+        if {[lempty $w]} {
+        return [list icon_scrollbar_h.gif icon_scrollbar_v.gif]
+    }
+        if {[catch {$w cget -orient} orient]} {
+            return "icon_scrollbar.gif"
+        }
+        if {$orient == "horizontal"} {
+            return "icon_scrollbar_h.gif"
+        }
+        return "icon_scrollbar_v.gif"
+    }
+
+    proc getWidgetTreeLabel {w} {
+        if {[catch {$w cget -orient} orient]} {
+            return "TScrollbar"
+    }
+        if {$orient == "horizontal"} {
+            return "Horz TScrollbar"
+    }
+        return "Vert TScrollbar"
+    }
+
+    proc attach {} {
+        global vTcl widgetSelected
+
+        set w $vTcl(w,widget)
+        set status $vTcl(status)
+
+        catch {unset widgetSelected}
+        vTcl:status "Select a widget to attach scrollbar to"
+        vwait widgetSelected
+
+        ## Widget we're attaching to.
+        set a $vTcl(w,widget)
+
+        vTcl:status $status
+
+        set orient [$w cget -orient]
+
+        if {$orient == "horizontal"} {
+            set cmd xview
+            set opt -xscrollcommand
+        } else {
+            set cmd yview
+            set opt -yscrollcommand
+        }
+
+        if {[catch {$a cget $opt}]} {
+            bell
+            error "Cannot attach scrollbar to that!"
+            return
+        }
+
+        $w configure -command "$a $cmd"
+        vTcl:prop:save_opt_value $w -command "$a $cmd"
+        $a configure $opt "$w set"
+        vTcl:prop:save_opt_value $a $opt "$w set"
+    }
+}

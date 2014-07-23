@@ -29,11 +29,11 @@
 <layer number="19" name="Unrouted" color="6" fill="1" visible="yes" active="yes"/>
 <layer number="20" name="Dimension" color="15" fill="1" visible="yes" active="yes"/>
 <layer number="21" name="tPlace" color="7" fill="1" visible="yes" active="yes"/>
-<layer number="22" name="bPlace" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="22" name="bPlace" color="7" fill="1" visible="no" active="yes"/>
 <layer number="23" name="tOrigins" color="15" fill="1" visible="yes" active="yes"/>
-<layer number="24" name="bOrigins" color="15" fill="1" visible="yes" active="yes"/>
+<layer number="24" name="bOrigins" color="15" fill="1" visible="no" active="yes"/>
 <layer number="25" name="tNames" color="7" fill="1" visible="yes" active="yes"/>
-<layer number="26" name="bNames" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="26" name="bNames" color="7" fill="1" visible="no" active="yes"/>
 <layer number="27" name="tValues" color="7" fill="1" visible="no" active="yes"/>
 <layer number="28" name="bValues" color="7" fill="1" visible="no" active="yes"/>
 <layer number="29" name="tStop" color="7" fill="3" visible="no" active="yes"/>
@@ -1430,7 +1430,7 @@ necessary adjustments and save your customized
 design rules under a new name.</description>
 <description language="zh">&lt;b&gt;Seeed Studio EAGLE Design Rules&lt;/b&gt;
 </description>
-<param name="layerSetup" value="(1*16)"/>
+<param name="layerSetup" value="(1*2*15*16)"/>
 <param name="mtCopper" value="0.035mm 0.035mm 0.035mm 0.035mm 0.035mm 0.035mm 0.035mm 0.035mm 0.035mm 0.035mm 0.035mm 0.035mm 0.035mm 0.035mm 0.035mm 0.035mm"/>
 <param name="mtIsolate" value="1.5mm 0.15mm 0.2mm 0.15mm 0.2mm 0.15mm 0.2mm 0.15mm 0.2mm 0.15mm 0.2mm 0.15mm 0.2mm 0.15mm 0.2mm"/>
 <param name="mdWireWire" value="6mil"/>
@@ -4493,6 +4493,32 @@ design rules under a new name.</description>
 <approved hash="5,16,c5bc376902645596"/>
 <approved hash="5,16,f40dd54b9093098c"/>
 <approved hash="5,16,6010f6bfa7203a9e"/>
+<approved hash="19,1,f09494ca98c4fc9a"/>
+<approved hash="19,1,65ba4f02bf71df92"/>
+<approved hash="19,1,0bc47eeeec366ee2"/>
+<approved hash="19,1,1fd1c9510adbde69"/>
+<approved hash="19,1,0a68ad74a2bbf5ac"/>
+<approved hash="19,1,fc7b26826f024c48"/>
+<approved hash="19,1,9833403b4c3a9432"/>
+<approved hash="19,1,0e3ed7d378925174"/>
+<approved hash="19,1,81a95c89536cb48c"/>
+<approved hash="19,1,4b62fad35d54caa1"/>
+<approved hash="19,1,306ba3b2b2ddcf3f"/>
+<approved hash="19,1,481db482d4d5cd59"/>
+<approved hash="19,1,c4e0f408f80fc8e7"/>
+<approved hash="19,1,9194292305cef15e"/>
+<approved hash="19,1,1ef75ce89ceedef1"/>
+<approved hash="19,1,af2d58542e7794ec"/>
+<approved hash="19,1,858848c044afbe3f"/>
+<approved hash="19,1,06fa1500fbf315ba"/>
+<approved hash="19,1,92c6ddf51df752c4"/>
+<approved hash="19,1,ef6cf81cf5a9d501"/>
+<approved hash="5,16,1688d908146a3745"/>
+<approved hash="5,16,e20becb83371accf"/>
+<approved hash="5,16,e11681f4a39ba823"/>
+<approved hash="5,16,583fcbe980f9d805"/>
+<approved hash="5,16,828a59e60b12ee0f"/>
+<approved hash="5,16,ea976936aba8b326"/>
 </errors>
 </board>
 </drawing>

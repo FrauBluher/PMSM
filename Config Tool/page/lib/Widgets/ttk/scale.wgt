@@ -1,0 +1,112 @@
+##############################################################################
+#
+# Copyright (C) 2007 Tristan  http://www.tcltk.cn
+#
+# Description file for Tile Widget
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
+##############################################################################
+
+Class       TScale
+Lib         ttk
+
+Icon        @vTcl::widgets::ttk::scale::getIcon
+TreeLabel   @vTcl::widgets::ttk::scale::getWidgetTreeLabel
+InsertCmd   vTcl::widgets::ttk::scale::insertCmd
+TtkOptions -background
+TtkWidget		yes
+
+DefaultValues   -activebackground -background -foreground \
+                -highlightbackground -highlightcolor -troughcolor
+TreeLabel   @vTcl::widgets::ttk::scale::getWidgetTreeLabel
+
+if {$vTcl(pr,balloon)} {
+ClassOption     -_tooltip   ;# Rozen not yet supporting tooltips.
+}
+
+
+CreateCmd ttk::scale
+
+Function    "Set Variable..." vTcl::widgets::ttk::scale::setVariable
+Function        "Set Value..."    vTcl::widgets::ttk::scale::setValue
+Function 		"Set Command ..." vTcl::widgets::ttk::scale::setCommand
+
+## Special proc for setting up icons on the toolbar.
+proc vTcl:TScale:ToolBarSetup {} {
+    vTcl:toolbar_add ttk TScale "vertical scale" icon_scale_v.gif "-orient vertical"
+    vTcl:toolbar_add ttk TScale "horizontal scale" icon_scale_h.gif \
+        "-orient horizontal"
+}
+
+namespace eval vTcl::widgets::ttk::scale {
+
+    proc getIcon {{w ""}} {
+        if {[lempty $w]} {
+        return [list icon_scale_h.gif icon_scale_v.gif]
+    }
+    if {[catch {$w cget -orient} orient]} {
+        return "icon_scale.gif"
+    }
+        if {$orient == "horizontal"} {
+        return "icon_scale_h.gif"
+    }
+        return "icon_scale_v.gif"
+    }
+
+    proc getWidgetTreeLabel {w} {
+        if {[catch {$w cget -orient} orient]} {
+            return "Scale"
+        }
+        set var [$w cget -variable]
+        if {$var != ""} {
+            set var " VAR: $var"
+        }
+        if {$orient == "horizontal"} {
+            return "Horz TScale$var"
+        }
+        return "Vert TScale$var"
+    }
+
+    proc insertCmd {target} {
+        $target configure -takefocus ""
+    }
+
+    proc setValue {} {
+        global vTcl
+        vTcl:core:set_option $vTcl(w,widget)\
+                         -value \
+                         "Value for $vTcl(w,widget)"
+    }
+
+    proc setVariable {} {
+        global vTcl
+        vTcl:core:set_option $vTcl(w,widget)\
+                         -variable \
+            "Set variable"
+    }
+
+
+    # proc getWidgetTreeLabel {target} {
+    #     set ttt1 [$target cget -variable]
+    #     return "TScale: $ttt1"
+    # }
+
+    proc setCommand {} {
+        global vTcl
+        vTcl:set_command $vTcl(w,widget) -command  $::vTcl(w,opt,-command)
+    }
+
+}

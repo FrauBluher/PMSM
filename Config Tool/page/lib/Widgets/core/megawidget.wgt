@@ -1,0 +1,292 @@
+# $Id: megawidget.wgt,v 1.5 2003/05/05 03:46:59 cgavin Exp $
+
+##############################################################################
+#
+# Visual TCL - A cross-platform application development environment
+#
+# Copyright (C) 2002 Christian Gavin
+#
+# Description file for Tk Widget
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
+##############################################################################
+#
+
+Class       MegaWidget
+Lib     core
+
+#Icon       ../lib/Widgets/core/MegaWidget.gif
+Icon        icon_frame.gif
+DefaultValues   -background -highlightbackground -highlightcolor
+DumpCmd         ::vTcl::widgets::core::frame::dumpCmd
+DumpInfoCmd     ::vTcl::widgets::core::megawidget::dumpInfoCmd
+CreateCmd       vTcl::widgets::core::megawidget::createCmd
+WidgetProc      vTcl::widgets::core::megawidget::widgetProc
+TreeLabel       @vTcl::widgets::core::megawidget::getWidgetTreeLabel
+QueryInsertOptionsCmd \
+                vTcl::widgets::core::megawidget::queryInsertOptionsCmd
+Export          vTcl::widgets::core::megawidget::widgetProc
+Export          vTcl::widgets::core::megawidget::createCmd
+Export          vTcl::widgets::core::megawidget::cgetProc
+Export          vTcl::widgets::core::megawidget::configureProc
+
+NewOption -widgetProc  "Widget Proc"  type
+
+## Right-click menu
+Function        "Save Megawidget..."         vTcl::widgets::core::megawidget::saveCmd
+
+namespace eval vTcl::widgets::core::megawidget {
+
+set template {
+proc myWidgetProc {w args} {
+    ## this is the widget procedure that receives all the commands
+    ## for the megawidget
+    set command [lindex $args 0]
+    set args [lrange $args 1 end]
+
+    if {$command == "configure"} {
+        return [eval configureCmd $w $args]
+    } elseif {$command == "cget"} {
+        return [eval cgetCmd $w $args]
+    }
+
+    ## TODO: handle your own commands here
+}
+
+proc init {w} {
+    ## this procedure is executed before the megawidget UI gets created
+    ## you can prepare any internal data here
+}
+
+proc main {w} {
+    ## this procedure is called after the megawidget UI gets created
+}
+
+proc configureCmd {w args} {
+    ## TODO: handle megawidget configuration here
+    ##
+    ## examples of args:
+    ##    -background white -foreground red
+    ##        configure the -background and -foreground options
+    ##    {}
+    ##        empty list to return all options
+    ##    -background
+    ##        returns the -background configuration option
+}
+
+proc cgetCmd {w args} {
+    set option $args
+    ## TODO: return the value for the option $option
+}
+}
+
+    proc queryInsertOptionsCmd {addOptions refOptions} {
+        set newName [::vTcl::input::lineInput::getLine \
+             "Create New Megawidget" \
+             "Please enter the name of the megawidget you wish to create.\nThe name cannot contain the quotes { or } or colons." \
+             "Megawidget name:"]
+
+        if {$newName == ""} {
+            ## user canceled
+            return 0
+        }
+
+        set implementNamespace [vTcl:rename $newName]
+        variable template
+        namespace eval ::$implementNamespace $template
+        vTcl::proc::add_procs [info procs ::${implementNamespace}::*]
+
+        upvar $refOptions refOptions_
+        set refOptions_ "-widgetProc ::${implementNamespace}::myWidgetProc"
+        return 1
+    }
+
+    proc dumpInfoCmd {target basename} {
+        set out [$::classes(Frame,dumpInfoCmd) $target $basename]
+        if {![info exists ::widgets::${target}::sourceFilename]} {
+            return $out
+        }
+
+        upvar ::widgets::${target}::sourceFilename  sourceFilename
+        upvar ::widgets::${target}::compoundName  compoundName
+
+        append out $::vTcl(tab)
+        append out "namespace eval ::widgets::$basename \{\n"
+        append out $::vTcl(tab2)
+        append out "set sourceFilename \"$sourceFilename\"\n"
+        append out $::vTcl(tab2)
+        append out "set compoundName [list $compoundName]\n"
+        append out $::vTcl(tab)\}\n
+
+        return $out
+    }
+
+    proc saveCmd {} {
+        set w $::vTcl(w,widget)
+
+        ## has a name been given before?
+        set oldName ""
+        if {[info exists ::widgets::${w}::compoundName]} {
+            set oldName [set ::widgets::${w}::compoundName]
+        }
+        set newName [vTcl:name_compound $w $oldName]
+
+        ## user cancelled?
+        if {[lempty $newName]} {
+            return
+        }
+
+        set file [vTcl:get_file save "Save Megawidget To a File"]
+        if {$file == ""} {return}
+
+        set f [open $file w]
+
+        puts $f [subst $::vTcl(head,compounds)]
+        set compoundName [lindex $newName 1]
+        puts $f [::vTcl:dump_namespace vTcl::compounds::user::[list $compoundName]]
+        vTcl:statbar 100
+
+        close $f
+        vTcl:statbar 0
+
+        ## save the path to propose it on the next save, and the compound name
+        namespace eval ::widgets::${w} [list set sourceFilename $file]
+        namespace eval ::widgets::${w} [list set compoundName $compoundName]
+    }
+
+    proc cgetProc {w args} {
+        ## This procedure may be used free of restrictions.
+        ##    Exception added by Christian Gavin on 08/08/02.
+        ## Other packages and widget toolkits have different licensing requirements.
+        ##    Please read their license agreements for details.
+
+        upvar ::${w}::widgetProc  widgetProc
+
+        set option [lindex $args 0]
+        switch -- $option {
+            -class         {return MegaWidget}
+            -widgetProc    {return $widgetProc}
+            default        {error "unknown option $option"}
+        }
+    }
+
+    proc configureProc {w args} {
+        ## This procedure may be used free of restrictions.
+        ##    Exception added by Christian Gavin on 08/08/02.
+        ## Other packages and widget toolkits have different licensing requirements.
+        ##    Please read their license agreements for details.
+
+        upvar ::${w}::widgetProc  widgetProc
+
+        if {[lempty $args]} {
+            return [concat [configureProc $w -class] \
+                           [configureProc $w -widgetProc]]
+        }
+        if {[llength $args] == 1} {
+            set option [lindex $args 0]
+            switch -- $option {
+                -class {
+                    return [list "-class class Class Frame MegaWidget"]
+                }
+                -widgetProc {
+                    return [list "-widgetProc widgetproc WidgetProc {} [list $widgetProc]"]
+                }
+                default {
+                    error "unknown option $option"
+                }
+            }
+        }
+
+        foreach {option value} $args {
+            if {$option == "-widgetProc"} {
+                set widgetProc $value
+            }
+        }
+    }
+
+    proc widgetProc {w args} {
+        ## This procedure may be used free of restrictions.
+        ##    Exception added by Christian Gavin on 08/08/02.
+        ## Other packages and widget toolkits have different licensing requirements.
+        ##    Please read their license agreements for details.
+
+        if {[llength $args] == 0} {
+            ## If no arguments, returns the path the alias points to
+            return $w
+        }
+
+        set command [lindex $args 0]
+        set args [lrange $args 1 end]
+        switch $command {
+            configure {
+                return [eval configureProc $w $args]
+            }
+            cget {
+                return [eval cgetProc $w $args]
+            }
+            widget {
+                ## this calls the custom widgetProc
+                upvar ::${w}::widgetProc  widgetProc
+                return [eval $widgetProc $w $args]
+            }
+            default {
+                ## we have renamed the default widgetProc _<widgetpath>
+                uplevel _$w $command $args
+            }
+        }
+    }
+
+    proc createCmd {path args} {
+        ## This procedure may be used free of restrictions.
+        ##    Exception added by Christian Gavin on 08/08/02.
+        ## Other packages and widget toolkits have different licensing requirements.
+        ##    Please read their license agreements for details.
+
+        frame $path -class MegaWidget
+        namespace eval ::$path "set widgetProc {}"
+
+        ## change the widget procedure
+        rename ::$path ::_$path
+        proc ::$path {command args} \
+         "eval ::vTcl::widgets::core::megawidget::widgetProc $path \$command \$args"
+
+        ## widgetProc specified ? if so, store it
+        if {[llength $args] == 2 && [lindex $args 0] == "-widgetProc"} {
+            upvar ::${path}::widgetProc  widgetProc
+            set widgetProc [lindex $args 1]
+        }
+
+        return $path
+    }
+
+    proc treeChildrenCmd {target {diff \#0}} {
+        return {}
+    }
+
+    proc treeChildrenChildsite {target} {
+        return {}
+    }
+
+    proc getWidgetTreeLabel {target} {
+        upvar ::${target}::widgetProc widgetProc
+        return "MegaWidget widgetProc: $widgetProc"
+    }
+}
+
+
+
+
+

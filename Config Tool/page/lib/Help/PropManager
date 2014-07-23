@@ -1,0 +1,10 @@
+The Property Manager
+====================
+
+The checkboxes next to each item in the Attributes section refer to which
+options will be saved when a project is written out.  When a widget is created,
+the options it has are mostly all defaults.  If you change or edit the values
+of these options from the defaults, the checkbox will automatically check
+itself to signify that that particular option should be saved with the project.
+
+You can explicity tell vTcl not to save an option by turning off its checkbox.

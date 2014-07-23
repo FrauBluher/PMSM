@@ -1,0 +1,73 @@
+# $Id: message.wgt,v 1.8 2002/03/09 21:55:30 cgavin Exp $
+
+##############################################################################
+#
+# Visual TCL - A cross-platform application development environment
+#
+# Copyright (C) 2001 Damon Courtney
+#
+# Description file for Tk Widget
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
+##############################################################################
+#
+
+Class       Message
+Lib     core
+
+Icon        icon_message.gif
+CreateCmd vTcl::widgets::core::message::CreateCmd
+#DefaultOptions  -text Message -font \$vTcl(actual_gui_font_dft_name)
+#DefaultValues   -background -foreground
+DoubleClickCmd  vTcl:set_text
+#DumpCmd vTcl::widgets::core::message::DumpCmd
+TreeLabel   @vTcl::widgets::core::message::getWidgetTreeLabel
+if {$vTcl(pr,balloon)} { ;# Rozen
+    ClassOption     -_tooltip
+}
+Function    "Set Text"  vTcl::widgets::core::message::setText
+
+namespace eval vTcl::widgets::core::message {
+
+    proc CreateCmd {target} {
+        global vTcl
+        # Calculate length of the message.
+        set m_len  [font measure $vTcl(actual_gui_font_dft_name) "Message"]
+        set tens [expr ((($m_len / 10) + 2) * 10)]
+        message $target -width $tens -text "Message" \
+		    -font $vTcl(actual_gui_font_dft_name) \
+            -background  $vTcl(actual_gui_bg) -foreground  $vTcl(actual_gui_fg)
+    }
+
+    proc DumpCmd {target base} {
+        global vTcl
+        # Calculate length of the message.
+        set m_len  [font measure $vTcl(actual_gui_font_dft_name) "Message"]
+        set tens [expr ((($m_len / 10) + 2) * 10)]
+        set ret "message $target -width $tens -text \"Message\" \
+                      -font $vTcl(actual_gui_font_dft_name) \
+          -background  $vTcl(actual_gui_bg) -foreground  $vTcl(actual_gui_fg)\n"
+        return $ret
+    }
+
+    proc setText {} {
+        vTcl:set_text $::vTcl(w,widget)
+    }
+
+    proc getWidgetTreeLabel {target} {
+        return [$target cget -text]
+    }
+}

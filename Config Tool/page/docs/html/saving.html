@@ -1,0 +1,162 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Creating and Saving Code Modules &mdash; PAGE 4.3 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '4.3',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="PAGE 4.3 documentation" href="index.html" />
+    <link rel="next" title="Examples" href="examples.html" />
+    <link rel="prev" title="Rework" href="rework.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="examples.html" title="Examples"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="rework.html" title="Rework"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">PAGE 4.3 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="creating-and-saving-code-modules">
+<span id="saving"></span><h1>Creating and Saving Code Modules<a class="headerlink" href="#creating-and-saving-code-modules" title="Permalink to this headline">¶</a></h1>
+<p>This section discusses the creation and saving of the GUI module and
+the support module. I want to make saving simple and intuitive while
+reducing the probability of inadvertently overwriting hard to
+reproduce code, particularly in the support module.  At the same time
+I did not want to bombard the user with &#8220;Are you sure ...&#8221;
+dialogues. These goals are somewhat contradictory. I would appreciate
+comments on this subject.</p>
+<p>Here is what I have tried to implement:</p>
+<div class="section" id="gui-module">
+<h2>GUI Module<a class="headerlink" href="#gui-module" title="Permalink to this headline">¶</a></h2>
+<p>When one chooses to generate the GUI module (Control-P):</p>
+<ul class="simple">
+<li>The constructed GUI is transformed into a Tcl file and saved if the GUI has changed in the current session.</li>
+<li>The GUI is also transformed into a Python module called the GUI module and displayed in the <a class="reference internal" href="interface.html#python-console"><em>Python Console</em></a> but is not automatically saved. This is to allow the user to peruse the code before committing it to storage.  The user may even change the code since the Python Console code window is a Tk text widget which rudimentary editing capability</li>
+<li>From the Python Console, the user can  select the Save button and the GUI module will be saved if &#8220;new&#8221;.  Repeatedly selecting the Save button without changing the code will not result in additional actual saves.</li>
+<li>From the Python Console, the user can select the Run button which provides the same function as the Save button but also attempts to execute the GUI module, if there is an existing support module.</li>
+</ul>
+</div>
+<div class="section" id="support-module">
+<h2>Support Module<a class="headerlink" href="#support-module" title="Permalink to this headline">¶</a></h2>
+<p>When one chooses to generate the Support module (Control-I):</p>
+<ul>
+<li><p class="first">The constructed GUI is transformed into a Tcl file and saved if the GUI has changed in the current session.</p>
+</li>
+<li><p class="first">If there is no existing support module, then one is generated, displayed in the Python Console, and automatically saved.</p>
+</li>
+<li><p class="first">If there is an existing support module, action is a bit more elaborate. First, the existing support module is analyzed to see what Tk variable and functions are defined in the existing module and compared with those which would be defined in a new support module. Next, the user is given the choice</p>
+<blockquote>
+<div><ul class="simple">
+<li>use the existing support module, thereby preserving your hand written code,</li>
+<li>generate a new support module,</li>
+<li>update the existing support module updated to include the additional Tk variable and skeleton functions.</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">From the Python Console, the user can select the Save button and the GUI module will be saved if “new”.</p>
+</li>
+<li><p class="first">From the Python Console, the user can select the Run button which provides the same function as the Save button but also attempts to execute the GUI module.</p>
+</li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Creating and Saving Code Modules</a><ul>
+<li><a class="reference internal" href="#gui-module">GUI Module</a></li>
+<li><a class="reference internal" href="#support-module">Support Module</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="rework.html"
+                        title="previous chapter">Rework</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="examples.html"
+                        title="next chapter">Examples</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/saving.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="examples.html" title="Examples"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="rework.html" title="Rework"
+             >previous</a> |</li>
+        <li><a href="index.html">PAGE 4.3 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2008 - 2014 Donald Rozenberg.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,156 @@
+# $Id: Options.wgt,v 1.13 2002/11/23 06:54:28 cgavin Exp $
+
+##############################################################################
+#
+# Visual TCL - A cross-platform application development environment
+#
+# Copyright (C) 2001 Damon Courtney
+#
+# Options for core Tk Widgets library
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
+##############################################################################
+#
+
+## Define all the default options.
+
+NewOption -accelerator      "accelerator"       type
+NewOption -activebackground "active bg"     color   {}  Colors
+NewOption -activeforeground "active fg"     color   {}  Colors
+NewOption -activerelief     "active relief"     relief
+NewOption -anchor       "anchor"        choice \
+  "n ne e se s sw w nw center"
+NewOption -aspect       "aspect"        type
+NewOption -background       "background"        color   {}  Colors
+NewOption -bd           "borderwidth"       synonym
+NewOption -bitmap       "bitmap"        type
+NewOption -bg           "background"        synonym
+NewOption -bordermode       "border mode"       choice \
+  "inside ignore outside"
+NewOption -borderwidth      "borderwidth"       type
+NewOption -closeenough      "closeness"     type
+NewOption -columnbreak      "col break"     type
+NewOption -command      "command"       command
+NewOption -confine      "confine"       boolean "0 1"
+NewOption -cursor       "cursor"        choice \
+    { {} X_cursor arrow based_arrow_down based_arrow_up boat bogosity
+    bottom_left_corner bottom_right_corner bottom_side bottom_tee box_spiral
+    center_ptr circle clock coffee_mug cross cross_reverse crosshair
+    diamond_cross dot dotbox double_arrow draft_large draft_small
+    draped_box exchange fleur gobbler gumby hand1 hand2 heart icon
+    icon_cross left_ptr left_side left_tee leftbutton ll_angle lr_angle
+    man middlebutton mouse pencil pirate plus question_arrow right_ptr
+    right_side right_tee rightbutton rtl_logo sailboat sb_down_arrow
+    sb_h_double_arrow sb_left_arrow sb_right_arrow sb_up_arrow
+    sb_v_double_arrow shuttle sizing spider spraycan star target
+    tcross top_left_arrow top_left_corner xterm}
+
+NewOption -disabledforeground   "disabled fg"       color   {}  Colors
+NewOption -editable     "editable"      boolean "0 1"
+NewOption -elementborderwidth   "element bd"        type
+NewOption -exportselection  "export"        boolean "0 1"
+NewOption -fg           "foreground"        synonym
+NewOption -foreground       "foreground"        color   {}  Colors
+NewOption -font         "font"          font
+NewOption -height       "height"        type
+NewOption       -hidemargin      "hide margin"    boolean  {0 1}
+NewOption -highlightbackground  "highlight bg"      color   {}  Colors
+NewOption -highlightcolor   "highlight color"   color   {}  Colors
+NewOption -highlightthickness   "highlight bd"  type
+NewOption -image        "image"         image
+NewOption -indicatoron      "indicator"     boolean "0 1"
+NewOption -insertbackground "insert bg"     color   {}  Colors
+NewOption -insertborderwidth    "insert bd"     type
+NewOption -insertofftime    "insert off time"   type
+NewOption -insertontime     "insert on time"    type
+NewOption -invalidcommand   "inv. cmd"      command
+NewOption -jump         "jump"          boolean "0 1"
+NewOption -justify      "justify"       choice \
+  "left right center"
+NewOption -labelfont        "label font"        font
+NewOption -listvariable         "list var"              type
+NewOption -menu         "menu"          menu
+NewOption -offvalue     "off value"     type
+NewOption -onvalue      "on value"      type
+NewOption -offrelief        "off relief"    relief
+NewOption -orient       "orient"        choice \
+  "vertical horizontal"
+NewOption -padx         "x pad"         type
+NewOption -pady         "y pad"         type
+NewOption -relief       "relief"        relief
+NewOption -repeatdelay      "repeat delay"      type
+NewOption -repeatinterval   "repeat intrvl"     type
+NewOption -scrollregion     "scroll region"     type
+NewOption -selectbackground "select bg"     color   {}  Colors
+NewOption -selectborderwidth    "select bd"     type
+NewOption -selectcolor      "select color"      color   {}  Colors
+NewOption -selectcommand    "select cmd"        command
+NewOption -selectforeground "select fg"     color   {}  Colors
+NewOption -selectimage      "select image"      image
+NewOption -selectmode       "select mode"       choice \
+  "single browse multiple extended"
+NewOption -setgrid      "set grid"      boolean "0 1"
+NewOption -show         "show"          type
+NewOption -showvalue        "show value"        boolean "0 1"
+NewOption -sliderlength     "slider length"     type
+NewOption -sliderrelief     "slider relief"     relief
+NewOption -spacing1     "spacing1"      type
+NewOption -spacing2     "spacing2"      type
+NewOption -spacing3     "spacing3"      type
+NewOption -state        "state"         choice \
+  "normal active disabled"
+NewOption -tabs         "tabs"          type
+NewOption -takefocus        "take focus"        type
+NewOption -text         "text"          type
+NewOption -textvariable     "text var"      type
+NewOption -tickinterval     "tick interval"     type
+NewOption -from         "from value"        type
+NewOption -to           "to value"      type
+NewOption -label        "label"         type
+NewOption -resolution       "resolution"        type
+NewOption -troughcolor      "trough color"      color   {}  Colors
+NewOption -underline        "underline"     type
+NewOption -value        "value"         type
+NewOption -variable     "variable"      type
+NewOption -validatecommand  "validate cmd"      command
+NewOption -validate     "validate"      type
+NewOption -width        "width"         type
+NewOption -wrap         "wrap"          choice \
+  "char none word"
+NewOption -wraplength       "wrap length"       type
+NewOption -xscrollcommand   "x scroll cmd"      command
+NewOption -xscrollincrement "x increment"       type
+NewOption -yscrollcommand   "y scroll cmd"      command
+NewOption -yscrollincrement "y increment"       type
+
+# loadcommand put here since it may be used by more than one core
+# widget text box, list box, etc. Rozen
+#NewOption -loadcommand      "load cmd"          command   ;# Rozen
+
+
+if {$vTcl(pr,balloon)} {
+## Tooltip support
+NewOption -_tooltip             "tooltip text"          type
+OptionConfigCmd -_tooltip       config                  vTcl:config_balloon
+OptionConfigCmd -_tooltip       update                  vTcl:update_balloon
+OptionConfigCmd -_tooltip       get                     vTcl:get_balloon
+}
+## Tk 8.4 support
+NewOption -compound             "compound"              choice    "none bottom center left right top"
+NewOption -disabledbackground   "disabled bg"           color     {}   Colors
+NewOption -overrelief           "over relief"           relief
+
+

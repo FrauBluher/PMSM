@@ -1,0 +1,75 @@
+# $Id: listbox.wgt,v 1.10 2005/11/11 07:54:52 kenparkerjr Exp $
+
+##############################################################################
+#
+# Visual TCL - A cross-platform application development environment
+#
+# Copyright (C) 2001 Damon Courtney
+#
+# Description file for Tk Widget
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
+##############################################################################
+#
+
+Class       Listbox
+Lib     core
+
+TreeLabel   @vTcl::widgets::core::listbox::getWidgetTreeLabel
+Icon        icon_listbox.gif
+DoubleClickCmd  vTcl::widgets::core::listbox::set_list
+InsertCmd   vTcl::widgets::core::listbox::insertCmd
+DefaultValues   -foreground \
+                -highlightbackground -highlightcolor \
+                -selectbackground -selectforeground
+DefaultOptions  -background white -font \$vTcl(actual_gui_font_fixed_name)
+if {$vTcl(pr,balloon)} { ;# Rozen
+    ClassOption     -_tooltip
+}
+
+Function "Set ListVariable..." vTcl::widgets::core::listbox::setListVariable
+namespace eval vTcl::widgets::core::listbox {
+
+    proc insertCmd {target} {
+        global vTcl
+        set last [lindex [split $target .] end]
+        set last [vTcl:rename $last]
+        set name ::[winfo toplevel $target]::$last
+        set $name "listbox"
+        $target configure -listvariable ""
+        $target configure -font $vTcl(actual_gui_font_fixed_name)
+        $target insert end List
+    }
+
+    proc getWidgetTreeLabel {target} {
+        set val [$target cget -listvariable]
+    if {[lempty $val]} { set val NONE }
+    return "Listbox VAR: $val"
+    }
+    proc set_list {args} {
+        tk_messageBox -message "Not Implimented! "
+    }
+
+    proc setListVariable {} {
+        global vTcl
+
+        vTcl:core:set_option $vTcl(w,widget)\
+                         -listvariable \
+                         "List Variable for $vTcl(w,widget)"
+    }
+
+
+}

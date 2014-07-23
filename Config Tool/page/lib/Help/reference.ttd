@@ -1,0 +1,1548 @@
+# -*- tcl -*-
+#
+
+ttd.version 1.0
+
+ttd.tagdef Title -background white -font {-family Arial -weight bold -slant roman -size 16 -underline 0 -overstrike 0} -foreground #000000 -justify left
+ttd.tagdef {Level 1 Title} -background white -font {-family Arial -weight bold -slant roman -size 15 -underline 0 -overstrike 0} -foreground #004080 -justify left
+ttd.tagdef {Level 2 Title} -background white -font {-family Arial -weight bold -slant roman -size 14 -underline 0 -overstrike 0} -foreground #000000 -justify left
+ttd.tagdef {Level 3 Title} -background white -font {-family Arial -weight bold -slant roman -size 13 -underline 0 -overstrike 0} -foreground #000000 -justify left
+ttd.tagdef {Level 4 Title} -background white -font {-family Arial -weight bold -slant roman -size 12 -underline 0 -overstrike 0} -foreground #000000 -justify left
+ttd.tagdef Listing -background #e2e2e2 -font {-family {Courier New} -weight normal -slant roman -size 12 -underline 0 -overstrike 0} -foreground #000000 -justify left
+ttd.tagdef body -background white -font {-family helvetica -weight normal -slant roman -size 12 -underline 0 -overstrike 0} -foreground #707070 -justify left
+
+
+
+ttd.tagon Title
+ttd.text {Visual Tcl 1.6 Quick Reference Guide}
+ttd.tagoff Title
+ttd.text {
+}
+ttd.text {
+}
+ttd.tagon {Level 1 Title}
+ttd.text {1. Main Window}
+ttd.tagoff {Level 1 Title}
+ttd.text {
+}
+ttd.text {
+}
+ttd.tagon {Level 2 Title}
+ttd.text {1.1 File Menu}
+ttd.tagoff {Level 2 Title}
+ttd.text {
+}
+ttd.text {
+}
+ttd.tagon {Level 3 Title}
+ttd.text {1.1.1 New...}
+ttd.tagoff {Level 3 Title}
+ttd.tagon body
+ttd.text {
+}
+ttd.text {
+}
+ttd.text {Opens the "New Project" Wizard which allows you to create an empty new project.
+}
+ttd.text {
+}
+ttd.text {The new project will be located under the "Projects Parents Directory," under a subdirectory made from the project name.
+}
+ttd.text {
+}
+ttd.text {The main project file can be changed. By default, it is called "main.tcl".
+}
+ttd.text {
+}
+ttd.tagoff body
+ttd.tagon {Level 3 Title}
+ttd.text {1.1.2 Open...}
+ttd.tagoff {Level 3 Title}
+ttd.tagon body
+ttd.text {
+}
+ttd.text {
+}
+ttd.text {Opens an existing Visual Tcl project. You can open a project made by an older version of Visual Tcl, but you cannot open a project created with a more recent version. If you happen to open a project made by a more recent version of Visual Tcl than the one you are currently running, you need to upgrade.
+}
+ttd.text {
+}
+ttd.tagoff body
+ttd.tagon {Level 3 Title}
+ttd.text {1.1.3 Save}
+ttd.tagoff {Level 3 Title}
+ttd.tagon body
+ttd.text {
+}
+ttd.text {
+}
+ttd.text {Saves the project that is currently open inside Visual Tcl. If you haven't given a filename to the project yet (for example, you started a project without using the New Project Wizard) you will be prompted to do so.
+}
+ttd.text {
+}
+ttd.tagoff body
+ttd.tagon {Level 3 Title}
+ttd.text {1.1.4 Save As...}
+ttd.tagoff {Level 3 Title}
+ttd.tagon body
+ttd.text {
+}
+ttd.text {
+}
+ttd.text {Saves the currently open project under a different name and/or location.
+}
+ttd.text {
+}
+ttd.tagoff body
+ttd.tagon {Level 3 Title}
+ttd.text {1.1.5 Save As With Binary...}
+ttd.tagoff {Level 3 Title}
+ttd.tagon body
+ttd.text {
+}
+ttd.text {
+}
+ttd.text {This option uses "freewrap" (see http://sourceforge.net/projects/freewrap/) to create a single binary containing a Tcl/Tk interpreter and your source code.
+}
+ttd.text {
+}
+ttd.text {If you have not yet installed the freewrap binary into the Visual Tcl directory, Visual Tcl will tell you where you should install it.
+}
+ttd.text {
+}
+ttd.text {Once freewrap has been set up for use with Visual Tcl, the "Save As With Binary..." option will first prompt you to save your project then invoke freewrap to generate a binary of your application. The binary that Visual Tcl creates using freewrap will be stored in the same directory as your project.
+}
+ttd.text {
+}
+ttd.tagoff body
+ttd.tagon {Level 4 Title}
+ttd.text {1.1.5.1 Recommended Version of Freewrap}
+ttd.tagoff {Level 4 Title}
+ttd.tagon body
+ttd.text {
+}
+ttd.text {
+}
+ttd.text {It is recommended that you use freewrap 5.5 with Visual Tcl. This version of freewrap already contains the BWidget toolkit version 1.3.1. This allows you to use all of the BWidget's widgets that you can find in the widgets toolbar.
+}
+ttd.text {
+}
+ttd.text {For projects using other toolkits like [Incr Widgets], you need to consult the freewrap documentation on how to wrap extensions.
+}
+ttd.text {
+}
+ttd.tagoff body
+ttd.tagon {Level 3 Title}
+ttd.text {1.1.6 Close}
+ttd.tagoff {Level 3 Title}
+ttd.tagon body
+ttd.text {
+}
+ttd.text {
+}
+ttd.text {Closes the current project and asks you to save any changes you made. It is recommended that you save your project first then close it, for added safety.
+}
+ttd.text {
+}
+ttd.tagoff body
+ttd.tagon {Level 3 Title}
+ttd.text {1.1.7 Restore from Backup}
+ttd.tagoff {Level 3 Title}
+ttd.tagon body
+ttd.text {
+}
+ttd.text {
+}
+ttd.text {Every time you save a project in Visual Tcl, it creates a backup of the previous version. This menu option allows you to revert to a previous version of your project.
+}
+ttd.text {
+}
+ttd.text {This feature is particularly useful if your project was corrupted while saving. It also allows you to revert to a previous stable version in case you have made unsafe changes to the current version of your project.
+}
+ttd.text {
+}
+ttd.tagoff body
+ttd.tagon {Level 3 Title}
+ttd.text {1.1.8 Projects}
+ttd.tagoff {Level 3 Title}
+ttd.tagon body
+ttd.text {
+}
+ttd.text {
+}
+ttd.text {The submenu lists the five more recent projects you have opened with Visual Tcl.
+}
+ttd.text {
+}
+ttd.tagoff body
+ttd.tagon {Level 3 Title}
+ttd.text {1.1.9 Source...}
+ttd.tagoff {Level 3 Title}
+ttd.tagon body
+ttd.text {
+}
+ttd.text {
+}
+ttd.text {Sources a file into the interpreter.
+}
+ttd.text {
+}
+ttd.text {NOTE: Although this option allows you to import existing code inside Visual Tcl, it does not yet work with existing windows. Since it executes any statements contained in the file you specify, anything not inside a procedure will not be imported, and unsafe code may corrupt the internal data structures and/or procedures of Visual Tcl.
+}
+ttd.text {
+}
+ttd.text {Use this option with extreme care. Another way of importing an existing project's procedures is to copy/paste them from a text editor to Visual Tcl, one procedure at a time.
+}
+ttd.text {
+}
+ttd.text {There are two ways to import an existing Tcl/Tk project's window:
+}
+ttd.text {
+}
+ttd.text {- you can recreate the window yourself and add all the widgets, or
+}
+ttd.text {- you can create an empty window, save your project, then in a text editor, paste code that creates the toplevel widgets into the code that Visual Tcl generated. Modifying code generated by Visual Tcl is not recommended unless you understand Tcl/Tk well.
+}
+ttd.text {
+}
+ttd.tagoff body
+ttd.tagon {Level 3 Title}
+ttd.text {1.1.10 Preferences...}
+ttd.tagoff {Level 3 Title}
+ttd.tagon body
+ttd.text {
+}
+ttd.text {
+}
+ttd.text {This option displays a dialog box to set Visual Tcl preferences.
+}
+ttd.text {
+}
+ttd.tagoff body
+ttd.tagon {Level 3 Title}
+ttd.text {1.1.11 Quit}
+ttd.tagoff {Level 3 Title}
+ttd.tagon body
+ttd.text {
+}
+ttd.text {
+}
+ttd.text {Terminates Visual Tcl. Before quitting, you will be prompted to save your project if necessary.
+}
+ttd.text {
+}
+ttd.tagoff body
+ttd.tagon {Level 2 Title}
+ttd.text {1.2 Edit Menu}
+ttd.tagoff {Level 2 Title}
+ttd.tagon body
+ttd.text {
+}
+ttd.text {
+}
+ttd.tagoff body
+ttd.tagon {Level 3 Title}
+ttd.text {1.2.1 Undo}
+ttd.tagoff {Level 3 Title}
+ttd.tagon body
+ttd.text {
+}
+ttd.text {
+}
+ttd.text {Undoes the last operation. Note that Visual Tcl has limited undo/redo capabilities. Always keep a backup of your project before making extensive changes.
+}
+ttd.text {
+}
+ttd.tagoff body
+ttd.tagon {Level 3 Title}
+ttd.text {1.2.2 Redo}
+ttd.tagoff {Level 3 Title}
+ttd.tagon body
+ttd.text {
+}
+ttd.text {
+}
+ttd.text {Redoes the last operation.
+}
+ttd.text {
+}
+ttd.tagoff body
+ttd.tagon {Level 3 Title}
+ttd.text {1.2.3 Cut}
+ttd.tagoff {Level 3 Title}
+ttd.tagon body
+ttd.text {
+}
+ttd.text {
+}
+ttd.text {Copies the currently selected widget and copies it into the Visual Tcl clipboard.
+}
+ttd.text {
+}
+ttd.tagoff body
+ttd.tagon {Level 3 Title}
+ttd.text {1.2.4 Copy}
+ttd.tagoff {Level 3 Title}
+ttd.tagon body
+ttd.text {
+}
+ttd.text {
+}
+ttd.text {Copies the currently selected widget into the Visual Tcl clipboard.
+}
+ttd.text {
+}
+ttd.tagoff body
+ttd.tagon {Level 3 Title}
+ttd.text {1.2.5 Paste}
+ttd.tagoff {Level 3 Title}
+ttd.tagon body
+ttd.text {
+}
+ttd.text {
+}
+ttd.text {Pastes the contents of the Visual Tcl clipboard into the current insertion point.
+}
+ttd.text {
+}
+ttd.tagoff body
+ttd.tagon {Level 3 Title}
+ttd.text {1.2.6 Delete}
+ttd.tagoff {Level 3 Title}
+ttd.tagon body
+ttd.text {
+}
+ttd.text {
+}
+ttd.text {Deletes the currently selected widget. You can undo the operation by using the "Undo" menu item described above.
+}
+ttd.text {
+}
+ttd.tagoff body
+ttd.tagon {Level 3 Title}
+ttd.text {1.2.7 Images...}
+ttd.tagoff {Level 3 Title}
+ttd.tagon body
+ttd.text {
+}
+ttd.text {
+}
+ttd.text {Shows the image manager window. See 10 for more details.
+}
+ttd.text {
+}
+ttd.tagoff body
+ttd.tagon {Level 3 Title}
+ttd.text {1.2.8 Fonts...}
+ttd.tagoff {Level 3 Title}
+ttd.tagon body
+ttd.text {
+}
+ttd.text {
+}
+ttd.text {Shows the font manager window. See 11 for more details.
+}
+ttd.text {
+}
+ttd.tagoff body
+ttd.tagon {Level 2 Title}
+ttd.text {1.3 Mode Menu}
+ttd.tagoff {Level 2 Title}
+ttd.tagon body
+ttd.text {
+}
+ttd.text {
+}
+ttd.text {Visual Tcl has 2 modes of operation. In edit mode, you can add, delete, move, and configure widgets. You can also define widget bindings, edit menus, or add procedures.
+}
+ttd.text {
+}
+ttd.text {In test mode, you cannot place, move, configure widgets, nor is it possible to edit widget bindings or menus. However, you can still edit procedures.
+}
+ttd.text {
+}
+ttd.text {Unlike any other editor/compiler environment, when working in Visual Tcl you do not start your project over and over like you would when running an application in Visual C++. This means that variables will keep the values they have when switching from edit mode to test mode or vice versa. If you need to, you can add initialization code to your project that you can call from the command console, before switching to test mode, to initialize/reset the values of your variables.
+}
+ttd.text {
+}
+ttd.text {Also, unlike environments like Visual C++ or Visual Basic, your windows are not created anew when switching from edit mode to test mode. Windows will look exactly the same in both modes, meaning 100% WYSIWYG (What You See Is What You Get). Since Visual Tcl is entirely interpreted, there is no waiting time when switching from edit mode to test mode. You can start testing your project right away, without wasting time on compile/link cycles.
+}
+ttd.text {
+}
+ttd.text {However, it is possible that some values like the background color will look slightly different when running your project outside Visual Tcl. Visual Tcl does its best to use default values when creating widgets, but it is not possible to ensure 100% accuracy, even more when you have changed the color theme in the Preferences dialog.
+}
+ttd.text {
+}
+ttd.tagoff body
+ttd.tagon {Level 3 Title}
+ttd.text {1.3.1 Test Mode}
+ttd.tagoff {Level 3 Title}
+ttd.tagon body
+ttd.text {
+}
+ttd.text {
+}
+ttd.text {Test mode allows you to test your program like it would work when run outside Visual Tcl. You can interact with widgets to see how they respond to events you have set up. Think of test mode as "run time" mode.
+}
+ttd.text {
+}
+ttd.tagoff body
+ttd.tagon {Level 3 Title}
+ttd.text {1.3.2 Edit Mode}
+ttd.tagoff {Level 3 Title}
+ttd.tagon body
+ttd.text {
+}
+ttd.text {
+}
+ttd.text {Edit mode allows you to insert, delete, move, configure widgets and megawidgets. You can add, edit, remove procedures, change menus, etc. Think of edit mode as "design time" mode.
+}
+ttd.text {
+}
+ttd.tagoff body
+ttd.tagon {Level 2 Title}
+ttd.text {1.4 Compound Menu}
+ttd.tagoff {Level 2 Title}
+ttd.tagon body
+ttd.text {
+}
+ttd.text {
+}
+ttd.text {A compound is a reusable piece of user interface. It contains a widget (and its subwidgets), and code to perform operations on it.
+}
+ttd.text {
+}
+ttd.text {Compounds are most useful when used with megawidgets. You can save a compound into a file and reuse it later in another project. You can also save several compounds into the same file to make a widget compounds library.
+}
+ttd.text {
+}
+ttd.text {By using the compound container widget (similar to an activeX host window), you can insert a compound into a project and manipulate it as a black box. You can move the compound as one single entity, and code that performs operations on the compound will be invisible in the project. The underlying subwidgets structure will be hidden from the widget tree as well.
+}
+ttd.text {
+}
+ttd.text {When a new version of a compound is available, all you need to do to upgrade a project using it is load the compound, save the project, and reload it. When you insert a compound into a project, the project stays self contained. The compound will be saved into the project, ensuring that no dependency problems are encountered.
+}
+ttd.text {
+}
+ttd.text {Another use for compounds is templates that can be a starting point for creating a user interface. You could create an empty dialog box with just an OK and a Cancel button, and an empty area above them. Save the window as a compound and you can reuse it as a building block for your next project.
+}
+ttd.text {
+}
+ttd.tagoff body
+ttd.tagon {Level 3 Title}
+ttd.text {1.4.1 Create...}
+ttd.tagoff {Level 3 Title}
+ttd.tagon body
+ttd.text {
+}
+ttd.text {
+}
+ttd.text {Creates a compound out of the currently selected widget. You will be prompted for:
+}
+ttd.text {
+}
+ttd.text {- the name of the compound; this name must not contain curly braces
+}
+ttd.text {- the code that goes with the compound; a list of procedures in the project will be shown to choose from
+}
+ttd.text {
+}
+ttd.text {It is recommended that code for a compound be stored in a separate namespace. This way, you avoid potential procedure name conflicts with other projects.
+}
+ttd.text {
+}
+ttd.text {There are 2 special procedures within a compound:
+}
+ttd.tagoff body
+ttd.tagon Listing
+ttd.text {::<yournamespace>::init
+}
+ttd.text {::<yournamespace>::main
+}
+ttd.tagoff Listing
+ttd.tagon body
+ttd.text {
+}
+ttd.text {Because these procedures have the same name as init and main from the project, they must be in a namespace. You do not need to implement these procedures, but if you do, they will behave as follows.
+}
+ttd.text {
+}
+ttd.text {Whenever a compound is created, init will be called with the compound path as argument, and this before the compound subwidgets are built. After all the compound subwidgets have been built, the main procedure will be called, also with the compound path as argument.
+}
+ttd.text {
+}
+ttd.tagoff body
+ttd.tagon {Level 3 Title}
+ttd.text {1.4.2 Insert}
+ttd.tagoff {Level 3 Title}
+ttd.tagon body
+ttd.text {
+}
+ttd.text {
+}
+ttd.text {Inserts a compound at the current insertion point.
+}
+ttd.text {
+}
+ttd.tagoff body
+ttd.tagon {Level 4 Title}
+ttd.text {1.4.2.1 Insert System Compound}
+ttd.tagoff {Level 4 Title}
+ttd.tagon body
+ttd.text {
+}
+ttd.text {
+}
+ttd.text {Visual Tcl includes a few compounds that you can use as templates for building your user interface. System compounds are always available and cannot be deleted or modified.
+}
+ttd.text {
+}
+ttd.tagoff body
+ttd.tagon {Level 4 Title}
+ttd.text {1.4.2.2 Insert User Compound}
+ttd.tagoff {Level 4 Title}
+ttd.tagon body
+ttd.text {
+}
+ttd.text {
+}
+ttd.text {Compounds you have created with the Create... menu item will appear in this list.
+}
+ttd.text {
+}
+ttd.tagoff body
+ttd.tagon {Level 3 Title}
+ttd.text {1.4.3 Save Compounds...}
+ttd.tagoff {Level 3 Title}
+ttd.tagon body
+ttd.text {
+}
+ttd.text {
+}
+ttd.text {Saves all the compounds listed in the user compounds menu into a file. The file can be loaded later into another project by using the Load Compounds... menu option.
+}
+ttd.text {
+}
+ttd.tagoff body
+ttd.tagon {Level 3 Title}
+ttd.text {1.4.4 Load Compounds...}
+ttd.tagoff {Level 3 Title}
+ttd.tagon body
+ttd.text {
+}
+ttd.text {
+}
+ttd.text {Loads compounds from a file. Once the file has been loaded, compounds will appear in the user compounds menu.
+}
+ttd.text {
+}
+ttd.tagoff body
+ttd.tagon {Level 3 Title}
+ttd.text {1.4.5 Save As Tclet...}
+ttd.tagoff {Level 3 Title}
+ttd.tagon body
+ttd.text {
+}
+ttd.text {
+}
+ttd.text {Saves the currently selected widget as a tclet. Tclets are applets that can be run inside a browser with the help of a Tcl browser plugin.
+}
+ttd.text {
+}
+ttd.tagoff body
+ttd.tagon {Level 2 Title}
+ttd.text {1.5 Options Menu}
+ttd.tagoff {Level 2 Title}
+ttd.tagon body
+ttd.text {
+}
+ttd.text {
+}
+ttd.tagoff body
+ttd.tagon {Level 3 Title}
+ttd.text {1.5.1 Set Insert}
+ttd.tagoff {Level 3 Title}
+ttd.tagon body
+ttd.text {
+}
+ttd.text {
+}
+ttd.text {Sets the current widget as the insertion point. This is obsolete since the current widget is always the insertion point.
+}
+ttd.text {
+}
+ttd.tagoff body
+ttd.tagon {Level 3 Title}
+ttd.text {1.5.2 Set Alias...}
+ttd.tagoff {Level 3 Title}
+ttd.tagon body
+ttd.text {
+}
+ttd.text {
+}
+ttd.text {Widgets can be referred to using aliases. Instead of a complicated and difficult to remember widget path (for example, .top79.fra32.but21), a widget can be assigned an alias.
+}
+ttd.text {
+}
+ttd.text {The simplest but not the most recommended way to use an alias is via the widget array, which is a global array. For an alias named MyButton, you can type:
+}
+ttd.tagoff body
+ttd.tagon Listing
+ttd.text {puts $widget(MyButton)
+}
+ttd.tagoff Listing
+ttd.tagon body
+ttd.text {
+}
+ttd.text {this will return the path to the widget
+}
+ttd.text {
+}
+ttd.text {It is always safer to specify the toplevel too, in the case there are several widgets having the same alias but in different toplevels. For example:
+}
+ttd.tagoff body
+ttd.tagon Listing
+ttd.text {puts $widget(Toplevel1,MyButton)
+}
+ttd.text {puts $widget(Toplevel2,MyButton)
+}
+ttd.tagoff Listing
+ttd.tagon body
+ttd.text {
+}
+ttd.text {Assuming widget command aliasing has been turned on (see the Preferences dialog), it is better to use the command associated with the alias. You can type:
+}
+ttd.tagoff body
+ttd.tagon Listing
+ttd.text {MyButton configure -background red
+}
+ttd.tagoff Listing
+ttd.tagon body
+ttd.text {    and
+}
+ttd.tagoff body
+ttd.tagon Listing
+ttd.text {puts [MyButton]
+}
+ttd.tagoff Listing
+ttd.tagon body
+ttd.text { (note that the alias without parameters or a subcommand will return the widget path)
+}
+ttd.text {
+}
+ttd.text {Similarly, for the same alias within several toplevels, you can use:
+}
+ttd.tagoff body
+ttd.tagon Listing
+ttd.text {Toplevel1.MyButton configure -background red
+}
+ttd.tagoff Listing
+ttd.tagon body
+ttd.text {    and
+}
+ttd.tagoff body
+ttd.tagon Listing
+ttd.text {puts [Toplevel1.MyButton]
+}
+ttd.tagoff Listing
+ttd.tagon body
+ttd.text {
+}
+ttd.text {Then, for the other toplevel:
+}
+ttd.text {
+}
+ttd.tagoff body
+ttd.tagon Listing
+ttd.text {Toplevel2.MyButton configure -background red
+}
+ttd.tagoff Listing
+ttd.tagon body
+ttd.text {    and
+}
+ttd.tagoff body
+ttd.tagon Listing
+ttd.text {puts [Toplevel2.MyButton]
+}
+ttd.tagoff Listing
+ttd.tagon body
+ttd.text {
+}
+ttd.text {It is best to always have widget command aliasing on and never use the global widget array. This way you avoid global variables and make your program easier to read.
+}
+ttd.text {
+}
+ttd.tagoff body
+ttd.tagon {Level 3 Title}
+ttd.text {1.5.3 Manager}
+ttd.tagoff {Level 3 Title}
+ttd.tagon body
+ttd.text {
+}
+ttd.text {
+}
+ttd.text {There are several ways to arrange widgets with the Tk toolkit. For details about each of the managers, please see a good Tcl/Tk book, for example "Efficient Tcl/Tk Programming" at McGraw/Hill.
+}
+ttd.text {
+}
+ttd.tagoff body
+ttd.tagon {Level 4 Title}
+ttd.text {1.5.3.1 Place}
+ttd.tagoff {Level 4 Title}
+ttd.tagon body
+ttd.text {
+}
+ttd.text {
+}
+ttd.text {Sets place as the current geometry manager. The next widget that you insert will be managed by the "place" manager.
+}
+ttd.text {
+}
+ttd.tagoff body
+ttd.tagon {Level 4 Title}
+ttd.text {1.5.3.2 Pack}
+ttd.tagoff {Level 4 Title}
+ttd.tagon body
+ttd.text {
+}
+ttd.text {
+}
+ttd.text {Sets pack as the current geometry manager. The next widget that you insert will be managed by the packer.
+}
+ttd.text {
+}
+ttd.tagoff body
+ttd.tagon {Level 4 Title}
+ttd.text {1.5.3.3 Grid}
+ttd.tagoff {Level 4 Title}
+ttd.tagon body
+ttd.text {
+}
+ttd.text {
+}
+ttd.text {Sets grid as the current geometry manager. The next widget that you insert will be managed by the "grid" manager.
+}
+ttd.text {
+}
+ttd.tagoff body
+ttd.tagon {Level 3 Title}
+ttd.text {1.5.4 Select Toplevel}
+ttd.tagoff {Level 3 Title}
+ttd.tagon body
+ttd.text {
+}
+ttd.text {
+}
+ttd.text {This will select the toplevel to which the currently selected widget belongs.
+}
+ttd.text {
+}
+ttd.tagoff body
+ttd.tagon {Level 3 Title}
+ttd.text {1.5.5 Select Parent}
+ttd.tagoff {Level 3 Title}
+ttd.tagon body
+ttd.text {
+}
+ttd.text {
+}
+ttd.text {This will select the parent of the currently selected widget.
+}
+ttd.text {
+}
+ttd.tagoff body
+ttd.tagon {Level 3 Title}
+ttd.text {1.5.6 Bindings}
+ttd.tagoff {Level 3 Title}
+ttd.tagon body
+ttd.text {
+}
+ttd.text {
+}
+ttd.text {Shows the bindings editor. See "8. Widgets Bindings" below for more information on how to use the bindings editor.
+}
+ttd.text {
+}
+ttd.tagoff body
+ttd.tagon {Level 3 Title}
+ttd.text {1.5.7 Hide}
+ttd.tagoff {Level 3 Title}
+ttd.tagon body
+ttd.text {
+}
+ttd.text {
+}
+ttd.text {Hides the currently selected widget. If a toplevel window, it is removed from view. If a widget inside a toplevel, the widget is removed from the manager that was handling it.
+}
+ttd.text {
+}
+ttd.tagoff body
+ttd.tagon {Level 2 Title}
+ttd.text {1.6 Window Menu}
+ttd.tagoff {Level 2 Title}
+ttd.tagon body
+ttd.text {
+}
+ttd.text {
+}
+ttd.tagoff body
+ttd.tagon {Level 3 Title}
+ttd.text {1.6.1 Attribute Editor}
+ttd.tagoff {Level 3 Title}
+ttd.tagon body
+ttd.text {
+}
+ttd.text {
+}
+ttd.text {Shows the attributes editor window.
+}
+ttd.text {
+}
+ttd.tagoff body
+ttd.tagon {Level 3 Title}
+ttd.text {1.6.2 Function List}
+ttd.tagoff {Level 3 Title}
+ttd.tagon body
+ttd.text {
+}
+ttd.text {
+}
+ttd.text {Shows the list of procedures defined within your application.
+}
+ttd.text {
+}
+ttd.tagoff body
+ttd.tagon {Level 3 Title}
+ttd.text {1.6.3 Window List}
+ttd.tagoff {Level 3 Title}
+ttd.tagon body
+ttd.text {
+}
+ttd.text {
+}
+ttd.text {Shows the window list, that is, the list of toplevel windows in your project.
+}
+ttd.text {
+}
+ttd.tagoff body
+ttd.tagon {Level 3 Title}
+ttd.text {1.6.4 Command Console}
+ttd.tagoff {Level 3 Title}
+ttd.tagon body
+ttd.text {
+}
+ttd.text {
+}
+ttd.text {Shows or hides the command console. The command console is TkCon.
+}
+ttd.text {
+}
+ttd.tagoff body
+ttd.tagon {Level 3 Title}
+ttd.text {1.6.5 Widget Tree}
+ttd.tagoff {Level 3 Title}
+ttd.tagon body
+ttd.text {
+}
+ttd.text {
+}
+ttd.text {Shows the widget tree.
+}
+ttd.text {
+}
+ttd.tagoff body
+ttd.tagon {Level 3 Title}
+ttd.text {1.6.6 System Inspector}
+ttd.tagoff {Level 3 Title}
+ttd.tagon body
+ttd.text {
+}
+ttd.text {
+}
+ttd.text {Shows the system inspector window.
+}
+ttd.text {
+}
+ttd.tagoff body
+ttd.tagon {Level 3 Title}
+ttd.text {1.6.7 Save Window locations}
+ttd.tagoff {Level 3 Title}
+ttd.tagon body
+ttd.text {
+}
+ttd.text {
+}
+ttd.text {Saves the current locations of all the vTcl windows. Also, saves the current state of the preferences.
+}
+ttd.text {
+}
+ttd.tagoff body
+ttd.tagon {Level 2 Title}
+ttd.text {1.7 Widget Menu}
+ttd.tagoff {Level 2 Title}
+ttd.tagon body
+ttd.text {
+}
+ttd.text {
+}
+ttd.text {The Widget menu offers editing options for the currently selected widget. If there is no currently selected widget, the Widget menu is empty.
+}
+ttd.text {
+}
+ttd.text {If you select a toplevel window, for example, the Widget menu allows you to edit the menu for that toplevel, or resize the toplevel to the minimum needed to contain its widgets.
+}
+ttd.text {
+}
+ttd.tagoff body
+ttd.tagon {Level 2 Title}
+ttd.text {1.8 Help Menu}
+ttd.tagoff {Level 2 Title}
+ttd.text {
+}
+ttd.text {
+}
+ttd.tagon {Level 3 Title}
+ttd.text {1.8.1 About Visual Tcl...}
+ttd.tagoff {Level 3 Title}
+ttd.tagon body
+ttd.text {
+}
+ttd.text {
+}
+ttd.text {Shows the Visual Tcl version number and the credits.
+}
+ttd.text {
+}
+ttd.tagoff body
+ttd.tagon {Level 3 Title}
+ttd.text {1.8.2 Libraries...}
+ttd.tagoff {Level 3 Title}
+ttd.tagon body
+ttd.text {
+}
+ttd.text {
+}
+ttd.text {Displays the list of libraries currently loaded. If a library could not find the matching extension, it will show (not detected).
+}
+ttd.text {
+}
+ttd.text {The following libraries are available, depending on the tcl extensions you have installed on your machine:
+}
+ttd.text {- Tix
+}
+ttd.text {- BLT
+}
+ttd.text {- BWidget (Visual Tcl comes with its own modified version of BWidget 1.3.1)
+}
+ttd.text {- [incr Widgets]
+}
+ttd.text {- Tcl/Tk Core Widgets (always required)
+}
+ttd.text {- Visual Tcl Widget Library (a collection of multiple columns listbox, combo box and progress bar)
+}
+ttd.text {- tablelist (see www.nemethi.de)
+}
+ttd.text {- tkTable
+}
+ttd.text {
+}
+ttd.tagoff body
+ttd.tagon {Level 3 Title}
+ttd.text {1.8.3 Index of Help}
+ttd.tagoff {Level 3 Title}
+ttd.tagon body
+ttd.text {
+}
+ttd.text {
+}
+ttd.text {Shows the text that you are reading right now.
+}
+ttd.text {
+}
+ttd.tagoff body
+ttd.tagon {Level 3 Title}
+ttd.text {1.8.4 Tip of the Day}
+ttd.tagoff {Level 3 Title}
+ttd.tagon body
+ttd.text {
+}
+ttd.text {
+}
+ttd.text {Shows the tip of the day window.
+}
+ttd.text {
+}
+ttd.tagoff body
+ttd.tagon {Level 3 Title}
+ttd.text {1.8.5 Visual Tcl News}
+ttd.tagoff {Level 3 Title}
+ttd.tagon body
+ttd.text {
+}
+ttd.text {
+}
+ttd.text {Shows the Visual Tcl News window.
+}
+ttd.text {
+}
+ttd.tagoff body
+ttd.tagon {Level 2 Title}
+ttd.text {1.9 Main Window Toolbar}
+ttd.tagoff {Level 2 Title}
+ttd.tagon body
+ttd.text {
+}
+ttd.text {
+}
+ttd.text {The main window toolbar allows to quickly do common operations.
+}
+ttd.text {
+}
+ttd.tagoff body
+ttd.tagon {Level 3 Title}
+ttd.text {1.9.1 Text Entry}
+ttd.tagoff {Level 3 Title}
+ttd.tagon body
+ttd.text {
+}
+ttd.text {
+}
+ttd.text {The text entry located right under the main menu allows to set the label for a widget like a button, or the title of a toplevel window.
+}
+ttd.text {
+}
+ttd.tagoff body
+ttd.tagon {Level 3 Title}
+ttd.text {1.9.2 Command Console}
+ttd.tagoff {Level 3 Title}
+ttd.tagon body
+ttd.text {
+}
+ttd.text {
+}
+ttd.text {This button shows or hide the command console. The command console allows you to enter interactive commands and the see the results right away.
+}
+ttd.text {
+}
+ttd.tagoff body
+ttd.tagon {Level 3 Title}
+ttd.text {1.9.3 Border}
+ttd.tagoff {Level 3 Title}
+ttd.tagon body
+ttd.text {
+}
+ttd.text {
+}
+ttd.text {Sets the border relief for the currently selected widget. You can choose among raised, sunken, groove, ridge, or flat. It is not a good idea to change the border type of buttons, because they will not look right and behave according to the operating system's conventions.
+}
+ttd.text {
+}
+ttd.tagoff body
+ttd.tagon {Level 3 Title}
+ttd.text {1.9.4 Border Width}
+ttd.tagoff {Level 3 Title}
+ttd.tagon body
+ttd.text {
+}
+ttd.text {
+}
+ttd.text {Sets the border width for the currently selected widget. It is advised not to change the border width of widgets like buttons that take their default value from the platform.
+}
+ttd.text {
+}
+ttd.tagoff body
+ttd.tagon {Level 3 Title}
+ttd.text {1.9.5 Label Anchor}
+ttd.tagoff {Level 3 Title}
+ttd.tagon body
+ttd.text {
+}
+ttd.text {
+}
+ttd.text {Specifies where the text will be anchored in a widget. The menu shows graphically where the text will be inside the widget rectangle.
+}
+ttd.text {
+}
+ttd.tagoff body
+ttd.tagon {Level 3 Title}
+ttd.text {1.9.6 Foreground Color}
+ttd.tagoff {Level 3 Title}
+ttd.tagon body
+ttd.text {
+}
+ttd.text {
+}
+ttd.text {Sets the foreground color of the currently selected widget.
+}
+ttd.text {
+}
+ttd.tagoff body
+ttd.tagon {Level 3 Title}
+ttd.text {1.9.7 Background Color}
+ttd.tagoff {Level 3 Title}
+ttd.tagon body
+ttd.text {
+}
+ttd.text {
+}
+ttd.text {Sets the background color of the currently selected widget.
+}
+ttd.text {
+}
+ttd.tagoff body
+ttd.tagon {Level 3 Title}
+ttd.text {1.9.8 Font Selection}
+ttd.tagoff {Level 3 Title}
+ttd.tagon body
+ttd.text {
+}
+ttd.text {
+}
+ttd.text {The font selection buttons in the toolbar specify the font for the currently selected widget. It is recommended to use the Visual Tcl font mechanism instead, accessible from within the attributes editor font option. The Visual Tcl font system allows you to change the size and or typeface of a font, and all widgets displaying this font will automatically change to reflect the new font.
+}
+ttd.text {
+}
+ttd.text {If you set the font individually for each widget from within the toolbar, and you need to change a lot of widgets' font options at once, you will need to do it one widget at a time.
+}
+ttd.text {
+}
+ttd.tagoff body
+ttd.tagon {Level 4 Title}
+ttd.text {1.9.8.1 Typeface}
+ttd.tagoff {Level 4 Title}
+ttd.tagon body
+ttd.text {
+}
+ttd.text {
+}
+ttd.text {Displays the list of fonts available on your system, grouped by the first letter of their name.
+}
+ttd.text {
+}
+ttd.tagoff body
+ttd.tagon {Level 4 Title}
+ttd.text {1.9.8.2 Font Size}
+ttd.tagoff {Level 4 Title}
+ttd.tagon body
+ttd.text {
+}
+ttd.text {
+}
+ttd.text {Sets the font size of the currently selected widget. If you do not use truetype fonts, you may get blocky letters for large font sizes.
+}
+ttd.text {
+}
+ttd.tagoff body
+ttd.tagon {Level 4 Title}
+ttd.text {1.9.8.3 Font Style}
+ttd.tagoff {Level 4 Title}
+ttd.tagon body
+ttd.text {
+}
+ttd.text {
+}
+ttd.text {Sets the font style of the currently selected widget. You can choose between bold, italic, or underline, or combine them together.
+}
+ttd.text {
+}
+ttd.tagoff body
+ttd.tagon {Level 4 Title}
+ttd.text {1.9.9 Justification}
+ttd.tagoff {Level 4 Title}
+ttd.tagon body
+ttd.text {
+}
+ttd.text {
+}
+ttd.text {Sets the justification style for the currently selected widget. Justification only applies to widgets whose text spans on multiple lines.
+}
+ttd.text {
+}
+ttd.tagoff body
+ttd.tagon {Level 4 Title}
+ttd.tagon {Level 3 Title}
+ttd.text {1.9.10 Geometry Manager}
+ttd.tagoff {Level 3 Title}
+ttd.tagoff {Level 4 Title}
+ttd.tagon body
+ttd.text {
+}
+ttd.text {
+}
+ttd.text {In Tk, a geometry manager controls how widgets are arranged in a window. There are three geometry managers currently available with Tk.
+}
+ttd.text {
+}
+ttd.tagoff body
+ttd.tagon {Level 4 Title}
+ttd.text {1.9.10.1 Grid}
+ttd.tagoff {Level 4 Title}
+ttd.tagon body
+ttd.text {
+}
+ttd.text {
+}
+ttd.text {The grid geometry manager arranges widgets in a grid of rows and columns. See a good Tcl/Tk book for details on the grid geometry manager.
+}
+ttd.text {
+}
+ttd.tagoff body
+ttd.tagon {Level 4 Title}
+ttd.text {1.9.10.2 Pack}
+ttd.tagoff {Level 4 Title}
+ttd.tagon body
+ttd.text {
+}
+ttd.text {
+}
+ttd.text {The pack geometry manager arranges widgets next to each other from top to bottom or from left to right. Widgets can expand to fill the available space. See a good Tcl/Tk book for details on the pack geometry manager.
+}
+ttd.text {
+}
+ttd.tagoff body
+ttd.tagon {Level 4 Title}
+ttd.text {1.9.10.3 Place}
+ttd.tagoff {Level 4 Title}
+ttd.tagon body
+ttd.text {
+}
+ttd.text {
+}
+ttd.text {The place geometry manager arranges widgets freely. You can place widgets anywhere you like, and define a fixed size for them. Widgets sizes can also be a certain percentage of the width or height of their parent.
+}
+ttd.text {
+}
+ttd.text {The placer is the simplest geometry manager, but you should use pack or grid instead for better results. Both pack and grid automatically resize widgets to accodomate their labels. Pack and grid also accodomate changing font sizes on various platforms very well. The drawback in using pack and grid is that you need to spend more time designing your windows and thinking how your widgets will expand or contract as their size (font, text, etc.) changes.
+}
+ttd.text {
+}
+ttd.tagoff body
+ttd.tagon {Level 2 Title}
+ttd.text {1.10 Status Bar}
+ttd.tagoff {Level 2 Title}
+ttd.tagon body
+ttd.text {
+}
+ttd.text {
+}
+ttd.text {The status bar displays the class of the next widget that you are about to insert, as well as the current mode (EDIT or TEST).
+}
+ttd.text {
+}
+ttd.tagoff body
+ttd.tagon {Level 1 Title}
+ttd.text {2. Widget Toolbar}
+ttd.tagoff {Level 1 Title}
+ttd.tagon body
+ttd.text {
+}
+ttd.text {
+}
+ttd.text {The widget toolbar lists all the widgets available for you to insert into your project. In vTcl, widgets are grouped into "widgets libraries", the default widget library being the standard Tcl/Tk widgets library.
+}
+ttd.text {
+}
+ttd.text {When you select a widget to insert, the status bar will display its class. To actually insert the widget, click anywhere in your project where you want the widget to be inserted.
+}
+ttd.text {
+}
+ttd.text {If you selected a widget to insert by mistake, you can select another one in the widget toolbar, or you can select the "Pointer" to return to the mode where you can select and manipulate widgets.
+}
+ttd.text {
+}
+ttd.tagoff body
+ttd.tagon {Level 1 Title}
+ttd.text {3. Command Console}
+ttd.tagoff {Level 1 Title}
+ttd.tagon body
+ttd.text {
+}
+ttd.text {
+}
+ttd.text {The command console is TkCon from Jeffrey Hobbs. You can type commands and see the results interactively. The command console also offers extensive support for manipulating interpreters, features brace highlighting and command history.
+}
+ttd.text {
+}
+ttd.tagoff body
+ttd.tagon {Level 1 Title}
+ttd.text {4. Function List}
+ttd.tagoff {Level 1 Title}
+ttd.tagon body
+ttd.text {
+}
+ttd.text {
+}
+ttd.text {The function list shows the list of procedures / functions you have defined in your project.
+}
+ttd.text {
+}
+ttd.tagoff body
+ttd.tagon {Level 2 Title}
+ttd.text {4.1 Add New Procedure}
+ttd.tagoff {Level 2 Title}
+ttd.tagon body
+ttd.text {
+}
+ttd.text {
+}
+ttd.text {This icon opens a new empty procedure editor window. You can type a new procedure name and code in this window. To create a procedure within a namespace, enter the fully qualified name, for example:}
+ttd.text {
+}
+ttd.tagoff body
+ttd.tagon Listing
+ttd.text {::mynamespace::myprocedure
+}
+ttd.tagoff Listing
+ttd.tagon body
+ttd.text {
+}
+ttd.tagoff body
+ttd.tagon {Level 2 Title}
+ttd.text {4.2 Edit Selected Procedure}
+ttd.tagoff {Level 2 Title}
+ttd.tagon body
+ttd.text {
+}
+ttd.text {
+}
+ttd.text {Opens a procedure editor window with the selected procedure.
+}
+ttd.text {
+}
+ttd.tagoff body
+ttd.tagon {Level 2 Title}
+ttd.text {4.3 Delete Selected Procedure}
+ttd.tagoff {Level 2 Title}
+ttd.tagon body
+ttd.text {
+}
+ttd.text {
+}
+ttd.text {Deletes the currently selected procedure. You will be asked for confirmation before the procedure is deleted.
+}
+ttd.text {
+}
+ttd.tagoff body
+ttd.tagon {Level 1 Title}
+ttd.text {5. Window List}
+ttd.tagoff {Level 1 Title}
+ttd.tagon body
+ttd.text {
+}
+ttd.text {
+}
+ttd.text {The Window List only lists the toplevel windows in your application. Toplevel windows are windows that have a titlebar and can dragged and resized by the user.
+}
+ttd.text {
+}
+ttd.tagoff body
+ttd.tagon {Level 2 Title}
+ttd.text {5.1 Show Toplevel Window}
+ttd.tagoff {Level 2 Title}
+ttd.tagon body
+ttd.text {
+}
+ttd.text {
+}
+ttd.tagoff body
+ttd.tagon {Level 2 Title}
+ttd.text {5.2 Hide Toplevel Window}
+ttd.tagoff {Level 2 Title}
+ttd.tagon body
+ttd.text {
+}
+ttd.text {
+}
+ttd.tagoff body
+ttd.tagon {Level 2 Title}
+ttd.text {5.3 Delete Toplevel Window}
+ttd.tagoff {Level 2 Title}
+ttd.tagon body
+ttd.text {
+}
+ttd.text {
+}
+ttd.tagoff body
+ttd.tagon {Level 1 Title}
+ttd.text {6. Widget Tree}
+ttd.tagoff {Level 1 Title}
+ttd.tagon body
+ttd.text {
+}
+ttd.text {
+}
+ttd.text {The Widget Tree shows all the widgets in your application and the relationships between them.
+}
+ttd.text {
+}
+ttd.text {Widgets that don't have a widget above them are toplevel windows.
+}
+ttd.text {
+}
+ttd.text {The widget above (containing) a widget is called the parent widget.
+}
+ttd.text {
+}
+ttd.text {The widget(s) below (contained by) a widget is(are) called child(children) widget(s).
+}
+ttd.text {
+}
+ttd.text {When you click on a widget in the widget tree, it becomes the current selection. You can also right-click on a widget in the widget tree to show a context menu with operations available for that widget.
+}
+ttd.text {
+}
+ttd.tagoff body
+ttd.tagon {Level 1 Title}
+ttd.text {7. Attribute Editor}
+ttd.tagoff {Level 1 Title}
+ttd.tagon body
+ttd.text {
+}
+ttd.text {
+}
+ttd.text {The attributes editor shows properties for the currently selected widget. When a property value is different than the default value for that property, the box on the right side of the property is checked.
+}
+ttd.text {
+}
+ttd.text {If you do not want to save a particular property (eg. window background, for example, to avoid platform dependencies), uncheck the box next to that property.
+}
+ttd.text {
+}
+ttd.text {When you right-click on the property name, a submenu appears.
+}
+ttd.text {
+}
+ttd.tagoff body
+ttd.tagon {Level 1 Title}
+ttd.text {8. Widget Bindings}
+ttd.tagoff {Level 1 Title}
+ttd.tagon body
+ttd.text {
+}
+ttd.text {
+}
+ttd.text {Bindings link events to actions for a widget. For example, in a drawing application, when pressing a mouse button on a canvas, your code will start drawing, when moving the mouse, your code will draw according to mouse movements, and when releasing the mouse, drawing will end.
+}
+ttd.text {
+}
+ttd.text {Bindings also allow to set accelerator keys for toplevel windows. You can decide what actions to take whenever a widget gains or lose the focus, and many other things.
+}
+ttd.text {
+}
+ttd.text {By using binding tags, you can define a collection of bindings and apply it to several widgets. When modifying the behavior of a binding tag, all widgets that have been assigned this binding tag will automatically inherit the new behavior.
+}
+ttd.text {
+}
+ttd.text {You can even define virtual bindings, whose names are enclosed with << >>, and fire events yourself to which your widgets will respond.
+}
+ttd.text {
+}
+ttd.text {In the bindings editor, events that appear as black text cannot be modified. They are shown so that you can examine a widget's internals. Events that appear as blue text can be edited or deleted.
+}
+ttd.text {
+}
+ttd.tagoff body
+ttd.tagon {Level 2 Title}
+ttd.text {8.1 Insert}
+ttd.tagoff {Level 2 Title}
+ttd.tagon body
+ttd.text {
+}
+ttd.text {
+}
+ttd.text {Inserts a new binding for the widget. A list of bindings is proposed in the menu. If you don't find the binding you want to insert, select "Advanced...".
+}
+ttd.text {
+}
+ttd.tagoff body
+ttd.tagon {Level 2 Title}
+ttd.text {8.2 Move}
+ttd.tagoff {Level 2 Title}
+ttd.tagon body
+ttd.text {
+}
+ttd.text {
+}
+ttd.text {This menu allows you to move up or down a binding tag. You need to understand binding tags well before you use this }
+ttd.text {option. Binding tags allow you to process group of events in a certain order, and this order can be modified by moving tags up or down in the list of tags for the widget.
+}
+ttd.text {
+}
+ttd.text {For example, in some cases, a toplevel handles all the keyboard accelerators, so its tag appears for all the widgets in that toplevel. Sometimes, when a particular widget does not react the same way to an accelerator key as the toplevel window, you can override the behavior in that widget. Tk by default places the toplevel tag at the end of the list for a widget, so a widget can override the behavior that it inherits from the toplevel window easily.
+}
+ttd.text {
+}
+ttd.tagoff body
+ttd.tagon {Level 2 Title}
+ttd.text {8.3 Add}
+ttd.tagoff {Level 2 Title}
+ttd.tagon body
+ttd.text {
+}
+ttd.text {
+}
+ttd.text {Add allows you to add an existing binding tag to the selected widget or create a new tag. You need to understand binding tags well before using this option.
+}
+ttd.text {
+}
+ttd.tagoff body
+ttd.tagon {Level 2 Title}
+ttd.text {8.4 Delete}
+ttd.tagoff {Level 2 Title}
+ttd.tagon body
+ttd.text {
+}
+ttd.text {
+}
+ttd.text {Delete can remove events or tags. When you remove a binding tag, the tag is only removed from the list in the current widget. The tag is not actually deleted.
+}
+ttd.text {
+}
+ttd.tagoff body
+ttd.tagon {Level 2 Title}
+ttd.text {8.5 Context Menu}
+ttd.tagoff {Level 2 Title}
+ttd.tagon body
+ttd.text {
+}
+ttd.text {
+}
+ttd.text {When you type code for an event, special sequences can be inserted and will be replaced at execution time. For example, %W will be replaced by the path of the widget. If you right-click in the code area of the bindings editor, a menu appear that lists the most common % substitutions.
+}
+ttd.text {
+}
+ttd.tagoff body
+ttd.tagon {Level 1 Title}
+ttd.text {9. Menu Editor}
+ttd.tagoff {Level 1 Title}
+ttd.tagon body
+ttd.text {
+}
+ttd.text {
+}
+ttd.tagoff body
+ttd.tagon {Level 1 Title}
+ttd.text {10. Images Manager}
+ttd.tagoff {Level 1 Title}
+ttd.tagon body
+ttd.text {
+}
+ttd.text {
+}
+ttd.tagoff body
+ttd.tagon {Level 1 Title}
+ttd.text {11. Fonts Manager}
+ttd.tagoff {Level 1 Title}
+ttd.tagon body
+ttd.text {
+}
+ttd.text {
+}
+ttd.tagoff body
+ttd.tagon {Level 1 Title}
+ttd.text {12 .System Inspector}
+ttd.tagoff {Level 1 Title}
+ttd.tagon body
+ttd.text {
+}
+ttd.tagoff body

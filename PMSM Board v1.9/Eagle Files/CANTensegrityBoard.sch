@@ -8145,9 +8145,9 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <instance part="R2" gate="G$1" x="371" y="197"/>
 <instance part="R3" gate="G$1" x="371" y="193"/>
 <instance part="R7" gate="G$1" x="371" y="189"/>
-<instance part="R8" gate="G$1" x="109.22" y="182.88"/>
-<instance part="R11" gate="G$1" x="109.22" y="180.34"/>
-<instance part="R23" gate="G$1" x="109.22" y="175.26"/>
+<instance part="R8" gate="G$1" x="106.68" y="182.88"/>
+<instance part="R11" gate="G$1" x="106.68" y="180.34"/>
+<instance part="R23" gate="G$1" x="106.68" y="175.26"/>
 <instance part="R30" gate="G$1" x="88.9" y="86.36"/>
 <instance part="C15" gate="G$1" x="93.98" y="81.28"/>
 <instance part="R31" gate="G$1" x="88.9" y="73.66"/>
@@ -8684,12 +8684,13 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <segment>
 <pinref part="U6" gate="A" pin="AN31/PWM4H/PMD7/RP87/RE7"/>
 <pinref part="R8" gate="G$1" pin="2"/>
+<wire x1="111.76" y1="182.88" x2="114.3" y2="182.88" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="MISO" class="0">
 <segment>
 <pinref part="R8" gate="G$1" pin="1"/>
-<wire x1="104.14" y1="182.88" x2="101.6" y2="182.88" width="0.1524" layer="91"/>
+<wire x1="101.6" y1="182.88" x2="99.06" y2="182.88" width="0.1524" layer="91"/>
 <label x="96.52" y="182.88" size="1.778" layer="95"/>
 </segment>
 </net>
@@ -8697,12 +8698,13 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <segment>
 <pinref part="U6" gate="A" pin="C1IN3-/SCK2/PMA5/RP118/RG6"/>
 <pinref part="R11" gate="G$1" pin="2"/>
+<wire x1="111.76" y1="180.34" x2="114.3" y2="180.34" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="MOSI" class="0">
 <segment>
 <pinref part="R11" gate="G$1" pin="1"/>
-<wire x1="104.14" y1="180.34" x2="101.6" y2="180.34" width="0.1524" layer="91"/>
+<wire x1="101.6" y1="180.34" x2="99.06" y2="180.34" width="0.1524" layer="91"/>
 <label x="96.52" y="180.34" size="1.778" layer="95"/>
 </segment>
 </net>
@@ -8710,12 +8712,13 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <segment>
 <pinref part="U6" gate="A" pin="C2IN3-/SDO2/PMA3/RP120/RG8"/>
 <pinref part="R23" gate="G$1" pin="2"/>
+<wire x1="111.76" y1="175.26" x2="114.3" y2="175.26" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="SCLK" class="0">
 <segment>
 <pinref part="R23" gate="G$1" pin="1"/>
-<wire x1="104.14" y1="175.26" x2="101.6" y2="175.26" width="0.1524" layer="91"/>
+<wire x1="101.6" y1="175.26" x2="99.06" y2="175.26" width="0.1524" layer="91"/>
 <label x="96.52" y="175.26" size="1.778" layer="95"/>
 </segment>
 </net>

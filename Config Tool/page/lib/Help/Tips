@@ -1,0 +1,388 @@
+"The tip of the day dialog offers you valuable tips on Visual Tcl"
+
+{The main window gives access to common functions like open, save,
+close, cut, copy, paste.
+
+Below the menu bar, a number of buttons allow you to quickly change
+the visual properties of a widget such as the border width, the
+relief (sunken, raised), or the position of the text (left, center,
+right, etc.).
+
+You can also set the font type and size from the main window.}
+
+{The Tk Toolkit has different ways of arranging widgets inside a
+window. Geometry managers are responsible for arranging widgets.
+
+Tk has three geometry managers available.
+
+Visual Tcl supports all three geometry managers. You may need to
+use one or the other depending on your needs.}
+
+{One of the geometry managers is the "packer".
+
+The packer arranges widgets so that they can expand or contract,
+automatically adjusting their size. Widgets can stick to a given
+side of the window, and they can be instructed to expand horizon-
+tally, vertically or both.
+
+The packer is very convenient because you don't have to worry
+how big the buttons are. They will adjust so the button text fits.
+
+On the other hand, the packer requires a little bit of thinking
+while you design your forms, but because of its flexibility,
+it is the best choice to quickly port your application to
+other platforms.}
+
+{Another geometry manager is called the "placer".
+
+The placer simply places widgets to particular positions inside
+a window by using a system of x, y coordinates. Each widget is
+given a specific position (x, y) and a size (width, height).
+
+The placer does not resize widgets according to their content,
+which means that if you change the font size, buttons won't
+resize, contrary to the packer.}
+
+{It is recommended that you use the packer, to ensure that your
+application will have a consistent look, regardless of platform
+or font size. However, you may need to use the placer in some
+situations.}
+
+{A very useful geometry manager is the "gridder".
+
+The gridder arranges items in a grid of rows and columns. All
+items in the same row have the same height, and all items in the
+same column have the same width.
+
+In addition, an item in a grid can span on more than one column,
+or more than one row.
+
+Rows and columns automatically adjust to the contents of the
+widgets, like the packer. Rows and columns expand or contract.}
+
+{The vertical window containing two rows of icons in Visual
+Tcl is known as the toolbar. It is a palette of visual elements
+that you can use to build your application.
+
+Visual Tcl refers to visual elements with which the user interacts
+or that offer visual information to the user as 'widgets'. A widget
+may be a button (you can interact with a button by clicking on it),
+a scrollbar (you can drag the bar up or down to browse through
+a long text for example), a label (you cannot interact with a
+label, but the label displays text in a window), or a entry field
+(you can enter a value inside an entry field). There are many
+widgets for you to use in Visual Tcl.
+
+All these widgets (visual elements) form the building blocks of
+your application.}
+
+{Visual Tcl has two modes:
+
+EDIT mode allows you to place widgets on forms, move them around,
+change their size, their color, their font, how they respond
+to events, etc.
+
+TEST mode does not allow you to place widgets, but enables you
+to interact with them, as if you were running your application
+outside Visual Tcl.
+
+HINT:  You can switch between modes by clicking the label on the main
+toolbar that says what mode you're currently in.  If it says "EDIT" then
+clicking it will put you in TEST mode.}
+
+
+{Widgets in Tk are characterized by their properties.
+
+A property can be a font, a background color, a border size,
+a text string, anything that defines the behavior and appearance
+of a widget.
+
+You customize widgets to your own liking by changing their
+properties. For example, you set the background color, you change
+the font, or you define a command when a button is pressed.}
+
+{Widgets with a similar behavior and appearance belong to the
+same class.
+
+For example, widgets of the "Button" class all look rectangular
+with a text inside. They all execute a command when you click on
+them.
+
+Widgets of the "Scrollbar" class are made to browse through
+large documents. They all look like an elevator where you could
+drag the car up or down from one story to the other.
+
+Widgets of the "Text" class allow you to display text or
+modify it by inserting characters, copying or pasting bits of
+text.}
+
+{The basic building block of an application in Visual Tcl is
+the form, also called a "toplevel" window. Think of a toplevel
+window as an interactive form, displaying information to the
+user, or allowing the user to enter data.}
+
+"Aliases are symbolic names used to refer to widgets."
+
+"You can access a widget by it's alias using $widget(MyWidget)"
+
+{
+If you enable 'Widget command aliasing' in the Preferences dialog,
+you can refer to a widget by a command named after it's alias.
+
+For instance, if your alias is "MyButton", you can type:
+
+MyButton configure -state disabled
+}
+
+{
+To refer to aliased widgets inside a toplevel that also has an alias,
+you can use a command composed by adding the toplevel's alias,
+a period, and the widget's alias.
+
+For instance, if your toplevel alias is "MyToplevel", and
+your widget alias is "MyLabel", you can type:
+
+MyToplevel.MyLabel configure -text "MyLabel"
+}
+
+{
+Aliases make it very easy to refer to widgets in different toplevels.
+
+Suppose that you have top toplevels aliased Top1 and Top2.
+Suppose that each of these toplevel has a button aliased MyButton.
+
+You can use:
+Top1.MyButton
+
+and:
+Top2.MyButton
+}
+
+{
+If you need to get the window path name for an aliased widget
+inside an aliased toplevel, use the global variable widget.
+
+Suppose that you have an toplevel aliased Top1, and a
+widget whose alias is MyWidget. Then you can write:
+
+# inside a procedure, make sure you make widget global
+global widget
+
+...     $widget(Top1,MyWidget)       ...
+}
+
+{
+When creating a compound, all procedures inside a namespace named
+after the compound will be part of the compound.
+
+For example, suppose the following procedures are defined:
+
+::MyCompound::init
+::MyCompound::main
+::MyCompound::stuff
+
+Creating a compound named "MyCompound" will include all the
+procedures above.
+}
+
+{
+There are 2 special procedures with every compound. If this/these
+procedure(s) exist(s), it(they) will be called with the name of the 
+window as parameter.
+
+These procedures are, for a compound named "MyCompound":
+::MyCompound::init
+::MyCompound::main
+
+The init procedure will be called before the compound widgets are
+created.
+
+The main procedure will be invoked after all the compound's widgets 
+have been defined.
+}
+
+{
+When you create a compound, you may want to refer to its 
+subwidgets. You can check the "Ask for widget name on insert"
+option in the "Preferences" dialog. Then, everytime you insert
+a new widget, you will be prompted for a name.
+
+This is convenient to refer to subwidgets inside a compound with
+symbolic names instead of automatically generated names.
+
+It's easier to write
+%W.leftframe
+
+than
+%W.frame03
+}
+
+{
+To change the order of widgets arranged with the "pack" geometry
+manager, activate the widget you want to move by clicking on it,
+then press the Left/Up, Right/Down keys to change its order.
+}
+
+{
+To move a widget around in a grid, activate it by clicking on it,
+then use the cursor keys.
+}
+
+{
+In some situations you want to insert a widget inside a frame, but
+you have a hard time selecting the frame in the toplevel, because
+it is completely filled with widgets.
+
+Visual Tcl allows you to select the insertion point in the widget
+tree (say, a frame) then place the new widget inside it by pressing
+the Shift key then clicking on the widget you want to insert in
+the toolbar.
+}
+
+{
+In the -command option for a button, you can use special symbols
+to know what window triggered the command.
+
+%widget will be replaced by the window that triggered the command.
+%top will be replaced by the toplevel containing that window.
+}
+
+{
+You can use the %widget and %top symbols in menu commands, too.
+}
+
+{
+When you create a toplevel window, Visual Tcl automatically
+creates a namespace whose name is the window path. This namespace
+can be used to store data about the toplevel window.
+
+For example, if you create a toplevel named .top22, Visual Tcl
+will automatically create the ::.top22 namespace for you.
+
+You can then store and retrieve data to and from this namespace,
+for instance you can write:
+
+puts $::.top22::my_variable
+
+to display the value of my_variable in the ::.top22 namespace.}
+
+{The namespace associated with a toplevel may be used to store
+the values of input fields in the window, the equivalent of
+"member variables" of dialog boxes in Visual C++.
+
+When you place an input widget inside a toplevel, say, a
+checkbutton, Visual Tcl automatically assigns a variable to
+this checkbutton for you. The variable will be stored inside
+the toplevel namespace.
+
+You can modify the name of this variable, but it is a good idea
+to keep the variable inside the toplevel namespace.}
+
+{
+Visual Tcl applications spend most of their time doing nothing.
+Instead of wasting unnecessary processor time, user interface
+applications respond to events, typically when the user interacts
+with widgets. As long as the user does not interact with the
+program and there is no background task running, your application
+just waits for events to happen.
+
+An event can be a click on a button, a movement of the mouse,
+a scrollbar beeing dragged, etc.}
+
+{
+In Tcl/Tk, the relationship between an event and its action is
+called a binding. You "bind" an event to a block of code to
+execute. Whenever something triggers an event, the corresponding
+code executes.
+
+Visual Tcl has a "bindings editor" that allows you to define
+actions to take when events happen. To invoke the bindings editor,
+select a widget, then press Alt + B.}
+
+{
+Visual Tcl allows you to execute a bloc of code after a
+toplevel is created, but before all its widgets are.
+
+<<Create>>
+    This virtual event is triggered just after your toplevel
+    exists, but before any of its subwidgets has been defined.}
+
+{
+Visual Tcl links the WM_DELETE_WINDOW event to the
+<<DeleteWindow>> virtual event, which you can add to a toplevel
+in the bindings editor. A typical command in this event
+would be 'exit'.
+
+Note that while you are editing a project, the <<DeleteWindow>>
+event will not be triggered. Instead, when you click on the close
+button for the window, Visual Tcl will hide it from the display.}
+
+{
+Visual Tcl triggers the <<Ready>> event when all the widgets in
+a toplevel have been created and made visible on the screen.
+
+You can use this event to populate widgets in a toplevel. For
+example, after all widgets have been created, you can insert items
+in a listbox, initialize text in a text widget, or enable/disable
+buttons.
+
+The <<Ready>> event typically happens at the time you open a
+project in Visual Tcl, after a toplevel is ready. This event also
+happens when you execute your project from outside Visual Tcl.}
+
+{
+Visual Tcl also offers you two other virtual events that
+are triggered when the window is shown/hidden. They are:
+
+<<Show>>
+    This virtual event is triggered after a window is created,
+    all its widgets exist, and it is visible on the screen. It
+    is also triggered when the window is shown after it has
+    been hidden.
+
+<<Hide>>
+    This virtual event is triggered after a window is hidden
+    by the means of the 'Window hide' command.
+}
+
+{
+In several instances, the Tk toolkit allows you to define
+callbacks, e.g. a bloc of code you provide to Tk that will
+be executed when something happens.
+
+For example, you provide a bloc of code to execute when
+a button is pressed by using the -command option.
+
+Or, you can define an event handler triggered by a mouse
+click.
+
+These callbacks always execute in the 'global' namespace,
+which means they have access to all global variables. To
+avoid polluting the global namespace, make these callbacks
+as small as possible, or try to have the callbacks call
+a user defined procedure instead.
+}
+
+{
+The (pre) and (post) procedures are obsolete in Visual Tcl 1.5.
+
+You should use the <<Create>> and <<Ready>> events instead.}
+
+{
+Visual Tcl 1.5 comes with a full-blown sample application
+called Visual Text.
+
+It is a small text editor featuring basic text formatting.
+
+You can open this application from within Visual Tcl and browse
+its procedures, widgets and events. It shows you how to add
+shortcuts to your application, how to define pull-down menus,
+how to define event handlers, or how to load/save files. You can
+even use the text dump/restore code in the ::ttd namespace in
+your own application.
+}
+
+{
+Holding down the shift key while clicking in your project will
+automatically place the last widget selected on the project.
+}

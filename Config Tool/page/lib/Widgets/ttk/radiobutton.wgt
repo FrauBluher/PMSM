@@ -1,0 +1,116 @@
+#
+# Copyright (C) 2007 Tristan  http://www.tcltk.cn
+#
+# Description file for Tile Widget
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+##############################################################################
+
+# Rozen Borrowed from tile
+
+Class       TRadiobutton
+Lib     ttk
+
+Icon        icon_radiobutton.gif
+InsertCmd       vTcl::widgets::ttk::radiobutton::insertCmd
+DefaultOptions  -text TRadio
+DefaultValues   -activebackground -activeforeground -activeborderwidth \
+                -background -foreground -highlightbackground -highlightcolor
+TtkOptions		-background -foreground
+TtkWidget		yes
+
+#DoubleClickCmd  vTcl:set_command
+DoubleClickCmd    vTcl::widgets::ttk::radiobutton::dblClk
+TreeLabel   @vTcl::widgets::ttk::radiobutton::getWidgetTreeLabel
+GetImagesCmd    vTcl::widgets::ttk::radiobutton::getImagesCmd
+
+if {$vTcl(pr,balloon)} {
+ClassOption     -_tooltip   ;# Rozen not yet supporting tooltips.
+}
+
+
+CreateCmd ttk::radiobutton
+Function        "Set Text"  vTcl::widgets::ttk::radiobutton::setText
+Function  "Set Multiline Text"  vTcl::widgets::ttk::radiobutton::setMultilineText
+Function        "Set Variable..." vTcl::widgets::ttk::radiobutton::setVariable
+Function        "Set Value..."    vTcl::widgets::ttk::radiobutton::setValue
+
+namespace eval vTcl::widgets::ttk::radiobutton {
+
+    proc insertCmd {target} {
+        $target configure -takefocus ""
+        $target configure -variable ""
+    }
+
+    proc setText {} {
+        vTcl:set_label $::vTcl(w,widget)
+    }
+
+    proc setMultilineText {} {
+        vTcl:set_text $::vTcl(w,widget)
+    }
+
+    proc setVariable {} {
+        global vTcl
+        vTcl:core:set_option $vTcl(w,widget)\
+                         -variable \
+                    "Variable for $vTcl(w,widget)"
+    }
+
+    proc setValue {} {
+        global vTcl
+        vTcl:core:set_option $vTcl(w,widget)\
+                         -value \
+                         "Value for $vTcl(w,widget)"
+    }
+
+    proc dblClk {target} {
+        vTcl:set_command $target -command $::vTcl(w,opt,-command)
+    }
+
+#    proc insertCmd {target} {
+#        global [$target cget -variable]
+#        unset  [$target cget -variable]
+#        #$target configure -variable "[winfo toplevel $target]::selectedButton"
+#        $target configure -takefocus ""
+#    }
+
+    proc getWidgetTreeLabel {target} {
+        set ttt1 [$target cget -text]
+        set ttt2 [$target cget -variable]
+        set ttt3 [$target cget -value]
+
+        if {$ttt2 == ""} {
+            return "TRB: $ttt1"
+        } else {
+            return "TRB: $ttt1 var=$ttt2\(val=$ttt3\)"
+        }
+    }
+
+    proc getImagesCmd {target} {
+        set options [$target configure]
+        set result ""
+        foreach option $options {
+            set name [lindex $option 0]
+            if {$name == "-image" || $name == "-selectimage"} {
+                 lappend result [$target cget $name]
+            }
+        }
+
+        return $result
+    }
+}
+
+

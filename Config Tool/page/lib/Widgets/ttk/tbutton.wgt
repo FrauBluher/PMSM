@@ -1,0 +1,85 @@
+# $Id: button.wgt,v 1.7 2002/10/29 06:07:50 cgavin Exp $
+
+##############################################################################
+#
+# Visual TCL - A cross-platform application development environment
+#
+# Copyright (C) 2001 Damon Courtney
+#
+# Description file for Tk Widget
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+##############################################################################
+
+# Rationalized with tile button.wgt
+
+Class       TButton
+Lib     ttk
+CreateCmd   ttk::button
+InsertCmd   vTcl::widgets::ttk::tbutton::insertCmd
+Icon        icon_button.gif
+DefaultOptions  -text Tbutton -class TButton
+TtkOptions      -background -foreground
+TtkWidget       yes
+
+DefaultValues   -activebackground -activeforeground -activeborderwidth \
+                -background -foreground -highlightbackground -highlightcolor
+if {$vTcl(pr,balloon)} {
+ClassOption     -_tooltip   ;# Rozen not yet supporting tooltips.
+}
+
+DoubleClickCmd  vTcl::widgets::ttk::tbutton::dblClk
+TreeLabel   @vTcl::widgets::ttk::tbutton::getWidgetTreeLabel
+
+Function    "Set Text"  vTcl::widgets::ttk::tbutton::setText
+Function    "Set Multiline Text"  vTcl::widgets::ttk::tbutton::setMultilineText
+Function    "Set Command"   vTcl::widgets::ttk::tbutton::setCommand
+
+namespace eval vTcl::widgets::ttk::tbutton {
+
+    proc insertCmd {target} {
+        $target configure -takefocus ""
+    }
+
+    proc setText {} {
+        global vTcl
+        vTcl:set_label $vTcl(w,widget)
+    }
+
+    proc setMultilineText {} {
+        vTcl:set_text $::vTcl(w,widget)
+    }
+
+    proc setCommand {} {
+        global vTcl
+        vTcl:set_command $vTcl(w,widget) -command  $::vTcl(w,opt,-command)
+    }
+
+    proc dblClk {target} {
+        vTcl:set_command $target -command $::vTcl(w,opt,-command)
+    }
+
+    proc getWidgetTreeLabel {target} {
+        set ttt1 [$target cget -text]
+        set ttt2 [$target cget -textvariable]
+
+        if {$ttt2 == ""} {
+            return "TBUT: $ttt1"
+        } else {
+            return "TBUT: $ttt1 var=$ttt2"
+        }
+    }
+}
+

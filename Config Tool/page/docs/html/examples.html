@@ -1,0 +1,326 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Examples &mdash; PAGE 4.3 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '4.3',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="PAGE 4.3 documentation" href="index.html" />
+    <link rel="next" title="Epilogue" href="final.html" />
+    <link rel="prev" title="Creating and Saving Code Modules" href="saving.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="final.html" title="Epilogue"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="saving.html" title="Creating and Saving Code Modules"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">PAGE 4.3 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="examples">
+<h1>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h1>
+<p>Examples are the main way that I learned about Tkinter and how to
+write code for building GUI&#8217;s .  Unfortunately, it is hard to find
+examples.  Grayson&#8217;s book has been an immense help over the years and
+more recently the pyttk-samples distributed by Guilherme Polo have
+helped greatly.  The official Tcl documentation is pretty much limited
+to man pages which are of minor assistance in getting started with
+Tkinter. The <a class="reference external" href="http://www.tkdocs.com/tutorial/index.html">tutorial on the Tcl Developers site</a> only recently included
+Python code. Much experimentation was required before I was able to
+see a paned window on my screen or a scrolled directory.  There are
+several interesting examples in the examples subdirectory.</p>
+<p>Most of the examples have been reworked for version 4.2 to reflect the
+rework scheme have a GUI module and a support module for each GUI.  So
+one may experiment with the examples changing sizes, colors, fonts,
+etc. in the GUI modules and they may still work if he does not
+regenerate support modules.  At least, one can see some of the
+possibilities.  Of course, I have created some of them like menu in
+poor taste just to illustrate some of the possibilities.</p>
+<div class="section" id="directory-browser">
+<h2>Directory Browser<a class="headerlink" href="#directory-browser" title="Permalink to this headline">¶</a></h2>
+<p>This example contains a scrolled treeview widget that displays ones
+UNIX directory tree.  It is a rework of Polo&#8217;s example to include
+folder icons which open and close.  Polo&#8217;s example is Based
+on <a class="reference external" href="http://bitwalk.blogspot.com/2008/01/ttktreeview.html">bitwalk&#8217;s directory browser</a>.</p>
+<img alt="_images/dir-tree.png" src="_images/dir-tree.png" />
+</div>
+<div class="section" id="vrex">
+<span id="id1"></span><h2>Vrex<a class="headerlink" href="#vrex" title="Permalink to this headline">¶</a></h2>
+<p>In the past I have used a number of regular expressions in Python and
+used to great advantage <a class="reference external" href="http://laurent.riesterer.free.fr/regexp/">Visual Regexp</a> in composing and testing
+those regular expressions and thought that rewriting the program in
+Python would be interesting because</p>
+<ul class="simple">
+<li>It would illustrate important capabilities of PAGE.</li>
+<li>It would be a useful program in its own right. Indeed, I use it all
+the time.</li>
+<li>The original version was written in Tcl/Tk and so uses the regular
+expression processing of Tcl which is bound to be slightly different
+from that in Python. So an all Python version using the Python
+regular expression processing would be true to Python.</li>
+<li>The original program had ZERO documentation. I never could figure
+out all of the facilities present. (The most recent version has one
+page of documentation.) I wanted a version that I could document.</li>
+<li>This example illustrates several points about PAGE support: Building
+menus, using paned windows, text colorization, synchronization
+between two scrolled text windows, and a project utilizing two windows.</li>
+</ul>
+<img alt="_images/Vrex_for_Python.png" src="_images/Vrex_for_Python.png" />
+<p>The main portion of the GUI is a three pane window for entering the
+regular expression and sample in the first two and the third pane
+presents match results based on the selection of buttons at the
+bottom.</p>
+<p>Some of the features of PAGE illustrated in this useful program are:</p>
+<ul class="simple">
+<li>Scrolled text widgets nested inside of label frames.</li>
+<li>Use of two separate GUI&#8217;s, one for the main function of the program
+and one for a help window.</li>
+<li>Colorizing the text within the scrolled text windows.</li>
+</ul>
+<div class="section" id="operation">
+<h3>Operation<a class="headerlink" href="#operation" title="Permalink to this headline">¶</a></h3>
+<p>Briefly, Vrex works as follows:</p>
+<p>One enters the regular expression under test into the top text box,
+and the sample which is the subject of the regular expression match
+into the middle text box.  One may use the File menu to load files
+into the text boxes, one may directly type entries or use the normal
+cut and paste facilities of the operating system.  The user can also
+save the regular expression and sample using the File menu.</p>
+<ul class="simple">
+<li>Pressing the Go button causes the match to be attempted.  Also,
+colorization is applied to both the regular expression and to the
+sample. The regular expression is colorized to show the portions of
+the regular expression are to extracted individually. And if the
+match is successful the corresponding portions of the sample are
+displayed in the same colors.</li>
+<li>By selecting one of the row of buttons marked match, 1, 2, ..., 9,
+the portions of the sample corresponding to extracted subpatterns are
+displayed in the match window.</li>
+<li>You can use the File menu to load to save both the regular expression
+and the sample.</li>
+<li>The Quit Button terminates the program.</li>
+<li>The File menu also has a Quit entry that terminates the program.</li>
+<li>The Help menu opens a second GUI containing a ScrolledText widget
+which has help information.</li>
+</ul>
+<p>The regular expression should be colorized showing the portions to be
+extracted in different colors and as well as the matching portion of
+the sample.</p>
+<p>If you then Select Match, that matching portion of the sample will be
+shown in the Match text box. Select 1, and the portion matching the
+sub expression will be shown, etc..</p>
+<p>You can also load a file into the sample window and thus run the
+regular expression against many strings.</p>
+</div>
+</div>
+<div class="section" id="progress-bar">
+<span id="progress"></span><h2>Progress Bar<a class="headerlink" href="#progress-bar" title="Permalink to this headline">¶</a></h2>
+<p>This example shows the usage of the progress bar widget but is included
+mainly for illustrating an application with two top level windows.  It
+shows how the main window is able to interact with variables and
+procedures in the imported module which actually displays the progress
+bar.</p>
+<p>Two versions of this example are included, the first in the
+examples/progress_bar is the version that I wrote before implementing
+the rework scheme and the second in examples/new_progress_bar is how I
+changed the first to conform with the new scheme.  Important features
+illustrated include the creation and destruction of the secondary top
+level window and the fact that the main GUI support code requires
+access to Tkinter variables defined and manipulated in the support
+module of the other, progress bar, window.</p>
+</div>
+<div class="section" id="complex">
+<h2>Complex<a class="headerlink" href="#complex" title="Permalink to this headline">¶</a></h2>
+<p>This really isn&#8217;t much of an example doing nothing but does showing
+nesting of a paned window inside of a paned window and a notebook
+widget nested inside of a paned window. By the way, one can enlarge
+the top level window and copy and paste the whole paned window to a
+new location.</p>
+</div>
+<div class="section" id="menu-py">
+<h2>Menu.py<a class="headerlink" href="#menu-py" title="Permalink to this headline">¶</a></h2>
+<p>This just portrays a fairly extreme menu bar example.  Note, I do not
+advocate this as a style to be used; it merely suggests some of the
+things that can be done.</p>
+<p>While this example works as expected on my Linux Mint 13 machine, it
+does not work as well on my XP machine. The way it was conceived,
+there is a small image to the right of the label in the left of the
+menu bar. However, on XP neither the label nor the image is shown.
+What one gets is &#8220;(image)&#8221;.  Strange since if you go down sever levels
+there is an image to the left of one of the check buttons. I think
+that is a problem with Tk.</p>
+</div>
+<div class="section" id="standard-tcl">
+<h2>standard.tcl<a class="headerlink" href="#standard-tcl" title="Permalink to this headline">¶</a></h2>
+<p>This is just a top level window with each of the standard Tk widgets
+that I support.  It just shows that I can generate working Python code
+for each.   The lowercase &#8216;s&#8217; emphasizes that it doesn&#8217;t do much.</p>
+</div>
+<div class="section" id="themed-tcl">
+<h2>themed.tcl<a class="headerlink" href="#themed-tcl" title="Permalink to this headline">¶</a></h2>
+<p>As above for the themed widgets.</p>
+</div>
+<div class="section" id="wcpe">
+<span id="id2"></span><h2>WCPE<a class="headerlink" href="#wcpe" title="Permalink to this headline">¶</a></h2>
+<p>See the WCPE directory in the examples directory.  This is a program
+that displays the program of WCPE which is one of my favorite
+classical music stations.  In this example all of the functional code
+is located in WCPE_support.py and the GUI is defined in WCPE.py which
+is the main module.  I found it very tricky to deal with time zones
+and did not want to loose any of that code and have to redo it or to
+deal with diff&#8217;s; at the same time, I was constantly tweaking the
+GUI.  I generated the import module once and proceeded fill out the
+init function and the callback functions in WCPE_support.py while
+tweaking the GUI, i.e., changing its location, color, the size of the
+display fields, and change of some display fields from entry boxes to
+labels.</p>
+<img alt="_images/WCPE.png" src="_images/WCPE.png" />
+<p>This example utilizes:</p>
+<ul class="simple">
+<li>Labels linked to Tkinter variables to display information like times,
+composer, artist, etc.</li>
+<li>A Scrolled text box which displays the whole play schedule for the
+day and colorizes the current piece and makes sure it is displayed
+within the window.</li>
+<li>Busy cursor to alert the user that the application is awaiting
+playlist information from the web.</li>
+</ul>
+<p>In addition I fuss around with reading and parsing web pages and time
+zone calculations.</p>
+</div>
+<div class="section" id="clone">
+<span id="double"></span><h2>Clone<a class="headerlink" href="#clone" title="Permalink to this headline">¶</a></h2>
+<p>This is a somewhat kooky example located in examples/clone, where
+main.py creates a GUI which presents a button &#8220;Make Two&#8221; which cause
+the creation of two instances of the &#8220;called&#8221; GUI but with differing
+characteristics of location and background colors.  The called GUI is
+then able to create incidences of clones with different locations and
+background colors.</p>
+<p>It is also an example of passing a user parameter to the creation
+module which is then passed to the init function in the support
+module.</p>
+</div>
+<div class="section" id="calendar">
+<h2>Calendar<a class="headerlink" href="#calendar" title="Permalink to this headline">¶</a></h2>
+<p>Small example of building a calendar display using the new rework
+scheme. It is located in examples/calendar subfolder.</p>
+<img alt="_images/calendar.png" src="_images/calendar.png" />
+</div>
+<div class="section" id="cpu-info">
+<h2>CPU Info<a class="headerlink" href="#cpu-info" title="Permalink to this headline">¶</a></h2>
+<p>Another small example which displays the output of lscpu on a Linux
+system.</p>
+<img alt="_images/cpu-info.png" src="_images/cpu-info.png" />
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Examples</a><ul>
+<li><a class="reference internal" href="#directory-browser">Directory Browser</a></li>
+<li><a class="reference internal" href="#vrex">Vrex</a><ul>
+<li><a class="reference internal" href="#operation">Operation</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#progress-bar">Progress Bar</a></li>
+<li><a class="reference internal" href="#complex">Complex</a></li>
+<li><a class="reference internal" href="#menu-py">Menu.py</a></li>
+<li><a class="reference internal" href="#standard-tcl">standard.tcl</a></li>
+<li><a class="reference internal" href="#themed-tcl">themed.tcl</a></li>
+<li><a class="reference internal" href="#wcpe">WCPE</a></li>
+<li><a class="reference internal" href="#clone">Clone</a></li>
+<li><a class="reference internal" href="#calendar">Calendar</a></li>
+<li><a class="reference internal" href="#cpu-info">CPU Info</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="saving.html"
+                        title="previous chapter">Creating and Saving Code Modules</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="final.html"
+                        title="next chapter">Epilogue</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/examples.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="final.html" title="Epilogue"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="saving.html" title="Creating and Saving Code Modules"
+             >previous</a> |</li>
+        <li><a href="index.html">PAGE 4.3 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2008 - 2014 Donald Rozenberg.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

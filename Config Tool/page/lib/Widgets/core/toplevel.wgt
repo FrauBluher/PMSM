@@ -1,0 +1,373 @@
+# $Id: toplevel.wgt,v 1.25 2003/04/13 05:48:44 cgavin Exp $
+
+##############################################################################
+#
+# Visual TCL - A cross-platform application development environment
+#
+# Copyright (C) 2001 Damon Courtney
+#
+# Description file for Tk Widget
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
+##############################################################################
+#
+
+Class       Toplevel
+Lib     core
+
+Icon        icon_toplevel.gif
+CreateCmd       vTcl:toplevel
+DoubleClickCmd  vTcl::widgets::core::toplevel::dblClkCmd
+
+TreeLabel   @vTcl::widgets::core::toplevel::getWidgetTreeLabel
+DumpCmd         vTcl::widgets::core::toplevel::dumpCmd
+DumpInfoCmd     vTcl::widgets::core::toplevel::dumpInfoCmd
+InsertCmd   vTcl::widgets::core::toplevel::insertCmd
+DeleteCmd       vTcl::widgets::core::toplevel::deleteCmd
+WidgetProc  vTcl:Toplevel:WidgetProc
+DefaultValues   -background -highlightbackground -highlightcolor
+DefaultOptions -background \$vTcl(actual_gui_bg)
+
+
+#NewOption -title Title type
+
+Function        "Edit Menu..."              vTcl::widgets::core::toplevel::editMenu
+# Rozen Since I don't know what these two accomplish I am removing them.
+#Function    "Set New Toplevel Geometry" vTcl::widgets::core::toplevel::setNewGeom
+#Function        "Adjust Size To Children"   vTcl::widgets::core::toplevel::adjustSize
+
+Export          vTcl:DefineAlias
+Export          vTcl:toplevel
+Export          vTcl:DoCmdOption
+Export          vTcl:FireEvent
+
+proc vTcl:DoCmdOption {target cmd} {
+    ## This procedure may be used free of restrictions.
+    ##    Exception added by Christian Gavin on 08/08/02.
+    ## Other packages and widget toolkits have different licensing requirements.
+    ##    Please read their license agreements for details.
+
+    ## menus are considered toplevel windows
+    set parent $target
+    while {[winfo class $parent] == "Menu"} {
+        set parent [winfo parent $parent]
+    }
+
+    regsub -all {\%widget} $cmd $target cmd
+    regsub -all {\%top} $cmd [winfo toplevel $parent] cmd
+
+    uplevel #0 [list eval $cmd]
+}
+
+proc vTcl:toplevel {args} {
+    ## This procedure may be used free of restrictions.
+    ##    Exception added by Christian Gavin on 08/08/02.
+    ## Other packages and widget toolkits have different licensing requirements.
+    ##    Please read their license agreements for details.
+    uplevel #0 eval toplevel $args
+    set target [lindex $args 0]
+    namespace eval ::$target {set _modal 0}
+}
+
+proc vTcl:Toplevel:WidgetProc {w args} {
+    ## This procedure may be used free of restrictions.
+    ##    Exception added by Christian Gavin on 08/08/02.
+    ## Other packages and widget toolkits have different licensing requirements.
+    ##    Please read their license agreements for details.
+
+    if {[llength $args] == 0} {
+        ## If no arguments, returns the path the alias points to
+        return $w
+    }
+    set command [lindex $args 0]
+    set args [lrange $args 1 end]
+    switch -- [string tolower $command] {
+        "setvar" {
+            foreach {varname value} $args {}
+            if {$value == ""} {
+                return [set ::${w}::${varname}]
+            } else {
+                return [set ::${w}::${varname} $value]
+            }
+        }
+        "hide" - "show" {
+            Window [string tolower $command] $w
+        }
+        "showmodal" {
+            ## modal dialog ends when window is destroyed
+            Window show $w; raise $w
+            grab $w; tkwait window $w; grab release $w
+        }
+        "startmodal" {
+            ## ends when endmodal called
+            Window show $w; raise $w
+            set ::${w}::_modal 1
+            grab $w; tkwait variable ::${w}::_modal; grab release $w
+        }
+        "endmodal" {
+            ## ends modal dialog started with startmodal, argument is var name
+            set ::${w}::_modal 0
+            Window hide $w
+        }
+        default {
+            uplevel $w $command $args
+        }
+    }
+}
+
+namespace eval vTcl::widgets::core::toplevel {
+
+    proc getWidgetTreeLabel {target} {
+        return [wm title $target]
+    }
+
+    proc editMenu {} {
+        dblClkCmd $::vTcl(w,widget)
+    }
+
+    proc dblClkCmd {target} {
+        global vTcl
+        set vTcl(w,opt,-menu) [$target cget -menu]
+        vTcl:edit_target_menu $target
+
+    # this is necessary in order for the -menu option to be set right now
+    update
+
+        vTcl:prop:save_opt $target -menu vTcl(w,opt,-menu)
+    }
+
+    proc setBindings {} {
+
+          bind _TopLevel <<Create>> {
+        if {![info exists _topcount]} {set _topcount 0}; incr _topcount
+        }
+
+        bind _TopLevel <Destroy> {
+            if {[winfo toplevel %W] == "%W"} {incr _topcount -1}
+        }
+
+        bind _TopLevel <<DeleteWindow>> {
+            if {[set ::%W::_modal]} {
+                vTcl:Toplevel:WidgetProc %W endmodal
+            } else {
+                destroy %W; if {$_topcount == 0} {exit}
+            }
+        }
+
+        ::widgets_bindings::add_tag_to_tagslist _TopLevel
+    }
+
+    proc insertCmd {target} {
+        global vTcl
+        wm geometry $target $vTcl(pr,geom_new)
+        # Rozen
+        foreach {W H X Y} [split $vTcl(pr,geom_new) "x+"] {}
+        set vTcl($target,x) $X
+        set vTcl($target,y) $Y
+        # end Rozen
+        wm protocol $target WM_DELETE_WINDOW "vTcl:hide_top $target"
+        if {$vTcl(pr,winfocus) == 1} {
+            wm protocol $target WM_TAKE_FOCUS "vTcl:wm_take_focus $target"
+        }
+        wm title $target "New Toplevel $vTcl(newtops)"
+        incr vTcl(newtops)
+        set vTcl(w,insert) $target
+        lappend vTcl(tops) $target
+        vTcl:update_top_list
+        setBindings
+        bindtags $target [concat [bindtags $target] _TopLevel]
+        vTcl:FireEvent $target <<Create>>
+    }
+
+    proc deleteCmd {target} {
+        global vTcl
+
+        set vTcl(tops) [lremove $vTcl(tops) $target]
+        destroy $target
+        namespace delete ::$target
+        vTcl:update_top_list
+    }
+
+    proc adjustSize {} {
+        global vTcl
+
+        wm geometry $vTcl(w,widget) {}
+    }
+
+    proc setNewGeom {} {
+        global vTcl
+
+        set vTcl(pr,geom_new) [wm geometry $vTcl(w,widget)]
+    }
+
+    proc dumpTop {target} {
+        global vTcl
+        set output ""
+        set proc_base $vTcl(winname)$target
+        if {![winfo exists $target]} {
+            if {[info procs $proc_base] == ""} {
+                return ""
+            }
+            append output [vTcl:dump_proc $proc_base]
+            return $output
+        }
+        if {[winfo class $target] != "Toplevel" && $target != "."} {
+            return
+        }
+        ## vTcl:update_widget_info $target
+        append output "\nproc $proc_base \{base\} \{\n"
+        append output "$vTcl(tab)if {\$base == \"\"} {\n"
+        append output "$vTcl(tab2)set base $target\n$vTcl(tab)}\n"
+        if { $target != "." } {
+            append output "$vTcl(tab)if \{\[winfo exists \$base\]\} \{\n"
+            append output "$vTcl(tab2)wm deiconify \$base; return\n"
+            append output "$vTcl(tab)\}\n"
+            append output "$vTcl(tab)set top \$base\n"
+        }
+        if {[wm state $target] == "normal" ||
+            [wm state $target] == "iconic" ||
+            $target == "."} {
+            lappend vTcl(showtops) $target
+        }
+        incr vTcl(num,index)
+        vTcl:statbar [expr {($vTcl(num,index) * 100) / $vTcl(num,total)}]
+        append output [vTcl:dump:widgets $target]
+        append output "\n$vTcl(tab)vTcl:FireEvent \$base <<Ready>>\n"
+        append output "\}\n"
+        return $output
+    }
+
+    proc dumpProperties {target basename} {
+        global vTcl
+        set result ""
+        foreach i $vTcl(attr,tops) {
+            switch $i {
+                class {}
+                title {
+                    append result "$vTcl(tab)wm $i $basename"
+                    append result " \"[wm title $target]\"\n"
+                }
+                state {
+                    switch [wm state $target] {
+                        iconic {
+                            append result "$vTcl(tab)wm iconify $basename\n"
+                        }
+                        normal {
+                            append result "$vTcl(tab)wm deiconify $basename\n"
+                        }
+                        withdrawn {
+                            if {$target == "."} {
+                                append result "$vTcl(tab)wm withdraw $basename\n"
+                            }
+                        }
+                    }
+                }
+                geometry {
+                    set dump_origin 1
+                    set dump_size 1
+                    if {[info exists ::widgets::${target}::set,origin]} {
+                        set dump_origin [vTcl:at ::widgets::${target}::set,origin]
+                    }
+                    if {[info exists ::widgets::${target}::set,size]} {
+                        set dump_size [vTcl:at ::widgets::${target}::set,size]
+                    }
+                    set geom_list [split [wm $i $target] x+]
+                    set geom_dump ""
+                    if {$dump_size} {
+                        append geom_dump [join [lrange $geom_list 0 1] x]
+                    }
+                    if {$dump_origin} {
+                        append geom_dump +[join [lrange $geom_list 2 3] +]
+                    }
+                    if {$geom_dump != ""} {
+                        append result "$vTcl(tab)wm $i $basename $geom_dump"
+                        append result "\; update\n"
+                    }
+                }
+                default {
+                    ## Let's get the current values of the target.
+                    set value [wm $i $target]
+                    if {$value != ""} {
+                        append result "$vTcl(tab)wm $i $basename $value\n"
+                    }
+                }
+            } ; ## switch ...
+        } ; ## foreach ...
+
+        return $result
+    }
+
+    proc dumpCmd {target basename} {
+        global vTcl classes
+
+    ## Let's be safe and force wm for toplevel windows.  Just in case...
+        set mgr wm
+        set opt [$target configure]
+        set class [vTcl:get_class $target]
+
+        if {$target != "."} {
+            set result "$vTcl(tab)$classes($class,createCmd) "
+            append result "$basename"
+            append result " -class [winfo class $target]"
+            set bg [$target cget -background]
+            #append result " -background $bg"    ;# 11/23/12
+
+            # special proc to convert image names to filenames before saving to disk
+            set p [vTcl:get_opts_special $opt $target]
+            if {$p != ""} {
+                append result " \\\n[vTcl:clean_pairs $p]\n"
+            } else {
+                append result "\n"
+            }
+
+            if {![lempty [wm transient $target]]} {
+                append result $vTcl(tab)
+                append result "wm transient $basename [wm transient $target]"
+                append result "\; update\n"
+            }
+
+            if {[wm state $target] == "withdrawn"} {
+                append result $vTcl(tab)
+                append result "wm withdraw $basename\n"
+            }
+        }
+        append result [dumpProperties $target $basename]
+        append result [vTcl:dump_widget_alias $target $basename]
+        append result [vTcl:dump_widget_bind $target $basename]
+
+        return $result
+    }
+
+    proc dumpInfoCmd {target basename} {
+        global vTcl basenames classes
+
+        set basenames($target) $basename
+        append out [vTcl:wm:dump_info $target $basename]
+
+        set children [vTcl:get_children $target]
+        foreach widget $children {
+            set class [vTcl:get_class $widget]
+            append out [$classes($class,dumpInfoCmd) $widget \
+                            [vTcl:base_name $widget]]
+        }
+    catch {unset basenames($target)}
+    return $out
+    }
+}
+
+
+
+

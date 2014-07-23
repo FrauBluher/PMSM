@@ -1,0 +1,16 @@
+
+	This example contains an application where the main program,
+main.py, displays a GUI with two buttons, the interesting one of
+which cause another GUI defined in caller.py to be created twice.
+
+	In interesting aspect of this example is the passing of user
+parameters to the create function in caller.py which in turn is passed
+on to the init function in caller_support.py.  Thereby cloning itself.
+
+
+    When you are building applications with multiple simultaneous
+instances of one GUI, it may be necessary to use class functions and
+as well as Tk variables designed within the GUI class.  Both of these
+can be done by prepending "self." to the class function or Tk variable
+name.  In this example you will note that I used the lambda operator
+to pass parameters to functions in the support module.

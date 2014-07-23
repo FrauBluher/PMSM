@@ -1,0 +1,241 @@
+# $Id: menu.wgt,v 1.13 2002/11/03 08:19:37 cgavin Exp $
+
+##############################################################################
+#
+# Visual TCL - A cross-platform application development environment
+#
+# Copyright (C) 2001 Damon Courtney
+#
+# Description file for Tk Widget
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
+##############################################################################
+#
+
+Class       Menu
+Lib         core
+
+Icon        icon_menu.gif
+TreeLabel   @vTcl::widgets::core::menu::getWidgetTreeLabel
+DefaultValues -background
+
+NewOption -menuspecial      "menu"          menuspecial
+NewOption -tearoff          "tearoff"       boolean "0 1"
+NewOption -postcommand      "post cmd"      command
+NewOption -tearoffcommand   "tearoff cmd"   command
+NewOption -title            "title"         type
+
+DumpCmd       vTcl::widgets::core::menu::dumpCmd
+DumpInfoCmd   vTcl::widgets::core::menu::dumpInfoCmd
+DeleteCmd     vTcl::widgets::core::menu::deleteMenu
+GetImagesCmd  vTcl::widgets::core::menu::getImagesCmd
+GetFontsCmd   vTcl::widgets::core::menu::getFontsCmd
+
+namespace eval vTcl::widgets::core::menu {
+
+    proc getWidgetTreeLabel {target} {
+
+        set components [split $target .]
+
+        # let's see if the parent is a menu
+        set size [llength $components]
+
+        # parent is at least a toplevel
+        if {$size <= 3} {
+            return "Menu"
+        }
+
+        set parent [lrange $components 0 [expr $size - 2] ]
+        set parent [join $parent .]
+
+        if { [vTcl:get_class $parent 1] != "menu" } {
+        return "Menu"
+        }
+
+        for {set i 0} {$i <= [$parent index end]} {incr i} {
+
+            if { [$parent type $i] != "cascade" } {
+                continue
+            }
+
+            set menuwindow [$parent entrycget $i -menu]
+
+            if {$menuwindow == $target} {
+                return [$parent entrycget $i -label]
+            }
+        }
+
+        return "Menu"
+    }
+
+    proc deleteMenu {m} {
+        # this will be used later
+        set editor [::menu_edit::is_open_existing_editor $m]
+
+        ::menu_edit::delete_menu_recurse $m
+
+        # well, this is not enough to destroy the menu itself,
+        # we better tell its parent that it's not there as well
+
+        set items [split $m .]
+        set items [lrange $items 0 [expr [llength $items] - 2] ]
+
+        set parent [join $items .]
+
+        # now, let's see if the parent contains the child menu (should)
+
+        set class [vTcl:get_class $parent]
+        if {$class == "Toplevel"} then {
+                # it's a toplevel, just removes its menu
+                $parent configure -menu ""
+
+                # closes any open menu editor for this menu
+                if {$editor != ""} {
+                destroy $editor}
+
+                return
+        }
+
+        if {$class != "Menu"} then return
+
+        set last [$parent index end]
+
+        for {set i 0} {$i <= $last} {incr i} {
+                set mtype [$parent type $i]
+                if {$mtype != "cascade"} then continue
+
+                set submenu [$parent entrycget $i -menu]
+                if {$submenu == $m} then {
+                # this is the one
+                $parent delete $i
+                break
+                }
+        }
+
+        # now, we will refresh any possibly open menu editor
+
+        if {$editor != ""} {
+                ::menu_edit::refreshes_existing_editor $editor
+        }
+    }
+
+    proc getOption {target option} {
+        set result {}
+        set size [$target index end]
+        if {[vTcl:streq $size "none"]} { return {} }
+        for {set i 0} {$i <= $size} {incr i} {
+        if {![catch {$target entrycget $i $option} value]} {
+                lappend result $value
+            }
+        }
+        return $result
+    }
+
+    proc getImagesCmd {target} {
+        return [getOption $target -image]
+    }
+
+    proc getFontsCmd {target} {
+        return [getOption $target -font]
+    }
+
+    proc dumpCmd {target basename} {
+        ## discard temporary items
+        if {[string first .# $target] >= 0} {
+            return ""
+        }
+        global vTcl basenames
+        ## first dump the menu widget
+        set result [vTcl:dump_widget_opt $target $basename]
+
+        ## any entries in the menu?
+        set entries [$target index end]
+        if {$entries == "none"} {return $result}
+
+        ## then all its submenus
+        for {set index 0} {$index <= $entries} {incr index} {
+            set conf [$target entryconf $index]
+            set type [$target type $index]
+            switch $type {
+                tearoff {}
+                cascade {
+                    ## to allow option translation
+                    set pairs [vTcl:get_subopts_special $conf $target]
+                    append result "$vTcl(tab)$basename add $type \\\n"
+                    append result "[vTcl:clean_pairs $pairs]\n"
+
+                    set sitevariable "site_[llength [split $target .]]_0"
+                    append result "$vTcl(tab)"
+                    append result "set $sitevariable [vTcl:base_name $target]\n"
+                    set basenames($target) \$$sitevariable
+
+                    ## dump menu recursively
+                    set childMenu [$target entrycget $index -menu]
+                    set childBasename [vTcl:base_name $childMenu]
+                    append result [dumpCmd $childMenu $childBasename]
+                    catch {unset basenames($target)}
+                }
+                default {
+                    # to allow option translation
+                    set pairs [vTcl:get_subopts_special $conf $target]
+                    append result "$vTcl(tab)$basename add $type \\\n"
+                    append result "[vTcl:clean_pairs $pairs]\n"
+                }
+            }
+        }
+        return $result
+    }
+
+    proc dumpInfoCmd {target basename} {
+        ## discard temporary items
+        if {[string first .# $target] >= 0} {
+            return ""
+        }
+        global vTcl basenames classes
+        ## first dump the menu widget info
+        set result [vTcl:dump:widget_info $target $basename]
+
+        ## any entries in the menu?
+        set entries [$target index end]
+        if {$entries == "none"} {return $result}
+
+        ## then all its submenus
+        for {set index 0} {$index <= $entries} {incr index} {
+            set conf [$target entryconf $index]
+            set type [$target type $index]
+            switch $type {
+                cascade {
+                    set sitevariable "site_[llength [split $target .]]_0"
+                    append result "$vTcl(tab)"
+                    append result "set $sitevariable [vTcl:base_name $target]\n"
+                    set basenames($target) \$$sitevariable
+
+                    ## dump menu recursively
+                    set childMenu [$target entrycget $index -menu]
+                    set childBasename [vTcl:base_name $childMenu]
+                    set childClass [vTcl:get_class $childMenu]
+                    append result [$classes($childClass,dumpInfoCmd) \
+                                       $childMenu $childBasename]
+                    catch {unset basenames($target)}
+                }
+                default {
+                }
+            }
+        }
+        return $result
+    }
+}
+

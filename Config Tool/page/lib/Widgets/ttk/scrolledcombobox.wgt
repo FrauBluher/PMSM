@@ -1,0 +1,177 @@
+# $Id: scrolledtext.wgt,v 1.1 2013/01/09 01:48:56 rozen Exp rozen $
+
+##############################################################################
+#
+# Visual TCL - A cross-platform application development environment
+#
+# Copyright (C) 2001 Christian Gavin
+#
+# Description file for [Incr Widgets]
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
+##############################################################################
+#
+
+# Rozen. Started from scrolledtext in itcl, borrowed from here, there,
+# and everywhere.
+
+Class       Scrolledcombo
+Lib     ttk
+
+#CreateCmd  ::iwidgets::scrolledtext
+CreateCmd  vTcl::widgets::ttk::scrolledcombo::CreateCmd
+# Rozen may not use loadcommand at this level.
+#NewOption -loadcommand {loadcmd} command {}
+#ClassOption -loadcommand
+#DefaultOptions   -width 125 -height 75
+
+#TagsCmd         vTcl:lib_itcl:tagscmd
+Icon        scrolledcombo.gif
+DumpChildren    no
+MegaWidget  no
+#DumpChildren    no
+#MegaWidget  no
+#DontSaveOptions -sbwidth
+#GetFontsCmd     vTcl::widgets::iwidgets::scrolledtext::getFontsCmd
+#ResizeCmd vTcl::widgets::ttk::scrolledtext::ResizeCmd
+
+DumpCmd         vTcl::widgets::ttk::scrolledcombo::dumpCmd
+DumpInfoCmd     vTcl::widgets::ttk::scrolledcombo::dumpInfoCmd
+
+lappend vTcl(complex_class) Scrolledcombo
+
+namespace eval vTcl::widgets::ttk::scrolledcombo {
+
+#    proc getFontsCmd {target} { the
+#        set result ""
+#    set labelfont [$target cget -labelfont]
+#    set textfont  [$target cget -textfont]
+#    if {$labelfont != ""} {
+#        lappend result $labelfont
+#    }
+#    if {$textfont != ""} {
+#        lappend result $textfont
+#    }
+#    return $result
+#    }
+
+    proc CreateCmd {target args} {
+        # Rozen Routine Based on the compound widget -"Scrollable Text"
+        global vTcl
+        namespace eval ::widgets::${target}::options {}
+        namespace eval ::widgets::${target}::save    {}
+        namespace eval ::widgets::${target}.01::options {}
+        namespace eval ::widgets::${target}.01::save    {}
+        namespace eval ::widgets::${target}.02::options {}
+        namespace eval ::widgets::${target}.02::save    {}
+        namespace eval ::widgets::${target}.03::options {}
+        namespace eval ::widgets::${target}.03::save    {}
+
+
+        frame $target  -height 75 -width 125 -class Scrolledcombo
+        vTcl:DefineAlias "$target" "Frame8" vTcl:WidgetProc "Toplevel1" 1
+        ttk::combobox $target.01  -background white  -foreground black \
+            -font $vTcl(actual_gui_font_text_name)  -width 20 
+            #-insertborderwidth 3 \
+            #-highlightbackground $vTcl(actual_gui_bg)
+
+        pack $target.01 -in $target -fill both -expand yes
+        vTcl:DefineAlias "$target" "Scrolledcombo1" vTcl:WidgetProc "Toplevel1" 1
+
+        $target.01 insert end "Scrolled Combo"  ;# insert caption
+    }
+
+
+    # Picked up this routine from frame.wgt
+    proc dumpCmd {target basename} {
+        global vTcl basenames classes
+        set result [vTcl:dump_widget_opt $target $basename]
+# NEEDS WORK - conf1 seems to have the stuff I want, but I never seem
+# to use it.
+#        set conf1 [vTcl:dump_widget_opt $target.01 $basename.01]
+        set class_opt [vTcl:get_class_opts $target.01]
+        foreach {co val} $class_opt {
+            append result $vTcl(tab)
+            append result "global vTcl\n"
+            append result $vTcl(tab)
+            append result "set vTcl($target.01,$co) $val\n"
+            append result $vTcl(tab)
+            append result "namespace eval ::widgets::$target.01 \{\}\n"
+            append result $vTcl(tab)
+            append result "set ::widgets::$target.01::ClassOption($co) $val\n"
+            append result $vTcl(tab)
+            append result "set ::widgets::$target.01::options($co) $val\n"
+            append result $vTcl(tab)
+            append result "set ::widgets::$target.01::save($co) [expr {$val != ""}]\n"
+    }
+
+
+        set config [$target.01 configure]
+
+         # I am trying to get the options with nondefault values.
+
+         #append result "\n$vTcl(tab)$target.01 configure"
+         set attr {}
+         foreach i $config {
+             set option [lindex $i 0]
+             set default [lindex $i 3]
+             set value [lindex $i 4]
+             if {$default == $value} { continue }
+             if {[string first " " $value] > -1} {
+                 set new {}
+                 set value [append new "\"" $value "\""]
+             }
+             if {[string bytelength $attr] > 0} {
+                 append attr " \\\n" $vTcl(tab)$vTcl(tab)$option " " $value
+             } else {
+                 append attr "\n$vTcl(tab)$target.01 configure "
+                 append attr $option " " $value
+             }
+        }
+        append attr "\n"  ;# Ends the attributs of the list box.
+        #set clean [vTcl:clean_pairs $c1]
+        append result $attr
+        return $result
+    }
+
+    # Picked up this routine from frame.wgt
+    proc dumpInfoCmd {target basename} {
+        global vTcl basenames classes
+        set result [vTcl:dump:widget_info $target $basename]
+
+        set children [vTcl:get_children $target]
+        if {$children == ""} {
+            ## the frame is empty, don't bother
+            return $result
+        }
+
+        append result "$::vTcl(tab)"
+        set sitevariable "site_[llength [split $target .]]_0"
+        append result "set $sitevariable $basename\n"
+        set basenames($target) \$$sitevariable
+
+        foreach i $children {
+            set basename [vTcl:base_name  $i]
+            set basenames($i) $basename
+            set class [vTcl:get_class $i]
+            append result [$classes($class,dumpInfoCmd) $i $basename]
+            catch {unset basenames($i)}
+        }
+        catch {unset basenames($target)}
+        return $result
+    }
+
+}

@@ -1,0 +1,108 @@
+<!DOCTYPE html PUBLIC "-//IETF//DTD HTML 2.0//EN">
+<html>
+<head>
+<meta name="generator" content="HTML Tidy, see www.w3.org">
+<meta http-equiv="Content-Type" content=
+"text/html; charset=iso-8859-1">
+<meta name="GENERATOR" content="Microsoft FrontPage 4.0">
+<title>Vrex - A Visual Regular Expression Tool</title>
+</head>
+<body>
+<h1>Vrex - A Visual Regular Expression Tool</h1>
+<h3>Introduction</h3>
+
+<p>I have used Visual Regexp by Laurent Riesterer. It is a tool for
+constructing and testing regular expressions written in Tcl/Tk. I
+found it quite useful when writing the p2t.py script for
+PAGE.
+
+<p>Since I was debugging a new version of PAGE at the time, I decided
+that I would rewrite a subset of Visual Regexp in Python.  My program
+is called 'vrex'. The reasons for writing it were (1) it thought it
+would be a good example of PAGE that would illustrate several
+important usages of tkinter - especially the application of different
+colored text in a text box. (2) Since Visual Regexp is a Tcl/Tk script
+it utilizes the Tcl regular expression processor which is necessarily
+different from the Python regular expression support and so a python
+programmer should test his regular expressions using the python
+regular expression support. (3) Visual Regexp has absolutely no
+documentation which is disgraceful but all too common with open source
+software.  Since I wrote the python tool, I
+know how it works and can document it as I am doing here.  This
+program is based on Visual Regexp and even uses the same colorization
+algorithm. 
+
+<p>Visual Regexp provides a mechanism for creating the candidate
+regexp.  However, I never figured out how it works (no documentation)
+so I couldn't put it in my program.
+
+<h3>Requirements</h3>
+
+<p>All that is needed is Python 2.7. Or if you are using Python 3.1 that is all that is needed.
+
+
+<h3>Installation</h3>
+
+
+<p>Merely download <a href="vrex.tgz">vrex.tgz</a> and untar it with 
+<pre>
+tar -zxvf vrex.tgz
+</pre>
+
+The following command will execute the program:
+<pre>
+python vrex.py
+</pre>
+
+<h3>Usage</h3>
+
+<p>The program GUI looks like:
+<br>
+<img src= "Vrex_for_Python.png">.
+<br>
+<br>
+<ol>
+<li>
+
+One enters the regular expression under test into the top text box,
+and the sample which is the subject of the regular expression match
+into the middle text box.  One may use the File menu to load files
+into the text boxes, one may directly type entries or use the normal
+cut and paste facilities of the operating system.
+<li>
+Pressing the Go button causes the match to be attempted.  Also,
+colorization is applied to both the regular expression and to the
+sample. The regular expression is colorized to show the portions of
+the regular expression are to extracted individually. And if the match
+is successful the corresponding portions of the sample are displayed
+in the same colors.  
+<li>
+By selecting one of the row of buttons marked match, 1, 2, ..., 9, the
+portions of the sample corresponding to extracted portions are
+displayed in the match window.
+<li>
+You can use the File menu to load to save both the regular expression
+and the sample.
+<li>
+The Quit Button terminates the program.
+<li>
+The File menu also has a Quit entry that terminates the program.
+</ol>
+
+
+<p>In normal usage, one loads a sample and a regular expression and
+experiments with incrementally changes both and testing by hitting the
+go button. When you are satisfied you can save the regular expression
+or put it on the clipboard by selecting the characters that make up
+the regular expression.
+
+<p>You can also enter a whole file of sample strings using File->Load
+Sample. In that case, when you select Go, the regular expression
+candidate will be applied to each line individually in the sample and
+the sample will be colorized accordingly.  Obviously, you can add
+build a set of samples by adding them to the sample window and saving
+the sample to a file.
+
+</body>
+</html>
+

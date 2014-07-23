@@ -1,0 +1,105 @@
+# $Id: radiobutton.wgt,v 1.8 2003/04/07 00:21:47 cgavin Exp $
+
+##############################################################################
+#
+# Visual TCL - A cross-platform application development environment
+#
+# Copyright (C) 2001 Damon Courtney
+#
+# Description file for Tk Widget
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
+##############################################################################
+#
+
+Class       Radiobutton
+Lib     core
+
+Icon        icon_radiobutton.gif
+InsertCmd       vTcl::widgets::core::radiobutton::insertCmd
+DefaultOptions  -text Radio -font \$vTcl(actual_gui_font_dft_name) \
+    -background \$vTcl(actual_gui_bg) -foreground \$vTcl(actual_gui_fg) \
+    -activebackground \$vTcl(analog_color_m) \
+    -activeforeground \$vTcl(actual_gui_fg) \
+    -background \$vTcl(actual_gui_bg) \
+    -highlightbackground \$vTcl(actual_gui_bg)
+
+#DefaultValues   -activebackground -activeforeground -activeborderwidth \
+                -background -foreground -highlightbackground -highlightcolor
+#DoubleClickCmd  vTcl:set_command
+DoubleClickCmd  vTcl::widgets::core::radiobutton::dblClk
+TreeLabel   @vTcl::widgets::core::radiobutton::getWidgetTreeLabel
+GetImagesCmd    vTcl::widgets::core::radiobutton::getImagesCmd
+if {$vTcl(pr,balloon)} { ;# Rozen
+    ClassOption     -_tooltip
+}
+
+Function        "Set Variable..." vTcl::widgets::core::radiobutton::setVariable
+Function        "Set Value..."    vTcl::widgets::core::radiobutton::setValue
+
+namespace eval vTcl::widgets::core::radiobutton {
+
+    proc setVariable {} {
+        global vTcl
+        vTcl:core:set_option $vTcl(w,widget)\
+                         -variable \
+                         "Variable for $vTcl(w,widget)"
+    }
+
+    proc setValue {} {
+        global vTcl
+        vTcl:core:set_option $vTcl(w,widget)\
+                         -value \
+                         "Value for $vTcl(w,widget)"
+    }
+
+    proc insertCmd {target} {
+        global [$target cget -variable]
+        unset  [$target cget -variable]
+        #$target configure -variable "[winfo toplevel $target]::selectedButton"
+        $target configure -variable ""
+    }
+
+    proc dblClk {target} {
+        vTcl:set_command $target -command $::vTcl(w,opt,-command)
+    }
+
+
+    proc getWidgetTreeLabel {target} {
+        set ttt1 [$target cget -text]
+        set ttt2 [$target cget -variable]
+        set ttt3 [$target cget -value]
+        if {$ttt2 == ""} {
+            return "RB: $ttt1"
+        } else {
+            return "RB: $ttt1 var=$ttt2\(val=$ttt3\)"
+        }
+    }
+
+    proc getImagesCmd {target} {
+        set options [$target configure]
+        set result ""
+        foreach option $options {
+            set name [lindex $option 0]
+            if {$name == "-image" || $name == "-selectimage"} {
+                 lappend result [$target cget $name]
+            }
+        }
+        return $result
+    }
+}
+
+

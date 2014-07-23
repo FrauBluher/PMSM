@@ -1,0 +1,61 @@
+# Rozen. Rationalized with tile.
+
+Class       TProgressbar
+Lib     ttk
+TtkWidget		yes
+
+Icon        icon_progressbar.gif
+DumpChildren    no
+#TreeLabel   ttk ProgressBar
+TreeLabel  @vTcl::widgets::ttk::progressbar::getWidgetTreeLabel
+CreateCmd   ttk::progressbar
+DefaultOptions  -maximum 100 ;#-foreground blue
+MegaWidget  yes
+Resizable   horizontal
+#InsertCmd       vTcl::widgets::bwidgets::progressbar::insertCmd
+InsertCmd    vTcl::widgets::ttk::progressbar::insertCmd
+IgnoreProc      ::ProgressBar::* ProgressBar
+
+# Will add the options that are required by this widget
+
+NewOption -length "length" type
+NewOption -mode   "mode"   choice "determinate indeterminate"
+NewOption -maximum "maximum" type
+
+Function    "Set Variable..." vTcl::widgets::ttk::progressbar::setVariable
+Function        "Set Value..."    vTcl::widgets::ttk::progressbar::setValue
+
+namespace eval vTcl::widgets::ttk::progressbar {
+
+    proc resizeCmd {widget w h} {
+        $widget configure -width [expr $w - 10]
+    }
+
+    proc insertCmd {target} {
+        $target configure -takefocus ""
+    }
+
+    proc getWidgetTreeLabel {target} {
+        set var [$target cget -variable]
+        if {$var != ""} {
+            return "Tprogressbar VAR=$var"
+        } else {
+            return "Tprogressbar"
+        }
+    }
+    proc setValue {} {
+        global vTcl
+        vTcl:core:set_option $vTcl(w,widget)\
+                         -value \
+                         "Value for $vTcl(w,widget)"
+    }
+
+    proc setVariable {} {
+        global vTcl
+        vTcl:core:set_option $vTcl(w,widget)\
+                         -variable \
+            "Set variable"
+    }
+
+}
+

@@ -1,0 +1,10 @@
+
+	This is a small example showing an application with two toplevel
+windows, main and progress_bar.  It illustrates how the main routine
+imports the code for the progress bar, creates the progress_bar
+window, and controls when the progress bar is advanced. 
+
+
+	This example is a redo of the example in progress_bar to show how I
+changed the code in the progress_bar subdirectory to work under the
+rework scheme.

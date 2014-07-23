@@ -1,0 +1,341 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Defaults and Preferences &mdash; PAGE 4.3 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '4.3',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="PAGE 4.3 documentation" href="index.html" />
+    <link rel="next" title="Styles and Themes" href="themes.html" />
+    <link rel="prev" title="The PAGE Interface" href="interface.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="themes.html" title="Styles and Themes"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="interface.html" title="The PAGE Interface"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">PAGE 4.3 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <blockquote>
+<div></div></blockquote>
+<div class="section" id="defaults-and-preferences">
+<span id="preferences"></span><h1>Defaults and Preferences<a class="headerlink" href="#defaults-and-preferences" title="Permalink to this headline">¶</a></h1>
+<p>Early in the development of PAGE, I considered dropping completely the
+preference stuff derived from Virtual Tcl primarily because many of
+the preferences were related to functions that do not have meaning to
+PAGE.  However, I really disliked the gray background in PAGE and
+wanted to change it to my favorite background color - wheat.  Also, I
+felt that capability should be shared with the users. Having made that
+decision, I saw that it was then a small step to consider allowing the user to
+have one color scheme for running PAGE, while generating a Python GUI
+with a different color scheme.  A similar progression of thoughts has
+occurred with respect to fonts; it started because the default fonts
+are too small for my elderly eyes.  So one thing leads to another and
+it became a question of where to stop.  In version 4.0 I am
+implementing color schemes consisting of foreground and background
+colors as well as separate fonts for PAGE and the generated GUI.  I am
+also trying to provide reasonable highlight coloring.  I try to
+provide helpful information in the generated code so that you will be
+able to see what I am trying to do and thus be able to customize your
+results.</p>
+<p>In addition there is the argument for manipulating colors is that by
+not exploiting colors, one is not really exploiting Tk well. Not
+really understanding ttk styles at all well, I ask that if you find
+better ways or even a way of doing something which eludes me, please
+let me know, I will be happy to use it, and secondly, hating to try
+imposing my stylistic tastes, I again welcome comments.  Also let me
+say, I have done most of my development and testing with light colors,
+in particular the color wheat. That means that things can be expected
+to work better with light colors.  I have also tested and tried to
+make things work with a blue background and white foreground.</p>
+<p>Let me start by clarifying what is meant by defaults and preferences
+here. Defaults are the values which will be used for colors,
+background and foreground, and font selection and sizes unless the
+PAGE user sets them specifically for individual GUI widgets.  Defaults
+also include colors and fonts to be used by PAGE in displaying its
+windows. As I have implemented the different widgets, I have made some
+&#8220;default&#8221; decisions.  For example, in the Scrolledtext widget, I
+decided it makes more sense for the wrap property to be &#8220;word&#8221; rather
+than &#8220;char&#8221;.</p>
+<p>Defaults can be derived from several sources.  First, if nothing else
+is done, then the small gray world of Tk defaults prevail.  These
+defaults may be overridden by values in the .pagerc file which was
+saved from previous executions of PAGE where user preferences for the
+default values were made and saved.  Those saved preferences can
+always be respecified and saved.  The third source of overriding GUI
+defaults comes into play when the PAGE user specifies or opens an
+existing generated GUI &#8221;.tcl&#8221; file. In that case the defaults for
+further GUI development match those in effect when the file was saved.
+That is, when you open up an existing GUI &#8221;.tcl&#8221; for further
+development PAGE will use the GUI defaults that were in effect at the
+earlier time when the GUI was created, while PAGE ignores current
+default settings. This third way is a version 4.0 enhancement.</p>
+<p>Confusion stems from at least two sources.  First, there is really two
+sets of preferences, (1) those for the PAGE program, and (2) the
+preferences to be used for the generated GUI.  Another source is that
+there are multiple ways of specifying preferences within the Tk
+environment. In the case of Ttk widgets, one must use Themes and
+Styles to manipulate colors and fonts and, unfortunately, there are a
+number of aspects which are undocumented, complementing some serious
+shortcomings in the implementation or design of the Ttk code.  Through
+experimentation and googling I have found some things that work. Once
+again, I received tremendous help from Guilherme Polo in solving
+important questions in my use of ttk styles. Even now there are some
+disturbing artifacts in PAGE associated with my implementation. Again,
+suggestions welcome.</p>
+<p>There is no doubt, that things will be easier for the user if he
+sticks with the defaults.  But then one is stuck with a dull gray
+world with small print on Linux and Microsoft PC&#8217;s. (I think that the
+Tk default gray is #d9d9d9 also known as the X11 color gray9. (At one
+point the default for Tk was bisque.)</p>
+<p>Lets start with the easy preferences. PAGE has several simple
+preferences such as whether on not to use automatically generated
+aliases or relative placement and the granularity of the grid upon which
+a widget is placed. Those are easy and could even be dropped as user
+settable options.  They were included when new features were added to
+PAGE but now I am almost excursively sticking with the new features
+and rarely test whether the older stuff still works correctly. So I
+recommend that you stick with the initial settings.</p>
+<p>Preferences are tougher in the case of the GUI because one is choosing
+default values which may not be available to the user of the generated
+application when the application is executed on a different operating
+system from the development system. The same fonts and colors might
+not be available on both systems.  You might accept some defaults with
+respect to PAGE, but really want control over things like colors and
+fonts to be used in your application.  I am doing my development work
+on Linux and am oriented toward that operating system.</p>
+<p>Finally, I have the question as to which defaults I set before you
+have made any preferences known.  Although I do not like them, I have
+set up PAGE to use Tk default colors and fonts. That is, PAGE uses as
+the default background for Ttk widgets - #d9d9d9. So select
+File-&gt;Preferences and make the program behave best for you.</p>
+<p>Note that when one makes changes in the Preferences, they are
+committed when one selects the check mark in the upper right. At the
+same time they are written to the .pagerc file to be utilized the next
+time the user invokes PAGE.  If the user wants to abandon actions
+taken in the Preferencs window, he selects the stylized &#8220;x&#8221; next to
+the check and the whole window disappears and nothing is saved.  In
+PAGE several variables derived from the preferences are set at the
+initiation of the program. If you want to change preferences, I
+definitely recommend opening PAGE, make your changes, save them by
+selecting the check mark, and then exit PAGE.  When you restart they
+should be in effect.</p>
+<p>One further point is that you may run into problems when upgrading to
+version 4.0 if you do not erase the &#8221;.pagerc&#8221; file as part of the
+installation.</p>
+<div class="section" id="preferences-windows">
+<h2>Preferences Windows<a class="headerlink" href="#preferences-windows" title="Permalink to this headline">¶</a></h2>
+<p>When you go to File-&gt;Preferences in the main PAGE menu you bring up a
+the Preferences notebook window with three pages.  The Basics page:</p>
+<img alt="_images/basics.png" src="_images/basics.png" />
+<p>This page allows one to make several miscellaneous preference
+choices. My recommendation is that they be left the way they
+are. Relative placement and aliases are described elsewhere in this
+document.</p>
+</div>
+<div class="section" id="color-preferences">
+<h2>Color Preferences<a class="headerlink" href="#color-preferences" title="Permalink to this headline">¶</a></h2>
+<img alt="_images/colors.png" src="_images/colors.png" />
+<p>The top section deals with colors displayed while executing PAGE. The
+most important is the PAGE Background Color which is the background
+color for all the PAGE windows. One makes a new selection by invoking
+the <a class="reference internal" href="interface.html#color-dialog"><em>Color Dialog</em></a> by selecting the &#8220;Browse colors ...&#8221; button to
+the right of the page. This open the Color Dialog and one can set the
+color as described above.  To go back to the default color, select the
+&#8220;Default Color&#8221; button.</p>
+<p>The next row allows the user to set the foreground color, that is
+necessary in case he selects a dark background such as dark blue.  In
+that case, a light colored foreground color should be chosen.</p>
+<p>In a similar vein, one wants a visible distinction for the widget tree
+highlight.  That shows which widget has been chosen in the GUI under
+construction.</p>
+<p>For GUI colors, it is much the same as above.  I have not seen a
+requirement for specifying a default highlight color.  If that is
+necessary please let me know and I will see if I can implement it in a
+future version.  I have wanted to have the menu in the top level
+window be in a distinctive color band so I support that feature.</p>
+</div>
+<div class="section" id="font-preferences">
+<h2>Font Preferences<a class="headerlink" href="#font-preferences" title="Permalink to this headline">¶</a></h2>
+<img alt="_images/fonts.png" src="_images/fonts.png" />
+<p>Since my eyes require large fonts like 16 point fonts, I can set the
+PAGE default font which catches most of the right things.  For the
+Python Console window I want a big bold font; that is the PAGE fixed
+width font.</p>
+<p>The GUI fonts are more numerous. In addition to the ones above, one
+can specify the text font which is used in widgets like text boxes and
+list boxes.  Again, I allow one to specify a menu font which is
+different from the default.</p>
+<p>One question I had related to the choice of fonts for text boxes.
+Should the font be the text font or fixed width font?  If one wants to
+build an editor in a text box as is the case with the PAGE Python
+Console, then a fixed width font is desired, but if one wants to
+display something like a help message then a variable width font is
+more appropriate.  What I did for PAGE was use the GUI text font for
+text boxes and the GUI fixed width font for list boxes.  In truth,
+good arguments for using all three fonts for list boxes can be made.</p>
+<p>Fonts have caused me much anguish and confusion.  One may pick a fonts
+which works well on the system where PAGE is hosted.  Then one could
+build a GUI which would call for specific fonts which are not
+available on the target system. If you know what fonts are available
+on the target system you can pick the fonts you like. Tk encapsulates
+a set of standard fonts that are always available, and of course the
+standard widgets use these fonts. This helps abstract away platform
+differences.  The The predefined fonts are:</p>
+<blockquote>
+<div><ul class="simple">
+<li>TkDefaultFont    The default for all GUI items not otherwise specified.</li>
+<li>TkTextFont       Used for entry widgets, listboxes, etc.</li>
+<li>TkFixedFont      A standard fixed-width font.</li>
+<li>TkMenuFont       The font used for menu items.</li>
+<li>TkHeadingFont    The font typically used for column headings in lists and tables.</li>
+<li>TkCaptionFont    A font for window and dialog caption bars.</li>
+<li>TkSmallCaptionFont       A smaller caption font for subwindows or tool dialogs</li>
+<li>TkIconFont       A font for icon captions.</li>
+<li>TkTooltipFont    A font for tooltips.</li>
+</ul>
+</div></blockquote>
+<p>The following python program (Python 2.7) will display the characteristics of the
+default fonts:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">Tkinter</span>
+<span class="kn">import</span> <span class="nn">tkFont</span>
+
+<span class="n">root</span> <span class="o">=</span> <span class="n">Tkinter</span><span class="o">.</span><span class="n">Tk</span><span class="p">()</span>
+
+<span class="n">fonts</span> <span class="o">=</span> <span class="n">tkFont</span><span class="o">.</span><span class="n">names</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">font</span> <span class="ow">in</span> <span class="n">fonts</span><span class="p">:</span>
+    <span class="k">print</span> <span class="s">&quot;</span><span class="se">\n</span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">font</span>
+    <span class="n">config</span> <span class="o">=</span> <span class="n">root</span><span class="o">.</span><span class="n">tk</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="s">&quot;font&quot;</span><span class="p">,</span> <span class="s">&quot;configure&quot;</span><span class="p">,</span> <span class="n">font</span><span class="p">)</span>
+    <span class="k">print</span> <span class="n">config</span>
+</pre></div>
+</div>
+<p>It may also be the case that if a chosen font is not available on the
+target system then one of these fonts may be used.  I can&#8217;t tell from
+the documentation.  The preferences window allows one to specify the
+default fonts used in the generated GUI. To avoid too much gilding of
+the lily, I have allowed the user to specify the first four only. If
+you try different fonts for one of the defaults and then want to
+return to the true default such as TkFixedFont for the text widgets,specified
+there is a button for that.  I have not provided for specifying
+TkMenuFont for use in text widgets for instance.</p>
+<p>You can specify a default font to be used and still specify different
+non-default fonts for any individual widget. For instance, you can use
+TkMenuFont for a Button widget if you want or in my case a 14 point
+font.  There seems to be another weirdness in Tk to be avoided and
+that is you can change the family, size, weight, etc. of the defaults
+fonts; at least I have not made that easy.</p>
+<p>If you are going to be using the GUI application on the system hosting
+PAGE by all means select defaults that meet you requirements.  But
+remember those fonts may not be there if the GUI executes on a
+different system. In which case, the Tk will pick defaults for you and
+that may not be what you want.</p>
+<p>If a default font is active for a widget, it will appear in the
+Attribute Editor with the default name such as TkMenuFont but if you
+select the adjoining ellipsis key the font will be changed to a new
+font with the characteristics specified by family, size, weight, etc..
+That may not be what you want, in which case you can replace the font
+name with the default font name.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Defaults and Preferences</a><ul>
+<li><a class="reference internal" href="#preferences-windows">Preferences Windows</a></li>
+<li><a class="reference internal" href="#color-preferences">Color Preferences</a></li>
+<li><a class="reference internal" href="#font-preferences">Font Preferences</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="interface.html"
+                        title="previous chapter">The PAGE Interface</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="themes.html"
+                        title="next chapter">Styles and Themes</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/preferences.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="themes.html" title="Styles and Themes"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="interface.html" title="The PAGE Interface"
+             >previous</a> |</li>
+        <li><a href="index.html">PAGE 4.3 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2008 - 2014 Donald Rozenberg.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

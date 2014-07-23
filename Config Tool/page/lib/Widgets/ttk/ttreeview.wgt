@@ -1,0 +1,383 @@
+# $Id: frame.wgt,v 1.12 2003/04/13 06:53:11 cgavin Exp $
+
+##############################################################################
+#
+# Visual TCL - A cross-platform application development environment
+#
+# Copyright (C) 2001 Damon Courtney
+#
+# Description file for Tk Widget
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
+##############################################################################
+#
+
+# Rozen. To get this to work I added TFrame to dontDumpChildren in
+# vTcl:dump:widgets in dump.tcl.  Rationalized with tile when I
+# finally get rid of the comments below.
+Class       Treeview
+Lib     ttk
+
+Icon        icon_tixTree.gif
+CreateCmd   ttk::treeview
+TtkWidget		yes
+
+
+# DefaultOptions  -borderwidth 2 -relief groove -width 125 -height 75
+# #DefaultValues   -background -highlightbackground -highlightcolor
+# TreeLabel   Treeview
+# DeleteCmd       ::vTcl::widgets::ttk::ttreeview::deleteCmd
+# SelectCmd       ::vTcl::widgets::ttk::ttreeview::selectCmd
+# InsertChildCmd  ::vTcl::widgets::ttk::ttreeview::insertChildCmd
+# DumpCmd         ::vTcl::widgets::ttk::ttreeview::dumpCmd
+# Insertable
+
+InsertCmd      ::vTcl::widgets::ttk::ttreeview::insertCmd
+DumpInfoCmd    ::vTcl::widgets::ttk::ttreeview::dumpInfoCmd
+
+# NewOption -class     "class"      type
+# NewOption -colormap  "color map"  type
+# NewOption -container "container"  boolean
+# NewOption -visual    "visual"     type
+
+NewOption -columns        "columns" type
+NewOption -displaycolumns "display columns" type
+
+VirtualEvents <<TreeviewSelect>> <<TreeviewOpen>> <<TreeviewClose>>
+
+# ## Right-click menu
+Function        "Edit Columns..."         vTcl::widgets::ttk::ttreeview::editCmd
+
+namespace eval ::vTcl::widgets::ttk::ttreeview {
+
+    proc insertCmd {target} {
+        # Add one column to the tree named Col1 and set the text to
+        # the same.
+        global vTcl
+        $target configure -columns Col1
+        $target heading #1 -text Col1
+        $target heading #0 -text Tree
+        $target column #1 ;#-width 100 -stretch 0
+        $target column #0 ;#-width 100 -stretch 0
+        vTcl::widgets::ttk::ttreeview::edit::configure_parent_width $target
+        set vTcl(columns_created) [list {}]
+    }
+
+
+    proc dumpInfoCmd {target basename} {
+        global vTcl basenames classes
+        # First step is to set the configurable attributes.
+        set config [$target configure]
+        # I am trying to get the options with nondefault values.
+        #append result "\n$vTcl(tab)$target.01 configure"
+        set attr {}
+        append attr "\n$vTcl(tab)#Updating ttreeview attributes"
+        append attr "\n$vTcl(tab)$target configure"
+        foreach i $config {
+            set option [lindex $i 0]
+            set default [lindex $i 3]
+            set value [lindex $i 4]
+            if {$option == "-class"} {
+                # Because class is a read-only option.
+                continue }
+            if {$option == "-columns"} {
+                set columns $value
+            }
+            if {$default == $value} { continue }
+            if {[string first " " $value] > -1} {
+                set new {}
+                set value [append new "\"" $value "\""]
+            }
+            if {[string bytelength $attr] > 0} {
+                append attr "\\\n$vTcl(tab)$vTcl(tab)$option " " $value"
+            } else {
+                append attr "\n$vTcl(tab)$target configure "
+                append attr $option " " $value
+            }
+        }
+        append attr "\n"  ;# Ends the attributs of the list box.
+        #set clean [vTcl:clean_pairs $c1]
+        append result $attr
+        lappend columns "#0"
+        foreach c $columns {
+             set hh [$target heading $c]
+             append heading_options "\n$vTcl(tab)#heading options."
+             append heading_options "\n$vTcl(tab)$target heading $c"
+             foreach {o v} $hh {
+                 if {$v == ""} continue
+                 if {$o == "-text"} {
+                     append heading_options \
+                        " \\\n$vTcl(tab)$vTcl(tab)$vTcl(tab) $o \"$v\""
+                 } else {
+                     append heading_options \
+                         " \\\n$vTcl(tab)$vTcl(tab)$vTcl(tab) $o $v"
+                 }
+             }
+         }
+         foreach c $columns {
+             set cc [$target column $c]
+             append column_options "\n$vTcl(tab)#column options."
+             append column_options "\n$vTcl(tab)$target column $c"
+             foreach {o v} $cc {
+                 if {$v == ""} continue
+                 if {$o == "-id" } continue    ;# Readonly option.
+                 append column_options \
+                     " \\\n$vTcl(tab)$vTcl(tab)$vTcl(tab) $o $v"
+             }
+         }
+        append result $heading_options $column_options "\n"
+        return $result
+    }
+
+    proc editCmd {} {
+        set target $::vTcl(w,widget)
+        # Following edit proc is locates in lib_cor.tcl near line 440.
+        ::vTcl::itemEdit::edit $target vTcl::widgets::ttk::ttreeview::edit
+    }
+
+}
+
+###########################################################
+## Code for editing columns in treeview.
+##
+namespace eval vTcl::widgets::ttk::ttreeview::edit {
+
+    proc getTitle {target} {
+        # This invokes the editor for adding and configuring the
+        # "additional" columns in a treeview widget, not the tree
+        # column.
+        return "Edit columns for $target"
+    }
+
+    proc getLabelOption {} {
+        return -label
+    }
+
+    proc getItems {target} {
+        ## first item in the list is the current index
+
+        lappend ll 0  "#0"
+        #lappend ll 0
+        set cols [$target cget -columns]
+        set current 1
+        foreach c  $cols {
+            lappend ll $c
+            incr current
+        }
+        return $ll
+    }
+
+    proc getTreeWidth {target} {
+        global vTcl
+        set total_width 0
+        set cols [$target cget -columns]
+        set column_names [concat "#0" $cols]
+        foreach c $column_names {
+            set col_width [$target column $c -width]
+            incr total_width $col_width
+        }
+        return $total_width
+    }
+
+    proc configure_parent_width {target} {
+        set parent [winfo parent $target]
+        set total_width [getTreeWidth $target]
+        incr total_width 20
+        place configure $parent -width $total_width
+    }
+
+    proc addItem {target} {
+        global vTcl
+        # Adds a column to the treeview widget.  It creates a count
+        # that is simply the increment of the number of columns
+        # created so far.
+
+        set parent [winfo parent $target]
+        # Use cols which returns a list rather than the column_list
+        # which has to be processed.
+        set cols [$target cget -columns]
+        set column_names [concat "#0" $cols]
+
+        if {![info exists vTcl(columns_created)]} {
+            set vTcl(columns_created) [list {}]
+        }
+        set search_list [concat $vTcl(columns_created) $cols]
+        for {set x 1} {$x<1000} {incr x} {
+            set new_column Col$x
+            if {[lsearch -exact $search_list $new_column] == -1} break
+            lappend vTcl(columns_created) $new_column
+        }
+
+        lappend cols $new_column
+
+        set no_cols [llength column_names]
+        foreach c $column_names {
+            if {$c == ""} continue
+            if {$c == $new_column} continue
+            set heading($c) [$target heading $c]
+            set column($c) [$target column $c]
+        }
+
+        $target configure -columns $cols
+
+        foreach c $column_names {
+            if {$c == $new_column} continue
+            foreach {o v} $column($c) {
+                if {$o == "-id"} continue
+                $target column $c $o $v
+            }
+            foreach {o v} $heading($c) {
+                $target heading $c $o $v
+            }
+        }
+
+        $target heading $new_column -text $new_column
+        $target column $new_column ;#-width 100 -stretch 0
+        configure_parent_width $target
+        # Update the edit window.
+        vTcl:init_wtree
+        return $new_column
+    }
+
+    proc removeItem {target index} {
+        set cols [$target cget -columns]
+        set column_names [concat "#0" $cols]
+        foreach c $column_names {
+            if {$c == ""} continue
+            set heading($c) [$target heading $c]
+            set column($c) [$target column $c]
+        }
+        set column_names [lreplace $column_names $index $index]
+        set cols [lrange $column_names 1 end]
+        $target configure -columns $cols
+        foreach c $column_names {
+            foreach {o v} $heading($c) {
+                    $target heading $c $o $v
+                }
+            foreach {o v} $column($c) {
+                if {$o != "-id"} {
+                    $target column $c $o $v
+                }
+            }
+        }
+        configure_parent_width $target
+        vTcl:init_wtree
+    }
+
+    proc itemConfigure {target index args} {
+
+        if {$args == ""} {
+            # This if clause retrives the configuration.  This is
+            #called when we first enter the editor.
+            append ind "#" $index
+            set column_options [$target column $ind]
+            set heading_options [$target heading $ind]
+
+            foreach o $heading_options {
+                lappend options $o
+            }
+            foreach o $column_options {
+                lappend options $o
+            }
+
+            foreach {o v} $options {
+                if {$o == "state"} {
+                    continue
+                }
+                #lappend result [list $o "x" "y" $v "z"]
+                lappend result [list $o $v]
+            }
+            return $result
+        } else {
+            # We ntern here when (1) we hit return in the editor or
+            # the check button.  This part actually sets the
+            # configuration. I special case stuff since I know that
+            # there are the two commands for configuring the tree
+            # columns.
+            foreach {o v} $args {
+                if {$v == ""} return
+                append str "#" $index
+                switch $o {
+                    -width -
+                    -minwidth -
+                    -anchor -
+                    -stretch {
+                        $target column $str $o $v
+                    }
+                    -text -
+                    -image -
+                    -anchor -
+                    -command -
+                    -wtate {
+                        $target heading $str $o $v
+                    }
+                }
+            }
+            configure_parent_width $target
+        }
+    }
+
+    proc moveUpOrDown {target index direction} {
+        # What we need to do is remove the column from its current
+        # position and reinsert it one position up or down.
+
+        if {$index == 0} {
+            error "Cannot move the Tree column."
+            return
+        }
+        set offset(up) -1
+        set offset(down) 1
+        #error "Not implemented yet!"
+        #return
+
+        set cols [$target cget -columns]
+        foreach c $cols {
+            set heading($c) [$target heading $c]
+            set column($c) [$target column $c]
+        }
+        set length [llength $cols]
+        set ind [expr  $index -1]
+        set final_pos [expr ($ind + $offset($direction)) % $length]
+
+        set save_ind [lrange $cols $ind $ind]
+        set save_final [lrange $cols $final_pos $final_pos]
+
+        set new [lreplace $cols $ind $ind $save_final]
+        set new [lreplace $new $final_pos $final_pos $save_ind]
+
+        $target configure -columns $new
+
+        foreach c $cols {
+            foreach {o v} $column($c) {
+                if {$o == "-id"} continue
+                $target column $c $o $v
+            }
+            foreach {o v} $heading($c) {
+                $target heading $c $o $v
+            }
+        }
+        configure_parent_width $target
+        vTcl:init_wtree
+    }
+}
+
+
+NewOption -columns        "columns" type
+NewOption -displaycolumns "display columns" type
+
+VirtualEvents <<TreeviewSelect>> <<TreeviewOpen>> <<TreeviewClose>>
+
+

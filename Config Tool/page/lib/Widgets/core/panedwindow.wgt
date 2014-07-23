@@ -1,0 +1,208 @@
+# $Id: panedwindow.wgt,v 1.5 2005/12/05 06:59:27 kenparkerjr Exp $
+
+##############################################################################
+#
+# Visual TCL - A cross-platform application development environment
+#
+# Copyright (C) 2001 Damon Courtney
+#
+# Description file for Tk Widget
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
+##############################################################################
+#
+
+if {[info tclversion] >= 8.4} {
+
+Class		Panedwindow
+Lib		core
+MegaWidget      yes
+CreateCmd       panedwindow
+
+Icon		@vTcl::widgets::core::panedwindow::getIcon
+TreeLabel	Paned window
+InsertCmd       vTcl::widgets::core::panedwindow::insertCmd
+TreeChildrenCmd	{vTcl::widgets::core::panedwindow::treeChildrenCmd
+		 vTcl::widgets::core::panedwindow::treeChildrenChildsite}
+DumpCmd         vTcl::widgets::core::panedwindow::dumpCmd
+DumpInfoCmd     vTcl::widgets::core::panedwindow::dumpInfoCmd
+
+## Right-click menu
+Function        "Edit Panes..."         vTcl::widgets::core::panedwindow::editCmd
+
+## Pane specific options
+NewOption -after		"after"		type
+NewOption -before		"before"		type
+NewOption -minsize	"min size"		type
+NewOption -sticky       "sticky"		type
+
+## Special proc for setting up icons on the toolbar.
+proc vTcl:Panedwindow:ToolBarSetup {} {
+
+    vTcl:toolbar_add core Panedwindow \
+	"horizontal paned window" \
+	../lib/Widgets/core/panedwindowhoriz.gif "-orient horizontal"
+
+    vTcl:toolbar_add core Panedwindow \
+    	"vertical paned window" \
+	../lib/Widgets/core/panedwindow.gif "-orient vertical"
+}
+
+namespace eval vTcl::widgets::core::panedwindow {
+
+    proc getIcon {{w ""}} {
+        if {[lempty $w]} {
+            return [list ../lib/Widgets/core/panedwindow.gif \
+	                 ../lib/Widgets/core/panedwindowhoriz.gif]
+        }
+        switch [$w cget -orient] {
+            horizontal {
+                return ../lib/Widgets/core/panedwindowhoriz.gif
+            }
+            vertical {
+                return ../lib/Widgets/core/panedwindow.gif
+            }
+        }
+    }
+
+    proc editCmd {} {
+        set target $::vTcl(w,widget)
+        ::vTcl::itemEdit::edit $target vTcl::widgets::core::panedwindow::edit
+    }
+
+    proc insertCmd {target} {
+        frame $target.f1
+	frame $target.f2
+	$target add $target.f1
+	$target add $target.f2
+	$target paneconfigure $target.f1 -sticky nsew
+	$target paneconfigure $target.f2 -sticky nsew
+    }
+
+     proc dumpCmd {target basename} {
+        set result [vTcl:dump_widget_opt $target $basename]
+	set i 0
+	set panes [$target panes]
+        foreach pane $panes {
+            set last [lindex [split $pane .] end]
+            append result [vTcl:dump_widget_opt $pane $basename.$last]
+            append result "$::vTcl(tab)"
+            set sitevariable "site_[llength [split $pane .]]_$i"
+            append result "set $sitevariable $basename.$last\n"
+            append result \
+                [vTcl::widgets::core::dump_subwidgets $pane \$$sitevariable]
+            set conf [$target paneconfigure $pane]
+            set pairs [vTcl:get_subopts_special $conf $target]
+            append result "$::vTcl(tab)$basename add $basename.$last \\\n"
+            append result "[vTcl:clean_pairs $pairs]\n"
+	    if {$i < [llength $panes] -1} {
+	        set coord [$target sash coord $i]
+		lassign $coord x y
+		append result "$::vTcl(tab)after idle \"update; $basename sash place $i $x $y\"\n"
+	    }
+	    incr i
+        }
+        return $result
+    }
+
+    proc dumpInfoCmd {target basename} {
+        global classes
+        set result [vTcl:dump:widget_info $target $basename]
+	set i 0
+	set panes [$target panes]
+        foreach pane $panes {
+            append result [$classes(Frame,dumpInfoCmd) $pane [vTcl:base_name $pane]]
+        }
+        return $result
+    }
+
+    proc treeChildrenCmd {target {diff \#0}} {
+        set children ""
+        set wantsdiff [expr {$diff != ""}]
+
+        foreach site [treeChildrenChildsite $target] {
+            foreach child [::vTcl:complete_widget_tree $site $wantsdiff] {
+                lappend children $child$diff
+            }
+        }
+
+        return $children
+    }
+
+    proc treeChildrenChildsite {target} {
+        return [$target panes]
+    }
+}
+
+###########################################################
+## Code for editing pages in paned window widgets
+##
+namespace eval vTcl::widgets::core::panedwindow::edit {
+
+    proc getTitle {target} {
+        return "Edit panes for $target"
+    }
+
+    proc getLabelOption {} {
+        return -label
+    }
+
+    proc getItems {target} {
+        ## first item in the list is the current index
+        set sites [$target panes]
+        set current 0
+        set values $current
+        for {set i 1} {$i <= [llength $sites]} {incr i} {
+            lappend values "Pane $i"
+        }
+        return $values
+    }
+
+    proc addItem {target} {
+        ::vTcl::MessageBox -message "Not implemented yet" -title "Error"
+         return ""
+    }
+
+    proc removeItem {target index} {
+        error "Cannot delete a pane!"
+    }
+
+    proc itemConfigure {target index args} {
+        set sites [$target panes]
+        set pane [lindex $sites $index]
+        if {$args == ""} {
+            set options [$target paneconfigure $pane]
+            set result ""
+            foreach option $options {
+                ## only return valid options
+                if {[llength $option] == 5} {
+                    lappend result $option
+                }
+            }
+            return $result
+        } else {
+            eval $target paneconfigure $pane $args
+        }
+    }
+
+    proc moveUpOrDown {target index direction} {
+        error "Not implemented yet!"
+    }
+}
+
+} ; # if ...
+
+

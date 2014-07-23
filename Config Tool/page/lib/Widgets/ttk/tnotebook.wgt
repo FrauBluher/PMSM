@@ -1,0 +1,293 @@
+# $Id: tnotebook.wgt,v 1.1 2012/02/20 03:52:34 rozen Exp rozen $
+
+##############################################################################
+#
+# Visual TCL - A cross-platform application development environment
+#
+# Copyright (C) 2001 Damon Courtney
+#
+# Description file for Bwidgets notebook
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
+##############################################################################
+#
+
+Class       TNotebook
+Lib     ttk
+
+TtkWidget		yes
+
+Icon        icon_BwTabnotebook.gif
+TreeLabel   Themed Notebook
+CreateCmd   ttk::notebook
+MegaWidget  yes
+DefaultOptions  -width 300 -height 200
+DefaultValues   -background -foreground -font
+ClassOption     -_ttk_notebook_pages
+InsertCmd       vTcl::widgets::ttk::notebook::insertCmd
+DeleteCmd       vTcl::widgets::ttk::notebook::deleteCmd
+TreeChildrenCmd {vTcl::widgets::ttk::notebook::treeChildrenCmd
+         vTcl::widgets::ttk::notebook::treeChildrenChildsite}
+SelectSiteCmd   vTcl::widgets::ttk::notebook::selectSiteCmd
+DeleteSiteCmd   vTcl::widgets::ttk::notebook::deleteSiteCmd
+DumpCmd         vTcl::widgets::ttk::notebook::dumpCmd
+DumpInfoCmd     vTcl::widgets::ttk::notebook::dumpInfoCmd
+GetImagesCmd    vTcl::widgets::ttk::notebook::getImagesCmd
+
+lappend vTcl(complex_class) TNotebook
+
+VirtualEvents <<NotebookTabChanged>>
+
+## Tabbed notebook support
+NewOption -_ttk_notebook_pages  "pages"  combobox
+OptionConfigCmd -_ttk_notebook_pages     config     vTcl::widgets::ttk::config_pages
+OptionConfigCmd -_ttk_notebook_pages     update     vTcl::widgets::ttk::update_pages
+OptionConfigCmd -_ttk_notebook_pages     get        vTcl::widgets::ttk::get_pages
+OptionConfigCmd -_ttk_notebook_pages     select     vTcl::widgets::ttk::select_page
+OptionConfigCmd -_ttk_notebook_pages     edit       vTcl::itemEdit::edit
+OptionConfigCmd -_ttk_notebook_pages     editArg    vTcl::widgets::ttk::notebook::edit
+
+## Page-specific options
+NewOption -createcmd        "create cmd"        command
+NewOption -raisecmd     "raise cmd"     command
+NewOption -leavecmd     "leave cmd"     command
+
+## Right-click menu
+Function        "Edit Pages..."  vTcl::widgets::ttk::notebook::editCmd
+
+namespace eval ::vTcl::widgets::ttk::notebook::edit {
+
+    proc getTitle {target} {
+        return "Edit pages for $target"
+    }
+
+    proc getLabelOption {} {
+        return -text
+    }
+
+    proc getItems {target} {
+        ## first item in the list is the current index
+        # Rozen, I think that this just returns the list of tab names.
+        set pages [$target tabs]
+        #set current [$target select]
+        set current [lsearch $pages [$target select]] ;# 'cause select returns
+                                                      # a page name not an index
+        set values $current
+        set count 0
+        foreach page $pages {
+            lappend values [$target tab $count -text]
+            incr count
+        }
+        return $values
+    }
+
+     proc addItem {target} {
+         set pages [$target tabs]
+         set index 0
+         ## repeat until we find an unused page number
+         while {1} {
+             set newpage "$target.pg$index"
+             if {[lsearch -exact $pages $newpage] == -1} break
+             incr index
+         }
+         $target add [frame $newpage] -text {New Page} ;# -bg grey
+         $target select $newpage
+         vTcl:init_wtree
+         return "New Page"
+    }
+
+    proc removeItem {target index} {
+        $target forget $index
+        vTcl:init_wtree
+    }
+
+    proc itemConfigure {target index args} {
+        # Rozen: I think it returns target configuration.
+        #set pages [$target pages]
+        set page [$target select $index]
+        if {$args == ""} {
+            set conf1 [$target tab $index]
+            set conf_len [llength $conf1]
+            foreach {c1 c2} $conf1 {
+                #set p $c1
+                #lappend p $c2
+                set p [list $c1 $c2]
+                lappend conf_pair $p
+            }
+            return $conf_pair
+            #return [$target itemconfigure $page]
+        } else {
+            eval $target tab $page $index $args
+        }
+    }
+
+    proc moveUpOrDown {target index direction} {
+        set offset(up) -1
+        set offset(down) 1
+        set pages [$target tabs]
+        set length [llength $pages]
+        $target insert $index [expr ($index + $offset($direction)) % $length]
+        vTcl:init_wtree
+    }
+}
+
+namespace eval vTcl::widgets::ttk::notebook {
+
+    proc editCmd {} {
+        set target $::vTcl(w,widget)
+        ::vTcl::itemEdit::edit $target ::vTcl::widgets::ttk::notebook::edit
+    }
+
+    proc deleteCmd {target} {
+        bindtags $target "nothing"
+        #NoteBook::_destroy $target
+        destroy $target
+    }
+
+    proc insertCmd {target} {
+        global vTcl
+        $target add [frame $target.pg0 -background $vTcl(actual_gui_bg)] \
+            -text {Page 1}
+        $target add [frame $target.pg1 -background $vTcl(actual_gui_bg)] \
+             -text {Page 2}
+        $target select 0
+        $target configure -takefocus ""
+    }
+
+    # All right, I explain it: 0 is the number of extra levels
+    # in the window path between the megawidget and its
+    # pages (childsites).
+
+    proc treeChildrenCmd {target {diff \#0}} {
+        set children ""
+        set wantsdiff [expr {$diff != ""}]
+
+        foreach site [treeChildrenChildsite $target] {
+            foreach child [::vTcl:complete_widget_tree $site $wantsdiff] {
+                lappend children $child$diff
+            }
+        }
+
+        return $children
+    }
+
+    proc treeChildrenChildsite {target} {
+        set pages [$target tabs]
+        set sites ""
+        foreach page $pages {
+            lappend sites $page
+        }
+        return $sites
+    }
+
+    proc selectSiteCmd {target site} {
+        set pages [$target tabs]
+        foreach page $pages {
+            if {$page == $site} {
+                $target select $page
+                break
+            }
+        }
+    }
+
+    proc deleteSiteCmd {target site} {
+        set pages [$target pages]
+        foreach page $pages {
+            if {$page == $site} {
+                $target delete $page
+                $target raise [$target pages 0]
+                break
+            }
+        }
+    }
+
+    proc dumpCmd {target basename} {
+        global vTcl
+        set result [vTcl:dump_widget_opt $target $basename]
+        set pages [$target tabs]
+        set i 0
+        foreach page $pages {
+            set pairs [$target tab $page]
+
+            #set page [vTcl:replace_fixed_name page target]
+            if {$vTcl(copy)} {
+                # Need to change the path of the page to the new value.
+                # format: regsub ?switches? exp string subSpec
+                # ?varName?  Searches string for exp and substitutes
+                # subSpec in variable name.
+                regsub $vTcl(copy_target) $page "\$target" page
+            }
+            append result "$::vTcl(tab)frame $page " \
+                       "-background $vTcl(actual_gui_bg)\n"
+            append result "$::vTcl(tab)$basename add $page \\\n"
+            append result "[vTcl:clean_pairs $pairs]\n"
+
+
+            append result "$::vTcl(tab)"
+            set site [lindex $pages $i]            ;# new
+            set sitevariable "site_[llength [split $site .]]_$i"
+            append result "set $sitevariable "
+             set last [lindex [split $page .] end]   ;# new
+            append result " $basename.$last\n"      ;# new
+            append result \
+                [vTcl::widgets::ttk::dump_subwidgets $site \$$sitevariable]
+            incr i
+        }
+        return $result
+    }
+
+
+    proc dumpInfoCmd {target basename} {
+        global classes
+        set result [vTcl:dump:widget_info $target $basename]
+        set pages [$target tabs]
+        set i 0
+        foreach page $pages {
+            set site [lindex $pages $i]
+            append result "$::vTcl(tab)"
+            set sitevariable "site_[llength [split $site .]]_$i"
+            append result "set $sitevariable $page \n"
+            append result [$classes(Frame,dumpInfoCmd) $site \$$sitevariable]
+            incr i
+        }
+#        set size  [llength $pages]
+#        for {set i 0} {$i < $size} {incr i} {
+#            #set site [$target getframe [lindex $pages $i]]
+#            set site [lindex $pages $i]
+#            append result "$::vTcl(tab)"
+#            set sitevariable "site_[llength [split $site .]]_$i"
+#            append result "set $sitevariable "
+#            append result "\[lindex $pages $i]\n"
+##            append result "\[$basename getframe [lindex $pages $i]\]\n"
+#            append result [$classes(Frame,dumpInfoCmd) $site \$$sitevariable]
+#        }
+        return $result
+    }
+
+    proc getImagesCmd {target} {
+        set result {}
+        #set pages [$target pages]
+        set pages [$target tabs]
+        foreach page $pages {
+            set image [$target tab $page -image]
+            if {$image != ""} {
+                lappend result $image
+            }
+        }
+        return $result
+    }
+}
+

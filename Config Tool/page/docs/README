@@ -1,0 +1,64 @@
+Introduction
+=========================
+
+
+PAGE is a tool which helps to create Tkinter GUI interfaces for use within Python programs.  It is a rework or extension of the program Visual Tcl (Vtcl) so that Vtcl now produces Python code. Faced with the problem of building an application driven by a single GUI window, PAGE will facilitate designing the GUI and building a working skeletal Python program emphasizing the ttk widgets. As other windows are required, they are designed with PAGE and incorporated into the application by importing the generated python module.
+
+
+It is aimed at a user who wants to rapidly construct a GUI and is willing to compromise generality for ease and speed of construction. It is a helper tool. It does not build an entire application but rather is aimed at building a single GUI window.  It is not a Python Interactive Design Environment(IDE). Stated in other words, PAGE generates a Python class which implements a single GUI window and also supplies all of the boiler-plate code for execution or instantiating the GUI object. If, like me, you have difficulty remembering all the little tricks of getting a GUI to show up on the screen, PAGE can show you code that will work.
+
+When I first set about building programs that exploited Tkinter, I could not find nearly enough examples. Another way of looking at PAGE is to consider it to be a Tkinter example builder which can build the examples you need to see.
+
+The 3.0 release was a major revision of PAGE initiated because of the following events:
+
+* The release of Tcl/Tk 8.5 which includes the ttk widget set. This is a themed widget set containing new core widgets such as notebook, combobox, treeview and progressbar widgets. Further, the themed feature allows the same design look natural on Linux, Windows, and OS X. 
+
+* The advent of a new version of Visual Tcl upon which PAGE is built. The new version provides an improved user interface.
+
+* I have realized that some of the bells and whistles that I included before are superfluous or perhaps error prone.
+
+* Although relative placement was incorporated in the previous version, it added to the desirability of making a major revision because some Tix widgets had some problems when stretched. I want to thank George Tellalov for his suggestions and encouragement regarding this feature.
+
+* The Pyttk package by Guilherme Polo showed me how to create scrolled versions of text boxes and list boxes in a very transparent manner.
+
+
+Thus, a fairly complete set of widgets is now supported without recourse to the Tix package or other packages, resulting in a great simplification of the in installation process particularly installation on Windows.
+
+The 4.0 release contains sufficient advances including:
+
+* Significant improvements in the specification and clarity of Preferences.
+
+* Significant work with color and associated connections with Ttk styles.  Emphesis on readablity of generated style code.
+
+* Better support for OS X. 
+
+* Better support for the Scale and TScale widgets.
+
+* Better support for Toplevel widgets. You can now change attributes; background and cursor, for example.
+
+* Corrected problems with the TMenubutton.
+
+* Replaced a very old and Visual Tcl modified version of BWidgets.
+
+* Shifted emphesis to Python 2.7 from 2.6.
+
+* Added the Ttk Sizegrip widget.
+
+* Corrected numerous bugs.
+
+
+
+The 4.2 release contains changes which facilitate rework.  This involves important changes that split the generated code between two Python files; one to contain the GUI code and a support file containing the custom code necessary for the application and the necessary linkages between them.
+
+
+The 4.2.1 release contains bug fixes.
+
+The 4.2.2. release adds a Help menu to the main menu and can open the html documentation in the default browser.  This has been tested with several browser but not a recent version of Internet Explorer.  Also, some window titles have been cleaned up.
+
+The 4.2.3 release corrects the bugs with saving files and makes that process more regular.  Bound Control-R to execute the Python GUI module in the Python Console.
+
+The 4.2.4 release corrects a bug in the generation of the support module and the winpage.bat file.
+
+The 4.2.5 release adds the Scrolledentry and the  Scrolledcombo widgets and corrects some problems with the generation of bindings for scrolled widgets.
+
+The 4.3 extends the rework support to optionally upgrade an existing support moucule with Tk variables and skeleton functions newly required as a result of rework.

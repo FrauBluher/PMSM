@@ -1,0 +1,64 @@
+# $Id: label.wgt,v 1.7 2002/10/24 05:27:14 cgavin Exp $
+
+##############################################################################
+#
+# Visual TCL - A cross-platform application development environment
+#
+# Copyright (C) 2001 Damon Courtney
+#
+# Description file for Tk Widget
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
+##############################################################################
+#
+
+Class       Label
+Lib         core
+
+Icon            icon_label.gif
+DefaultOptions  -text Label -relief flat -font \$vTcl(actual_gui_font_dft_name)
+DoubleClickCmd  vTcl:set_label
+TreeLabel       @vTcl::widgets::core::label::getWidgetTreeLabel
+DefaultValues   -activebackground -activeforeground -background \
+                -foreground -highlightbackground -highlightcolor
+if {$vTcl(pr,balloon)} {   ;# Rozen
+    ClassOption     -_tooltip
+}
+Function        "Set Text"  vTcl::widgets::core::label::setText
+Function        "Set Multiline Text"  vTcl::widgets::core::label::setMultilineText
+
+namespace eval vTcl::widgets::core::label {
+
+    proc setText {} {
+        vTcl:set_label $::vTcl(w,widget)
+    }
+
+    proc setMultilineText {} {
+        vTcl:set_text $::vTcl(w,widget)
+    }
+
+    proc getWidgetTreeLabel {target} {
+        set ttt1 [$target cget -text]
+    set ttt2 [$target cget -textvariable]
+
+    if {$ttt2 == ""} {
+        return "LAB: $ttt1"
+    } else {
+        return "LAB: $ttt1 var=$ttt2"
+    }
+    }
+}
+

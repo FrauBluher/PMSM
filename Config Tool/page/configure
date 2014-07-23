@@ -1,0 +1,76 @@
+#!/bin/sh
+
+###
+## This script will try and find the best possible wish shell to use for
+## PAGE. Once found, it will write out a start-up script for starting
+## PAGE.
+## If you you have a version of Tcl installed in one of the usual places
+## such as /usr/bin which happens to be in your PATH and then install a 
+## newer version in a place such as /opt/ActiveTcl. THis script will find
+## the one in your path, so you should put the new location, in this case 
+## /opt/ActiveTcl, near the beginning of your path.
+###
+
+##
+## Try to find the best possible wish.
+##
+findwish( ) {
+WISHES=" \
+	wish8.6 \
+	wish8.5
+"
+
+# The sed command replaces ":" with " " .
+DIRS=" `echo $PATH | sed -e 's/:/ /g'` \
+    /opt/ActiveTcl-8.6/bin \
+    /usr/local/bin	\
+	/usr/bin	\
+	/bin		\
+	/opt/local/bin	\
+	/opt/bin	\
+    /opt/tcltk/bin 	/opt/bin	\
+    /opt/tcltk/bin 
+"
+
+
+for wish in $WISHES
+do
+  for dir in $DIRS
+  do
+    if [ -x $dir/$wish ]; then
+      WISH=$dir/$wish
+      return 1
+    fi
+  done
+done
+
+return 0
+
+}
+
+findwish
+
+echo
+if [ -z "$WISH" ]; then
+  echo "Could not find a usable WISH shell"
+else
+  echo "Using $WISH"
+fi
+echo
+
+cd `dirname $0`
+PAGE_HOME=`pwd`
+
+cat > $PAGE_HOME/page << EOF
+#!/bin/sh
+
+PATH_TO_WISH=$WISH
+PAGE_HOME=$PAGE_HOME
+
+export PATH_TO_WISH
+export PAGE_HOME
+
+exec \${PATH_TO_WISH} \${PAGE_HOME}/page.tcl \$*
+EOF
+
+chmod +x $PAGE_HOME/page

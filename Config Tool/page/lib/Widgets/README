@@ -1,0 +1,188 @@
+This document explains how to define a widget in Visual Tcl.  If you are
+making your own widgets for your install of VTcl, you should put your
+files in the 'user' subdirectory.  This will ensure that you don't overwrite
+any VTcl widgets and that they will not conflict with later releases of VTcl.
+
+You should be careful when defining widgets that you don't overwrite a
+default widget type or class.  For example, don't name your widget button,
+because you will overwrite the default Tk button type.  And, don't make a
+new button and call its Class 'Button', because again, you will overwrite
+the default button class.  Instead, try to use your own names for widgets.
+
+Each widget is defined seperately in its own file with the extension .wgt
+
+The following are the possible options in a widget file:
+
+Additional comments by Rozen:
+
+These files are fed to a source command in loadwidg.tcl which also contains 
+a proc for each item in the list below.  That means that when the corresponding 
+line is processed by the source command, the line is interpreted as a proceedure
+call.  Basically, what the procedure does is to treat the tokens beyond the 
+first as arguments which are stored in the globaly array tmp with the proc
+name as the index. To access one of the values in PAGE one uses code like:
+
+if {[info exists class(Button,ttkWidget]} {}
+
+or
+
+set z $class($class,ttkWidget)
+
+Also note that the function calls are are made very early in the initiation process, in particular before the preferences are set up.  Therefore, things like vTcl(pr,gui_font_dft) will not be set so one has to usr a sped like "\$vTcl(pr,gui_font_dft) so that it will be evaluated at the time of use.  See loadwid.tcl
+
+
+Name		Name of Widget.  This is also considered to be the "type" of
+		widget by vTcl.
+
+Class		<class name>
+		Widget class
+
+IsSuperClass	<yes | no>
+		This widget is a super class widget.  Super class widgets are
+		widgets which are not created themselves, but represent
+		sub widgets.  Example: scrollbars, scales.  A scrollbar is
+		a widget, but vTcl recognizes two different "types" of
+		scrollbars: vertical and horizontal.  So, Scrollbar is the
+		super class, and scrollbar_v and scrollbar_h are the sub
+		widget types.
+
+SuperClass	<class name>
+		The super class of this widget.  This widget is a subwidget.
+
+Lib		<lib name>
+		Widget library (core, itcl, tix, etc...)
+
+CreateCmd	<command>
+		Command to create the widget (defaults to <Class>)
+
+AddOptions	<option>..<option>..
+		Options to <Command> when toolbar button is pressed.
+
+Icon		<icon name>
+		Toolbar icon (defaults to icon_<name>.gif)
+
+Balloon		<text>
+		Text of the toolbar balloon
+
+DefaultOptions	<option> <value> [<option> <value>]*
+		Options to <Command> as the widget is created.
+
+DefaultValues   <option> <option>
+                Specifies that the given options will take their default
+                value instead of the value given by the option database
+                at the time the widget is created
+
+DumpCmd		<proc>
+		Proc to dump the widget when saving.
+		(defaults to vTcl:dump_widget_top)
+
+DumpChildren	<yes | no>
+		Dump the widget's children when saving or pasting (yes or no)
+
+InsertCmd	<proc>
+		A command executed when the widget is created.
+		(defaults to <name>)
+
+DoubleClickCmd	<proc>
+		A command executed if the widget is double-clicked.
+
+TreeLabel	<string | proc>
+		The string displayed next to the widget in the widget tree.
+		If <string> has an @ as the first character, then string is
+		the name of a proc to execute that will return the string
+		to display.
+		The proc must have one arguments: Widget
+		    Widget is the widget to get the label for.
+
+TypeCmd		<proc>
+		A proc to return what type a widget is.  This must be specified
+		if the widget is a super class.  It tells vTcl how to determine
+		which subclass widget it is looking at.
+		Example: scrollbar:  horizontal or vertical?
+
+AutoPlace	<yes | no>
+		Ignore preference and automatically place the widget.
+
+Resizable	<none | both | horizontal | veritcal>
+		How the widget can be resized: none, both, horizontal, vertical
+
+Function	<menu text> <command>
+		Adds a widget-specific function to the right-click menu.
+
+NewOption	<option> <text> <type> <choices> <title>
+		Adds a new option to the option list.
+
+		This seems to be required for putting the option into the the
+		property manager window. I think it is only needed in one place. Rozen
+
+Export		<proc>
+		This proc needs to be exported when a program is saved.
+		When creating new widget types that are not standard, it
+		is sometimes necesary to create procs to handle certain
+		functions of the widget.  By specifying the proc as an
+		Export, vTcl will export that proc to the save file when
+		it saves, ensuring that the program will still run with
+		the necesary procedures.
+
+WidgetProc	<proc>
+		This is the proc that widgets of this type will be aliased
+		to when Command Aliasing is turned on.
+
+AliasPrefix	<string>
+		When auto-aliasing is turned on, widgets are automatically
+		assigned an alias name based on AliasPrefix and the order
+		of their creation.
+		(defaults to <Class>)
+
+ResizeCmd	<proc>
+		This is the proc that is called when a widget is grabbed by
+		a handle and resized.  vTcl takes care of whether or not
+		the widget CAN be resized based on the <Resizable> argument.
+		Once vTcl has determined that it can resize this widget, it
+		calls this command.
+		The proc must have three arguments: Widget Width Height
+		    Widget is the widget being resized
+		    Width is the new width for the widget
+		    Height is the new height for the widget
+		(default is vTcl:adjust_widget_size)
+
+AdditionalClasses <class> <class> ...
+                Lists classes of children that vTcl should know of (eg.
+                Notebook, Tabset, Page, ... for Iwidgets)
+
+
+Rozen comments
+
+
+MegaWidget < yes | no>
+		Seems to be a <yes> <no> but what is it? What does it mean?
+
+
+I am adding a variable for my handling of some of my home made
+widgets. Not implemented yet, but soon.
+
+Complexwidget  <yes | no>
+		Now has no effect. 
+
+ClassOption <option>
+
+		Seems to be needed to to actually use the new option with this		
+		class.  So  you need both a NewOption entry and this one as 
+		well.
+
+vTcl(complex_class)
+
+		Used in setting action for <control-button-1> see
+	vTcl:bind_button_top in dragsize.tcl. This needs to be augmented
+	each time we add such a widget.  I am starting with this two since I
+	have already added them.  Probably should be done in the wgt file.
+
+	See for instance ttk/tnotebook
+
+TtkOptions
+		
+		List of style configurations for the widget class
+
+TtkWidget   <yes | no>
+
+		Provide easy way to know if a widget is a ttk widget.

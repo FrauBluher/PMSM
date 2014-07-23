@@ -1,0 +1,99 @@
+##############################################################################
+#
+# Copyright (C) 2007 Tristan  http://www.tcltk.cn
+#
+# Description file for Tile Widget
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
+##############################################################################
+
+# Taken from tile folder in latest vtcl.
+
+Class       TCheckbutton
+Lib     ttk
+
+Icon        icon_checkbutton.gif
+InsertCmd       vTcl::widgets::ttk::checkbutton::insertCmd
+DefaultOptions  -text Tcheck -class TCheckbutton 
+TtkOptions      -background -foreground
+TtkWidget       yes
+DefaultValues   -activebackground -activeforeground -activeborderwidth \
+                -background -foreground -highlightbackground -highlightcolor
+#DoubleClickCmd  vTcl:set_command
+DoubleClickCmd   vTcl::widgets::ttk::checkbutton::dblClk
+TreeLabel   @vTcl::widgets::ttk::checkbutton::getWidgetTreeLabel
+
+if {$vTcl(pr,balloon)} {
+ClassOption     -_tooltip   ;# Rozen not yet supporting tooltips.
+}
+
+CreateCmd ttk::checkbutton
+
+Function        "Set Text"  vTcl::widgets::ttk::checkbutton::setText
+Function  "Set Multiline Text"  vTcl::widgets::ttk::checkbutton::setMultilineText
+Function        "Set Variable..." vTcl::widgets::ttk::checkbutton::setVariable
+
+namespace eval vTcl::widgets::ttk::checkbutton {
+
+    proc setVariable {} {
+        global vTcl
+        vTcl:core:set_option $vTcl(w,widget)\
+                         -variable \
+                         "Variable for $vTcl(w,widget)"
+    }
+
+    proc insertCmd {target} {
+        # Tcl configures the widget with a variable which seems to be
+        # the path, so I have to put one in which is an acceptable
+        # Python name. Since the path name has a unique last portion,
+        # the widget I don't think that I have to worry about
+        # uniqueness.
+        global vTcl
+        $target configure -takefocus ""
+        set last [lindex [split $target .] end]
+        set last [vTcl:rename $last]
+        #incr vTcl(unique_checkbutton)
+        #append uniq "_" $vTcl(unique_checkbutton)
+        $target configure -variable "$last"   ;#$uniq"
+    }
+
+    proc dblClk {target} {
+        vTcl:set_command $target -command $::vTcl(w,opt,-command)
+    }
+
+    proc getWidgetTreeLabel {target} {
+    set ttt1 [$target cget -text]
+    set ttt2 [$target cget -variable]
+    set ttt3 [$target cget -onvalue]
+        set ttt4 [$target cget -offvalue]
+
+        if {$ttt2 == ""} {
+            return "TCB: $ttt1"
+        } else {
+            return "TCB: $ttt1 var=$ttt2\(on=$ttt3,off=$ttt4\)"
+        }
+    }
+
+    proc setText {} {
+        vTcl:set_label $::vTcl(w,widget)
+    }
+
+    proc setMultilineText {} {
+        vTcl:set_text $::vTcl(w,widget)
+    }
+
+}
+

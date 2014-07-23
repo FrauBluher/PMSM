@@ -1,0 +1,31 @@
+Vrex is a python program built using PAGE.  It is a visual debugger
+for regular expressions.  I think it is a fine example of a useful
+program that can be whipped out with PAGE.  Just execute vrex.py and hit
+the help button to get started.
+
+Dependencies of this program are:
+
+
+		  python2.7
+
+or 
+
+          python3.2
+
+
+
+The main file is vrex.py and the support file is vrex_support.py. See the 
+rework section of the PAGE manual.  In order to open the Help GUI, vrex.py 
+invokes the create function in vrex_help.py which in turn imports and utilizes
+vrex_help_support.py.
+
+In addition there are files which contain (1) an example regular expression, 
+and (2) a single line sample and a multiline sample. These files can be loaded
+from the menu.
+
+Because this example is written following the guidelines described in rework 
+section of the manual, you can experiment with the PAGE source files vrex.tcl
+and vrex_help.tcl without producing the supporting code.
+
+
+The file vrex.html is a users guide for vrex.

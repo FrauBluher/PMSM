@@ -1,0 +1,116 @@
+##############################################################################
+#
+# Visual TCL - A cross-platform application development environment
+#
+# Copyright (C) 2001 Damon Courtney
+#
+# Description file for Tk Widget
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
+##############################################################################
+
+######### TO DO
+#set default font
+#set default releif
+###############
+
+
+Class       Menubutton
+Lib     core
+
+Icon        icon_menubutton.gif
+DefaultOptions  -text menu
+DefaultValues   -activebackground -activeforeground -activeborderwidth \
+                -background -foreground -highlightbackground -highlightcolor
+if {$vTcl(pr,balloon)} { ;# Rozen
+    ClassOption     -_tooltip
+}
+DoubleClickCmd  vTcl:edit_target_menu
+InsertCmd   vTcl::widgets::core::menubutton::insertCmd
+DumpCmd         vTcl::widgets::core::menubutton::dumpCmd
+DumpInfoCmd     vTcl::widgets::core::menubutton::dumpInfoCmd
+TreeLabel   @vTcl::widgets::core::menubutton::getWidgetTreeLabel
+
+Function        "Edit Menu..."     vTcl::widgets::core::menubutton::editMenu
+
+namespace eval vTcl::widgets::core::menubutton {
+
+    proc editMenu {} {
+        global vTcl
+        set vTcl(w,opt,-menu) [$vTcl(w,widget) cget -menu]
+        vTcl:edit_target_menu $vTcl(w,widget)
+        vTcl:prop:save_opt $vTcl(w,widget) -menu vTcl(w,opt,-menu)
+    }
+
+    proc insertCmd {target} {
+        menu $target.m -tearoff 0
+        $target conf -menu $target.m
+        vTcl:widget:register_widget $target.m
+        foreach def {-activebackground -activeforeground
+                     -background -foreground} {
+            vTcl:prop:default_opt $target.m $def vTcl(w,opt,$def)
+        }
+    }
+
+    proc getWidgetTreeLabel {target} {
+        return [$target cget -text]
+    }
+
+    proc dumpCmd {target basename} {
+        global vTcl classes
+        set result [vTcl:dump_widget_opt $target $basename]
+
+    set child [$target cget -menu]
+    if {$child == ""} {
+        ## the menubutton is empty, don't bother
+        return $result
+    }
+
+        if {![winfo exists $child]} {
+            ## menu assigned to menu button doesn't exist...
+            return $result
+        }
+
+        set class [vTcl:get_class $child]
+        append result [$classes($class,dumpCmd) $child [vTcl:base_name $child]]
+        set geometry [vTcl:dump_widget_geom $child [vTcl:base_name $child]]
+        incr vTcl(num,index)
+
+        append result $geometry
+        return $result
+    }
+
+    proc dumpInfoCmd {target basename} {
+        global vTcl classes
+        set result [vTcl:dump:widget_info $target $basename]
+
+    set child [$target cget -menu]
+    if {$child == ""} {
+        ## the menubutton is empty, don't bother
+        return $result
+    }
+
+        if {![winfo exists $child]} {
+            ## menu assigned to menu button doesn't exist...
+            return $result
+        }
+
+        set class [vTcl:get_class $child]
+        append result [$classes($class,dumpInfoCmd) $child [vTcl:base_name $child]]
+        return $result
+    }
+}
+

@@ -1,0 +1,207 @@
+# $Id: labelframe.wgt,v 1.3 2005/11/14 07:10:58 kenparkerjr Exp $
+
+##############################################################################
+#
+# Visual TCL - A cross-platform application development environment
+#
+# Copyright (C) 2001 Damon Courtney
+#
+# Description file for Tk Widget
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
+##############################################################################
+#this is a merge of label and frame that actually works-glb 10/12/04
+#
+Class           Labelframe
+Lib             core
+
+Icon            ../lib/Widgets/core/labelframe.gif
+DefaultOptions  -bd 2 -relief groove -width 125 -height 75 -text "Labelframe"
+DefaultValues   -background -highlightbackground -highlightcolor
+TreeLabel       Labelframe
+DoubleClickCmd    vTcl:set_label
+DeleteCmd       ::vTcl::widgets::core::labelframe::deleteCmd
+SelectCmd       ::vTcl::widgets::core::labelframe::selectCmd
+InsertChildCmd  ::vTcl::widgets::core::labelframe::insertChildCmd
+DumpCmd         ::vTcl::widgets::core::labelframe::dumpCmd
+DumpInfoCmd     ::vTcl::widgets::core::labelframe::dumpInfoCmd
+Insertable
+
+NewOption -class     "class"      type
+NewOption -colormap  "color map"  type
+NewOption -container "container"  boolean
+NewOption -visual    "visual"     type
+
+## Right-click menu
+Function        "Set Text"  vTcl::widgets::core::labelframe::setText
+Function        "Create Compound..."     vTcl::widgets::core::frameframe::rightClickCmd
+
+namespace eval ::vTcl::widgets::core::labelframe {
+    proc setText {} {
+        vTcl:set_label $::vTcl(w,widget)
+    }
+    proc rightClickCmd {} {
+        set w $::vTcl(w,widget)
+        set newName [vTcl:name_compound $w]
+    }
+
+    proc dumpCmd {target basename} {
+        global vTcl basenames classes
+        set result [vTcl:dump_widget_opt $target $basename]
+
+    set children [vTcl:get_children $target]
+    if {$children == ""} {
+        ## the frame is empty, don't bother
+        return $result
+    }
+
+        append result "$::vTcl(tab)"
+        set sitevariable "site_[llength [split $target .]]_0"
+        append result "set $sitevariable $basename\n"
+    set basenames($target) \$$sitevariable
+        set geometry ""
+
+    foreach i $children {
+            set basename [vTcl:base_name $i]
+            set basenames($i) $basename
+            set class [vTcl:get_class $i]
+            append result [$classes($class,dumpCmd) $i $basename]
+            append geometry [vTcl:dump_widget_geom $i $basename]
+            catch {unset basenames($i)}
+            incr vTcl(num,index)
+        }
+    catch {unset basenames($target)}
+        append result $geometry
+        return $result
+    }
+
+    proc dumpInfoCmd {target basename} {
+        global vTcl basenames classes
+        set result [vTcl:dump:widget_info $target $basename]
+
+    set children [vTcl:get_children $target]
+    if {$children == ""} {
+        ## the frame is empty, don't bother
+        return $result
+    }
+
+        append result "$::vTcl(tab)"
+        set sitevariable "site_[llength [split $target .]]_0"
+        append result "set $sitevariable $basename\n"
+    set basenames($target) \$$sitevariable
+
+    foreach i $children {
+            set basename [vTcl:base_name $i]
+            set basenames($i) $basename
+            set class [vTcl:get_class $i]
+            append result [$classes($class,dumpInfoCmd) $i $basename]
+            catch {unset basenames($i)}
+        }
+    catch {unset basenames($target)}
+        return $result
+    }
+
+    proc containing_megawidget {target} {
+        global classes
+
+        set path ""
+        if {[vTcl:WidgetVar [winfo parent $target] parent tmp]} {
+            set path $tmp
+        }
+
+        if {$path == ""} {return ""}
+
+        set class [vTcl:get_class $path]
+        if {[info exists classes($class,megaWidget)] &&
+            $classes($class,megaWidget)} {
+
+            # it is a megawidget, ask for its childsites
+            set childsiteCmd [lindex $classes($class,treeChildrenCmd) 1]
+
+            # no childsites in megawidget ? shouldn't happen at this point but...
+            if {$childsiteCmd == ""} {return ""}
+
+            set sites [$childsiteCmd $path]
+
+            # is it a child site of this megawidget ?
+            if {[lsearch -exact $sites $target] != -1} {return $path}
+        }
+
+        # wasn't a megawidget's childsite
+        return ""
+    }
+
+    proc deleteCmd {target} {
+        global classes
+
+        # Let's go up levels until we find a megawidget. If we
+        # find one, we ask for its childsites, and if the frame is
+        # one of them, we ask the megawidget to delete it's childsite
+
+        set megawidget [containing_megawidget $target]
+
+        if {$megawidget == ""} {
+            destroy $target
+            return
+        }
+
+        # yes it is a childsite, ask to delete
+        set class [vTcl:get_class $megawidget]
+        if {$classes($class,deleteSiteCmd) != ""} {
+
+            ## before deleting, get the index
+            set childsiteCmd [lindex $classes($class,treeChildrenCmd) 1]
+            set sites [$childsiteCmd $megawidget]
+            set index [lsearch -exact $sites $target]
+
+            $classes($class,deleteSiteCmd) $megawidget $target
+            ::vTcl::notify::publish deleted_childsite $target $index
+        }
+    }
+
+    proc selectCmd {target} {
+        global classes
+
+        set megawidget [containing_megawidget $target]
+
+        if {$megawidget == ""} {
+            return
+        }
+
+        set class [vTcl:get_class $megawidget]
+        if {$classes($class,selectSiteCmd) != ""} {
+            $classes($class,selectSiteCmd) $megawidget $target
+        }
+    }
+
+    proc insertChildCmd {target child} {
+        global classes
+
+        set megawidget [containing_megawidget $target]
+
+        if {$megawidget == ""} {
+            return
+        }
+
+        set class [vTcl:get_class $megawidget]
+        if {[info exists classes($class,insertChildCmd)] &&
+            ![lempty $classes($class,insertChildCmd)]} {
+        $classes($class,insertChildCmd) $megawidget $child
+        }
+    }
+}
+
+

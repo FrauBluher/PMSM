@@ -1,5 +1,3 @@
-
-
 #include "PMSMBoard.h"
 #include "SPIdsPIC.h"
 #include "pps.h"
@@ -39,32 +37,30 @@ void MotorInit()
 	/* Set PWM Period on Primary Time Base */
 	PTPER = 1000;
 	/* Set Phase Shift */
-	PHASE4 = 0;
-	SPHASE4 = 0;
+	PHASE1 = 0;
+	SPHASE1 = 0;
 	PHASE2 = 0;
 	SPHASE2 = 0;
 	PHASE3 = 0;
 	SPHASE3 = 0;
 	/* Set Duty Cycles */
+	PDC1 = 0;
+	SDC1 = 0;
 	PDC2 = 0;
 	SDC2 = 0;
 	PDC3 = 0;
 	SDC3 = 0;
-	PDC4 = 0;
-	SDC4 = 0;
 	/* Set Dead Time Values */
-	DTR4 = DTR2 = DTR3 = 0;
-	ALTDTR4 = ALTDTR2 = ALTDTR3 = 0;
+	DTR1 = DTR2 = DTR3 = 0;
+	ALTDTR1 = ALTDTR2 = ALTDTR3 = 0;
 	/* Set PWM Mode to Independent */
-	IOCON2 = IOCON3 = IOCON4 = 0xCC00;
+	IOCON1 = IOCON2 = IOCON3 = 0xCC00;
 	//Set unused PWM outputs as GPIO driven
-	IOCON1 = 0;
-	IOCON5 = 0;
-	IOCON6 = 0;
+	IOCON4 = 0;
 	/* Set Primary Time Base, Edge-Aligned Mode and Independent Duty Cycles */
-	PWMCON4 = PWMCON2 = PWMCON3 = 0x0000;
+	PWMCON1 = PWMCON2 = PWMCON3 = 0x0000;
 	/* Configure Faults */
-	FCLCON4 = FCLCON2 = FCLCON3 = 0x0003;
+	FCLCON1 = FCLCON2 = FCLCON3 = 0x0003;
 	/* 1:1 Prescaler */
 	PTCON2 = 0x0000;
 	/* Enable PWM Module */
@@ -103,13 +99,11 @@ void PinInit(void)
 	TRIS_HALL2 = 1;
 	TRIS_HALL3 = 1;
 
-	//Ensuring that remapped pins are set as outputs.
-	TRISGbits.TRISG6 = 0;
-	TRISGbits.TRISG7 = 0;
-	TRISGbits.TRISG8 = 0;
-	TRISCbits.TRISC7 = 0;
-	TRISCbits.TRISC6 = 0;
-
+	//Ensuring that SPI remapped pins' tristates are set correctly.
+	TRISGbits.TRISE7 = 1; //MISO
+	TRISGbits.TRISG6 = 0; //MOSI
+	TRISGbits.TRISG8 = 0; //SCLK
+	
 	TRIS_LED1 = 0;
 	TRIS_LED2 = 0;
 	TRIS_LED3 = 0;
@@ -117,52 +111,17 @@ void PinInit(void)
 
 	//Right now no analog peripherals are being used, so we let digital
 	//peripherals take over.
-	ANSELA = 0;
 	ANSELB = 0;
 	ANSELC = 0;
 	ANSELD = 0;
 	ANSELE = 0;
-	ANSELF = 0;
 	ANSELG = 0;
-
-	TRISCbits.TRISC7 = 0; //Pin 51, RP55, RC7
-	TRISCbits.TRISC6 = 0; //Pin 50, RP54, RC6
-	TRISGbits.TRISG6 = 0; //Pin 4, RP118, RG6
-	TRISBbits.TRISB15 = 1; //Pin 3, RPI47, RB14
-
-	TRIS_CANRX = 1;
-	TRIS_CANTX = 0;
-
-	//Temp UART Debugging Input
-	TRISCbits.TRISC8 = 1;
 
 	//Unlock PPS Registers
 	__builtin_write_OSCCONL(OSCCON & ~(1 << 6));
 
-	//Set up PPS
-#ifdef __33EP512GM306_H
+	RPINR20bits.SCK1R = 0;
 
-	//RPOR6bits.RP55R = 0x0021;
-	//SPI3 CONFIG ----
-	//	RPINR29bits.SDI3R = 0x002F;
-	//	RPOR10bits.RP118R = 0x001F;
-	//	RPOR6bits.RP54R = 0x0020;
-
-	//SPI2 CONFIG ----
-	RPINR22bits.SDI2R = 0x002F;
-	RPOR10bits.RP118R = 0b00001000;
-	RPOR6bits.RP54R = 0b00001001;
-
-	//CAN CONFIG ----
-	RPINR26 = 24;
-	RPOR1bits.RP36R = 0b00001110;
-
-	//UART CONFIG ----
-	RPINR19bits.U2RXR = 56; //RP56
-
-#elif __33EP256MU806_H
-	//PPS for MU806 goes here.
-#endif
 
 	//Lock PPS Registers
 	__builtin_write_OSCCONL(OSCCON | (1 << 6));

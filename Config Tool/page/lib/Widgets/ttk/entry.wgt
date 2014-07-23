@@ -1,0 +1,71 @@
+# $Id: entry.wgt,v 1.12 2003/04/07 00:21:47 cgavin Exp $
+
+##############################################################################
+#
+# Visual TCL - A cross-platform application development environment
+#
+# Copyright (C) 2001 Damon Courtney
+#
+# Description file for Tk Widget
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+##############################################################################
+# Rationalized with tile entry
+
+Class       TEntry
+Lib     ttk
+CreateCmd   ttk::entry
+Icon        icon_entry.gif
+DoubleClickCmd  vTcl:set_textvar
+InsertCmd   vTcl::widgets::ttk::entry::insertCmd
+TreeLabel   @vTcl::widgets::ttk::entry::getWidgetTreeLabel
+DefaultOptions  -class TEntry
+TtkWidget		yes
+
+if {$vTcl(pr,balloon)} {
+ClassOption     -_tooltip   ;# Rozen not yet supporting tooltips.
+}
+
+Function        "Set Text Variable..." vTcl::widgets::ttk::entry::setTextVariable
+
+## If we're using Tcl 8.4, we need to add the readonly option.
+if {[info tclversion] > 8.3} {
+    SpecialOpt -state "state" choice {normal disabled readonly}
+} else {
+    SpecialOpt -state "state" choice {normal disabled}
+}
+
+SpecialOpt -validate "Validate" choice {none focus focusin focusout key all}
+
+namespace eval vTcl::widgets::ttk::entry {
+
+    proc insertCmd {target} {
+        $target configure -takefocus ""
+    }
+
+    proc setTextVariable {} {
+        global vTcl
+        vTcl:core:set_option $vTcl(w,widget)\
+                         -textvariable \
+                         "Text Variable for $vTcl(w,widget)"
+    }
+
+    proc getWidgetTreeLabel {target} {
+        set val [$target cget -textvariable]
+        if {[lempty $val]} { set val NONE }
+        return "VAR: $val"
+    }
+}
+
