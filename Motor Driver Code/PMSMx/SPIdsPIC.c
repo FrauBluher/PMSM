@@ -40,6 +40,7 @@
 #include <pps.h>
 #include "SPIdsPIC.h"
 #include "PMSMBoard.h"
+#include "DMA_Transfer.h"
 
 //#define SPI_INTERRUPT
 
@@ -68,12 +69,12 @@ uint8_t SPI1_Init(void)
 	CloseSPI1();
 
 	config1 = ENABLE_SCK_PIN & ENABLE_SDO_PIN &
-		SPI_MODE16_ON & SPI_SMP_OFF &
+		SPI_MODE16_ON & SPI_SMP_ON &
 		SPI_CKE_OFF & SLAVE_ENABLE_OFF &
 		MASTER_ENABLE_ON & CLK_POL_ACTIVE_HIGH &
-		SEC_PRESCAL_7_1 & PRI_PRESCAL_64_1;
+		SEC_PRESCAL_3_1 & PRI_PRESCAL_4_1;
 
-	config2 = FRAME_ENABLE_OFF & FRAME_SYNC_OUTPUT;
+	config2 = FRAME_ENABLE_OFF & FRAME_SYNC_OUTPUT & FIFO_BUFFER_DISABLE;
 
 	config3 = SPI_ENABLE & SPI_IDLE_CON & SPI_RX_OVFLOW_CLR;
 
@@ -95,21 +96,21 @@ uint8_t SPI1_Init(void)
  */
 uint16_t SPI1_WriteToReg(uint16_t deviceRegister, uint16_t data)
 {
-	int16_t temp;
+	uint16_t temp;
 
 	CS = 0;
-	temp = SPI1BUF;
 	temp = (deviceRegister << 11 | data);
-	SPI1BUF = (deviceRegister << 11 | data);
-	for (temp = 0; temp < 1500; temp++);
-	//while (!SPI2STATbits.SPIRBF);  Broken on the GM306
+	SPI1BUF = temp;
+	//DMA2_SPI_Transfer(1, &temp);
+	for (temp = 0; temp < 30; temp++);
 	CS = 1;
-	for (temp = 0; temp < 20; temp++);
+	for (temp = 0; temp < 30; temp++);
 	CS = 0;
-	temp = SPI1BUF;
-	SPI1BUF = (deviceRegister << 11 | data);
-	for (temp = 0; temp < 1500; temp++);
-	return(ReadSPI2());
+	SPI1BUF = 0x0000;
+	//DMA2_SPI_Transfer(1, &temp);
+	for (temp = 0; temp < 30; temp++);
+	CS = 1;
+	return(SPI1BUF);
 }
 
 /**
@@ -122,19 +123,18 @@ uint16_t SPI1_ReadFromReg(uint16_t deviceRegister)
 	uint16_t temp;
 
 	CS = 0;
-	temp = SPI1BUF;
-	SPI1BUF = (1 << 15 | deviceRegister << 11);
-	for (temp = 0; temp < 1500; temp++);
-	//while (!SPI2STATbits.SPIRBF);  Broken on the GM306
+	temp = (1 << 15 | deviceRegister << 11);
+	//DMA2_SPI_Transfer(1, &temp);
+	SPI1BUF = temp;
+	for (temp = 0; temp < 30; temp++);
 	CS = 1;
-	for (temp = 0; temp < 20; temp++);
+	for (temp = 0; temp < 30; temp++);
 	CS = 0;
-	temp = SPI1BUF;
-	SPI1BUF = (1 << 15 | deviceRegister << 11);
-	for (temp = 0; temp < 1500; temp++);
-	//while (!SPI2STATbits.SPIRBF);  Broken on the GM306
+	SPI1BUF = 0x0000;
+	//DMA2_SPI_Transfer(1, &temp);
+	for (temp = 0; temp < 30; temp++);
 	CS = 1;
-	return(ReadSPI1());
+	return(SPI1BUF);
 }
 
 #ifdef SPI_INTERRUPT

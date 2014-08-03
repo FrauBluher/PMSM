@@ -36,133 +36,53 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <string.h>
-#include "BasicMotorControl.h"
+#include "PRBSCharacterization.h"
+#include "PRBSData.h"
 #include "PMSMBoard.h"
 #include "DMA_Transfer.h"
 #include "PMSM.h"
-#include <uart.h>
 #include <xc.h>
-#include <dsp.h>
-
-tPID speedPID;
-fractional speedCoefficient[3] __attribute__((space(xmemory)));
-fractional speedControlHistory[3] __attribute__((eds, space(ymemory)));
-BasicMotorControlInfo motorInfo;
-
-static struct {
-	float Kp;
-	float Ki;
-	float Kd;
-	float err;
-	float der;
-	float output;
-	float integral;
-	float currentError;
-} PIDs;
 
 static uint32_t timerCurr;
 static uint32_t timer;
 static uint16_t commandedTorque;
 static uint8_t changeState;
 
+static BasicMotorControlInfo motorInfo;
+
 void TrapUpdate(uint16_t torque, uint16_t direction);
 
-void DSPInit(void)
+char NaN[] = "NaN\r\n";
+
+uint16_t counter = 0;
+
+void CharacterizeStep(void)
 {
-	speedPID.abcCoefficients = speedCoefficient;
-	speedPID.controlHistory = speedControlHistory;
-	PIDInit(&speedPID);
-}
+	uint8_t out[56];
 
-void DSPTuningsInit(float p, float i, float d)
-{
-	fractional PID_speed[3];
-
-	PID_speed[0] = Float2Fract(p);
-	PID_speed[1] = Float2Fract(i);
-	PID_speed[2] = Float2Fract(d);
-
-	PIDCoeffCalc(PID_speed, &speedPID);
-}
-
-/**                          Public Functions                                **/
-
-
-void SpeedControlInit(float p, float i, float d)
-{
-	motorInfo.currentSpeed = 0;
-	motorInfo.hallCount = 0;
-	motorInfo.lastHallState = 0;
-
-	PIDs.err = 0;
-	PIDs.der = 0;
-	PIDs.integral = 0;
-
-	TMR3HLD = 0;
-	TMR2 = 0;
-	timer = 0;
-
-	PIDs.Kp = p;
-	PIDs.Ki = i;
-	PIDs.Kd = d;
-
-	DSPInit();
-	DSPTuningsInit(p, i, d);
-}
-
-void SpeedControlChangeTunings(float p, float i, float d)
-{
-	DSPTuningsInit(p, i, d);
-}
-
-void SpeedControlStep(uint16_t speed, uint8_t direction, uint8_t update)
-{
-	if (update) {
-		if (changeState) {
-			motorInfo.currentSpeed = 52500000 / (timer / motorInfo.hallCount);
-
-			PIDs.currentError = (speed - motorInfo.currentSpeed);
-
-			PIDs.der = PIDs.err - PIDs.currentError;
-			PIDs.integral += PIDs.err;
-			if (PIDs.integral > 2000000) {
-				PIDs.integral = 2000000;
-			}
-
-			PIDs.output = (PIDs.Kp * PIDs.err) +
-				(PIDs.Ki * PIDs.integral * .001); +
-				(PIDs.Kd * PIDs.der / .001);
-
-			if (PIDs.output > 30000) {
-				PIDs.output = 30000;
-			} else if (PIDs.output < 0) {
-				PIDs.output = 0;
-			}
-			PIDs.err = PIDs.currentError;
-
-			commandedTorque = PIDs.output / 30;
-
-
-			uint8_t out[56];
-			sprintf((char *) out, "S: %f, E: %f\r\n", 52500000 / (timer / motorInfo.hallCount), PIDs.output);
-			putsUART2(out);
-
-			motorInfo.hallCount = 0;
-			changeState = 0;
-			timer = 0;
-			timerCurr = 0;
-		}
+	if (changeState) {
+		motorInfo.currentSpeed = 52500000 / (timer / motorInfo.hallCount);
+		sprintf((char *) out, "%i\r\n", motorInfo.currentSpeed);
+		DMA0_UART2_Transfer(strlen(out), out);
+	} else {
+		DMA0_UART2_Transfer(5, NaN);
 	}
-}
 
-void ForceDuty(uint16_t GH_A, uint16_t GL_A, uint16_t GH_B, uint16_t GL_B, uint16_t GH_C, uint16_t GL_C)
-{
-	GH_A_DC = GH_A;
-	GL_A_DC = GL_A;
-	GH_B_DC = GH_B;
-	GL_B_DC = GL_B;
-	GH_C_DC = GH_C;
-	GL_C_DC = GL_C;
+	if(GetState(counter)) {
+		commandedTorque = 1000;
+	} else {
+		commandedTorque = 0;
+	}
+
+	counter++;
+	if (counter == 65535) {
+		counter = 0;
+	}
+	
+	motorInfo.hallCount = 0;
+	changeState = 0;
+	timer = 0;
+	timerCurr = 0;
 }
 
 /**
@@ -318,7 +238,7 @@ void TrapUpdate(uint16_t torque, uint16_t direction)
 	}
 }
 
-void __attribute__((__interrupt__)) _CNInterrupt(void)
+void __attribute__((__interrupt__, no_auto_psv)) _CNInterrupt(void)
 {
 	TrapUpdate(commandedTorque, CW);
 	IFS1bits.CNIF = 0; // Clear CN interrupt

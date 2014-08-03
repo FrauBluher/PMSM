@@ -12,6 +12,9 @@
       <itemPath>CircularBuffer.h</itemPath>
       <itemPath>MotorControl.h</itemPath>
       <itemPath>DMA_Transfer.h</itemPath>
+      <itemPath>PID_Library.h</itemPath>
+      <itemPath>PRBSCharacterization.h</itemPath>
+      <itemPath>../../SystemID Matlab Support/PRBSData.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -30,6 +33,8 @@
       <itemPath>CircularBuffer.c</itemPath>
       <itemPath>MotorControl.c</itemPath>
       <itemPath>DMA_Transfer.c</itemPath>
+      <itemPath>PID_Library.c</itemPath>
+      <itemPath>PRBSCharacterization.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -39,6 +44,7 @@
   </logicalFolder>
   <sourceRootList>
     <Elem>/opt/microchip/xc16/v1.20/src/asm</Elem>
+    <Elem>../../SystemID Matlab Support</Elem>
   </sourceRootList>
   <projectmakefile>Makefile</projectmakefile>
   <confs>
@@ -76,6 +82,30 @@
         <makeCustomizationEnableLongLines>false</makeCustomizationEnableLongLines>
         <makeCustomizationNormalizeHexFile>false</makeCustomizationNormalizeHexFile>
       </makeCustomizationType>
+      <item path="BasicMotorControl.c" ex="true" overriding="false">
+        <C30>
+        </C30>
+        <C30-AR>
+        </C30-AR>
+        <C30-AS>
+        </C30-AS>
+        <C30-LD>
+        </C30-LD>
+        <C30Global>
+        </C30Global>
+      </item>
+      <item path="BasicMotorControl.h" ex="true" overriding="false">
+        <C30>
+        </C30>
+        <C30-AR>
+        </C30-AR>
+        <C30-AS>
+        </C30-AS>
+        <C30-LD>
+        </C30-LD>
+        <C30Global>
+        </C30Global>
+      </item>
       <C30>
         <property key="code-model" value="default"/>
         <property key="const-model" value="default"/>
@@ -116,6 +146,7 @@
         <property key="use-iar" value="false"/>
       </C30>
       <C30-AR>
+        <property key="additional-options-chop-files" value="false"/>
       </C30-AR>
       <C30-AS>
         <property key="assembler-symbols" value=""/>
@@ -182,6 +213,9 @@
         <property key="warn-section-align" value="false"/>
       </C30-LD>
       <C30Global>
+        <property key="common-include-directories"
+                  value="../../SystemID Matlab Support"/>
+        <property key="dual-boot-partition" value="0"/>
         <property key="fast-math" value="false"/>
         <property key="generic-16-bit" value="false"/>
         <property key="legacy-libc" value="false"/>
@@ -269,11 +303,11 @@
         <property key="UART 3" value="true"/>
         <property key="UART 4" value="true"/>
         <property key="USB" value="true"/>
-        <property key="firmware.download.all" value="false"/>
         <property key="hwtoolclock.frcindebug" value="false"/>
         <property key="memories.aux" value="false"/>
         <property key="memories.bootflash" value="false"/>
         <property key="memories.configurationmemory" value="false"/>
+        <property key="memories.dataflash" value="true"/>
         <property key="memories.eeprom" value="false"/>
         <property key="memories.flashdata" value="true"/>
         <property key="memories.id" value="false"/>
@@ -282,6 +316,7 @@
         <property key="memories.programmemory.start" value="0x0"/>
         <property key="poweroptions.powerenable" value="true"/>
         <property key="programmertogo.imagename" value=""/>
+        <property key="programoptions.donoteraseauxmem" value="false"/>
         <property key="programoptions.eraseb4program" value="true"/>
         <property key="programoptions.pgmspeed" value="2"/>
         <property key="programoptions.preserveeeprom" value="false"/>

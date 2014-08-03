@@ -12,6 +12,8 @@
 #include <xc.h>
 #include "CircularBuffer.h"
 
+#define CHARACTERIZE
+
 #ifdef __33EP256MU806_H
 /**
  * @brief Gate Duty Cycle Mapping
@@ -48,14 +50,25 @@
 #define LED2     LATBbits.LATB9
 #define LED3     LATBbits.LATB10
 #define LED4     LATBbits.LATB11
+#else
+#error "Code not designed to run on this target pic.  v1.9+ Supports MU806"
 #endif
 
-void InitBoard(CircularBuffer *cB);
-void UART2Init();
-void ClockInit();
-void MotorInit();
-void TimersInit();
-void PinInit();
+typedef struct {
+    uint8_t initReg;
+
+    union {
+        unsigned UARTInited : 1;
+        unsigned ClockInited : 1;
+        unsigned MotorInited : 1;
+        unsigned TimersInited : 1;
+        unsigned PinInited : 1;
+        unsigned EventCheckInited : 1;
+        unsigned : 2;
+    };
+} InitStatus;
+
+void InitBoard(CircularBuffer * cB, CircularBuffer * spi_cB, void *eventCallback);
 
 #endif	/* PMSMBOARD_H */
 

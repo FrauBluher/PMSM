@@ -35,16 +35,24 @@
 #ifndef BASICMOTORCONTROL_H
 #define	BASICMOTORCONTROL_H
 
+typedef struct {
+    uint16_t hallCount;
+    uint16_t lastHallCount;
+    uint16_t currentSpeed;
+    uint16_t lastHallState;
+} BasicMotorControlInfo;
+
 enum {
     CW,
     CCW
 };
 
+void SpeedControlInit(float p, float i, float d);
 
-void ForceDuty(int GH_A, int GL_A, int GH_B, int GL_B, int GH_C, int GL_C);
+void SpeedControlChangeTunings(float p, float i, float d);
 
-//Torque is between 0 and 999, and direction is either CW or CCW.
-void TrapUpdate(int torque, int direction);
+void SpeedControlStep(uint16_t speed, uint8_t direction, uint8_t update);
 
+void ForceDuty(uint16_t GH_A, uint16_t GL_A, uint16_t GH_B, uint16_t GL_B, uint16_t GH_C, uint16_t GL_C);
 #endif	/* BASICMOTORCONTROL_H */
 
