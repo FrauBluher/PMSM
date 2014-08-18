@@ -77,8 +77,8 @@ def _quit():
 button = tkinter.Button(master=root, text='Quit', command=_quit)
 button.pack(side=tkinter.BOTTOM)
 
-wScale = tkinter.Scale(master=root,label="View Width:", from_=3, to=1000,sliderlength=30,length=100, orient=tkinter.HORIZONTAL)
-wScale2 = tkinter.Scale(master=root,label="Generation Speed:", from_=1, to=200,sliderlength=30,length=100, orient=tkinter.HORIZONTAL)
+wScale = tkinter.Scale(master=root,label="View Width:", from_=3, to=1000,sliderlength=30,length=ax.get_frame().get_window_extent().width, orient=tkinter.HORIZONTAL)
+wScale2 = tkinter.Scale(master=root,label="Generation Speed:", from_=1, to=200,sliderlength=30,length=ax.get_frame().get_window_extent().width, orient=tkinter.HORIZONTAL)
 wScale2.pack(side=tkinter.BOTTOM)
 wScale.pack(side=tkinter.BOTTOM)
 
