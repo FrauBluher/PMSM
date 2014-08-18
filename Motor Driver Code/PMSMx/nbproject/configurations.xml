@@ -82,7 +82,7 @@
         <makeCustomizationEnableLongLines>false</makeCustomizationEnableLongLines>
         <makeCustomizationNormalizeHexFile>false</makeCustomizationNormalizeHexFile>
       </makeCustomizationType>
-      <item path="BasicMotorControl.c" ex="true" overriding="false">
+      <item path="BasicMotorControl.c" ex="false" overriding="false">
         <C30>
         </C30>
         <C30-AR>
@@ -94,7 +94,7 @@
         <C30Global>
         </C30Global>
       </item>
-      <item path="BasicMotorControl.h" ex="true" overriding="false">
+      <item path="BasicMotorControl.h" ex="false" overriding="false">
         <C30>
         </C30>
         <C30-AR>
@@ -107,14 +107,14 @@
         </C30Global>
       </item>
       <C30>
-        <property key="code-model" value="default"/>
+        <property key="code-model" value="large-code"/>
         <property key="const-model" value="default"/>
-        <property key="data-model" value="default"/>
+        <property key="data-model" value="large-data"/>
         <property key="enable-all-warnings" value="true"/>
         <property key="enable-ansi-std" value="false"/>
         <property key="enable-ansi-warnings" value="false"/>
         <property key="enable-fatal-warnings" value="false"/>
-        <property key="enable-large-arrays" value="false"/>
+        <property key="enable-large-arrays" value="true"/>
         <property key="enable-omit-frame-pointer" value="false"/>
         <property key="enable-procedural-abstraction" value="false"/>
         <property key="enable-short-double" value="false"/>
@@ -303,6 +303,7 @@
         <property key="UART 3" value="true"/>
         <property key="UART 4" value="true"/>
         <property key="USB" value="true"/>
+        <property key="firmware.download.all" value="false"/>
         <property key="hwtoolclock.frcindebug" value="false"/>
         <property key="memories.aux" value="false"/>
         <property key="memories.bootflash" value="false"/>

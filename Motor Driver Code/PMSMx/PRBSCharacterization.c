@@ -41,12 +41,16 @@
 #include "PMSMBoard.h"
 #include "DMA_Transfer.h"
 #include "PMSM.h"
+#include <qei32.h>
 #include <xc.h>
 
 static uint32_t timerCurr;
 static uint32_t timer;
 static uint16_t commandedTorque;
+static uint16_t commanded;
 static uint8_t changeState;
+static uint8_t currentState;
+static uint8_t lastState = 0;
 
 static BasicMotorControlInfo motorInfo;
 
@@ -55,35 +59,48 @@ void TrapUpdate(uint16_t torque, uint16_t direction);
 char NaN[] = "NaN\r\n";
 
 uint16_t counter = 0;
+uint16_t counter2 = 0;
 
 void CharacterizeStep(void)
 {
-	uint8_t out[56];
+	static uint8_t out[56];
+	static uint8_t out1[56];
 
-	if (changeState) {
-		motorInfo.currentSpeed = 52500000 / (timer / motorInfo.hallCount);
-		sprintf((char *) out, "%i\r\n", motorInfo.currentSpeed);
-		DMA0_UART2_Transfer(strlen(out), out);
-	} else {
-		DMA0_UART2_Transfer(5, NaN);
-	}
+	TrapUpdate(commandedTorque, CCW);
 
-	if(GetState(counter)) {
-		commandedTorque = 1000;
+	if (counter2 < 51) {
+		uint16_t size = 0;
+		qeiCounter w;
+		w.l = 0;
+		int16_t indexCount = 0;
+
+		indexCount = (int) Read32bitQEI1IndexCounter();
+		Write32bitQEI1IndexCounter(&w);
+
+		if (GetState(counter)) {
+			commandedTorque = 1166;
+			size = sprintf((char *) out, ".66,%i\r\n", indexCount);
+			DMA0_UART2_Transfer(size, out);
+		} else {
+			commandedTorque = 583;
+			size = sprintf((char *) out, ".33,%i\r\n", indexCount);
+			DMA0_UART2_Transfer(size, out);
+		}
+
+
+
+		counter++;
+		if (counter == 65535) {
+			counter = 0;
+			counter2++;
+		}
 	} else {
 		commandedTorque = 0;
 	}
-
-	counter++;
-	if (counter == 65535) {
-		counter = 0;
-	}
-	
-	motorInfo.hallCount = 0;
-	changeState = 0;
-	timer = 0;
-	timerCurr = 0;
 }
+
+
+#ifdef CHARACTERIZE
 
 /**
  * This function should exclusively be called by the change notify interrupt to
@@ -101,15 +118,22 @@ void CharacterizeStep(void)
  */
 void TrapUpdate(uint16_t torque, uint16_t direction)
 {
-	motorInfo.hallCount++;
-	// Reading from 32-bit timer
-	timerCurr = TMR2;
-	timerCurr |= ((uint32_t) TMR3HLD << 16) & 0xFFFF0000;
-	timer += timerCurr;
-	// Writing to 32-bit timer
-	TMR3HLD = 0; //Write msw to the Type C timer holding register
-	TMR2 = 0; //Write lsw to the Type B timer register
-	changeState = 1;
+#ifndef QEI
+	currentState = ((HALL1 << 2) | (HALL2 << 1) | (HALL3));
+	if (currentState != lastState) {
+		motorInfo.hallCount++;
+		// Reading from 32-bit timer
+		timerCurr = TMR2;
+		timerCurr |= ((uint32_t) TMR3HLD << 16) & 0xFFFF0000;
+		timer += timerCurr;
+		// Writing to 32-bit timer
+		TMR3HLD = 0; //Write msw to the Type C timer holding register
+		TMR2 = 0; //Write lsw to the Type B timer register
+		changeState = 1;
+	}
+	lastState = currentState;
+#else
+#endif
 
 	if (direction == CW) {
 		if ((HALL1 && HALL2 && !HALL3)) {
@@ -240,6 +264,13 @@ void TrapUpdate(uint16_t torque, uint16_t direction)
 
 void __attribute__((__interrupt__, no_auto_psv)) _CNInterrupt(void)
 {
-	TrapUpdate(commandedTorque, CW);
+	TrapUpdate(commandedTorque, CCW);
 	IFS1bits.CNIF = 0; // Clear CN interrupt
 }
+
+void __attribute__((__interrupt__, no_auto_psv)) _QEI1Interrupt(void)
+
+{
+	IFS3bits.QEI1IF = 0; /* Clear QEI interrupt flag */
+}
+#endif

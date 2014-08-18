@@ -11,8 +11,10 @@
 
 #include <xc.h>
 #include "CircularBuffer.h"
+#include "DMA_Transfer.h"
 
-#define CHARACTERIZE
+//#define CHARACTERIZE
+#define QEI
 
 #ifdef __33EP256MU806_H
 /**
@@ -68,7 +70,7 @@ typedef struct {
     };
 } InitStatus;
 
-void InitBoard(CircularBuffer * cB, CircularBuffer * spi_cB, void *eventCallback);
+void InitBoard(ADCBuffer *ADBuff, CircularBuffer * cB, CircularBuffer * spi_cB, void *eventCallback);
 
 #endif	/* PMSMBOARD_H */
 

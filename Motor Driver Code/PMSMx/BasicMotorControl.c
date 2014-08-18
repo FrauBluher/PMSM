@@ -43,6 +43,15 @@
 #include <uart.h>
 #include <xc.h>
 #include <dsp.h>
+#include <qei32.h>
+
+
+#define INTERRUPT_PROTECT(x) { \
+		char saved_ipl; \
+				\
+		SET_AND_SAVE_CPU_IPL(saved_ipl,7); \
+		x; \
+		RESTORE_CPU_IPL(saved_ipl); } (void) 0;
 
 tPID speedPID;
 fractional speedCoefficient[3] __attribute__((space(xmemory)));
@@ -60,10 +69,15 @@ static struct {
 	float currentError;
 } PIDs;
 
-static uint32_t timerCurr;
 static uint32_t timer;
-static uint16_t commandedTorque;
+static uint32_t timerCurr;
 static uint8_t changeState;
+static uint8_t out[128];
+static uint8_t lastState = 0;
+static uint16_t Velocity = 0;
+static uint16_t commandedTorque;
+static uint8_t currentState = 0;
+static uint32_t Position_Counter = 0;
 
 void TrapUpdate(uint16_t torque, uint16_t direction);
 
@@ -117,46 +131,52 @@ void SpeedControlChangeTunings(float p, float i, float d)
 
 void SpeedControlStep(uint16_t speed, uint8_t direction, uint8_t update)
 {
-	if (update) {
-		if (changeState) {
-			motorInfo.currentSpeed = 52500000 / (timer / motorInfo.hallCount);
+	commandedTorque = 1750;
+	TrapUpdate(commandedTorque, CCW);
 
-			PIDs.currentError = (speed - motorInfo.currentSpeed);
-
-			PIDs.der = PIDs.err - PIDs.currentError;
-			PIDs.integral += PIDs.err;
-			if (PIDs.integral > 2000000) {
-				PIDs.integral = 2000000;
-			}
-
-			PIDs.output = (PIDs.Kp * PIDs.err) +
-				(PIDs.Ki * PIDs.integral * .001); +
-				(PIDs.Kd * PIDs.der / .001);
-
-			if (PIDs.output > 30000) {
-				PIDs.output = 30000;
-			} else if (PIDs.output < 0) {
-				PIDs.output = 0;
-			}
-			PIDs.err = PIDs.currentError;
-
-			commandedTorque = PIDs.output / 30;
-
-
-			uint8_t out[56];
-			sprintf((char *) out, "S: %f, E: %f\r\n", 52500000 / (timer / motorInfo.hallCount), PIDs.output);
-			putsUART2(out);
-
-			motorInfo.hallCount = 0;
-			changeState = 0;
-			timer = 0;
-			timerCurr = 0;
-		}
-	}
+	//	if (update) {
+	//		if (changeState) {
+	//			motorInfo.currentSpeed = 52500000 / (timer / motorInfo.hallCount);
+	//
+	//			PIDs.currentError = (speed - motorInfo.currentSpeed);
+	//
+	//			PIDs.der = PIDs.err - PIDs.currentError;
+	//			PIDs.integral += PIDs.err;
+	//			if (PIDs.integral > 2000000) {
+	//				PIDs.integral = 2000000;
+	//			}
+	//
+	//			PIDs.output = (PIDs.Kp * PIDs.err) +
+	//				(PIDs.Ki * PIDs.integral * .001);
+	//
+	//			//(PIDs.Kd * PIDs.der / .001);
+	//
+	//			if (PIDs.output > 30000) {
+	//				PIDs.output = 30000;
+	//			} else if (PIDs.output < 0) {
+	//				PIDs.output = 0;
+	//			}
+	//			PIDs.err = PIDs.currentError;
+	//
+	//			//commandedTorque = 0; //PIDs.output / 30;
+	//
+	//
+	//
+	//			//sprintf((char *) out, "S: %f, E: %f\r\n", 52500000 / (timer / motorInfo.hallCount), PIDs.output);
+	//			sprintf((char *) out, "S: %u\r\n", Read32bitQEI1VelocityCounter());
+	//			DMA0_UART2_Transfer(strlen((const char *) out), out);
+	//
+	//			motorInfo.hallCount = 0;
+	//			changeState = 0;
+	//			timer = 0;
+	//			timerCurr = 0;
+	//		}
+	//	}
 }
 
 void ForceDuty(uint16_t GH_A, uint16_t GL_A, uint16_t GH_B, uint16_t GL_B, uint16_t GH_C, uint16_t GL_C)
 {
+
 	GH_A_DC = GH_A;
 	GL_A_DC = GL_A;
 	GH_B_DC = GH_B;
@@ -164,6 +184,9 @@ void ForceDuty(uint16_t GH_A, uint16_t GL_A, uint16_t GH_B, uint16_t GL_B, uint1
 	GH_C_DC = GH_C;
 	GL_C_DC = GL_C;
 }
+
+
+#ifndef CHARACTERIZE
 
 /**
  * This function should exclusively be called by the change notify interrupt to
@@ -181,15 +204,24 @@ void ForceDuty(uint16_t GH_A, uint16_t GL_A, uint16_t GH_B, uint16_t GL_B, uint1
  */
 void TrapUpdate(uint16_t torque, uint16_t direction)
 {
-	motorInfo.hallCount++;
-	// Reading from 32-bit timer
-	timerCurr = TMR2;
-	timerCurr |= ((uint32_t) TMR3HLD << 16) & 0xFFFF0000;
-	timer += timerCurr;
-	// Writing to 32-bit timer
-	TMR3HLD = 0; //Write msw to the Type C timer holding register
-	TMR2 = 0; //Write lsw to the Type B timer register
-	changeState = 1;
+
+	//TODO: check current state vs last state...
+#ifndef QEI
+	currentState = ((HALL1 << 2) | (HALL2 << 1) | (HALL3));
+	if (currentState != lastState) {
+		motorInfo.hallCount++;
+		// Reading from 32-bit timer
+		timerCurr = TMR2;
+		timerCurr |= ((uint32_t) TMR3HLD << 16) & 0xFFFF0000;
+		timer += timerCurr;
+		// Writing to 32-bit timer
+		TMR3HLD = 0; //Write msw to the Type C timer holding register
+		TMR2 = 0; //Write lsw to the Type B timer register
+		changeState = 1;
+	}
+	lastState = currentState;
+#else
+#endif
 
 	if (direction == CW) {
 		if ((HALL1 && HALL2 && !HALL3)) {
@@ -305,6 +337,7 @@ void TrapUpdate(uint16_t torque, uint16_t direction)
 			LED2 = 0;
 			LED3 = 1;
 		} else if ((HALL1 && !HALL2 && !HALL3)) {
+
 			GH_A_DC = 0;
 			GL_A_DC = torque;
 			GH_B_DC = 0;
@@ -318,8 +351,17 @@ void TrapUpdate(uint16_t torque, uint16_t direction)
 	}
 }
 
-void __attribute__((__interrupt__)) _CNInterrupt(void)
+void __attribute__((__interrupt__, no_auto_psv)) _CNInterrupt(void)
 {
-	TrapUpdate(commandedTorque, CW);
+	TrapUpdate(commandedTorque, CCW);
 	IFS1bits.CNIF = 0; // Clear CN interrupt
 }
+
+void __attribute__((__interrupt__, no_auto_psv)) _QEI1Interrupt(void)
+
+{
+	//POS1CNTL = 0;
+	//POS1CNTH = 0;
+	IFS3bits.QEI1IF = 0; /* Clear QEI interrupt flag */
+}
+#endif

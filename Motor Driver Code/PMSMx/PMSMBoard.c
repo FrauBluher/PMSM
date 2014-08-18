@@ -5,15 +5,31 @@
 #include "DRV8301.h"
 #include "PMSM.h"
 #include "PMSMBoard.h"
+
+#ifndef CHARACTERIZE
 #include "BasicMotorControl.h"
+#else
+#include "PRBSCharacterization.h"
+#endif
+
 #include "DMA_Transfer.h"
 #include "SPIdsPIC.h"
 #include <uart.h>
+#include <qei32.h>
 
 _FOSCSEL(FNOSC_FRC & IESO_OFF);
 _FOSC(FCKSM_CSECMD & OSCIOFNC_OFF & POSCMD_NONE);
 _FWDT(FWDTEN_OFF);
 _FICD(ICS_PGD1 & JTAGEN_OFF);
+
+#define INTERRUPT_PROTECT(x) { \
+char saved_ipl; \
+\
+SET_AND_SAVE_CPU_IPL(saved_ipl,7); \
+x; \
+RESTORE_CPU_IPL(saved_ipl); } (void) 0;
+
+//TODO: Disable 32 bit timer when using QEI...
 
 static MotorInfo motorInformation;
 static DRV8301_Info motorDriverInfo;
@@ -25,23 +41,27 @@ void MotorInit(void);
 void TimersInit(void);
 void PinInit(void);
 void EventCheckInit(void *eventCallback);
+void CNInit(void);
+void QEIInit(void);
+void ADCInit(void);
 
 void (*eventCallbackFcn)(void);
 
-void InitBoard(CircularBuffer *cB, CircularBuffer *spi_cB, void *eventCallback)
+void InitBoard(ADCBuffer *ADBuff, CircularBuffer *cB, CircularBuffer *spi_cB, void *eventCallback)
 {
 	if (!initInfo.initReg) {
 
-		int i;
-		for (i = 0; i < 15000; i++) {
-			Nop(); //Let the DRV catch it's breath...
-		}
+		uint32_t i;
 
 		ClockInit();
 		UART2Init();
 		PinInit();
 		MotorInit();
 
+		for (i = 0; i < 750000; i++) {
+			Nop(); //Let the DRV catch it's breath...
+		}
+		
 		SPI1_Init();
 		{
 			DMA2REQbits.FORCE = 1;
@@ -52,7 +72,16 @@ void InitBoard(CircularBuffer *cB, CircularBuffer *spi_cB, void *eventCallback)
 		PMSM_Init(&motorInformation);
 		DMA1_UART2_Enable_RX(cB);
 		DMA3_SPI_Enable_RX(spi_cB);
+		DMA6_ADC_Enable(ADBuff);
+		ADCInit();
 		DRV8301_Init(&motorDriverInfo);
+
+
+		CNInit();
+#ifdef QEI
+		QEIInit();
+#endif
+
 		EventCheckInit(eventCallback);
 		TimersInit();
 
@@ -76,7 +105,7 @@ void UART2Init(void)
 		U2MODEbits.PDSEL = 0; // No parity, 8-data bits
 		U2MODEbits.ABAUD = 0; // Auto-baud disabled
 		U2MODEbits.BRGH = 1; // High speed UART mode...
-		U2BRG = 37; //37 for 115200 on BRGH 0, 460800 on BRGH 1, 921600 = 18
+		U2BRG = 18; //37 for 115200 on BRGH 0, 460800 on BRGH 1, 921600 = 18
 		//BRGH = 0, BRG = 18 for 230400
 		U2STAbits.UTXISEL0 = 0; // int on last character shifted out tx register
 		U2STAbits.UTXISEL1 = 0; // int on last character shifted out tx register
@@ -94,7 +123,7 @@ void MotorInit()
 {
 	if (1) { //!(initInfo.UARTInited & 0x01)) {!(initInfo.MotorInited & 0x02)) {
 		/* Set PWM Period on Primary Time Base */
-		PTPER = 1000;
+		PTPER = 1750 ;
 		/* Set Phase Shift */
 		PHASE1 = 0;
 		SPHASE1 = 0;
@@ -170,11 +199,13 @@ void PinInit(void)
 		TRIS_HALL1 = 1;
 		TRIS_HALL2 = 1;
 		TRIS_HALL3 = 1;
-
+		
 		//Ensuring that SPI remapped pins' tristates are set correctly.
 		TRISEbits.TRISE7 = 1; //MISO
 		TRISGbits.TRISG6 = 0; //MOSI
 		TRISGbits.TRISG8 = 0; //SCLK
+
+		CNPDEbits.CNPDE7 = 1;
 
 		TRIS_LED1 = 0;
 		TRIS_LED2 = 0;
@@ -191,17 +222,10 @@ void PinInit(void)
 
 		TRISDbits.TRISD4 = 0;
 
-		//Set up Change Notify Interrupt
-		CNENCbits.CNIEC14 = 1; // Enable RC14 pin for interrupt detection
-		CNENCbits.CNIEC13 = 1; // Enable RC13
-		CNENDbits.CNIED0 = 1;
+#ifndef QEI
 
-		IEC1bits.CNIE = 1; // Enable CN interrupts
-		IFS1bits.CNIF = 0; // Reset CN interrupt
-
-		HALL1;
-		HALL2;
-		HALL3;
+#else
+#endif
 
 		//Unlock PPS Registers
 		__builtin_write_OSCCONL(OSCCON & ~(1 << 6));
@@ -211,6 +235,10 @@ void PinInit(void)
 		OUT_PIN_PPS_RP118 = OUT_FN_PPS_SDO1; //SDO
 		OUT_PIN_PPS_RP120 = OUT_FN_PPS_SCK1; //SCLK
 		IN_FN_PPS_SDI1 = IN_PIN_PPS_RP87; //SDI
+
+		IN_FN_PPS_QEA1 = IN_PIN_PPS_RP71; //QEI A
+		IN_FN_PPS_QEB1 = IN_PIN_PPS_RP70; //QEI B
+		IN_FN_PPS_QEI1 = IN_PIN_PPS_RP69; //QEI Index
 
 		//Lock PPS Registers
 		__builtin_write_OSCCONL(OSCCON | (1 << 6));
@@ -229,27 +257,40 @@ void PinInit(void)
 void TimersInit(void)
 {
 	if (1) { //!(initInfo.UARTInited & 0x01)) {!(initInfo.TimersInited & 0x10)) {
-		T3CONbits.TON = 0; // Stop any 16-bit Timer3 operation
-		T2CONbits.TON = 0; // Stop any 16/32-bit Timer3 operation
-		T2CONbits.T32 = 1; // Enable 32-bit Timer mode
-		T2CONbits.TCS = 0; // Select internal instruction cycle clock
-		T2CONbits.TGATE = 0; // Disable Gated Timer mode
-		T2CONbits.TCKPS = 0b01; // Select 1:8 Prescaler
-		TMR3 = 0x00; // Clear 32-bit Timer (msw)
-		TMR2 = 0x00; // Clear 32-bit Timer (lsw)
-		PR3 = 0xFFFF; // Load 32-bit period value (msw)
-		PR2 = 0xFFFF; // Load 32-bit period value (lsw)
-		IPC2bits.T3IP = 0x01; // Set Timer3 Interrupt Priority Level
-		IFS0bits.T3IF = 0; // Clear Timer3 Interrupt Flag
-		IEC0bits.T3IE = 1; // Enable Timer3 interrupt
-		T2CONbits.TON = 1; // Start 32-bit Timer
+		//		T3CONbits.TON = 0; // Stop any 16-bit Timer3 operation
+		//		T2CONbits.TON = 0; // Stop any 16/32-bit Timer3 operation
+		//		T2CONbits.T32 = 1; // Enable 32-bit Timer mode
+		//		T2CONbits.TCS = 0; // Select internal instruction cycle clock
+		//		T2CONbits.TGATE = 0; // Disable Gated Timer mode
+		//		T2CONbits.TCKPS = 0b01; // Select 1:8 Prescaler
+		//		TMR3 = 0x00; // Clear 32-bit Timer (msw)
+		//		TMR2 = 0x00; // Clear 32-bit Timer (lsw)
+		//		PR3 = 0xFFFF; // Load 32-bit period value (msw)
+		//		PR2 = 0xFFFF; // Load 32-bit period value (lsw)
+		//		IPC2bits.T3IP = 0x03; // Set Timer3 Interrupt Priority Level
+		//		IFS0bits.T3IF = 0; // Clear Timer3 Interrupt Flag
+		//		IEC0bits.T3IE = 1; // Enable Timer3 interrupt
+		//		T2CONbits.TON = 1; // Start 32-bit Timer
+
+		//Timer 5 for ADC Triggering
+		TMR5 = 0x0000;
+		T5CONbits.TCKPS = 3;
+		PR5 = 68; // Trigger ADC1at a rate of 4kHz
+		IFS1bits.T5IF = 0; // Clear Timer5 interrupt
+		IEC1bits.T5IE = 0; // Disable Timer5 interrupt
+		T5CONbits.TON = 1; // Start Timer5
+		//IPC7bits.T5IP = 2;
 
 		T7CONbits.TON = 0;
 		T7CONbits.TCS = 0;
 		T7CONbits.TGATE = 0;
 		T7CONbits.TCKPS = 0b11; // Select 1:256 Prescaler
 		TMR7 = 0x00;
-		PR7 = 0x0037; //Approximately 5kHz... 0x0112 For 1kHz  0x0037 for 5kHz
+#ifdef CHARACTERIZE
+		PR7 = 91; //Approximately 5kHz (4974 Hz)... 0x0112 For 1kHz  0x0037 for 5kHz  0x0089 for 2kHz
+#else
+		PR7 = 0x0112; //91 = 3kHz
+#endif
 		IPC12bits.T7IP = 0x01;
 		IFS3bits.T7IF = 0;
 		IEC3bits.T7IE = 1;
@@ -259,6 +300,102 @@ void TimersInit(void)
 	} else {
 		while (1);
 	}
+}
+
+void CNInit(void)
+{
+	//Set up Change Notify Interrupt
+	CNENCbits.CNIEC14 = 1; // Enable RC14 pin for interrupt detection
+	CNENCbits.CNIEC13 = 1; // Enable RC13
+	CNENDbits.CNIED0 = 1;
+
+	IEC1bits.CNIE = 1; // Enable CN interrupts
+	IFS1bits.CNIF = 0; // Reset CN interrupt
+}
+
+void QEIInit(void)
+{
+	/* Configure QEICON, QEIIOC and QEISTAT register */
+	Open32bitQEI1(QEI_COUNTER_QEI_MODE &
+		QEI_GATE_DISABLE &
+		QEI_COUNT_POSITIVE &
+		QEI_INPUT_PRESCALE_1 &
+		QEI_INDEX_MATCH_NO_EFFECT &
+		QEI_POS_COUNT_INIT_No_EFFECT &
+		QEI_IDLE_CON &
+		QEI_COUNTER_ENABLE,
+
+		QEI_QEA_POL_NON_INVERTED &
+		QEI_QEB_POL_NON_INVERTED &
+		QEI_INDX_POL_NON_INVERTED &
+		QEI_HOM_POL_NON_INVERTED &
+		QEI_QEA_QEB_NOT_SWAPPED &
+		QEI_COMPARE_HIGH_OUTPUT_DISABLE &
+		QEI_DIF_FLTR_PRESCALE_8 &
+		QEI_DIG_FLTR_DISABLE &
+		QEI_POS_COUNT_TRIG_DISABLE,
+
+		QEI_INDEX_INTERRUPT_ENABLE &
+		QEI_HOME_INTERRUPT_ENABLE &
+		QEI_VELO_OVERFLOW_INTERRUPT_DISABLE &
+		QEI_POS_INIT_INTERRUPT_ENABLE &
+		QEI_POS_OVERFLOW_INTERRUPT_ENABLE &
+		QEI_POS_LESS_EQU_INTERRUPT_DISABLE &
+		QEI_POS_GREAT_EQU_INTERRUPT_DISABLE);
+
+	ConfigInt32bitQEI1(QEI_INT_PRI_4 & QEI_INT_DISABLE);
+	/*
+		READING VELOCITY CAN BE ACHIEVED THROUGH THE FOLLOWING METHODS...
+	 *
+		Position_Counter = Read32bitQEI1PositionCounter();
+		Velocity = Read32bitQEI1VelocityCounter();
+	 */
+
+}
+
+void ADCInit(void)
+{
+	ANSELBbits.ANSB1 = 1; //AN1
+	ANSELBbits.ANSB12 = 1; //AN12
+	ANSELBbits.ANSB13 = 1; //AN13
+
+	//Setup ADC1 for Channel 0-3 sampling
+	AD1CON1bits.FORM = 0; //Data Output Format : Integer Output
+	AD1CON1bits.SSRC = 4; //Sample Clock Source : GP Timer5 starts conversion
+	AD1CON1bits.ASAM = 1; // Sampling begins immediately after conversion
+	AD1CON1bits.AD12B = 1; // 12-bit ADC operation
+	AD1CON1bits.SIMSAM = 0; // Samples multiple channels sequentially
+	AD1CON2bits.BUFM = 0;
+	AD1CON2bits.CSCNA = 1; // Scan CH0+ Input Selections during Sample A bit
+	AD1CON2bits.CHPS = 0; // Converts CH0
+	AD1CON3bits.ADRC = 0; // ADC clock is derived from systems clock
+
+	/*
+	 * ADCS is the main clock multiplier.  The result should be >= 1.6uS.
+	 * In a 40MHz processor the base period is 25nS.  64 * 25nS = 1.6uS.
+	 */
+	AD1CON3bits.ADCS = 112; // 112 * 14.3nS = 1.6uS -- Conversion Clock
+	AD1CON4bits.ADDMAEN = 1; // DMA Enable
+
+	//AD1CHS0: Analog-to-Digital Input Select Register
+	AD1CHS0bits.CH0SA = 1; // MUXA +ve input selection (AIN0) for CH0
+	AD1CHS0bits.CH0NA = 0; // MUXA -ve input selection (VREF-) for CH0
+	//AD1CHS123: Analog-to-Digital Input Select Register
+	AD1CHS123bits.CH123SA = 1; // MUXA +ve input selection (AIN0) for CH1
+	AD1CHS123bits.CH123NA = 0; // MUXA -ve input selection (VREF-) for CH1
+
+	//AD1CSSH/AD1CSSL: Analog-to-Digital Input Scan Selection Register
+	AD1CSSH = 0x0000;
+	AD1CSSLbits.CSS1 = 1;
+	AD1CSSLbits.CSS12 = 1;
+	AD1CSSLbits.CSS13 = 1;
+
+	AD1CON1bits.ADDMABM = 0; // DMA buffers are built in scatter/gather mode
+	AD1CON2bits.SMPI = 2; // 3 ADC buffers
+	AD1CON4bits.DMABL = 2; // Allocate 4 words of buffer to each analog input
+	IFS0bits.AD1IF = 0; // Clear Analog-to-Digital Interrupt Flag bit
+	IEC0bits.AD1IE = 0; // Do Not Enable Analog-to-Digital interrupt
+	AD1CON1bits.ADON = 1; // Turn on the ADC
 }
 
 void EventCheckInit(void *eventCallback)

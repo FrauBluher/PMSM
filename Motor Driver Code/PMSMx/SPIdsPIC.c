@@ -29,7 +29,7 @@
  * @brief 	This library provides implementation of SPI2 for the PMSM Board v1.6
  *
  * This file provides initialization/read/write implemenation of the SPI2 module
- * on the dsPIC33EP256MC506 and the PMSM board as of v1.6.
+ * on the dsPIC33EP256MC656 and the PMSM board as of v1.6.
  */
 
 
@@ -48,10 +48,10 @@ static uint8_t initGuard = 0;
 static uint16_t config1, config2, config3;
 
 /**
- * @brief Sets up SPI2 at a rate of 156,250Hz
+ * @brief Sets up SPI2 at a rate of 156,265Hz
  * @see spi.h for pound-define significance
  *
- * Note: Only SPI3 is remappable on the dsPIC33EPxxxMC506
+ * Note: Only SPI3 is remappable on the dsPIC33EPxxxMC656
  *
  * As of PMSM v1.7 (w/GM306 and SCK2 gw'd to EXT3):
  *      Chip Select = RPI121/RG9
@@ -72,7 +72,7 @@ uint8_t SPI1_Init(void)
 		SPI_MODE16_ON & SPI_SMP_ON &
 		SPI_CKE_OFF & SLAVE_ENABLE_OFF &
 		MASTER_ENABLE_ON & CLK_POL_ACTIVE_HIGH &
-		SEC_PRESCAL_3_1 & PRI_PRESCAL_4_1;
+		SEC_PRESCAL_7_1 & PRI_PRESCAL_4_1;
 
 	config2 = FRAME_ENABLE_OFF & FRAME_SYNC_OUTPUT & FIFO_BUFFER_DISABLE;
 
@@ -98,17 +98,18 @@ uint16_t SPI1_WriteToReg(uint16_t deviceRegister, uint16_t data)
 {
 	uint16_t temp;
 
+	for (temp = 0; temp < 65; temp++);
 	CS = 0;
 	temp = (deviceRegister << 11 | data);
 	SPI1BUF = temp;
 	//DMA2_SPI_Transfer(1, &temp);
-	for (temp = 0; temp < 30; temp++);
+	for (temp = 0; temp < 65; temp++);
 	CS = 1;
-	for (temp = 0; temp < 30; temp++);
+	for (temp = 0; temp < 65; temp++);
 	CS = 0;
 	SPI1BUF = 0x0000;
 	//DMA2_SPI_Transfer(1, &temp);
-	for (temp = 0; temp < 30; temp++);
+	for (temp = 0; temp < 65; temp++);
 	CS = 1;
 	return(SPI1BUF);
 }
@@ -122,17 +123,18 @@ uint16_t SPI1_ReadFromReg(uint16_t deviceRegister)
 {
 	uint16_t temp;
 
+	for (temp = 0; temp < 65; temp++);
 	CS = 0;
 	temp = (1 << 15 | deviceRegister << 11);
 	//DMA2_SPI_Transfer(1, &temp);
 	SPI1BUF = temp;
-	for (temp = 0; temp < 30; temp++);
+	for (temp = 0; temp < 65; temp++);
 	CS = 1;
-	for (temp = 0; temp < 30; temp++);
+	for (temp = 0; temp < 65; temp++);
 	CS = 0;
 	SPI1BUF = 0x0000;
 	//DMA2_SPI_Transfer(1, &temp);
-	for (temp = 0; temp < 30; temp++);
+	for (temp = 0; temp < 65; temp++);
 	CS = 1;
 	return(SPI1BUF);
 }

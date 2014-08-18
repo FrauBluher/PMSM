@@ -35,6 +35,8 @@ uint8_t canBuf[64];
 CircularBuffer spiBuffer;
 uint16_t spiBuf[64];
 
+ADCBuffer ADCBuff;
+
 extern BasicMotorControlInfo motorInfo;
 
 uint16_t events = 0;
@@ -46,7 +48,8 @@ enum {
 	EVENT_CAN_RX = 0x02,
 	EVENT_SPI_RX = 0x04,
 	EVENT_REPORT_FAULT = 0x08,
-	EVENT_UPDATE_SPEED = 0x10
+	EVENT_UPDATE_SPEED = 0x10,
+	EVENT_ADC_DATA = 0x20
 };
 
 void EventChecker(void);
@@ -55,7 +58,11 @@ int main(void)
 {
 	CB_Init(&uartBuffer, uartBuf, 32);
 	CB_Init(&spiBuffer, (uint8_t *) spiBuf, 128);
-	InitBoard(&uartBuffer, &spiBuffer, EventChecker);
+
+	for (torque = 0; torque < 65533; torque++) {
+		Nop();
+	}
+	InitBoard(&ADCBuff, &uartBuffer, &spiBuffer, EventChecker);
 #ifndef CHARACTERIZE
 	SpeedControlInit(3, 3, 0);
 #endif
@@ -74,7 +81,7 @@ int main(void)
 #endif
 			events &= ~EVENT_UPDATE_SPEED;
 		}
-		
+
 		if (events & EVENT_UART_DATA_READY) {
 			//Build and check sentence here! Woot woooooot.
 			events &= ~EVENT_UART_DATA_READY;
@@ -85,16 +92,39 @@ int main(void)
 		}
 
 		if (events & EVENT_SPI_RX) {
-			//			uint16_t message[32];
-			//			uint8_t out[56];
+			static uint16_t message[32];
+			uint16_t size;
+			uint8_t out[56];
+			message[0] = 0;
+			message[1] = 0;
+			message[2] = 0;
+			message[3] = 0;
 			//			CB_ReadMany(&spiBuffer, message, spiBuffer.dataSize);
-			//			sprintf((char *) out, "Speed: %i, 0x%X, 0x%X\r\n", motorInfo.hallCount, message[0], message[1]);
-			//			DMA0_UART2_Transfer(strlen((char *) out), out);
+			//			size = sprintf((char *) out, "0x%X, 0x%X, 0x%X, 0x%X\r\n", message[0], message[1], message[2], message[3]);
+			//			DMA0_UART2_Transfer(size, out);
 			events &= ~EVENT_SPI_RX;
 		}
 
 		if (events & EVENT_REPORT_FAULT) {
 			events &= ~EVENT_REPORT_FAULT;
+		}
+
+		if (events & EVENT_ADC_DATA) {
+			uint16_t message[32];
+			uint16_t size;
+			uint8_t out[56];
+
+			size = sprintf((char *) out, "%i, %i, %i\r\n"
+				"%i, %i, %i\r\n"
+				"%i, %i, %i\r\n"
+				"%i, %i, %i\r\n",
+				ADCBuff.Adc1Data[0], ADCBuff.Adc1Data[1], ADCBuff.Adc1Data[2],
+				ADCBuff.Adc1Data[3], ADCBuff.Adc1Data[4], ADCBuff.Adc1Data[5],
+				ADCBuff.Adc1Data[6], ADCBuff.Adc1Data[7], ADCBuff.Adc1Data[8],
+				ADCBuff.Adc1Data[9], ADCBuff.Adc1Data[10], ADCBuff.Adc1Data[11]
+				);
+			DMA0_UART2_Transfer(size, out);
+			events &= ~EVENT_ADC_DATA;
 		}
 	}
 
@@ -128,6 +158,11 @@ void EventChecker(void)
 		//that needs to be handled in the event handler which will process this
 		//event.
 		events |= EVENT_SPI_RX;
+	}
+
+	if (ADCBuff.newData) {
+		ADCBuff.newData = 0;
+		events |= EVENT_ADC_DATA;
 	}
 #endif
 	events |= EVENT_UPDATE_SPEED;

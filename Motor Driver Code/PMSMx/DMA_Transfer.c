@@ -12,6 +12,7 @@ CircularBuffer *can_CB_Point;
 uint16_t SPI1RxBuffA[16];
 __eds__ uint16_t BufferB __attribute__((eds, space(dma)));
 __eds__ uint16_t Ecan1Rx[12][8] __attribute__((eds, space(dma)));
+ADCBuffer *ADCBuffPoint;
 
 void DMA0_UART2_Transfer(uint16_t size, uint8_t *SendBuffer)
 {
@@ -124,6 +125,22 @@ void DMA5_CAN_Enable_RX(CircularBuffer *cB)
 	can_CB_Point = cB;
 }
 
+void DMA6_ADC_Enable(ADCBuffer *ADCBuff)
+{
+	ADCBuffPoint = ADCBuff;
+
+	DMA6CONbits.AMODE = 0; // Configure DMA for Register Indirect/Post Inc.
+	DMA6CONbits.MODE = 0; // Configure DMA for Continuous mode no pingpong
+	DMA6PAD = (volatile unsigned int) &ADC1BUF0; // Point DMA to ADC1BUF0
+	DMA6CNT = 11; // 12 DMA request (3 buffers, each with 4 words)
+	DMA6REQ = 13; // Select ADC1 as DMA request source
+	DMA6STAL = (volatile uint16_t) ADCBuff;
+	DMA6STAH = 0x0000;
+	IFS4bits.DMA6IF = 0; // Clear the DMA Interrupt Flag bit
+	IEC4bits.DMA6IE = 1; // Set the DMA Interrupt Enable bit
+	DMA6CONbits.CHEN = 1; // Enable DMA
+}
+
 void __attribute__((__interrupt__, no_auto_psv)) _DMA0Interrupt(void)
 {
 	IFS0bits.DMA0IF = 0; // Clear the DMA0 Interrupt Flag
@@ -166,4 +183,10 @@ void __attribute__((__interrupt__, no_auto_psv)) _DMA5Interrupt(void)
 	//Think about a global interrupt disable here as CB is non reentrant...
 	CB_WriteByte(can_CB_Point, C1RXD);
 	IFS3bits.DMA5IF = 0;
+}
+
+void __attribute__((__interrupt__, no_auto_psv)) _DMA6Interrupt(void)
+{
+	ADCBuffPoint->newData = 1;
+	IFS4bits.DMA6IF = 0; // Clear the DMA5 Interrupt Flag
 }
