@@ -15,6 +15,7 @@
       <itemPath>PID_Library.h</itemPath>
       <itemPath>PRBSCharacterization.h</itemPath>
       <itemPath>../../SystemID Matlab Support/PRBSData.h</itemPath>
+      <itemPath>LQG_NoiseCharacterization.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -35,6 +36,7 @@
       <itemPath>DMA_Transfer.c</itemPath>
       <itemPath>PID_Library.c</itemPath>
       <itemPath>PRBSCharacterization.c</itemPath>
+      <itemPath>LQG_NoiseCharacterization.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"

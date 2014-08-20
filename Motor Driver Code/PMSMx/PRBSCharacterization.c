@@ -78,12 +78,12 @@ void CharacterizeStep(void)
 		Write32bitQEI1IndexCounter(&w);
 
 		if (GetState(counter)) {
-			commandedTorque = 1166;
-			size = sprintf((char *) out, ".66,%i\r\n", indexCount);
+			commandedTorque = 873;
+			size = sprintf((char *) out, ".5,%i\r\n", indexCount);
 			DMA0_UART2_Transfer(size, out);
 		} else {
-			commandedTorque = 583;
-			size = sprintf((char *) out, ".33,%i\r\n", indexCount);
+			commandedTorque = 582;
+			size = sprintf((char *) out, ".334,%i\r\n", indexCount);
 			DMA0_UART2_Transfer(size, out);
 		}
 

@@ -47,12 +47,8 @@ enum {
     CCW
 };
 
-void SpeedControlInit(float p, float i, float d);
-
-void SpeedControlChangeTunings(float p, float i, float d);
-
-void SpeedControlStep(uint16_t speed, uint8_t direction, uint8_t update);
-
-void ForceDuty(uint16_t GH_A, uint16_t GL_A, uint16_t GH_B, uint16_t GL_B, uint16_t GH_C, uint16_t GL_C);
+//Add documentation stuff about speed being negative or positive for either
+//CCW or CW rotation.
+void SpeedControlStep(float speed);
 #endif	/* BASICMOTORCONTROL_H */
 

@@ -15,6 +15,7 @@
 
 //#define CHARACTERIZE
 #define QEI
+//#define LQG_NOISE
 
 #ifdef __33EP256MU806_H
 /**

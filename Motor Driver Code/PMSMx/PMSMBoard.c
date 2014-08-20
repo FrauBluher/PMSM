@@ -123,7 +123,7 @@ void MotorInit()
 {
 	if (1) { //!(initInfo.UARTInited & 0x01)) {!(initInfo.MotorInited & 0x02)) {
 		/* Set PWM Period on Primary Time Base */
-		PTPER = 1750 ;
+		PTPER = 1750;
 		/* Set Phase Shift */
 		PHASE1 = 0;
 		SPHASE1 = 0;
@@ -289,7 +289,7 @@ void TimersInit(void)
 #ifdef CHARACTERIZE
 		PR7 = 91; //Approximately 5kHz (4974 Hz)... 0x0112 For 1kHz  0x0037 for 5kHz  0x0089 for 2kHz
 #else
-		PR7 = 0x0112; //91 = 3kHz
+		PR7 = 91; //91 = 3kHz
 #endif
 		IPC12bits.T7IP = 0x01;
 		IFS3bits.T7IF = 0;

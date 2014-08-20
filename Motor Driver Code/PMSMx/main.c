@@ -27,6 +27,9 @@
 #else
 #include "PRBSCharacterization.h"
 #endif
+#ifdef LQG_NOISE
+#include "LQG_NoiseCharacterization.h"
+#endif
 
 CircularBuffer uartBuffer;
 uint8_t uartBuf[64];
@@ -63,9 +66,6 @@ int main(void)
 		Nop();
 	}
 	InitBoard(&ADCBuff, &uartBuffer, &spiBuffer, EventChecker);
-#ifndef CHARACTERIZE
-	SpeedControlInit(3, 3, 0);
-#endif
 
 	LED1 = 1;
 	LED2 = 1;
@@ -75,9 +75,12 @@ int main(void)
 	while (1) {
 		if (events & EVENT_UPDATE_SPEED) {
 #ifndef CHARACTERIZE
-			SpeedControlStep(9000, CW, 1);
+			SpeedControlStep(0);
 #else
 			CharacterizeStep();
+#endif
+#ifdef LQG_NOISE
+			NoiseInputStep();
 #endif
 			events &= ~EVENT_UPDATE_SPEED;
 		}
@@ -93,8 +96,8 @@ int main(void)
 
 		if (events & EVENT_SPI_RX) {
 			static uint16_t message[32];
-			uint16_t size;
-			uint8_t out[56];
+			//			uint16_t size;
+			//			uint8_t out[56];
 			message[0] = 0;
 			message[1] = 0;
 			message[2] = 0;
@@ -110,21 +113,20 @@ int main(void)
 		}
 
 		if (events & EVENT_ADC_DATA) {
-			uint16_t message[32];
-			uint16_t size;
-			uint8_t out[56];
-
-			size = sprintf((char *) out, "%i, %i, %i\r\n"
-				"%i, %i, %i\r\n"
-				"%i, %i, %i\r\n"
-				"%i, %i, %i\r\n",
-				ADCBuff.Adc1Data[0], ADCBuff.Adc1Data[1], ADCBuff.Adc1Data[2],
-				ADCBuff.Adc1Data[3], ADCBuff.Adc1Data[4], ADCBuff.Adc1Data[5],
-				ADCBuff.Adc1Data[6], ADCBuff.Adc1Data[7], ADCBuff.Adc1Data[8],
-				ADCBuff.Adc1Data[9], ADCBuff.Adc1Data[10], ADCBuff.Adc1Data[11]
-				);
-			DMA0_UART2_Transfer(size, out);
-			events &= ~EVENT_ADC_DATA;
+//			uint16_t size;
+//			uint8_t out[56];
+//
+//			size = sprintf((char *) out, "%i, %i, %i\r\n"
+//				"%i, %i, %i\r\n"
+//				"%i, %i, %i\r\n"
+//				"%i, %i, %i\r\n",
+//				ADCBuff.Adc1Data[0], ADCBuff.Adc1Data[1], ADCBuff.Adc1Data[2],
+//				ADCBuff.Adc1Data[3], ADCBuff.Adc1Data[4], ADCBuff.Adc1Data[5],
+//				ADCBuff.Adc1Data[6], ADCBuff.Adc1Data[7], ADCBuff.Adc1Data[8],
+//				ADCBuff.Adc1Data[9], ADCBuff.Adc1Data[10], ADCBuff.Adc1Data[11]
+//				);
+//			DMA0_UART2_Transfer(size, out);
+//			events &= ~EVENT_ADC_DATA;
 		}
 	}
 
