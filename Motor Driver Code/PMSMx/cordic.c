@@ -1717,7 +1717,7 @@ int i4_huge(void)
     Output, int I4_HUGE, a "huge" I4.
  */
 {
-	return 2147483647;
+	return 0;
 }
 
 /******************************************************************************/
@@ -2735,18 +2735,6 @@ void timestamp(void)
  */
 {
 #define TIME_SIZE 40
-
-	static char time_buffer[TIME_SIZE];
-	const struct tm *tm;
-	size_t len;
-	time_t now;
-
-	now = time(NULL);
-	tm = localtime(&now);
-
-	len = strftime(time_buffer, TIME_SIZE, "%d %B %Y %I:%M:%S %p", tm);
-
-	printf("%s\n", time_buffer);
 
 	return;
 #undef TIME_SIZE

@@ -60,7 +60,6 @@ void EventChecker(void);
 
 int main(void)
 {
-	static float runningTotal = 0;
 	CB_Init(&uartBuffer, uartBuf, 32);
 	CB_Init(&spiBuffer, (uint8_t *) spiBuf, 128);
 

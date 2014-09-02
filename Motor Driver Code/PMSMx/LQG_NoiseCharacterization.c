@@ -38,10 +38,9 @@
 #include <string.h>
 #include "LQG_NoiseCharacterization.h"
 #include "PMSMBoard.h"
-#include "PRBSData.h"
+//#include "PRBSData.h"
 #include "DMA_Transfer.h"
 #include "PMSM.h"
-#include <dsp.h>
 #include <qei32.h>
 #include <xc.h>
 

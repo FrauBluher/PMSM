@@ -10,10 +10,12 @@
  */
 
 
-#include <stdint.h>
-#include <Generic.h>
+//TODO: PUT THIS BACK INTO PROGRAM MEMORY
+//This will require two position reads as each single precision floating point
+//value takes up 32 bits.
+
 #define TRIG_SIZE 2048
-float TRIG_DATA[TRIG_SIZE] __attribute__((space(prog))) = {
+float TRIG_DATA[TRIG_SIZE] = {
     0.000000, 0.003069, 0.006139, 0.009208, 0.012278, 0.015347, 0.018416, 0.021485, 0.024553,
     0.027622, 0.030690, 0.033758, 0.036825, 0.039892, 0.042959, 0.046026, 0.049092, 0.052157,
     0.055222, 0.058287, 0.061351, 0.064414, 0.067477, 0.070539, 0.073600, 0.076661, 0.079721,
@@ -243,48 +245,3 @@ float TRIG_DATA[TRIG_SIZE] __attribute__((space(prog))) = {
     -0.039892, -0.036825, -0.033758, -0.030690, -0.027622, -0.024553, -0.021485, -0.018416, -0.015347,
     -0.012278, -0.009208, -0.006139, -0.003069, -0.000000
 };
-
-/**                                                               
- *                                                                
- * Put some documentation here eventually.                        
- *                                                                
- */
-float sine_lookup(uint16_t position) {
-    WORD_VAL pm_read;
-    uint16_t tableOffset;
-    uint8_t high = position % 2;
-
-    TBLPAG = __builtin_tblpage(&TRIG_DATA[0]);
-    tableOffset = __builtin_tbloffset(&TRIG_DATA[0]);
-    pm_read.Val = __builtin_tblrdl(position);
-
-    if (high) {
-        return (pm_read.byte.HB);
-    } else {
-        return (pm_read.byte.LB);
-    }
-}
-
-/**                                                               
- *                                                                
- * Put some documentation here eventually.                        
- *                                                                
- */
-float cosine_lookup(uint16_t position) {
-    position = (position + 512) % 2048;
-
-    WORD_VAL pm_read;
-    uint16_t tableOffset;
-    uint8_t high = position % 2;
-
-    TBLPAG = __builtin_tblpage(&TRIG_DATA[0]);
-    tableOffset = __builtin_tbloffset(&TRIG_DATA[0]);
-    pm_read.Val = __builtin_tblrdl(position);
-
-    if (high) {
-        return (pm_read.byte.HB);
-    } else {
-        return (pm_read.byte.LB);
-    }
-}
-

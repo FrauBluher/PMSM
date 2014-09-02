@@ -74,7 +74,7 @@ typedef struct {
 	float Vb;
 } TimesOut;
 
-static uint16_t theta;
+static int16_t theta;
 static float Iq;
 static float Id;
 
@@ -85,7 +85,7 @@ static int32_t rotorOffset;
 
 void SpaceVectorModulation(TimesOut sv);
 InvClarkOut InverseClarke(InvParkOut pP);
-InvParkOut InversePark(float Vd, float Vq, uint16_t position);
+InvParkOut InversePark(float Vd, float Vq, int16_t position);
 TimesOut SVPWMTimeCalc(InvParkOut pP);
 
 //Matrix, Row, Column
@@ -131,9 +131,10 @@ uint8_t PMSM_Init(MotorInfo *information)
 	qeiCounter w;
 	w.l = 0;
 
+	theta = 0;
 	for (i = 0; i < 3096; i++) {
 		SpaceVectorModulation(SVPWMTimeCalc(InversePark(0.2, 0, theta)));
-		for (j = 0; j < 25; j++) {
+		for (j = 0; j < 150; j++) {
 			Nop();
 		}
 		theta -= 1;
@@ -159,7 +160,7 @@ uint8_t PMSM_Init(MotorInfo *information)
 
 	for (i = 0; i < 3096; i++) {
 		SpaceVectorModulation(SVPWMTimeCalc(InversePark(0.2, 0, theta)));
-		for (j = 0; j < 25; j++) {
+		for (j = 0; j < 150; j++) {
 			Nop();
 		}
 		theta += 1;
@@ -219,7 +220,6 @@ void SetAirGapFluxLinkage(float id)
  */
 void PMSM_Update(void)
 {
-	static float speed;
 	int32_t indexCount = 0;
 
 	indexCount = Read32bitQEI1PositionCounter();
@@ -234,7 +234,7 @@ void PMSM_Update(void)
 	//	size = sprintf((char *) out, "%li, %i\r\n", indexCount, (int16_t) (theta * 100));
 	//	DMA0_UART2_Transfer(size, out);
 
-	SpaceVectorModulation(SVPWMTimeCalc(InversePark(0.3, 0, theta)));
+	SpaceVectorModulation(SVPWMTimeCalc(InversePark(0.8, 0, theta)));
 }
 
 /****************************   Private Stuff   *******************************/
@@ -277,17 +277,31 @@ InvClarkOut InverseClarke(InvParkOut pP)
 	return(returnVal);
 }
 
-InvParkOut InversePark(float Vq, float Vd, uint16_t position)
+InvParkOut InversePark(float Vq, float Vd, int16_t position1)
 {
+	static int position;
+	position = position1;
+	static int16_t cos_position;
 	InvParkOut returnVal;
 	static uint16_t size;
 	static uint8_t out[56];
 
-	float cosine = cosine_lookup(position);
-	float sine = sine_lookup(position);
+	float cosine;
+	float sine;
 
-	size = sprintf((char *) out, "%i, %f, %f\r\n",position,cosine, sine);
-	putsUART2((const char *) out);
+	if (position1 <= 0) {
+		position = 2048 + (position1 % 2048);
+		cos_position = (2048 + ((position1 + 512) % 2048)) % 2048; //TODO: SPEED THIS UP!!!!!!
+	} else {
+		position = position1 % 2048;
+		cos_position = (position1 + 512) % 2048;
+	}
+
+	cosine = TRIG_DATA[cos_position - 1];
+	sine = TRIG_DATA[position - 1];
+
+	//float cosine = 0;
+	//float sine = 0;
 
 	returnVal.Va = Vd * cosine - Vq * sine;
 	returnVal.Vb = Vd * sine + Vq * cosine;

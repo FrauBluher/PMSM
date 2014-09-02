@@ -84,7 +84,7 @@ void InitBoard(ADCBuffer *ADBuff, CircularBuffer *cB, CircularBuffer *spi_cB, vo
 		PMSM_Init(&motorInformation);
 		EventCheckInit(eventCallback);
 		TimersInit();
-		//putsUART2((unsigned int *) "Initialization Complete.\r\n");
+		putsUART2((unsigned int *) "Initialization Complete.\r\n");
 
 
 		//		if (!(initInfo.ClockInited & initInfo.EventCheckInited
@@ -310,7 +310,7 @@ void TimersInit(void)
 #ifdef CHARACTERIZE
 		PR7 = 91; //Approximately 5kHz (4974 Hz)... 0x0112 For 1kHz  0x0037 for 5kHz  0x0089 for 2kHz
 #else
-		PR7 = 91; //91 = 3kHz
+		PR7 = 30; //91 = 3kHz
 #endif
 		IPC12bits.T7IP = 0x01;
 		IFS3bits.T7IF = 0;
