@@ -7,7 +7,7 @@
 import serial
 import sys
 
-ser = serial.Serial("/dev/tty4", 115200, timeout=0, writeTimeout=0)
+ser = serial.Serial("/dev/ttyUSB0", 115200, timeout=0, writeTimeout=0)
 
 try:
     from Tkinter import *

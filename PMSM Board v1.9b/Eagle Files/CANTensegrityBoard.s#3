@@ -8107,8 +8107,6 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <part name="R31" library="ASL" deviceset="RESISTOR" device="0805-RES" value="15k"/>
 <part name="C29" library="ASL" deviceset="CAP" device="0805" value="10n"/>
 <part name="C30" library="ASL" deviceset="CAP" device="0805" value=".1 uF"/>
-<part name="C1" library="SensorCape" deviceset="CAP" device="0805" value="1uF"/>
-<part name="C2" library="SensorCape" deviceset="CAP" device="0805" value="10uF"/>
 <part name="U$1" library="OpenPMSM" deviceset="LP2989-5V0" device=""/>
 <part name="U$22" library="OpenPMSM" deviceset="LP2989-3V3" device=""/>
 <part name="C31" library="SensorCape" deviceset="CAP" device="0805" value="2.2uF"/>
@@ -9887,8 +9885,6 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <attribute name="VALUE" x="141.859" y="171.704" size="1.778" layer="96" rot="R90"/>
 </instance>
 <instance part="J1" gate="G$1" x="40.64" y="182.88"/>
-<instance part="C1" gate="G$1" x="215.9" y="231.14"/>
-<instance part="C2" gate="G$1" x="226.06" y="231.14"/>
 <instance part="U$1" gate="G$1" x="355.6" y="185.42" rot="MR0"/>
 <instance part="U$22" gate="G$1" x="355.6" y="147.32" rot="MR0"/>
 <instance part="C31" gate="G$1" x="375.92" y="182.88" rot="R180"/>

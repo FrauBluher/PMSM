@@ -8046,8 +8046,8 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <part name="U$20" library="OpenPMSM" deviceset="MICROCLASP5" device=""/>
 <part name="U6" library="OpenPMSM" deviceset="DSPIC33EP256MU80" device=""/>
 <part name="R12" library="ASL" deviceset="RESISTOR" device="0805-RES" value="10k"/>
-<part name="R14" library="ASL" deviceset="RESISTOR" device="0805-RES"/>
-<part name="R15" library="ASL" deviceset="RESISTOR" device="0805-RES"/>
+<part name="R14" library="ASL" deviceset="RESISTOR" device="0805-RES" value="1k"/>
+<part name="R15" library="ASL" deviceset="RESISTOR" device="0805-RES" value="1k"/>
 <part name="LED5" library="ASL" deviceset="LED" device="0805"/>
 <part name="LED6" library="ASL" deviceset="LED" device="0805"/>
 <part name="JP1" library="ASL" deviceset="M06" device="DUAL_ROW"/>

@@ -55,13 +55,14 @@ void InitBoard(ADCBuffer *ADBuff, CircularBuffer *cB, CircularBuffer *spi_cB, vo
 
 		ClockInit();
 		UART2Init();
+
 		PinInit();
 		MotorInit();
 
 		for (i = 0; i < 750000; i++) {
 			Nop(); //Let the DRV catch it's breath...
 		}
-		
+
 		SPI1_Init();
 		{
 			DMA2REQbits.FORCE = 1;
@@ -69,23 +70,21 @@ void InitBoard(ADCBuffer *ADBuff, CircularBuffer *cB, CircularBuffer *spi_cB, vo
 			CS = 1;
 		}
 
-		PMSM_Init(&motorInformation);
 		DMA1_UART2_Enable_RX(cB);
 		DMA3_SPI_Enable_RX(spi_cB);
 		DMA6_ADC_Enable(ADBuff);
 		ADCInit();
 		DRV8301_Init(&motorDriverInfo);
-
-
+#ifndef SINE
 		CNInit();
+#endif
 #ifdef QEI
 		QEIInit();
 #endif
-
+		PMSM_Init(&motorInformation);
 		EventCheckInit(eventCallback);
 		TimersInit();
-
-		putsUART2((unsigned int *) "Initialization Complete.\r\n");
+		//putsUART2((unsigned int *) "Initialization Complete.\r\n");
 
 
 		//		if (!(initInfo.ClockInited & initInfo.EventCheckInited
@@ -105,7 +104,7 @@ void UART2Init(void)
 		U2MODEbits.PDSEL = 0; // No parity, 8-data bits
 		U2MODEbits.ABAUD = 0; // Auto-baud disabled
 		U2MODEbits.BRGH = 1; // High speed UART mode...
-		U2BRG = 18; //37 for 115200 on BRGH 0, 460800 on BRGH 1, 921600 = 18
+		U2BRG = 37; //37 for 115200 on BRGH 0, 460800 on BRGH 1, 921600 = 18
 		//BRGH = 0, BRG = 18 for 230400
 		U2STAbits.UTXISEL0 = 0; // int on last character shifted out tx register
 		U2STAbits.UTXISEL1 = 0; // int on last character shifted out tx register
@@ -121,7 +120,33 @@ void UART2Init(void)
 
 void MotorInit()
 {
+
 	if (1) { //!(initInfo.UARTInited & 0x01)) {!(initInfo.MotorInited & 0x02)) {
+#ifdef SINE
+		/* Set PWM Periods on PHASEx Registers */
+		PHASE1 = 400;
+		PHASE2 = 400;
+		PHASE3 = 400;
+		/* Set Duty Cycles */
+		PDC1 = 0;
+		PDC2 = 0;
+		PDC3 = 0;
+		/* Set Dead Time Values */
+		/* DTRx Registers are ignored in this mode */
+		DTR1 = DTR2 = DTR3 = 0;
+		ALTDTR1 = ALTDTR2 = ALTDTR3 = 30;
+		/* Set PWM Mode to Complementary */
+		IOCON1 = IOCON2 = IOCON3 = 0xC000;
+		/* Set Independent Time Bases, Center-Aligned mode and
+		Independent Duty Cycles */
+		PWMCON1 = PWMCON2 = PWMCON3 = 0x0204;
+		/* Configure Faults */
+		FCLCON1 = FCLCON2 = FCLCON3 = 0x0003;
+		/* 1:1 Prescaler */
+		PTCON2 = 0x0000;
+		/* Enable PWM Module */
+		PTCON = 0x8000;
+#else
 		/* Set PWM Period on Primary Time Base */
 		PTPER = 1750;
 		/* Set Phase Shift */
@@ -154,6 +179,7 @@ void MotorInit()
 		/* Enable PWM Module */
 		PTCON = 0x8000;
 
+#endif
 		EN_GATE = 1;
 		DC_CAL = 0;
 
@@ -199,7 +225,7 @@ void PinInit(void)
 		TRIS_HALL1 = 1;
 		TRIS_HALL2 = 1;
 		TRIS_HALL3 = 1;
-		
+
 		//Ensuring that SPI remapped pins' tristates are set correctly.
 		TRISEbits.TRISE7 = 1; //MISO
 		TRISGbits.TRISG6 = 0; //MOSI
@@ -222,11 +248,6 @@ void PinInit(void)
 
 		TRISDbits.TRISD4 = 0;
 
-#ifndef QEI
-
-#else
-#endif
-
 		//Unlock PPS Registers
 		__builtin_write_OSCCONL(OSCCON & ~(1 << 6));
 
@@ -236,9 +257,9 @@ void PinInit(void)
 		OUT_PIN_PPS_RP120 = OUT_FN_PPS_SCK1; //SCLK
 		IN_FN_PPS_SDI1 = IN_PIN_PPS_RP87; //SDI
 
-		IN_FN_PPS_QEA1 = IN_PIN_PPS_RP71; //QEI A
+		IN_FN_PPS_QEI1 = IN_PIN_PPS_RP71; //QEI Index
 		IN_FN_PPS_QEB1 = IN_PIN_PPS_RP70; //QEI B
-		IN_FN_PPS_QEI1 = IN_PIN_PPS_RP69; //QEI Index
+		IN_FN_PPS_QEA1 = IN_PIN_PPS_RP69; //QEI A
 
 		//Lock PPS Registers
 		__builtin_write_OSCCONL(OSCCON | (1 << 6));
@@ -315,6 +336,35 @@ void CNInit(void)
 
 void QEIInit(void)
 {
+#ifdef SINE
+	/* Configure QEICON, QEIIOC and QEISTAT register */
+	Open32bitQEI1(QEI_COUNTER_QEI_MODE &
+		QEI_GATE_DISABLE &
+		QEI_COUNT_POSITIVE &
+		QEI_INPUT_PRESCALE_1 &
+		QEI_INDEX_MATCH_NO_EFFECT &
+		QEI_POS_COUNT_INIT_EVERY_INDEX &
+		QEI_IDLE_CON &
+		QEI_COUNTER_ENABLE,
+
+		QEI_QEA_POL_NON_INVERTED &
+		QEI_QEB_POL_NON_INVERTED &
+		QEI_INDX_POL_NON_INVERTED &
+		QEI_HOM_POL_NON_INVERTED &
+		QEI_QEA_QEB_NOT_SWAPPED &
+		QEI_COMPARE_HIGH_OUTPUT_DISABLE &
+		QEI_DIF_FLTR_PRESCALE_8 &
+		QEI_DIG_FLTR_ENABLE &
+		QEI_POS_COUNT_TRIG_DISABLE,
+
+		QEI_INDEX_INTERRUPT_ENABLE &
+		QEI_HOME_INTERRUPT_DISABLE &
+		QEI_VELO_OVERFLOW_INTERRUPT_DISABLE &
+		QEI_POS_INIT_INTERRUPT_ENABLE &
+		QEI_POS_OVERFLOW_INTERRUPT_DISABLE &
+		QEI_POS_LESS_EQU_INTERRUPT_DISABLE &
+		QEI_POS_GREAT_EQU_INTERRUPT_DISABLE);
+#else
 	/* Configure QEICON, QEIIOC and QEISTAT register */
 	Open32bitQEI1(QEI_COUNTER_QEI_MODE &
 		QEI_GATE_DISABLE &
@@ -342,6 +392,7 @@ void QEIInit(void)
 		QEI_POS_OVERFLOW_INTERRUPT_ENABLE &
 		QEI_POS_LESS_EQU_INTERRUPT_DISABLE &
 		QEI_POS_GREAT_EQU_INTERRUPT_DISABLE);
+#endif
 
 	ConfigInt32bitQEI1(QEI_INT_PRI_4 & QEI_INT_DISABLE);
 	/*

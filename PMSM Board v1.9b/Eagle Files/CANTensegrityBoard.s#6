@@ -8118,6 +8118,7 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <part name="U$22" library="OpenPMSM" deviceset="LP2989-3V3" device=""/>
 <part name="C31" library="SensorCape" deviceset="CAP" device="0805" value="2.2uF"/>
 <part name="C32" library="SensorCape" deviceset="CAP" device="0805" value=".01uF Polypropelene/NPO"/>
+<part name="C33" library="SensorCape" deviceset="CAP" device="0805" value="10uF"/>
 </parts>
 <sheets>
 <sheet>
@@ -9899,6 +9900,7 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <instance part="U$22" gate="G$1" x="355.6" y="162.56" rot="MR0"/>
 <instance part="C31" gate="G$1" x="375.92" y="182.88" rot="R180"/>
 <instance part="C32" gate="G$1" x="355.6" y="193.04"/>
+<instance part="C33" gate="G$1" x="269.24" y="180.34"/>
 </instances>
 <busses>
 </busses>
@@ -10058,6 +10060,11 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <wire x1="375.92" y1="200.66" x2="375.92" y2="185.42" width="0.1524" layer="91"/>
 <junction x="375.92" y="185.42"/>
 </segment>
+<segment>
+<pinref part="C33" gate="G$1" pin="2"/>
+<wire x1="269.24" y1="177.8" x2="269.24" y2="175.26" width="0.1524" layer="91"/>
+<label x="266.7" y="172.72" size="1.778" layer="95"/>
+</segment>
 </net>
 <net name="VCC5V5" class="0">
 <segment>
@@ -10089,6 +10096,11 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <wire x1="25.3" y1="233.8" x2="25.3" y2="229.8" width="0.1524" layer="91"/>
 <label x="27.3" y="224.26" size="1.778" layer="95" rot="R90"/>
 </segment>
+<segment>
+<pinref part="U$1" gate="G$1" pin="~SD"/>
+<wire x1="302.26" y1="177.8" x2="289.56" y2="177.8" width="0.1524" layer="91"/>
+<label x="289.56" y="177.8" size="1.778" layer="95"/>
+</segment>
 </net>
 <net name="VCC5V0" class="0">
 <segment>
@@ -10110,8 +10122,16 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 </segment>
 <segment>
 <pinref part="U$1" gate="G$1" pin="VOUT"/>
-<wire x1="302.26" y1="185.42" x2="259.08" y2="185.42" width="0.1524" layer="91"/>
+<wire x1="302.26" y1="185.42" x2="299.72" y2="185.42" width="0.1524" layer="91"/>
 <label x="259.08" y="185.42" size="1.778" layer="95"/>
+<pinref part="U$1" gate="G$1" pin="SENSE"/>
+<wire x1="299.72" y1="185.42" x2="269.24" y2="185.42" width="0.1524" layer="91"/>
+<wire x1="269.24" y1="185.42" x2="259.08" y2="185.42" width="0.1524" layer="91"/>
+<wire x1="302.26" y1="182.88" x2="299.72" y2="182.88" width="0.1524" layer="91"/>
+<wire x1="299.72" y1="182.88" x2="299.72" y2="185.42" width="0.1524" layer="91"/>
+<junction x="299.72" y="185.42"/>
+<pinref part="C33" gate="G$1" pin="1"/>
+<junction x="269.24" y="185.42"/>
 </segment>
 </net>
 <net name="VCC3V3" class="3">

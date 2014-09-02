@@ -1,0 +1,33 @@
+function [ sector ] = findSector(Va Vb)
+%UNTITLED2 Returns what SVaM sector you're in.
+
+if Vb > 0
+		if v.Va <= 0
+			if ((v.Vb - SQRT_3 * v.Va) <= 0) 
+				sector = 1;
+            else 
+				sector = 2;
+            end
+        else
+			if ((v.Vb + SQRT_3 * v.Va) <= 0) 
+				sector = 3;
+            else
+				sector = 2;
+            end
+        end
+else
+		if (v.Va >= 0) 
+			if ((v.Vb + SQRT_3 * v.Va) <= 0) 
+				sector = 5;
+            else
+				sector = 6;
+             end
+        else
+			if ((v.Vb - SQRT_3 * v.Va) <= 0) 
+				sector = 5;
+            else
+				sector = 4;
+            end            
+        end
+end
+

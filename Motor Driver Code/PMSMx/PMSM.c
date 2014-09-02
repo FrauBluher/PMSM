@@ -1,18 +1,18 @@
 /*
  * The MIT License (MIT)
- * 
+ *
  * Copyright (c) 2013 Pavlo Milo Manovi
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -35,50 +35,180 @@
 
 
 #include <xc.h>
+#include <math.h>
 #include <stdlib.h>
 #include <stdint.h>
+#include <stdio.h>
+#include <string.h>
 #include "PMSM.h"
+#include "PMSMBoard.h"
+#include "DMA_Transfer.h"
+#include "TrigData.h"
+#include "cordic.h"
+#include <qei32.h>
+#include <uart.h>
+
 #warning The motor driver code is in alpha.
 
+#define SQRT_3 1.732050807568877
+#define SQRT_3_2 0.86602540378
+#define PWM 4000 //This should be centralized somewhere...
 
-//MotorInfo *passedLocation;
+typedef struct {
+	float Vr1;
+	float Vr2;
+	float Vr3;
+} InvClarkOut;
+
+typedef struct {
+	float Va;
+	float Vb;
+} InvParkOut;
+
+typedef struct {
+	uint8_t sector;
+	uint16_t T0;
+	uint16_t Ta;
+	uint16_t Tb;
+	float Va;
+	float Vb;
+} TimesOut;
+
+static uint16_t theta;
+static float Iq;
+static float Id;
+
+uint8_t flag = 0;
+static int32_t rotorOffset2;
+static int32_t rotorOffset;
+
+
+void SpaceVectorModulation(TimesOut sv);
+InvClarkOut InverseClarke(InvParkOut pP);
+InvParkOut InversePark(float Vd, float Vq, uint16_t position);
+TimesOut SVPWMTimeCalc(InvParkOut pP);
+
+//Matrix, Row, Column
+//static float SVPWM_Rotation[6][2][2] = {
+//	{ //Sector 1
+//		{0.866, -0.5},
+//		{0, 1}
+//	},
+//	{ //Sector 2
+//		{0.866, .5},
+//		{-.866, .5}
+//	},
+//	{ //Sector 3
+//		{0, 1},
+//		{-.866, -.5}
+//	},
+//	{ //Sector 4
+//		{-.866, .5},
+//		{0, -1}
+//	},
+//	{ //Sector 5
+//		{-.866, -0.5},
+//		{0.866, -0.5}
+//	},
+//	{ //Sector 6
+//		{0, -1},
+//		{0.866, .5}
+//	}
+//};
 
 /**
- * @brief PMSM initialization call. Sets up hardware and timers.
+ * @brief PMSM initialization call. Aligns rotor and sets QEI offset.
  * @param *information a pointer to the MotorInfo struct that will be updated.
  * @return Returns 1 if successful, returns 0 otherwise.
  */
-uint8_t PMSM_Init(MotorInfo *information) {
-        if (information != NULL) {
+uint8_t PMSM_Init(MotorInfo *information)
+{
+	static uint16_t size;
+	static uint8_t out[56];
 
-            return(1);
-        } else {
-            return(0);
-        }
+	uint16_t i;
+	uint16_t j;
+	qeiCounter w;
+	w.l = 0;
+
+	for (i = 0; i < 3096; i++) {
+		SpaceVectorModulation(SVPWMTimeCalc(InversePark(0.2, 0, theta)));
+		for (j = 0; j < 25; j++) {
+			Nop();
+		}
+		theta -= 1;
+	}
+
+	SpaceVectorModulation(SVPWMTimeCalc(InversePark(0.4, 0, 0)));
+	for (i = 0; i < 20000; i++) {
+		Nop();
+	}
+
+	rotorOffset = Read32bitQEI1PositionCounter();
+
+	if (rotorOffset < 0) {
+		rotorOffset = 2048 + rotorOffset;
+	}
+
+
+	/**********************************************************************/
+	/**********************************************************************/
+	/**********************************************************************/
+
+	theta = 0;
+
+	for (i = 0; i < 3096; i++) {
+		SpaceVectorModulation(SVPWMTimeCalc(InversePark(0.2, 0, theta)));
+		for (j = 0; j < 25; j++) {
+			Nop();
+		}
+		theta += 1;
+	}
+
+	SpaceVectorModulation(SVPWMTimeCalc(InversePark(0.4, 0, 0)));
+	for (i = 0; i < 20000; i++) {
+		Nop();
+	}
+
+	rotorOffset2 = Read32bitQEI1PositionCounter();
+
+	if (rotorOffset2 < 0) {
+		rotorOffset2 = 2048 + rotorOffset2;
+	}
+
+	rotorOffset = (rotorOffset + rotorOffset2) / 2;
+
+	size = sprintf((char *) out, "Rotor Offset: %li\r\n", rotorOffset);
+	putsUART2((const char *) out);
+
+	return(0);
 }
 
 /**
  * @brief Sets the commanded position of the motor.
  * @param pos The position of the rotor in radians from 0 - 2pi / n-poles.
  */
-void SetPosition(float pos) {
-
+void SetPosition(float pos)
+{
+	theta = pos;
 }
 
 /**
  * @brief Sets the commanded torque of the motor.
  * @param power Percentage of torque requested from 0 - 100%.
  */
-void SetTorque(uint8_t power) {
-
+void SetTorque(uint8_t power)
+{
+	Iq = power;
 }
 
 /**
  * @brief Sets the air gap flux linkage value.
  * @param Id Air gap flux linkage timing advance.  ~0 to -2.5.
  */
-void SetAirGapFluxLinkage(float Id) {
-
+void SetAirGapFluxLinkage(float id)
+{
+	Id = id;
 }
 
 /**
@@ -87,5 +217,98 @@ void SetAirGapFluxLinkage(float Id) {
  * This should be called after one is done updating position, field weakening, and torque.
  * Call only once after all three are updated, not after setting each individual parameter.
  */
-void PMSM_Update(void) {
+void PMSM_Update(void)
+{
+	static float speed;
+	int32_t indexCount = 0;
+
+	indexCount = Read32bitQEI1PositionCounter();
+
+	indexCount += 512 - rotorOffset; //Maybe phase offset..
+
+	indexCount = (-indexCount + 2048) % 2048;
+
+	theta = indexCount;
+
+
+	//	size = sprintf((char *) out, "%li, %i\r\n", indexCount, (int16_t) (theta * 100));
+	//	DMA0_UART2_Transfer(size, out);
+
+	SpaceVectorModulation(SVPWMTimeCalc(InversePark(0.3, 0, theta)));
+}
+
+/****************************   Private Stuff   *******************************/
+
+void SpaceVectorModulation(TimesOut sv)
+{
+	switch (sv.sector) {
+	case 1:
+		GH_A_DC = (uint16_t) PHASE1 * (.5 - .375 * sv.Vb - .649519 * sv.Va);
+		GH_B_DC = (uint16_t) PHASE1 * (.5 + .375 * sv.Vb - .216506 * sv.Va);
+		GH_C_DC = (uint16_t) PHASE1 * (.5 - .375 * sv.Vb + .216506 * sv.Va);
+		break;
+	case 2:
+		GH_A_DC = (uint16_t) PHASE1 * (.5 - .433013 * sv.Va);
+		GH_B_DC = (uint16_t) PHASE1 * (.5 + .75 * sv.Vb);
+		GH_C_DC = (uint16_t) PHASE1 * (.5 + .433013 * sv.Va);
+		break;
+	case 3:
+		GH_A_DC = (uint16_t) PHASE1 * (.5 - 0.375 * sv.Vb + .216506 * sv.Va);
+		GH_B_DC = (uint16_t) PHASE1 * (.5 + 0.375 * sv.Vb + .216506 * sv.Va);
+		GH_C_DC = (uint16_t) PHASE1 * (.5 - 0.375 * sv.Vb + .649519 * sv.Va);
+		break;
+	default:
+		break;
+	}
+
+
+	//	size = sprintf((char *) out, "%i, %i, %i, %u, %i, %i\r\n",
+	//		GH_A_DC, GH_B_DC, GH_C_DC, sv.sector, (int16_t) (sv.Va * 1000), (int16_t) (sv.Vb * 1000)
+	//		);
+	//	DMA0_UART2_Transfer(size, out);
+}
+
+InvClarkOut InverseClarke(InvParkOut pP)
+{
+	InvClarkOut returnVal;
+	returnVal.Vr1 = pP.Vb;
+	returnVal.Vr2 = -.5 * pP.Vb + SQRT_3_2 * pP.Va;
+	returnVal.Vr3 = -.5 * pP.Vb - SQRT_3_2 * pP.Va;
+	return(returnVal);
+}
+
+InvParkOut InversePark(float Vq, float Vd, uint16_t position)
+{
+	InvParkOut returnVal;
+	static uint16_t size;
+	static uint8_t out[56];
+
+	float cosine = cosine_lookup(position);
+	float sine = sine_lookup(position);
+
+	size = sprintf((char *) out, "%i, %f, %f\r\n",position,cosine, sine);
+	putsUART2((const char *) out);
+
+	returnVal.Va = Vd * cosine - Vq * sine;
+	returnVal.Vb = Vd * sine + Vq * cosine;
+	return(returnVal);
+}
+
+TimesOut SVPWMTimeCalc(InvParkOut pP)
+{
+	TimesOut t;
+	t.sector = ((uint8_t) ((.0029296875 * theta) + 6)) % 3 + 1;
+
+	t.Va = pP.Va;
+	t.Vb = pP.Vb;
+
+	return(t);
+}
+
+void __attribute__((__interrupt__, no_auto_psv)) _QEI1Interrupt(void)
+{
+	int i;
+	flag = 1;
+
+	IFS3bits.QEI1IF = 0; /* Clear QEI interrupt flag */
 }

@@ -203,6 +203,8 @@ tapr.org/ohl.html</text>
 <text x="19.45" y="14.95" size="0.8128" layer="25">SCLK</text>
 <text x="33" y="21.1" size="0.8128" layer="25" rot="R180">FAULT</text>
 <text x="33.1" y="22.85" size="0.8128" layer="25" rot="R180">OCTW</text>
+<text x="43.3" y="18.55" size="1.6764" layer="21" font="vector" ratio="17" rot="R25">PMSMx</text>
+<text x="45.95" y="18.55" size="1.016" layer="21" font="vector" ratio="17">v1.9b</text>
 </plain>
 <libraries>
 <library name="ASL">

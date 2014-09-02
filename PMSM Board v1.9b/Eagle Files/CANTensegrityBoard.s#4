@@ -8060,7 +8060,7 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <part name="C43" library="SensorCape" deviceset="CAP" device="1210" value="2.2uF 100V"/>
 <part name="C45" library="SensorCape" deviceset="CAP" device="1210" value="22uF"/>
 <part name="C47" library="SensorCape" deviceset="CAP" device="0805" value="10nF"/>
-<part name="R24" library="ASL" deviceset="RESISTOR" device="0805-RES" value="48.7k"/>
+<part name="R24" library="ASL" deviceset="RESISTOR" device="0805-RES" value="58.7k"/>
 <part name="R25" library="ASL" deviceset="RESISTOR" device="0805-RES" value="1100k"/>
 <part name="R26" library="ASL" deviceset="RESISTOR" device="0805-RES" value="174k"/>
 <part name="R27" library="ASL" deviceset="RESISTOR" device="0805-RES" value="40.2k"/>

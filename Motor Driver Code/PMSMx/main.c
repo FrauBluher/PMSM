@@ -21,9 +21,12 @@
 #include "DMA_Transfer.h"
 #include "PMSM.h"
 #include <dsp.h>
+#include <uart.h>
 
 #ifndef CHARACTERIZE
+#ifndef LQG_NOISE
 #include "BasicMotorControl.h"
+#endif
 #else
 #include "PRBSCharacterization.h"
 #endif
@@ -39,8 +42,6 @@ CircularBuffer spiBuffer;
 uint16_t spiBuf[64];
 
 ADCBuffer ADCBuff;
-
-extern BasicMotorControlInfo motorInfo;
 
 uint16_t events = 0;
 uint16_t faultPrescalar = 0;
@@ -59,6 +60,7 @@ void EventChecker(void);
 
 int main(void)
 {
+	static float runningTotal = 0;
 	CB_Init(&uartBuffer, uartBuf, 32);
 	CB_Init(&spiBuffer, (uint8_t *) spiBuf, 128);
 
@@ -75,12 +77,22 @@ int main(void)
 	while (1) {
 		if (events & EVENT_UPDATE_SPEED) {
 #ifndef CHARACTERIZE
-			SpeedControlStep(0);
+#ifndef LQG_NOISE
+#ifndef SINE
+			SpeedControlStep(200);
+#endif
+#endif
 #else
 			CharacterizeStep();
 #endif
 #ifdef LQG_NOISE
 			NoiseInputStep();
+#endif
+#ifdef SINE
+			SetAirGapFluxLinkage(0);
+			SetTorque(.1);
+			PMSM_Update();
+			LED4 ^= 1;
 #endif
 			events &= ~EVENT_UPDATE_SPEED;
 		}
@@ -113,20 +125,12 @@ int main(void)
 		}
 
 		if (events & EVENT_ADC_DATA) {
-//			uint16_t size;
-//			uint8_t out[56];
-//
-//			size = sprintf((char *) out, "%i, %i, %i\r\n"
-//				"%i, %i, %i\r\n"
-//				"%i, %i, %i\r\n"
-//				"%i, %i, %i\r\n",
-//				ADCBuff.Adc1Data[0], ADCBuff.Adc1Data[1], ADCBuff.Adc1Data[2],
-//				ADCBuff.Adc1Data[3], ADCBuff.Adc1Data[4], ADCBuff.Adc1Data[5],
-//				ADCBuff.Adc1Data[6], ADCBuff.Adc1Data[7], ADCBuff.Adc1Data[8],
-//				ADCBuff.Adc1Data[9], ADCBuff.Adc1Data[10], ADCBuff.Adc1Data[11]
-//				);
-//			DMA0_UART2_Transfer(size, out);
-//			events &= ~EVENT_ADC_DATA;
+			//			size = sprintf((char *) out, "%i, %i, %i, %i, %i, %i\r\n",
+			//				ADCBuff.Adc1Data[0], ADCBuff.Adc1Data[1], ADCBuff.Adc1Data[2], GH_A_DC, GH_B_DC, GH_C_DC
+			//
+			//				);
+			//			DMA0_UART2_Transfer(size, out);
+			events &= ~EVENT_ADC_DATA;
 		}
 	}
 

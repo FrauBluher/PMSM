@@ -8071,8 +8071,8 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <part name="C5" library="SensorCape" deviceset="CAP" device="1210" value="2.2uF 100V"/>
 <part name="C6" library="SensorCape" deviceset="CAP" device="1210" value="22uF"/>
 <part name="J1" library="ASL" deviceset="M02" device="LOCK"/>
-<part name="R9" library="ASL" deviceset="RESISTOR" device="0805-RES"/>
-<part name="R10" library="ASL" deviceset="RESISTOR" device="0805-RES"/>
+<part name="R9" library="ASL" deviceset="RESISTOR" device="0805-RES" value="4.7"/>
+<part name="R10" library="ASL" deviceset="RESISTOR" device="0805-RES" value="4.7"/>
 <part name="U$4" library="pavlo" deviceset="PSMN013-80YS" device=""/>
 <part name="U$7" library="pavlo" deviceset="PSMN013-80YS" device=""/>
 <part name="U$10" library="OpenPMSM" deviceset="NETJUMPER" device=""/>
@@ -8082,34 +8082,34 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <part name="U$8" library="pavlo" deviceset="PSMN013-80YS" device=""/>
 <part name="U$11" library="OpenPMSM" deviceset="NETJUMPER" device=""/>
 <part name="U$12" library="OpenPMSM" deviceset="NETJUMPER" device=""/>
-<part name="R16" library="ASL" deviceset="RESISTOR" device="0805-RES"/>
-<part name="R21" library="ASL" deviceset="RESISTOR" device="0805-RES"/>
+<part name="R16" library="ASL" deviceset="RESISTOR" device="0805-RES" value="4.7"/>
+<part name="R21" library="ASL" deviceset="RESISTOR" device="0805-RES" value="4.7"/>
 <part name="C13" library="ASL" deviceset="CAP" device="0805" value="1 nF"/>
 <part name="R22" library="pavlo" deviceset="RESISTOR" device="" value="WSH2818R0100FEA"/>
 <part name="U$13" library="pavlo" deviceset="PSMN013-80YS" device=""/>
 <part name="U$15" library="pavlo" deviceset="PSMN013-80YS" device=""/>
 <part name="U$23" library="OpenPMSM" deviceset="NETJUMPER" device=""/>
 <part name="U$24" library="OpenPMSM" deviceset="NETJUMPER" device=""/>
-<part name="R28" library="ASL" deviceset="RESISTOR" device="0805-RES"/>
-<part name="R29" library="ASL" deviceset="RESISTOR" device="0805-RES"/>
-<part name="R2" library="ASL" deviceset="RESISTOR" device="0805-RES"/>
-<part name="R3" library="ASL" deviceset="RESISTOR" device="0805-RES"/>
-<part name="R7" library="ASL" deviceset="RESISTOR" device="0805-RES"/>
+<part name="R28" library="ASL" deviceset="RESISTOR" device="0805-RES" value="4.7"/>
+<part name="R29" library="ASL" deviceset="RESISTOR" device="0805-RES" value="4.7"/>
+<part name="R2" library="ASL" deviceset="RESISTOR" device="0805-RES" value="10k"/>
+<part name="R3" library="ASL" deviceset="RESISTOR" device="0805-RES" value="10k"/>
+<part name="R7" library="ASL" deviceset="RESISTOR" device="0805-RES" value="10k"/>
 <part name="U$2" library="OpenPMSM" deviceset="SMP12A" device=""/>
 <part name="U$3" library="OpenPMSM" deviceset="SMP12A" device=""/>
 <part name="U$6" library="OpenPMSM" deviceset="SMP12A" device=""/>
 <part name="U$9" library="OpenPMSM" deviceset="SMP12A" device=""/>
 <part name="U$25" library="OpenPMSM" deviceset="SMP12A" device=""/>
 <part name="U$26" library="OpenPMSM" deviceset="SMP12A" device=""/>
-<part name="R8" library="ASL" deviceset="RESISTOR" device="0805-RES"/>
-<part name="R11" library="ASL" deviceset="RESISTOR" device="0805-RES"/>
-<part name="R23" library="ASL" deviceset="RESISTOR" device="0805-RES"/>
+<part name="R8" library="ASL" deviceset="RESISTOR" device="0805-RES" value="150"/>
+<part name="R11" library="ASL" deviceset="RESISTOR" device="0805-RES" value="150"/>
+<part name="R23" library="ASL" deviceset="RESISTOR" device="0805-RES" value="150"/>
 <part name="C12" library="ASL" deviceset="CAP_POL" device="PTH2"/>
 <part name="C14" library="ASL" deviceset="CAP_POL" device="PTH2"/>
-<part name="R30" library="ASL" deviceset="RESISTOR" device="0805-RES"/>
-<part name="C15" library="ASL" deviceset="CAP" device="0805"/>
-<part name="R31" library="ASL" deviceset="RESISTOR" device="0805-RES"/>
-<part name="C29" library="ASL" deviceset="CAP" device="0805"/>
+<part name="R30" library="ASL" deviceset="RESISTOR" device="0805-RES" value="15k"/>
+<part name="C15" library="ASL" deviceset="CAP" device="0805" value="10n"/>
+<part name="R31" library="ASL" deviceset="RESISTOR" device="0805-RES" value="15k"/>
+<part name="C29" library="ASL" deviceset="CAP" device="0805" value="10n"/>
 <part name="C30" library="ASL" deviceset="CAP" device="0805" value=".1 uF"/>
 </parts>
 <sheets>

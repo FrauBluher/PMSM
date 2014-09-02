@@ -16,6 +16,8 @@
       <itemPath>PRBSCharacterization.h</itemPath>
       <itemPath>../../SystemID Matlab Support/PRBSData.h</itemPath>
       <itemPath>LQG_NoiseCharacterization.h</itemPath>
+      <itemPath>cordic.h</itemPath>
+      <itemPath>TrigData.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -37,6 +39,7 @@
       <itemPath>PID_Library.c</itemPath>
       <itemPath>PRBSCharacterization.c</itemPath>
       <itemPath>LQG_NoiseCharacterization.c</itemPath>
+      <itemPath>cordic.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -305,7 +308,6 @@
         <property key="UART 3" value="true"/>
         <property key="UART 4" value="true"/>
         <property key="USB" value="true"/>
-        <property key="firmware.download.all" value="false"/>
         <property key="hwtoolclock.frcindebug" value="false"/>
         <property key="memories.aux" value="false"/>
         <property key="memories.bootflash" value="false"/>
