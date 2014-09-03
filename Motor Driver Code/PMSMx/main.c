@@ -60,6 +60,8 @@ void EventChecker(void);
 
 int main(void)
 {
+	static uint16_t size;
+	static uint8_t out[56];
 	CB_Init(&uartBuffer, uartBuf, 32);
 	CB_Init(&spiBuffer, (uint8_t *) spiBuf, 128);
 
@@ -124,11 +126,10 @@ int main(void)
 		}
 
 		if (events & EVENT_ADC_DATA) {
-			//			size = sprintf((char *) out, "%i, %i, %i, %i, %i, %i\r\n",
-			//				ADCBuff.Adc1Data[0], ADCBuff.Adc1Data[1], ADCBuff.Adc1Data[2], GH_A_DC, GH_B_DC, GH_C_DC
-			//
-			//				);
-			//			DMA0_UART2_Transfer(size, out);
+			size = sprintf((char *) out, "%i, %i\r\n",
+				ADCBuff.Adc1Data[0], ADCBuff.Adc1Data[1], ADCBuff.Adc1Data[2]
+				);
+			DMA0_UART2_Transfer(size, out);
 			events &= ~EVENT_ADC_DATA;
 		}
 	}

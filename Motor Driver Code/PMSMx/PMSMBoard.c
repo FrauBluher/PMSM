@@ -104,7 +104,7 @@ void UART2Init(void)
 		U2MODEbits.PDSEL = 0; // No parity, 8-data bits
 		U2MODEbits.ABAUD = 0; // Auto-baud disabled
 		U2MODEbits.BRGH = 1; // High speed UART mode...
-		U2BRG = 37; //37 for 115200 on BRGH 0, 460800 on BRGH 1, 921600 = 18
+		U2BRG = 18; //37 for 115200 on BRGH 0, 460800 on BRGH 1, 921600 = 18
 		//BRGH = 0, BRG = 18 for 230400
 		U2STAbits.UTXISEL0 = 0; // int on last character shifted out tx register
 		U2STAbits.UTXISEL1 = 0; // int on last character shifted out tx register
@@ -134,7 +134,7 @@ void MotorInit()
 		/* Set Dead Time Values */
 		/* DTRx Registers are ignored in this mode */
 		DTR1 = DTR2 = DTR3 = 0;
-		ALTDTR1 = ALTDTR2 = ALTDTR3 = 30;
+		ALTDTR1 = ALTDTR2 = ALTDTR3 = 0;
 		/* Set PWM Mode to Complementary */
 		IOCON1 = IOCON2 = IOCON3 = 0xC000;
 		/* Set Independent Time Bases, Center-Aligned mode and
@@ -144,6 +144,14 @@ void MotorInit()
 		FCLCON1 = FCLCON2 = FCLCON3 = 0x0003;
 		/* 1:1 Prescaler */
 		PTCON2 = 0x0000;
+
+
+		//ADC trigger stuff.
+		TRGCON1bits.TRGDIV = 0;
+		TRGCON1bits.TRGSTRT = 0b111111;
+		TRIG1 = PHASE1 / 2;
+
+
 		/* Enable PWM Module */
 		PTCON = 0x8000;
 #else
@@ -293,13 +301,13 @@ void TimersInit(void)
 		//		IEC0bits.T3IE = 1; // Enable Timer3 interrupt
 		//		T2CONbits.TON = 1; // Start 32-bit Timer
 
-		//Timer 5 for ADC Triggering
-		TMR5 = 0x0000;
-		T5CONbits.TCKPS = 3;
-		PR5 = 68; // Trigger ADC1at a rate of 4kHz
-		IFS1bits.T5IF = 0; // Clear Timer5 interrupt
-		IEC1bits.T5IE = 0; // Disable Timer5 interrupt
-		T5CONbits.TON = 1; // Start Timer5
+		//Timer 5 for ADC Triggering if not using the PWM compare ADC trigger.
+		//		TMR5 = 0x0000;
+		//		T5CONbits.TCKPS = 3;
+		//		PR5 = 68; // Trigger ADC1at a rate of 4kHz
+		//		IFS1bits.T5IF = 0; // Clear Timer5 interrupt
+		//		IEC1bits.T5IE = 0; // Disable Timer5 interrupt
+		//		T5CONbits.TON = 1; // Start Timer5
 		//IPC7bits.T5IP = 2;
 
 		T7CONbits.TON = 0;
@@ -310,7 +318,7 @@ void TimersInit(void)
 #ifdef CHARACTERIZE
 		PR7 = 91; //Approximately 5kHz (4974 Hz)... 0x0112 For 1kHz  0x0037 for 5kHz  0x0089 for 2kHz
 #else
-		PR7 = 30; //91 = 3kHz
+		PR7 = 91; //91 = 3kHz
 #endif
 		IPC12bits.T7IP = 0x01;
 		IFS3bits.T7IF = 0;
@@ -412,13 +420,15 @@ void ADCInit(void)
 
 	//Setup ADC1 for Channel 0-3 sampling
 	AD1CON1bits.FORM = 0; //Data Output Format : Integer Output
-	AD1CON1bits.SSRC = 4; //Sample Clock Source : GP Timer5 starts conversion
+	AD1CON1bits.SSRCG = 1; //
+	AD1CON1bits.SSRC = 0; //Sample Clock Source : PWM Generator 1 primary trigger compare ends sampling
+	//AD1CON1bits.SSRC = 4; //Sample Clock Source : GP Timer5 starts conversion
 	AD1CON1bits.ASAM = 1; // Sampling begins immediately after conversion
 	AD1CON1bits.AD12B = 1; // 12-bit ADC operation
-	AD1CON1bits.SIMSAM = 0; // Samples multiple channels sequentially
+	AD1CON1bits.SIMSAM = 0; // Samples channel 0;
 	AD1CON2bits.BUFM = 0;
 	AD1CON2bits.CSCNA = 1; // Scan CH0+ Input Selections during Sample A bit
-	AD1CON2bits.CHPS = 0; // Converts CH0
+	AD1CON2bits.CHPS = 0; // Converts CH0  //This got changed
 	AD1CON3bits.ADRC = 0; // ADC clock is derived from systems clock
 
 	/*
@@ -437,13 +447,13 @@ void ADCInit(void)
 
 	//AD1CSSH/AD1CSSL: Analog-to-Digital Input Scan Selection Register
 	AD1CSSH = 0x0000;
-	AD1CSSLbits.CSS1 = 1;
+	//AD1CSSLbits.CSS1 = 1;  //PVDD MONITORING
 	AD1CSSLbits.CSS12 = 1;
 	AD1CSSLbits.CSS13 = 1;
 
 	AD1CON1bits.ADDMABM = 0; // DMA buffers are built in scatter/gather mode
-	AD1CON2bits.SMPI = 2; // 3 ADC buffers
-	AD1CON4bits.DMABL = 2; // Allocate 4 words of buffer to each analog input
+	AD1CON2bits.SMPI = 1; // 2 ADC buffers
+	AD1CON4bits.DMABL = 0b110; // Allocate 64 words of buffer to each analog input
 	IFS0bits.AD1IF = 0; // Clear Analog-to-Digital Interrupt Flag bit
 	IEC0bits.AD1IE = 0; // Do Not Enable Analog-to-Digital interrupt
 	AD1CON1bits.ADON = 1; // Turn on the ADC

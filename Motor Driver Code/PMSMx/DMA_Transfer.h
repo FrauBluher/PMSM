@@ -10,7 +10,7 @@
 
 #include "CircularBuffer.h"
 typedef struct {
-	uint16_t Adc1Data[12];
+	uint16_t Adc1Data[128];
         uint16_t newData;
 } ADCBuffer;
 

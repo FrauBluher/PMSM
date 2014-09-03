@@ -133,15 +133,15 @@ uint8_t PMSM_Init(MotorInfo *information)
 
 	theta = 0;
 	for (i = 0; i < 3096; i++) {
-		SpaceVectorModulation(SVPWMTimeCalc(InversePark(0.2, 0, theta)));
-		for (j = 0; j < 150; j++) {
+		SpaceVectorModulation(SVPWMTimeCalc(InversePark(0.05, 0, theta)));
+		for (j = 0; j < 400; j++) {
 			Nop();
 		}
 		theta -= 1;
 	}
 
-	SpaceVectorModulation(SVPWMTimeCalc(InversePark(0.4, 0, 0)));
-	for (i = 0; i < 20000; i++) {
+	SpaceVectorModulation(SVPWMTimeCalc(InversePark(0.1, 0, 0)));
+	for (i = 0; i < 40000; i++) {
 		Nop();
 	}
 
@@ -159,15 +159,15 @@ uint8_t PMSM_Init(MotorInfo *information)
 	theta = 0;
 
 	for (i = 0; i < 3096; i++) {
-		SpaceVectorModulation(SVPWMTimeCalc(InversePark(0.2, 0, theta)));
-		for (j = 0; j < 150; j++) {
+		SpaceVectorModulation(SVPWMTimeCalc(InversePark(0.05, 0, theta)));
+		for (j = 0; j < 400; j++) {
 			Nop();
 		}
 		theta += 1;
 	}
 
-	SpaceVectorModulation(SVPWMTimeCalc(InversePark(0.4, 0, 0)));
-	for (i = 0; i < 20000; i++) {
+	SpaceVectorModulation(SVPWMTimeCalc(InversePark(0.1, 0, 0)));
+	for (i = 0; i < 40000; i++) {
 		Nop();
 	}
 
@@ -220,6 +220,8 @@ void SetAirGapFluxLinkage(float id)
  */
 void PMSM_Update(void)
 {
+	static uint16_t size;
+	static uint8_t out[56];
 	int32_t indexCount = 0;
 
 	indexCount = Read32bitQEI1PositionCounter();
@@ -231,10 +233,10 @@ void PMSM_Update(void)
 	theta = indexCount;
 
 
-	//	size = sprintf((char *) out, "%li, %i\r\n", indexCount, (int16_t) (theta * 100));
-	//	DMA0_UART2_Transfer(size, out);
+//	size = sprintf((char *) out, "%i\r\n", theta);
+//	DMA0_UART2_Transfer(size, out);
 
-	SpaceVectorModulation(SVPWMTimeCalc(InversePark(0.8, 0, theta)));
+	SpaceVectorModulation(SVPWMTimeCalc(InversePark(0.3, 0, theta)));
 }
 
 /****************************   Private Stuff   *******************************/

@@ -61,7 +61,7 @@
         <targetPluginBoard></targetPluginBoard>
         <platformTool>PICkit3PlatformTool</platformTool>
         <languageToolchain>XC16</languageToolchain>
-        <languageToolchainVersion>1.11</languageToolchainVersion>
+        <languageToolchainVersion>1.20</languageToolchainVersion>
         <platform>3</platform>
       </toolsSet>
       <compileType>
@@ -69,8 +69,11 @@
           <linkerLibItems>
           </linkerLibItems>
         </linkerTool>
+        <archiverTool>
+        </archiverTool>
         <loading>
           <useAlternateLoadableFile>false</useAlternateLoadableFile>
+          <parseOnProdLoad>false</parseOnProdLoad>
           <alternateLoadableFile></alternateLoadableFile>
         </loading>
       </compileType>
@@ -86,6 +89,8 @@
       <item path="BasicMotorControl.c" ex="false" overriding="false">
         <C30>
         </C30>
+        <C30-AR>
+        </C30-AR>
         <C30-AS>
         </C30-AS>
         <C30-LD>
@@ -96,6 +101,8 @@
       <item path="BasicMotorControl.h" ex="false" overriding="false">
         <C30>
         </C30>
+        <C30-AR>
+        </C30-AR>
         <C30-AS>
         </C30-AS>
         <C30-LD>
@@ -141,6 +148,8 @@
         <property key="scalar-model" value="default"/>
         <property key="use-cci" value="false"/>
       </C30>
+      <C30-AR>
+      </C30-AR>
       <C30-AS>
         <property key="assembler-symbols" value=""/>
         <property key="expand-macros" value="false"/>
@@ -212,6 +221,8 @@
       <item path="MotorControl.c" ex="true" overriding="false">
         <C30>
         </C30>
+        <C30-AR>
+        </C30-AR>
         <C30-AS>
         </C30-AS>
         <C30-LD>
