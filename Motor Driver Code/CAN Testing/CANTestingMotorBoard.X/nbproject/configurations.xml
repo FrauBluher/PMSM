@@ -4,9 +4,37 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
+      <logicalFolder name="f1" displayName="Can &quot;Festival&quot;" projectFiles="true">
+        <itemPath>../include/can.h</itemPath>
+        <itemPath>../include/can_driver.h</itemPath>
+        <itemPath>../include/config.h</itemPath>
+        <itemPath>../include/data.h</itemPath>
+        <itemPath>../include/dcf.h</itemPath>
+        <itemPath>../include/def.h</itemPath>
+        <itemPath>../include/emcy.h</itemPath>
+        <itemPath>../include/lifegrd.h</itemPath>
+        <itemPath>../include/lss.h</itemPath>
+        <itemPath>../include/nmtMaster.h</itemPath>
+        <itemPath>../include/nmtSlave.h</itemPath>
+        <itemPath>../include/objacces.h</itemPath>
+        <itemPath>../include/objdictdef.h</itemPath>
+        <itemPath>../include/pdo.h</itemPath>
+        <itemPath>../include/sdo.h</itemPath>
+        <itemPath>../include/states.h</itemPath>
+        <itemPath>../include/sync.h</itemPath>
+        <itemPath>../include/sysdep.h</itemPath>
+        <itemPath>../include/timer.h</itemPath>
+        <itemPath>../include/timers_driver.h</itemPath>
+        <itemPath>../include/dspic33e/applicfg.h</itemPath>
+        <itemPath>../include/dspic33e/can_dspic33e.h</itemPath>
+        <itemPath>../include/dspic33e/canfestival.h</itemPath>
+        <itemPath>../include/dspic33e/timerscfg.h</itemPath>
+      </logicalFolder>
       <itemPath>../src/common.h</itemPath>
       <itemPath>../src/ecan1_config.h</itemPath>
       <itemPath>../src/ecan1drv.h</itemPath>
+      <itemPath>../src/superball_circularbuffer.h</itemPath>
+      <itemPath>../src/motor_objdict.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -15,10 +43,29 @@
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
+      <logicalFolder name="f1" displayName="Can &quot;Festival&quot;" projectFiles="true">
+        <itemPath>../festival src/dcf.c</itemPath>
+        <itemPath>../festival src/emcy.c</itemPath>
+        <itemPath>../festival src/lifegrd.c</itemPath>
+        <itemPath>../festival src/lss.c</itemPath>
+        <itemPath>../festival src/nmtMaster.c</itemPath>
+        <itemPath>../festival src/nmtSlave.c</itemPath>
+        <itemPath>../festival src/objacces.c</itemPath>
+        <itemPath>../festival src/pdo.c</itemPath>
+        <itemPath>../festival src/sdo.c</itemPath>
+        <itemPath>../festival src/states.c</itemPath>
+        <itemPath>../festival src/symbols.c</itemPath>
+        <itemPath>../festival src/sync.c</itemPath>
+        <itemPath>../festival src/timer.c</itemPath>
+        <itemPath>../drivers/dspic33e/can_dspic33e.c</itemPath>
+        <itemPath>../drivers/dspic33e/timer_dspic.c</itemPath>
+      </logicalFolder>
       <itemPath>../src/ecan1drv.c</itemPath>
       <itemPath>../src/traps.c</itemPath>
       <itemPath>../src/ecan1_config.c</itemPath>
       <itemPath>../src/main.c</itemPath>
+      <itemPath>../src/superball_circularbuffer.c</itemPath>
+      <itemPath>../src/motor_objdict.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -28,6 +75,9 @@
   </logicalFolder>
   <sourceRootList>
     <Elem>../src</Elem>
+    <Elem>../festival src</Elem>
+    <Elem>../include</Elem>
+    <Elem>../drivers/dspic33e</Elem>
   </sourceRootList>
   <projectmakefile>Makefile</projectmakefile>
   <confs>
@@ -39,16 +89,19 @@
         <targetPluginBoard></targetPluginBoard>
         <platformTool>PICkit3PlatformTool</platformTool>
         <languageToolchain>XC16</languageToolchain>
-        <languageToolchainVersion>1.11</languageToolchainVersion>
-        <platform>3</platform>
+        <languageToolchainVersion>1.20</languageToolchainVersion>
+        <platform>2</platform>
       </toolsSet>
       <compileType>
         <linkerTool>
           <linkerLibItems>
           </linkerLibItems>
         </linkerTool>
+        <archiverTool>
+        </archiverTool>
         <loading>
           <useAlternateLoadableFile>false</useAlternateLoadableFile>
+          <parseOnProdLoad>false</parseOnProdLoad>
           <alternateLoadableFile></alternateLoadableFile>
         </loading>
       </compileType>
@@ -100,6 +153,8 @@
         <property key="use-cci" value="false"/>
         <property key="use-iar" value="false"/>
       </C30>
+      <C30-AR>
+      </C30-AR>
       <C30-AS>
       </C30-AS>
       <C30-LD>
@@ -148,6 +203,7 @@
         <property key="save-temps" value="false"/>
       </C30Global>
       <PICkit3PlatformTool>
+        <property key="firmware.download.all" value="false"/>
       </PICkit3PlatformTool>
     </conf>
   </confs>

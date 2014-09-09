@@ -87,7 +87,7 @@ void SpaceVectorModulation(TimesOut sv);
 InvClarkOut InverseClarke(InvParkOut pP);
 InvParkOut InversePark(float Vd, float Vq, int16_t position);
 TimesOut SVPWMTimeCalc(InvParkOut pP);
-
+.
 //Matrix, Row, Column
 //static float SVPWM_Rotation[6][2][2] = {
 //	{ //Sector 1
@@ -299,8 +299,8 @@ InvParkOut InversePark(float Vq, float Vd, int16_t position1)
 		cos_position = (position1 + 512) % 2048;
 	}
 
-	cosine = TRIG_DATA[cos_position - 1];
-	sine = TRIG_DATA[position - 1];
+	cosine = TRIG_DATA[cos_position];
+	sine = TRIG_DATA[position];
 
 	//float cosine = 0;
 	//float sine = 0;

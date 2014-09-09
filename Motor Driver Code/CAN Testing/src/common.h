@@ -8,7 +8,7 @@
   Summary:
     Contains the prototype structure for the message ID.
 
-*******************************************************************************/
+ *******************************************************************************/
 /*******************************************************************************
 Copyright (c) 2012 released Microchip Technology Inc.  All rights reserved.
 
@@ -30,31 +30,44 @@ INCLUDING BUT NOT LIMITED TO ANY INCIDENTAL, SPECIAL, INDIRECT, PUNITIVE OR
 CONSEQUENTIAL DAMAGES, LOST PROFITS OR LOST DATA, COST OF PROCUREMENT OF
 SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 (INCLUDING BUT NOT LIMITED TO ANY DEFENSE THEREOF), OR OTHER SIMILAR COSTS.
-*******************************************************************************/
+ *******************************************************************************/
 #ifndef __COMMON_H__
-    #define __COMMON_H__
+#define __COMMON_H__
 
 // *****************************************************************************
 // *****************************************************************************
 // Section: Included Files
 // *****************************************************************************
 // *****************************************************************************
-    #include <stdint.h>
+#include <stdint.h>
+#include "ecan1_config.h"
 
-    #ifdef __cplusplus                  // Provide C++ Compatability
-extern "C"
-{
-        #endif
+#ifdef __cplusplus                  // Provide C++ Compatability
+extern "C" {
+#endif
 
     // *****************************************************************************
     // *****************************************************************************
     // Section: Constants
     // *****************************************************************************
     // *****************************************************************************
-        #define CAN_MSG_DATA    0x01    // message type
-        #define CAN_MSG_RTR     0x02    // data or RTR
-        #define CAN_FRAME_EXT   0x03    // Frame type
-        #define CAN_FRAME_STD   0x04    // extended or standard
+#define CAN_MSG_DATA    0x01    // message type
+#define CAN_MSG_RTR     0x02    // data or RTR
+#define CAN_FRAME_EXT   0x03    // Frame type
+#define CAN_FRAME_STD   0x04    // extended or standard
+
+
+
+#define TRIS_LED1     TRISBbits.TRISB8
+#define TRIS_LED2     TRISBbits.TRISB9
+#define TRIS_LED3     TRISBbits.TRISB10
+#define TRIS_LED4     TRISBbits.TRISB11
+
+#define LED1     LATBbits.LATB8
+#define LED2     LATBbits.LATB9
+#define LED3     LATBbits.LATB10
+#define LED4     LATBbits.LATB11
+
 
     // *****************************************************************************
 
@@ -67,37 +80,37 @@ extern "C"
     // *****************************************************************************
 
     /* message structure in RAM */
-    typedef struct
-    {
+    typedef struct {
         /* keep track of the buffer status */
-        uint8_t     buffer_status;
+        uint8_t buffer_status;
 
         /* RTR message or data message */
-        uint8_t     message_type;
+        uint8_t message_type;
 
         /* frame type extended or standard */
-        uint8_t     frame_type;
+        uint8_t frame_type;
 
         /* buffer being used to reference the message */
-        uint8_t     buffer;
+        uint8_t buffer;
 
         /* 29 bit id max of 0x1FFF FFFF 
-    *  11 bit id max of 0x7FF */
-        uint32_t    id;
+         *  11 bit id max of 0x7FF */
+        uint32_t id;
 
         /* message data */
-        uint8_t     data[8];
+        uint8_t data[8];
 
         /* received message data length */
-        uint8_t     data_length;
+        uint8_t data_length;
     } mID;
 
-        #ifdef __cplusplus  // Provide C++ Compatibility
+
+#ifdef __cplusplus  // Provide C++ Compatibility
 }
 
-    #endif
+#endif
 #endif
 
 /*******************************************************************************
  End of File
-*/
+ */

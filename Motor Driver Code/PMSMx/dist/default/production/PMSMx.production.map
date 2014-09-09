@@ -184,9 +184,9 @@ section                    address   length (PC units)   length (bytes) (dec)
 .text                        0x200              0x181c          0x242a  (9258)
 .const                      0x1a1c               0x716           0xaa1  (2721)
 .dinit                      0x2132              0x19ae          0x2685  (9861)
-.text                       0x3ae0              0x3192          0x4a5b  (19035)
+.text                       0x3ae0              0x318e          0x4a55  (19029)
 
-                     Total program memory used (bytes):         0x9fab  (40875) 15%
+                     Total program memory used (bytes):         0x9fa5  (40869) 15%
 
 
 Auxflash Memory  [Origin = 0x7fc000, Length = 0x3ff8]
@@ -426,122 +426,122 @@ External Symbols in Program Memory (by address):
                   0x0056e8                  _SpaceVectorModulation
                   0x0059f6                  _InverseClarke
                   0x005a92                  _InversePark
-                  0x005baa                  _SVPWMTimeCalc
-                  0x005c18                  __QEI1Interrupt
-                  0x005c2a                  _CB_Init
-                  0x005c96                  _CB_ReadByte
-                  0x005d14                  _CB_ReadMany
-                  0x005d96                  _CB_WriteByte
-                  0x005dfe                  _CB_WriteMany
-                  0x005f08                  _CB_Peek
-                  0x005f3a                  _CB_PeekMany
-                  0x005fa6                  _CB_Remove
-                  0x00600c                  _InitBoard
-                  0x00608c                  _UART2Init
-                  0x0060ba                  _MotorInit
-                  0x006140                  _ClockInit
-                  0x00619a                  _PinInit
-                  0x006260                  _TimersInit
-                  0x006292                  _CNInit
-                  0x0062a2                  _QEIInit
-                  0x0062b8                  _ADCInit
-                  0x00632e                  _EventCheckInit
-                  0x006340                  __T7Interrupt
-                  0x006360                  __T3Interrupt
-                  0x006368                  _Compute
-                  0x0064b2                  _SetTunings
-                  0x006506                  _SetSampleTime
-                  0x006564                  _SetOutputLimits
-                  0x00663a                  _Initialize
-                  0x0066a2                  _DMA0_UART2_Transfer
-                  0x0066e0                  _DMA1_UART2_Enable_RX
-                  0x00672e                  _DMA2_SPI_Transfer
-                  0x006770                  _DMA3_SPI_Enable_RX
-                  0x0067ae                  _DMA4_CAN_Transfer
-                  0x0067e2                  _DMA5_CAN_Enable_RX
-                  0x0067ee                  _DMA6_ADC_Enable
-                  0x006824                  __DMA0Interrupt
-                  0x00682c                  __DMA1Interrupt
-                  0x006856                  __DMA2Interrupt
-                  0x00685e                  __DMA3Interrupt
-                  0x006888                  __DMA4Interrupt
-                  0x006890                  __DMA5Interrupt
-                  0x0068ba                  __DMA6Interrupt
-                  0x0068cc                  _main
-                  0x0069d8                  _EventChecker
-                  0x006a3c                  _DRV8301_Init
-                  0x006ae2                  _DRV8301_UpdateStatus
-                  0x006b16                  _DRV8301_Reset
-                  0x006b30                  _DRV8301_DCCalibration
-                  0x006b6c                  _SPI1_Init
-                  0x006ba8                  _SPI1_WriteToReg
-                  0x006c0e                  _SPI1_ReadFromReg
+                  0x005ba6                  _SVPWMTimeCalc
+                  0x005c14                  __QEI1Interrupt
+                  0x005c26                  _CB_Init
+                  0x005c92                  _CB_ReadByte
+                  0x005d10                  _CB_ReadMany
+                  0x005d92                  _CB_WriteByte
+                  0x005dfa                  _CB_WriteMany
+                  0x005f04                  _CB_Peek
+                  0x005f36                  _CB_PeekMany
+                  0x005fa2                  _CB_Remove
+                  0x006008                  _InitBoard
+                  0x006088                  _UART2Init
+                  0x0060b6                  _MotorInit
+                  0x00613c                  _ClockInit
+                  0x006196                  _PinInit
+                  0x00625c                  _TimersInit
+                  0x00628e                  _CNInit
+                  0x00629e                  _QEIInit
+                  0x0062b4                  _ADCInit
+                  0x00632a                  _EventCheckInit
+                  0x00633c                  __T7Interrupt
+                  0x00635c                  __T3Interrupt
+                  0x006364                  _Compute
+                  0x0064ae                  _SetTunings
+                  0x006502                  _SetSampleTime
+                  0x006560                  _SetOutputLimits
+                  0x006636                  _Initialize
+                  0x00669e                  _DMA0_UART2_Transfer
+                  0x0066dc                  _DMA1_UART2_Enable_RX
+                  0x00672a                  _DMA2_SPI_Transfer
+                  0x00676c                  _DMA3_SPI_Enable_RX
+                  0x0067aa                  _DMA4_CAN_Transfer
+                  0x0067de                  _DMA5_CAN_Enable_RX
+                  0x0067ea                  _DMA6_ADC_Enable
+                  0x006820                  __DMA0Interrupt
+                  0x006828                  __DMA1Interrupt
+                  0x006852                  __DMA2Interrupt
+                  0x00685a                  __DMA3Interrupt
+                  0x006884                  __DMA4Interrupt
+                  0x00688c                  __DMA5Interrupt
+                  0x0068b6                  __DMA6Interrupt
+                  0x0068c8                  _main
+                  0x0069d4                  _EventChecker
+                  0x006a38                  _DRV8301_Init
+                  0x006ade                  _DRV8301_UpdateStatus
+                  0x006b12                  _DRV8301_Reset
+                  0x006b2c                  _DRV8301_DCCalibration
+                  0x006b68                  _SPI1_Init
+                  0x006ba4                  _SPI1_WriteToReg
+                  0x006c0a                  _SPI1_ReadFromReg
 
 External Symbols in Program Memory (by name):
 
-                  0x0062b8                  _ADCInit
-                  0x005c2a                  _CB_Init
-                  0x005f08                  _CB_Peek
-                  0x005f3a                  _CB_PeekMany
-                  0x005c96                  _CB_ReadByte
-                  0x005d14                  _CB_ReadMany
-                  0x005fa6                  _CB_Remove
-                  0x005d96                  _CB_WriteByte
-                  0x005dfe                  _CB_WriteMany
-                  0x006292                  _CNInit
-                  0x006140                  _ClockInit
+                  0x0062b4                  _ADCInit
+                  0x005c26                  _CB_Init
+                  0x005f04                  _CB_Peek
+                  0x005f36                  _CB_PeekMany
+                  0x005c92                  _CB_ReadByte
+                  0x005d10                  _CB_ReadMany
+                  0x005fa2                  _CB_Remove
+                  0x005d92                  _CB_WriteByte
+                  0x005dfa                  _CB_WriteMany
+                  0x00628e                  _CNInit
+                  0x00613c                  _ClockInit
                   0x000310                  _CloseSPI1
-                  0x006368                  _Compute
+                  0x006364                  _Compute
                   0x0002d4                  _ConfigInt32bitQEI1
-                  0x0066a2                  _DMA0_UART2_Transfer
-                  0x0066e0                  _DMA1_UART2_Enable_RX
-                  0x00672e                  _DMA2_SPI_Transfer
-                  0x006770                  _DMA3_SPI_Enable_RX
-                  0x0067ae                  _DMA4_CAN_Transfer
-                  0x0067e2                  _DMA5_CAN_Enable_RX
-                  0x0067ee                  _DMA6_ADC_Enable
-                  0x006b30                  _DRV8301_DCCalibration
-                  0x006a3c                  _DRV8301_Init
-                  0x006b16                  _DRV8301_Reset
-                  0x006ae2                  _DRV8301_UpdateStatus
-                  0x00632e                  _EventCheckInit
-                  0x0069d8                  _EventChecker
-                  0x00600c                  _InitBoard
-                  0x00663a                  _Initialize
+                  0x00669e                  _DMA0_UART2_Transfer
+                  0x0066dc                  _DMA1_UART2_Enable_RX
+                  0x00672a                  _DMA2_SPI_Transfer
+                  0x00676c                  _DMA3_SPI_Enable_RX
+                  0x0067aa                  _DMA4_CAN_Transfer
+                  0x0067de                  _DMA5_CAN_Enable_RX
+                  0x0067ea                  _DMA6_ADC_Enable
+                  0x006b2c                  _DRV8301_DCCalibration
+                  0x006a38                  _DRV8301_Init
+                  0x006b12                  _DRV8301_Reset
+                  0x006ade                  _DRV8301_UpdateStatus
+                  0x00632a                  _EventCheckInit
+                  0x0069d4                  _EventChecker
+                  0x006008                  _InitBoard
+                  0x006636                  _Initialize
                   0x0059f6                  _InverseClarke
                   0x005a92                  _InversePark
-                  0x0060ba                  _MotorInit
+                  0x0060b6                  _MotorInit
                   0x0002fa                  _Open32bitQEI1
                   0x00031c                  _OpenSPI1
                   0x005442                  _PMSM_Init
                   0x005656                  _PMSM_Update
-                  0x00619a                  _PinInit
-                  0x0062a2                  _QEIInit
+                  0x006196                  _PinInit
+                  0x00629e                  _QEIInit
                   0x000306                  _Read32bitQEI1PositionCounter
-                  0x006b6c                  _SPI1_Init
-                  0x006c0e                  _SPI1_ReadFromReg
-                  0x006ba8                  _SPI1_WriteToReg
-                  0x005baa                  _SVPWMTimeCalc
+                  0x006b68                  _SPI1_Init
+                  0x006c0a                  _SPI1_ReadFromReg
+                  0x006ba4                  _SPI1_WriteToReg
+                  0x005ba6                  _SVPWMTimeCalc
                   0x005648                  _SetAirGapFluxLinkage
-                  0x006564                  _SetOutputLimits
+                  0x006560                  _SetOutputLimits
                   0x00561a                  _SetPosition
-                  0x006506                  _SetSampleTime
+                  0x006502                  _SetSampleTime
                   0x00562e                  _SetTorque
-                  0x0064b2                  _SetTunings
+                  0x0064ae                  _SetTunings
                   0x0056e8                  _SpaceVectorModulation
-                  0x006260                  _TimersInit
-                  0x00608c                  _UART2Init
-                  0x006824                  __DMA0Interrupt
-                  0x00682c                  __DMA1Interrupt
-                  0x006856                  __DMA2Interrupt
-                  0x00685e                  __DMA3Interrupt
-                  0x006888                  __DMA4Interrupt
-                  0x006890                  __DMA5Interrupt
-                  0x0068ba                  __DMA6Interrupt
+                  0x00625c                  _TimersInit
+                  0x006088                  _UART2Init
+                  0x006820                  __DMA0Interrupt
+                  0x006828                  __DMA1Interrupt
+                  0x006852                  __DMA2Interrupt
+                  0x00685a                  __DMA3Interrupt
+                  0x006884                  __DMA4Interrupt
+                  0x00688c                  __DMA5Interrupt
+                  0x0068b6                  __DMA6Interrupt
                   0x0002d0                  __DefaultInterrupt
-                  0x005c18                  __QEI1Interrupt
-                  0x006360                  __T3Interrupt
-                  0x006340                  __T7Interrupt
+                  0x005c14                  __QEI1Interrupt
+                  0x00635c                  __T3Interrupt
+                  0x00633c                  __T7Interrupt
                   0x000356                  ___addsf3
                   0x0018be                  ___divdi3
                   0x000410                  ___divsf3
@@ -613,7 +613,7 @@ External Symbols in Program Memory (by name):
                   0x004b34                  _i4_min
                   0x004b54                  _ln_cordic
                   0x004df4                  _ln_values
-                  0x0068cc                  _main
+                  0x0068c8                  _main
                   0x0009a2                  _malloc
                   0x000bb2                  _memcpy
                   0x000328                  _putsUART2
@@ -1048,17 +1048,17 @@ __FUID0
                   0x000016          0x4 LONG 0x2d0 DEFINED (__IC1Interrupt)?ABSOLUTE (__IC1Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000018          0x4 LONG 0x2d0 DEFINED (__OC1Interrupt)?ABSOLUTE (__OC1Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x00001a          0x4 LONG 0x2d0 DEFINED (__T1Interrupt)?ABSOLUTE (__T1Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x00001c          0x4 LONG 0x6824 DEFINED (__DMA0Interrupt)?ABSOLUTE (__DMA0Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x00001c          0x4 LONG 0x6820 DEFINED (__DMA0Interrupt)?ABSOLUTE (__DMA0Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x00001e          0x4 LONG 0x2d0 DEFINED (__IC2Interrupt)?ABSOLUTE (__IC2Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000020          0x4 LONG 0x2d0 DEFINED (__OC2Interrupt)?ABSOLUTE (__OC2Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000022          0x4 LONG 0x2d0 DEFINED (__T2Interrupt)?ABSOLUTE (__T2Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x000024          0x4 LONG 0x6360 DEFINED (__T3Interrupt)?ABSOLUTE (__T3Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x000024          0x4 LONG 0x635c DEFINED (__T3Interrupt)?ABSOLUTE (__T3Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000026          0x4 LONG 0x2d0 DEFINED (__SPI1ErrInterrupt)?ABSOLUTE (__SPI1ErrInterrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000028          0x4 LONG 0x2d0 DEFINED (__SPI1Interrupt)?ABSOLUTE (__SPI1Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x00002a          0x4 LONG 0x2d0 DEFINED (__U1RXInterrupt)?ABSOLUTE (__U1RXInterrupt):ABSOLUTE (__DefaultInterrupt)
                   0x00002c          0x4 LONG 0x2d0 DEFINED (__U1TXInterrupt)?ABSOLUTE (__U1TXInterrupt):ABSOLUTE (__DefaultInterrupt)
                   0x00002e          0x4 LONG 0x2d0 DEFINED (__AD1Interrupt)?ABSOLUTE (__AD1Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x000030          0x4 LONG 0x682c DEFINED (__DMA1Interrupt)?ABSOLUTE (__DMA1Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x000030          0x4 LONG 0x6828 DEFINED (__DMA1Interrupt)?ABSOLUTE (__DMA1Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000032          0x4 LONG 0x2d0 DEFINED (__NVMInterrupt)?ABSOLUTE (__NVMInterrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000034          0x4 LONG 0x2d0 DEFINED (__SI2C1Interrupt)?ABSOLUTE (__SI2C1Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000036          0x4 LONG 0x2d0 DEFINED (__MI2C1Interrupt)?ABSOLUTE (__MI2C1Interrupt):ABSOLUTE (__DefaultInterrupt)
@@ -1068,7 +1068,7 @@ __FUID0
                   0x00003e          0x4 LONG 0x2d0 DEFINED (__AD2Interrupt)?ABSOLUTE (__AD2Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000040          0x4 LONG 0x2d0 DEFINED (__IC7Interrupt)?ABSOLUTE (__IC7Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000042          0x4 LONG 0x2d0 DEFINED (__IC8Interrupt)?ABSOLUTE (__IC8Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x000044          0x4 LONG 0x6856 DEFINED (__DMA2Interrupt)?ABSOLUTE (__DMA2Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x000044          0x4 LONG 0x6852 DEFINED (__DMA2Interrupt)?ABSOLUTE (__DMA2Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000046          0x4 LONG 0x2d0 DEFINED (__OC3Interrupt)?ABSOLUTE (__OC3Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000048          0x4 LONG 0x2d0 DEFINED (__OC4Interrupt)?ABSOLUTE (__OC4Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x00004a          0x4 LONG 0x2d0 DEFINED (__T4Interrupt)?ABSOLUTE (__T4Interrupt):ABSOLUTE (__DefaultInterrupt)
@@ -1080,7 +1080,7 @@ __FUID0
                   0x000056          0x4 LONG 0x2d0 DEFINED (__SPI2Interrupt)?ABSOLUTE (__SPI2Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000058          0x4 LONG 0x2d0 DEFINED (__C1RxRdyInterrupt)?ABSOLUTE (__C1RxRdyInterrupt):ABSOLUTE (__DefaultInterrupt)
                   0x00005a          0x4 LONG 0x2d0 DEFINED (__C1Interrupt)?ABSOLUTE (__C1Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x00005c          0x4 LONG 0x685e DEFINED (__DMA3Interrupt)?ABSOLUTE (__DMA3Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x00005c          0x4 LONG 0x685a DEFINED (__DMA3Interrupt)?ABSOLUTE (__DMA3Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x00005e          0x4 LONG 0x2d0 DEFINED (__IC3Interrupt)?ABSOLUTE (__IC3Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000060          0x4 LONG 0x2d0 DEFINED (__IC4Interrupt)?ABSOLUTE (__IC4Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000062          0x4 LONG 0x2d0 DEFINED (__IC5Interrupt)?ABSOLUTE (__IC5Interrupt):ABSOLUTE (__DefaultInterrupt)
@@ -1090,9 +1090,9 @@ __FUID0
                   0x00006a          0x4 LONG 0x2d0 DEFINED (__OC7Interrupt)?ABSOLUTE (__OC7Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x00006c          0x4 LONG 0x2d0 DEFINED (__OC8Interrupt)?ABSOLUTE (__OC8Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x00006e          0x4 LONG 0x2d0 DEFINED (__PMPInterrupt)?ABSOLUTE (__PMPInterrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x000070          0x4 LONG 0x6888 DEFINED (__DMA4Interrupt)?ABSOLUTE (__DMA4Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x000070          0x4 LONG 0x6884 DEFINED (__DMA4Interrupt)?ABSOLUTE (__DMA4Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000072          0x4 LONG 0x2d0 DEFINED (__T6Interrupt)?ABSOLUTE (__T6Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x000074          0x4 LONG 0x6340 DEFINED (__T7Interrupt)?ABSOLUTE (__T7Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x000074          0x4 LONG 0x633c DEFINED (__T7Interrupt)?ABSOLUTE (__T7Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000076          0x4 LONG 0x2d0 DEFINED (__SI2C2Interrupt)?ABSOLUTE (__SI2C2Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000078          0x4 LONG 0x2d0 DEFINED (__MI2C2Interrupt)?ABSOLUTE (__MI2C2Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x00007a          0x4 LONG 0x2d0 DEFINED (__T8Interrupt)?ABSOLUTE (__T8Interrupt):ABSOLUTE (__DefaultInterrupt)
@@ -1102,17 +1102,17 @@ __FUID0
                   0x000082          0x4 LONG 0x2d0 DEFINED (__C2RxRdyInterrupt)?ABSOLUTE (__C2RxRdyInterrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000084          0x4 LONG 0x2d0 DEFINED (__C2Interrupt)?ABSOLUTE (__C2Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000086          0x4 LONG 0x2d0 DEFINED (__PWMSpEventMatchInterrupt)?ABSOLUTE (__PWMSpEventMatchInterrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x000088          0x4 LONG 0x5c18 DEFINED (__QEI1Interrupt)?ABSOLUTE (__QEI1Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x000088          0x4 LONG 0x5c14 DEFINED (__QEI1Interrupt)?ABSOLUTE (__QEI1Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x00008a          0x4 LONG 0x2d0 DEFINED (__DCIEInterrupt)?ABSOLUTE (__DCIEInterrupt):ABSOLUTE (__DefaultInterrupt)
                   0x00008c          0x4 LONG 0x2d0 DEFINED (__DCIInterrupt)?ABSOLUTE (__DCIInterrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x00008e          0x4 LONG 0x6890 DEFINED (__DMA5Interrupt)?ABSOLUTE (__DMA5Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x00008e          0x4 LONG 0x688c DEFINED (__DMA5Interrupt)?ABSOLUTE (__DMA5Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000090          0x4 LONG 0x2d0 DEFINED (__RTCCInterrupt)?ABSOLUTE (__RTCCInterrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000092          0x4 LONG 0x2d0 DEFINED (__Interrupt63)?ABSOLUTE (__Interrupt63):ABSOLUTE (__DefaultInterrupt)
                   0x000094          0x4 LONG 0x2d0 DEFINED (__Interrupt64)?ABSOLUTE (__Interrupt64):ABSOLUTE (__DefaultInterrupt)
                   0x000096          0x4 LONG 0x2d0 DEFINED (__U1ErrInterrupt)?ABSOLUTE (__U1ErrInterrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000098          0x4 LONG 0x2d0 DEFINED (__U2ErrInterrupt)?ABSOLUTE (__U2ErrInterrupt):ABSOLUTE (__DefaultInterrupt)
                   0x00009a          0x4 LONG 0x2d0 DEFINED (__CRCInterrupt)?ABSOLUTE (__CRCInterrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x00009c          0x4 LONG 0x68ba DEFINED (__DMA6Interrupt)?ABSOLUTE (__DMA6Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x00009c          0x4 LONG 0x68b6 DEFINED (__DMA6Interrupt)?ABSOLUTE (__DMA6Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x00009e          0x4 LONG 0x2d0 DEFINED (__DMA7Interrupt)?ABSOLUTE (__DMA7Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x0000a0          0x4 LONG 0x2d0 DEFINED (__C1TxReqInterrupt)?ABSOLUTE (__C1TxReqInterrupt):ABSOLUTE (__DefaultInterrupt)
                   0x0000a2          0x4 LONG 0x2d0 DEFINED (__C2TxReqInterrupt)?ABSOLUTE (__C2TxReqInterrupt):ABSOLUTE (__DefaultInterrupt)
@@ -4050,7 +4050,7 @@ _0x5702aac85407643e
 .dinit            0x002132       0x19ae
  .dinit           0x002132       0x19ae data_init
 
-.text             0x003ae0       0x3192
+.text             0x003ae0       0x318e
  .text            0x003ae0       0x1962 build/default/production/cordic.o
                   0x003ae0                  _angle_shift
                   0x003ba0                  _arccos_cordic
@@ -4076,7 +4076,7 @@ _0x5702aac85407643e
                   0x0051f2                  _tan_cordic
                   0x0053c8                  _tan_values
                   0x00543c                  _timestamp
- .text            0x005442        0x7e8 build/default/production/PMSM.o
+ .text            0x005442        0x7e4 build/default/production/PMSM.o
                   0x005442                  _PMSM_Init
                   0x00561a                  _SetPosition
                   0x00562e                  _SetTorque
@@ -4085,60 +4085,60 @@ _0x5702aac85407643e
                   0x0056e8                  _SpaceVectorModulation
                   0x0059f6                  _InverseClarke
                   0x005a92                  _InversePark
-                  0x005baa                  _SVPWMTimeCalc
-                  0x005c18                  __QEI1Interrupt
- .text            0x005c2a        0x3e2 build/default/production/CircularBuffer.o
-                  0x005c2a                  _CB_Init
-                  0x005c96                  _CB_ReadByte
-                  0x005d14                  _CB_ReadMany
-                  0x005d96                  _CB_WriteByte
-                  0x005dfe                  _CB_WriteMany
-                  0x005f08                  _CB_Peek
-                  0x005f3a                  _CB_PeekMany
-                  0x005fa6                  _CB_Remove
- .text            0x00600c        0x35c build/default/production/PMSMBoard.o
-                  0x00600c                  _InitBoard
-                  0x00608c                  _UART2Init
-                  0x0060ba                  _MotorInit
-                  0x006140                  _ClockInit
-                  0x00619a                  _PinInit
-                  0x006260                  _TimersInit
-                  0x006292                  _CNInit
-                  0x0062a2                  _QEIInit
-                  0x0062b8                  _ADCInit
-                  0x00632e                  _EventCheckInit
-                  0x006340                  __T7Interrupt
-                  0x006360                  __T3Interrupt
- .text            0x006368        0x33a build/default/production/PID_Library.o
-                  0x006368                  _Compute
-                  0x0064b2                  _SetTunings
-                  0x006506                  _SetSampleTime
-                  0x006564                  _SetOutputLimits
-                  0x00663a                  _Initialize
- .text            0x0066a2        0x22a build/default/production/DMA_Transfer.o
-                  0x0066a2                  _DMA0_UART2_Transfer
-                  0x0066e0                  _DMA1_UART2_Enable_RX
-                  0x00672e                  _DMA2_SPI_Transfer
-                  0x006770                  _DMA3_SPI_Enable_RX
-                  0x0067ae                  _DMA4_CAN_Transfer
-                  0x0067e2                  _DMA5_CAN_Enable_RX
-                  0x0067ee                  _DMA6_ADC_Enable
-                  0x006824                  __DMA0Interrupt
-                  0x00682c                  __DMA1Interrupt
-                  0x006856                  __DMA2Interrupt
-                  0x00685e                  __DMA3Interrupt
-                  0x006888                  __DMA4Interrupt
-                  0x006890                  __DMA5Interrupt
-                  0x0068ba                  __DMA6Interrupt
- .text            0x0068cc        0x170 build/default/production/main.o
-                  0x0068cc                  _main
-                  0x0069d8                  _EventChecker
- .text            0x006a3c        0x130 build/default/production/DRV8301.o
-                  0x006a3c                  _DRV8301_Init
-                  0x006ae2                  _DRV8301_UpdateStatus
-                  0x006b16                  _DRV8301_Reset
-                  0x006b30                  _DRV8301_DCCalibration
- .text            0x006b6c        0x106 build/default/production/SPIdsPIC.o
-                  0x006b6c                  _SPI1_Init
-                  0x006ba8                  _SPI1_WriteToReg
-                  0x006c0e                  _SPI1_ReadFromReg
+                  0x005ba6                  _SVPWMTimeCalc
+                  0x005c14                  __QEI1Interrupt
+ .text            0x005c26        0x3e2 build/default/production/CircularBuffer.o
+                  0x005c26                  _CB_Init
+                  0x005c92                  _CB_ReadByte
+                  0x005d10                  _CB_ReadMany
+                  0x005d92                  _CB_WriteByte
+                  0x005dfa                  _CB_WriteMany
+                  0x005f04                  _CB_Peek
+                  0x005f36                  _CB_PeekMany
+                  0x005fa2                  _CB_Remove
+ .text            0x006008        0x35c build/default/production/PMSMBoard.o
+                  0x006008                  _InitBoard
+                  0x006088                  _UART2Init
+                  0x0060b6                  _MotorInit
+                  0x00613c                  _ClockInit
+                  0x006196                  _PinInit
+                  0x00625c                  _TimersInit
+                  0x00628e                  _CNInit
+                  0x00629e                  _QEIInit
+                  0x0062b4                  _ADCInit
+                  0x00632a                  _EventCheckInit
+                  0x00633c                  __T7Interrupt
+                  0x00635c                  __T3Interrupt
+ .text            0x006364        0x33a build/default/production/PID_Library.o
+                  0x006364                  _Compute
+                  0x0064ae                  _SetTunings
+                  0x006502                  _SetSampleTime
+                  0x006560                  _SetOutputLimits
+                  0x006636                  _Initialize
+ .text            0x00669e        0x22a build/default/production/DMA_Transfer.o
+                  0x00669e                  _DMA0_UART2_Transfer
+                  0x0066dc                  _DMA1_UART2_Enable_RX
+                  0x00672a                  _DMA2_SPI_Transfer
+                  0x00676c                  _DMA3_SPI_Enable_RX
+                  0x0067aa                  _DMA4_CAN_Transfer
+                  0x0067de                  _DMA5_CAN_Enable_RX
+                  0x0067ea                  _DMA6_ADC_Enable
+                  0x006820                  __DMA0Interrupt
+                  0x006828                  __DMA1Interrupt
+                  0x006852                  __DMA2Interrupt
+                  0x00685a                  __DMA3Interrupt
+                  0x006884                  __DMA4Interrupt
+                  0x00688c                  __DMA5Interrupt
+                  0x0068b6                  __DMA6Interrupt
+ .text            0x0068c8        0x170 build/default/production/main.o
+                  0x0068c8                  _main
+                  0x0069d4                  _EventChecker
+ .text            0x006a38        0x130 build/default/production/DRV8301.o
+                  0x006a38                  _DRV8301_Init
+                  0x006ade                  _DRV8301_UpdateStatus
+                  0x006b12                  _DRV8301_Reset
+                  0x006b2c                  _DRV8301_DCCalibration
+ .text            0x006b68        0x106 build/default/production/SPIdsPIC.o
+                  0x006b68                  _SPI1_Init
+                  0x006ba4                  _SPI1_WriteToReg
+                  0x006c0a                  _SPI1_ReadFromReg

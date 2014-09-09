@@ -10,7 +10,7 @@
   Summary:
     Contains the prototypes for ECAN and DMA initialization and configuration functions.
 
-*******************************************************************************/
+ *******************************************************************************/
 /*******************************************************************************
 Copyright (c) 2012 released Microchip Technology Inc.  All rights reserved.
 
@@ -32,22 +32,21 @@ INCLUDING BUT NOT LIMITED TO ANY INCIDENTAL, SPECIAL, INDIRECT, PUNITIVE OR
 CONSEQUENTIAL DAMAGES, LOST PROFITS OR LOST DATA, COST OF PROCUREMENT OF
 SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 (INCLUDING BUT NOT LIMITED TO ANY DEFENSE THEREOF), OR OTHER SIMILAR COSTS.
-*******************************************************************************/
+ *******************************************************************************/
 #ifndef __ECAN1_CONFIG_H__
-    #define __ECAN1_CONFIG_H__
+#define __ECAN1_CONFIG_H__
 
 // *****************************************************************************
 // *****************************************************************************
 // Section: Included Files
 // *****************************************************************************
 // *****************************************************************************
-    #include "ecan1drv.h"
-    #include <stdint.h>
+#include "ecan1drv.h"
+#include <stdint.h>
 
-    #ifdef __cplusplus      // Provide C++ Compatability
-extern "C"
-{
-        #endif
+#ifdef __cplusplus      // Provide C++ Compatability
+extern "C" {
+#endif
 
     // *****************************************************************************
     // *****************************************************************************
@@ -55,32 +54,32 @@ extern "C"
     // *****************************************************************************
     // *****************************************************************************
     /* CAN Baud Rate Configuration         */
-        #define FCAN    40000000
-        #define BITRATE 1000000
-        #define NTQ     20  // 20 Time Quanta in a Bit Time
-        #define BRP_VAL ( (FCAN / (2 * NTQ * BITRATE)) - 1 )
+#define FCAN    40000000
+#define BITRATE 1000000
+#define NTQ     20  // 20 Time Quanta in a Bit Time
+#define BRP_VAL ( (FCAN / (2 * NTQ * BITRATE)) - 1 )
 
     //#define _HAS_DMA_
     /* CAN Message Buffer Configuration */
-        #define ECAN1_MSG_BUF_LENGTH    4
+#define ECAN1_MSG_BUF_LENGTH    4
 
     // *****************************************************************************
     // *****************************************************************************
     // Section: Data Types
     // *****************************************************************************
     // *****************************************************************************
-    typedef uint16_t                        ECAN1MSGBUF[ECAN1_MSG_BUF_LENGTH][8];
+    typedef uint16_t ECAN1MSGBUF[ECAN1_MSG_BUF_LENGTH][8];
 
     //extern ECAN1MSGBUF  ecan1msgBuf __attribute__((space(dma)));
-        #if 0
-            #ifdef _HAS_DMA_
-    __eds__ extern ECAN1MSGBUF ecan1msgBuf  __attribute__( (eds, space(dma)) );
-            #else
-    __eds__ extern ECAN1MSGBUF ecan1msgBuf  __attribute__( (space(xmemory)) );
-            #endif
-        #endif
-    extern __eds__ uint16_t                 ecan1msgBuf[ECAN1_MSG_BUF_LENGTH][8] __attribute__
-        ( (space(eds), aligned(ECAN1_MSG_BUF_LENGTH * 16)) );
+#if 0
+#ifdef _HAS_DMA_
+    __eds__ extern ECAN1MSGBUF ecan1msgBuf __attribute__((eds, space(dma)));
+#else
+    __eds__ extern ECAN1MSGBUF ecan1msgBuf __attribute__((space(xmemory)));
+#endif
+#endif
+    extern __eds__ uint16_t ecan1msgBuf[ECAN1_MSG_BUF_LENGTH][8] __attribute__
+    ((space(eds), aligned(ECAN1_MSG_BUF_LENGTH * 16)));  //HMMMMMMMMMMM THIS IS STRANGE...
 
     // *****************************************************************************
     // *****************************************************************************
@@ -88,16 +87,16 @@ extern "C"
     // *****************************************************************************
     // *****************************************************************************
     /* Function Prototype     */
-    extern void                             Ecan1Init( void );
-    extern void                             DMA0Init( void );
-    extern void                             DMA2Init( void );
+    extern void Ecan1Init(void);
+    extern void DMA0Init(void);
+    extern void DMA2Init(void);
 
-        #ifdef __cplusplus  // Provide C++ Compatibility
+#ifdef __cplusplus  // Provide C++ Compatibility
 }
 
-    #endif
+#endif
 #endif
 
 /*******************************************************************************
  End of File
-*/
+ */

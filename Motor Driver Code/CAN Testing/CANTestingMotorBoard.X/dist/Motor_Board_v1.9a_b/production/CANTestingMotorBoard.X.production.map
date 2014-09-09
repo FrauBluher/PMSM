@@ -1,30 +1,48 @@
-Microchip Technology Inc, vv1_11 (A) 9
+Microchip Technology Inc, v
 
 Tool Name:
-  c:\program files (x86)\microchip\xc16\v1.11\bin\bin\..\bin/elf-ld.exe
+  /opt/microchip/xc16/v1.20/bin/bin/../bin/elf-ld
 
 Command:
   -p33EP256MU806 \
   -o \
   dist/Motor_Board_v1.9a_b/production/CANTestingMotorBoard.X.production.elf \
-  -Lc:/program files (x86)/microchip/xc16/v1.11/bin/bin/.. \
-  -Lc:/program files (x86)/microchip/xc16/v1.11/bin/bin/../../lib \
-  -Lc:/program files (x86)/microchip/xc16/v1.11/bin/bin/../../lib/PIC24E \
-  -Lc:/program files (x86)/microchip/xc16/v1.11/bin/bin/../../support/PIC24E/gld \
-  -Lc:/program files (x86)/microchip/xc16/v1.11/bin/bin/../../lib/PIC24F \
-  -Lc:/program files (x86)/microchip/xc16/v1.11/bin/bin/../../support/PIC24F/gld \
-  -Lc:/program files (x86)/microchip/xc16/v1.11/bin/bin/../../lib/PIC24H \
-  -Lc:/program files (x86)/microchip/xc16/v1.11/bin/bin/../../support/PIC24H/gld \
-  -Lc:/program files (x86)/microchip/xc16/v1.11/bin/bin/../../lib/dsPIC30F \
-  -Lc:/program files (x86)/microchip/xc16/v1.11/bin/bin/../../support/dsPIC30F/gld \
-  -Lc:/program files (x86)/microchip/xc16/v1.11/bin/bin/../../lib/dsPIC33E \
-  -Lc:/program files (x86)/microchip/xc16/v1.11/bin/bin/../../support/dsPIC33E/gld \
-  -Lc:/program files (x86)/microchip/xc16/v1.11/bin/bin/../../lib/dsPIC33F \
-  -Lc:/program files (x86)/microchip/xc16/v1.11/bin/bin/../../support/dsPIC33F/gld \
+  -L/opt/microchip/xc16/v1.20/bin/bin/.. \
+  -L/opt/microchip/xc16/v1.20/bin/bin/../../lib \
+  -L/opt/microchip/xc16/v1.20/bin/bin/../../lib/PIC24E \
+  -L/opt/microchip/xc16/v1.20/bin/bin/../../support/PIC24E/gld \
+  -L/opt/microchip/xc16/v1.20/bin/bin/../../lib/PIC24F \
+  -L/opt/microchip/xc16/v1.20/bin/bin/../../support/PIC24F/gld \
+  -L/opt/microchip/xc16/v1.20/bin/bin/../../lib/PIC24H \
+  -L/opt/microchip/xc16/v1.20/bin/bin/../../support/PIC24H/gld \
+  -L/opt/microchip/xc16/v1.20/bin/bin/../../lib/dsPIC30F \
+  -L/opt/microchip/xc16/v1.20/bin/bin/../../support/dsPIC30F/gld \
+  -L/opt/microchip/xc16/v1.20/bin/bin/../../lib/dsPIC33E \
+  -L/opt/microchip/xc16/v1.20/bin/bin/../../support/dsPIC33E/gld \
+  -L/opt/microchip/xc16/v1.20/bin/bin/../../lib/dsPIC33F \
+  -L/opt/microchip/xc16/v1.20/bin/bin/../../support/dsPIC33F/gld \
   build/Motor_Board_v1.9a_b/production/_ext/1360937237/ecan1drv.o \
   build/Motor_Board_v1.9a_b/production/_ext/1360937237/traps.o \
   build/Motor_Board_v1.9a_b/production/_ext/1360937237/ecan1_config.o \
   build/Motor_Board_v1.9a_b/production/_ext/1360937237/main.o \
+  build/Motor_Board_v1.9a_b/production/_ext/379909333/dcf.o \
+  build/Motor_Board_v1.9a_b/production/_ext/379909333/emcy.o \
+  build/Motor_Board_v1.9a_b/production/_ext/379909333/lifegrd.o \
+  build/Motor_Board_v1.9a_b/production/_ext/379909333/lss.o \
+  build/Motor_Board_v1.9a_b/production/_ext/379909333/nmtMaster.o \
+  build/Motor_Board_v1.9a_b/production/_ext/379909333/nmtSlave.o \
+  build/Motor_Board_v1.9a_b/production/_ext/379909333/objacces.o \
+  build/Motor_Board_v1.9a_b/production/_ext/379909333/pdo.o \
+  build/Motor_Board_v1.9a_b/production/_ext/379909333/sdo.o \
+  build/Motor_Board_v1.9a_b/production/_ext/379909333/states.o \
+  build/Motor_Board_v1.9a_b/production/_ext/379909333/symbols.o \
+  build/Motor_Board_v1.9a_b/production/_ext/379909333/sync.o \
+  build/Motor_Board_v1.9a_b/production/_ext/379909333/timer.o \
+  build/Motor_Board_v1.9a_b/production/_ext/872612413/can_dspic33e.o \
+  build/Motor_Board_v1.9a_b/production/_ext/872612413/timer_dspic.o \
+  build/Motor_Board_v1.9a_b/production/_ext/1360937237/superball_circularbuffer.o \
+  build/Motor_Board_v1.9a_b/production/_ext/1360937237/motor_objdict.o \
+  --local-stack \
   --defsym=__MPLAB_BUILD=1 \
   -Tp33EP256MU806.gld.00 \
   --stack=16 \
@@ -41,6 +59,7 @@ Command:
   -Map=dist/Motor_Board_v1.9a_b/production/CANTestingMotorBoard.X.production.map \
   --report-mem \
   -start-group \
+  --library=fx-elf \
   --library=pic30-elf \
   --library=m-elf \
   --library=c-elf \
@@ -48,21 +67,33 @@ Command:
 
 Archive member included because of file (symbol)
 
-c:/program files (x86)/microchip/xc16/v1.11/bin/bin/../../lib\libpic30-elf.a(crt0_extendedep.o)
+/opt/microchip/xc16/v1.20/bin/bin/../../lib/dsPIC33E/libp33EP256MU806-elf.a(ConfigIntCAN1.o)
+                              build/Motor_Board_v1.9a_b/production/_ext/872612413/can_dspic33e.o (_ConfigIntCAN1)
+/opt/microchip/xc16/v1.20/bin/bin/../../lib/libpic30-elf.a(crt0_extendedep.o)
                               (__resetPRI)
-c:/program files (x86)/microchip/xc16/v1.11/bin/bin/../../lib\libpic30-elf.a(data_init_extendedep.o)
-                              c:/program files (x86)/microchip/xc16/v1.11/bin/bin/../../lib\libpic30-elf.a(crt0_extendedep.o) (__data_init_extended)
+/opt/microchip/xc16/v1.20/bin/bin/../../lib/libpic30-elf.a(data_init_extendedep.o)
+                              /opt/microchip/xc16/v1.20/bin/bin/../../lib/libpic30-elf.a(crt0_extendedep.o) (__data_init_extended)
+/opt/microchip/xc16/v1.20/bin/bin/../../lib/libm-elf.a(umodsi3.epeo)
+                              build/Motor_Board_v1.9a_b/production/_ext/379909333/timer.o (___umodsi3)
+/opt/microchip/xc16/v1.20/bin/bin/../../lib/libm-elf.a(udivsi3.epeo)
+                              /opt/microchip/xc16/v1.20/bin/bin/../../lib/libm-elf.a(umodsi3.epeo) (___udivsi3)
+/opt/microchip/xc16/v1.20/bin/bin/../../lib/libc-elf.a(memcmp.epeo)
+                              build/Motor_Board_v1.9a_b/production/_ext/379909333/pdo.o (_memcmp)
+/opt/microchip/xc16/v1.20/bin/bin/../../lib/libc-elf.a(memcpy.epeo)
+                              build/Motor_Board_v1.9a_b/production/_ext/379909333/emcy.o (_memcpy)
 
 
 Program Memory  [Origin = 0x200, Length = 0x2a9fe]
 
 section                    address   length (PC units)   length (bytes) (dec)
 -------                    -------   -----------------   --------------------
-.text                        0x200                0xea           0x15f  (351)
-.text                        0x2ea               0x70e           0xa95  (2709)
-.dinit                       0x9f8                 0xe            0x15  (21)
+.text                        0x200               0x1ec           0x2e2  (738)
+.const                       0x3ec               0x11a           0x1a7  (423)
+.text                        0x506              0x22c4          0x3426  (13350)
+.dinit                      0x27ca               0x8b0           0xd08  (3336)
+.text                       0x307a              0x2566          0x3819  (14361)
 
-                     Total program memory used (bytes):          0xc09  (3081) 1%
+                     Total program memory used (bytes):         0x7dd0  (32208) 12%
 
 
 Auxflash Memory  [Origin = 0x7fc000, Length = 0x3ff8]
@@ -77,10 +108,11 @@ Data Memory  [Origin = 0x1000, Length = 0x7000]
 
 section                    address      alignment gaps    total length  (dec)
 -------                    -------      --------------    -------------------
-.nbss                       0x1000                   0            0x12  (18)
-_04B6D000540e3776           0x7f80                   0            0x40  (64)
+.ndata                      0x1000                   0           0xcc4  (3268)
+.nbss                       0x1cc4                   0            0x60  (96)
+_0x5702a958540f8518         0x7f80                   0            0x40  (64)
 
-                        Total data memory used (bytes):           0x52  (82) <1%
+                        Total data memory used (bytes):          0xd64  (3428) 11%
 
 
 Dynamic Memory Usage
@@ -88,80 +120,668 @@ Dynamic Memory Usage
 region                     address                      maximum length  (dec)
 ------                     -------                      ---------------------
 heap                             0                                   0  (0)
-stack                       0x1012                              0x6f6e  (28526)
+stack                       0x1d24                              0x625c  (25180)
 
-                        Maximum dynamic memory (bytes):         0x6f6e  (28526)
+                        Maximum dynamic memory (bytes):         0x625c  (25180)
 
 
 External Symbols in Data Memory (by address):
 
-                    0x1000                  _rx_ecan1message
+                    0x1000                  _Strain_Gauge1
+                    0x1004                  _Strain_Gauge2
+                    0x1008                  _Strain_Gauge3
+                    0x100c                  _Strain_Gauge4
+                    0x1010                  _Voltage_24V
+                    0x1012                  _Position_actual_value
+                    0x1016                  _Velocity_actual_value
+                    0x101a                  _Current_actual_value
+                    0x101c                  _Target_position
+                    0x1020                  _Target_velocity
+                    0x1024                  _Motor_data_Continous_current_limit
+                    0x1026                  _Motor_data_Output_current_limit
+                    0x1028                  _Motor_data_Pole_pair_number
+                    0x102a                  _Motor_data_Maximal_speed_in_current_mode
+                    0x102c                  _Motor_data_Thermal_time_constant_winding
+                    0x102e                  _Supported_drive_modes
+                    0x1032                  _Motor_Board_bDeviceNodeId
+                    0x1034                  _Motor_Board_obj1000
+                    0x1038                  _Motor_Board_Index1000
+                    0x1040                  _Motor_Board_obj1001
+                    0x1042                  _Motor_Board_Index1001
+                    0x104a                  _Motor_Board_highestSubIndex_obj1003
+                    0x104c                  _Motor_Board_obj1003
+                    0x1050                  _Motor_Board_Index1003_callbacks
+                    0x1054                  _Motor_Board_Index1003
+                    0x1064                  _Motor_Board_obj1005
+                    0x1068                  _Motor_Board_obj1006
+                    0x106c                  _Motor_Board_obj100C
+                    0x106e                  _Motor_Board_obj100D
+                    0x1070                  _Motor_Board_obj1014
+                    0x1074                  _Motor_Board_highestSubIndex_obj1016
+                    0x1076                  _Motor_Board_obj1016
+                    0x107a                  _Motor_Board_obj1017
+                    0x107c                  _Motor_Board_Index1017_callbacks
+                    0x107e                  _Motor_Board_Index1017
+                    0x1086                  _Motor_Board_highestSubIndex_obj1018
+                    0x1088                  _Motor_Board_obj1018_Vendor_ID
+                    0x108c                  _Motor_Board_obj1018_Product_Code
+                    0x1090                  _Motor_Board_obj1018_Revision_Number
+                    0x1094                  _Motor_Board_obj1018_Serial_Number
+                    0x1098                  _Motor_Board_Index1018
+                    0x10c0                  _Motor_Board_highestSubIndex_obj1200
+                    0x10c2                  _Motor_Board_obj1200_COB_ID_Client_to_Server_Receive_SDO
+                    0x10c6                  _Motor_Board_obj1200_COB_ID_Server_to_Client_Transmit_SDO
+                    0x10ca                  _Motor_Board_Index1200
+                    0x10e2                  _Motor_Board_highestSubIndex_obj1400
+                    0x10e4                  _Motor_Board_obj1400_COB_ID_used_by_PDO
+                    0x10e8                  _Motor_Board_obj1400_Transmission_Type
+                    0x10ea                  _Motor_Board_obj1400_Inhibit_Time
+                    0x10ec                  _Motor_Board_obj1400_Compatibility_Entry
+                    0x10ee                  _Motor_Board_obj1400_Event_Timer
+                    0x10f0                  _Motor_Board_obj1400_SYNC_start_value
+                    0x10f2                  _Motor_Board_Index1400
+                    0x112a                  _Motor_Board_highestSubIndex_obj1401
+                    0x112c                  _Motor_Board_obj1401_COB_ID_used_by_PDO
+                    0x1130                  _Motor_Board_obj1401_Transmission_Type
+                    0x1132                  _Motor_Board_obj1401_Inhibit_Time
+                    0x1134                  _Motor_Board_obj1401_Compatibility_Entry
+                    0x1136                  _Motor_Board_obj1401_Event_Timer
+                    0x1138                  _Motor_Board_obj1401_SYNC_start_value
+                    0x113a                  _Motor_Board_Index1401
+                    0x1172                  _Motor_Board_highestSubIndex_obj1402
+                    0x1174                  _Motor_Board_obj1402_COB_ID_used_by_PDO
+                    0x1178                  _Motor_Board_obj1402_Transmission_Type
+                    0x117a                  _Motor_Board_obj1402_Inhibit_Time
+                    0x117c                  _Motor_Board_obj1402_Compatibility_Entry
+                    0x117e                  _Motor_Board_obj1402_Event_Timer
+                    0x1180                  _Motor_Board_obj1402_SYNC_start_value
+                    0x1182                  _Motor_Board_Index1402
+                    0x11ba                  _Motor_Board_highestSubIndex_obj1403
+                    0x11bc                  _Motor_Board_obj1403_COB_ID_used_by_PDO
+                    0x11c0                  _Motor_Board_obj1403_Transmission_Type
+                    0x11c2                  _Motor_Board_obj1403_Inhibit_Time
+                    0x11c4                  _Motor_Board_obj1403_Compatibility_Entry
+                    0x11c6                  _Motor_Board_obj1403_Event_Timer
+                    0x11c8                  _Motor_Board_obj1403_SYNC_start_value
+                    0x11ca                  _Motor_Board_Index1403
+                    0x1202                  _Motor_Board_highestSubIndex_obj1600
+                    0x1204                  _Motor_Board_obj1600
+                    0x1224                  _Motor_Board_Index1600
+                    0x126c                  _Motor_Board_highestSubIndex_obj1601
+                    0x126e                  _Motor_Board_obj1601
+                    0x128e                  _Motor_Board_Index1601
+                    0x12d6                  _Motor_Board_highestSubIndex_obj1602
+                    0x12d8                  _Motor_Board_obj1602
+                    0x12f8                  _Motor_Board_Index1602
+                    0x1340                  _Motor_Board_highestSubIndex_obj1603
+                    0x1342                  _Motor_Board_obj1603
+                    0x1362                  _Motor_Board_Index1603
+                    0x13aa                  _Motor_Board_highestSubIndex_obj1800
+                    0x13ac                  _Motor_Board_obj1800_COB_ID_used_by_PDO
+                    0x13b0                  _Motor_Board_obj1800_Transmission_Type
+                    0x13b2                  _Motor_Board_obj1800_Inhibit_Time
+                    0x13b4                  _Motor_Board_obj1800_Compatibility_Entry
+                    0x13b6                  _Motor_Board_obj1800_Event_Timer
+                    0x13b8                  _Motor_Board_obj1800_SYNC_start_value
+                    0x13ba                  _Motor_Board_Index1800_callbacks
+                    0x13c8                  _Motor_Board_Index1800
+                    0x1400                  _Motor_Board_highestSubIndex_obj1801
+                    0x1402                  _Motor_Board_obj1801_COB_ID_used_by_PDO
+                    0x1406                  _Motor_Board_obj1801_Transmission_Type
+                    0x1408                  _Motor_Board_obj1801_Inhibit_Time
+                    0x140a                  _Motor_Board_obj1801_Compatibility_Entry
+                    0x140c                  _Motor_Board_obj1801_Event_Timer
+                    0x140e                  _Motor_Board_obj1801_SYNC_start_value
+                    0x1410                  _Motor_Board_Index1801_callbacks
+                    0x141e                  _Motor_Board_Index1801
+                    0x1456                  _Motor_Board_highestSubIndex_obj1802
+                    0x1458                  _Motor_Board_obj1802_COB_ID_used_by_PDO
+                    0x145c                  _Motor_Board_obj1802_Transmission_Type
+                    0x145e                  _Motor_Board_obj1802_Inhibit_Time
+                    0x1460                  _Motor_Board_obj1802_Compatibility_Entry
+                    0x1462                  _Motor_Board_obj1802_Event_Timer
+                    0x1464                  _Motor_Board_obj1802_SYNC_start_value
+                    0x1466                  _Motor_Board_Index1802_callbacks
+                    0x1474                  _Motor_Board_Index1802
+                    0x14ac                  _Motor_Board_highestSubIndex_obj1803
+                    0x14ae                  _Motor_Board_obj1803_COB_ID_used_by_PDO
+                    0x14b2                  _Motor_Board_obj1803_Transmission_Type
+                    0x14b4                  _Motor_Board_obj1803_Inhibit_Time
+                    0x14b6                  _Motor_Board_obj1803_Compatibility_Entry
+                    0x14b8                  _Motor_Board_obj1803_Event_Timer
+                    0x14ba                  _Motor_Board_obj1803_SYNC_start_value
+                    0x14bc                  _Motor_Board_Index1803_callbacks
+                    0x14ca                  _Motor_Board_Index1803
+                    0x1502                  _Motor_Board_highestSubIndex_obj1A00
+                    0x1504                  _Motor_Board_obj1A00
+                    0x1508                  _Motor_Board_Index1A00
+                    0x1518                  _Motor_Board_highestSubIndex_obj1A01
+                    0x151a                  _Motor_Board_obj1A01
+                    0x153a                  _Motor_Board_Index1A01
+                    0x1582                  _Motor_Board_highestSubIndex_obj1A02
+                    0x1584                  _Motor_Board_obj1A02
+                    0x15a4                  _Motor_Board_Index1A02
+                    0x15ec                  _Motor_Board_highestSubIndex_obj1A03
+                    0x15ee                  _Motor_Board_obj1A03
+                    0x160e                  _Motor_Board_Index1A03
+                    0x1656                  _Motor_Board_Index2001
+                    0x165e                  _Motor_Board_Index2002
+                    0x1666                  _Motor_Board_Index2003
+                    0x166e                  _Motor_Board_Index2004
+                    0x1676                  _Motor_Board_Index4000
+                    0x167e                  _Motor_Board_Index6064
+                    0x1686                  _Motor_Board_Index606C
+                    0x168e                  _Motor_Board_Index6078
+                    0x1696                  _Motor_Board_Index607A
+                    0x169e                  _Motor_Board_Index60FF
+                    0x16a6                  _Motor_Board_highestSubIndex_obj6410
+                    0x16a8                  _Motor_Board_Index6410
+                    0x16d8                  _Motor_Board_Index6502
+                    0x16e0                  _Motor_Board_PDO_status
+                    0x1728                  _Motor_Board_Data
+                    0x1a7c                  _timers
+                    0x1cbc                  _total_sleep_time
+                    0x1cc0                  _last_timer_raw
+                    0x1cc2                  _tdcount
+                    0x1cc4                  _can_rx_buffer_array
+                    0x1d00                  _can_rx_circ_buff
+                    0x1d0c                  _rx_ecan1message
+                    0x1d22                  _Motor_Board_heartBeatTimers
                     0x7f80                  _ecan1msgBuf
 
 External Symbols in Data Memory (by name):
 
+                    0x101a                  _Current_actual_value
+                    0x1728                  _Motor_Board_Data
+                    0x1038                  _Motor_Board_Index1000
+                    0x1042                  _Motor_Board_Index1001
+                    0x1054                  _Motor_Board_Index1003
+                    0x1050                  _Motor_Board_Index1003_callbacks
+                    0x107e                  _Motor_Board_Index1017
+                    0x107c                  _Motor_Board_Index1017_callbacks
+                    0x1098                  _Motor_Board_Index1018
+                    0x10ca                  _Motor_Board_Index1200
+                    0x10f2                  _Motor_Board_Index1400
+                    0x113a                  _Motor_Board_Index1401
+                    0x1182                  _Motor_Board_Index1402
+                    0x11ca                  _Motor_Board_Index1403
+                    0x1224                  _Motor_Board_Index1600
+                    0x128e                  _Motor_Board_Index1601
+                    0x12f8                  _Motor_Board_Index1602
+                    0x1362                  _Motor_Board_Index1603
+                    0x13c8                  _Motor_Board_Index1800
+                    0x13ba                  _Motor_Board_Index1800_callbacks
+                    0x141e                  _Motor_Board_Index1801
+                    0x1410                  _Motor_Board_Index1801_callbacks
+                    0x1474                  _Motor_Board_Index1802
+                    0x1466                  _Motor_Board_Index1802_callbacks
+                    0x14ca                  _Motor_Board_Index1803
+                    0x14bc                  _Motor_Board_Index1803_callbacks
+                    0x1508                  _Motor_Board_Index1A00
+                    0x153a                  _Motor_Board_Index1A01
+                    0x15a4                  _Motor_Board_Index1A02
+                    0x160e                  _Motor_Board_Index1A03
+                    0x1656                  _Motor_Board_Index2001
+                    0x165e                  _Motor_Board_Index2002
+                    0x1666                  _Motor_Board_Index2003
+                    0x166e                  _Motor_Board_Index2004
+                    0x1676                  _Motor_Board_Index4000
+                    0x167e                  _Motor_Board_Index6064
+                    0x1686                  _Motor_Board_Index606C
+                    0x168e                  _Motor_Board_Index6078
+                    0x1696                  _Motor_Board_Index607A
+                    0x169e                  _Motor_Board_Index60FF
+                    0x16a8                  _Motor_Board_Index6410
+                    0x16d8                  _Motor_Board_Index6502
+                    0x16e0                  _Motor_Board_PDO_status
+                    0x1032                  _Motor_Board_bDeviceNodeId
+                    0x1d22                  _Motor_Board_heartBeatTimers
+                    0x104a                  _Motor_Board_highestSubIndex_obj1003
+                    0x1074                  _Motor_Board_highestSubIndex_obj1016
+                    0x1086                  _Motor_Board_highestSubIndex_obj1018
+                    0x10c0                  _Motor_Board_highestSubIndex_obj1200
+                    0x10e2                  _Motor_Board_highestSubIndex_obj1400
+                    0x112a                  _Motor_Board_highestSubIndex_obj1401
+                    0x1172                  _Motor_Board_highestSubIndex_obj1402
+                    0x11ba                  _Motor_Board_highestSubIndex_obj1403
+                    0x1202                  _Motor_Board_highestSubIndex_obj1600
+                    0x126c                  _Motor_Board_highestSubIndex_obj1601
+                    0x12d6                  _Motor_Board_highestSubIndex_obj1602
+                    0x1340                  _Motor_Board_highestSubIndex_obj1603
+                    0x13aa                  _Motor_Board_highestSubIndex_obj1800
+                    0x1400                  _Motor_Board_highestSubIndex_obj1801
+                    0x1456                  _Motor_Board_highestSubIndex_obj1802
+                    0x14ac                  _Motor_Board_highestSubIndex_obj1803
+                    0x1502                  _Motor_Board_highestSubIndex_obj1A00
+                    0x1518                  _Motor_Board_highestSubIndex_obj1A01
+                    0x1582                  _Motor_Board_highestSubIndex_obj1A02
+                    0x15ec                  _Motor_Board_highestSubIndex_obj1A03
+                    0x16a6                  _Motor_Board_highestSubIndex_obj6410
+                    0x1034                  _Motor_Board_obj1000
+                    0x1040                  _Motor_Board_obj1001
+                    0x104c                  _Motor_Board_obj1003
+                    0x1064                  _Motor_Board_obj1005
+                    0x1068                  _Motor_Board_obj1006
+                    0x106c                  _Motor_Board_obj100C
+                    0x106e                  _Motor_Board_obj100D
+                    0x1070                  _Motor_Board_obj1014
+                    0x1076                  _Motor_Board_obj1016
+                    0x107a                  _Motor_Board_obj1017
+                    0x108c                  _Motor_Board_obj1018_Product_Code
+                    0x1090                  _Motor_Board_obj1018_Revision_Number
+                    0x1094                  _Motor_Board_obj1018_Serial_Number
+                    0x1088                  _Motor_Board_obj1018_Vendor_ID
+                    0x10c2                  _Motor_Board_obj1200_COB_ID_Client_to_Server_Receive_SDO
+                    0x10c6                  _Motor_Board_obj1200_COB_ID_Server_to_Client_Transmit_SDO
+                    0x10e4                  _Motor_Board_obj1400_COB_ID_used_by_PDO
+                    0x10ec                  _Motor_Board_obj1400_Compatibility_Entry
+                    0x10ee                  _Motor_Board_obj1400_Event_Timer
+                    0x10ea                  _Motor_Board_obj1400_Inhibit_Time
+                    0x10f0                  _Motor_Board_obj1400_SYNC_start_value
+                    0x10e8                  _Motor_Board_obj1400_Transmission_Type
+                    0x112c                  _Motor_Board_obj1401_COB_ID_used_by_PDO
+                    0x1134                  _Motor_Board_obj1401_Compatibility_Entry
+                    0x1136                  _Motor_Board_obj1401_Event_Timer
+                    0x1132                  _Motor_Board_obj1401_Inhibit_Time
+                    0x1138                  _Motor_Board_obj1401_SYNC_start_value
+                    0x1130                  _Motor_Board_obj1401_Transmission_Type
+                    0x1174                  _Motor_Board_obj1402_COB_ID_used_by_PDO
+                    0x117c                  _Motor_Board_obj1402_Compatibility_Entry
+                    0x117e                  _Motor_Board_obj1402_Event_Timer
+                    0x117a                  _Motor_Board_obj1402_Inhibit_Time
+                    0x1180                  _Motor_Board_obj1402_SYNC_start_value
+                    0x1178                  _Motor_Board_obj1402_Transmission_Type
+                    0x11bc                  _Motor_Board_obj1403_COB_ID_used_by_PDO
+                    0x11c4                  _Motor_Board_obj1403_Compatibility_Entry
+                    0x11c6                  _Motor_Board_obj1403_Event_Timer
+                    0x11c2                  _Motor_Board_obj1403_Inhibit_Time
+                    0x11c8                  _Motor_Board_obj1403_SYNC_start_value
+                    0x11c0                  _Motor_Board_obj1403_Transmission_Type
+                    0x1204                  _Motor_Board_obj1600
+                    0x126e                  _Motor_Board_obj1601
+                    0x12d8                  _Motor_Board_obj1602
+                    0x1342                  _Motor_Board_obj1603
+                    0x13ac                  _Motor_Board_obj1800_COB_ID_used_by_PDO
+                    0x13b4                  _Motor_Board_obj1800_Compatibility_Entry
+                    0x13b6                  _Motor_Board_obj1800_Event_Timer
+                    0x13b2                  _Motor_Board_obj1800_Inhibit_Time
+                    0x13b8                  _Motor_Board_obj1800_SYNC_start_value
+                    0x13b0                  _Motor_Board_obj1800_Transmission_Type
+                    0x1402                  _Motor_Board_obj1801_COB_ID_used_by_PDO
+                    0x140a                  _Motor_Board_obj1801_Compatibility_Entry
+                    0x140c                  _Motor_Board_obj1801_Event_Timer
+                    0x1408                  _Motor_Board_obj1801_Inhibit_Time
+                    0x140e                  _Motor_Board_obj1801_SYNC_start_value
+                    0x1406                  _Motor_Board_obj1801_Transmission_Type
+                    0x1458                  _Motor_Board_obj1802_COB_ID_used_by_PDO
+                    0x1460                  _Motor_Board_obj1802_Compatibility_Entry
+                    0x1462                  _Motor_Board_obj1802_Event_Timer
+                    0x145e                  _Motor_Board_obj1802_Inhibit_Time
+                    0x1464                  _Motor_Board_obj1802_SYNC_start_value
+                    0x145c                  _Motor_Board_obj1802_Transmission_Type
+                    0x14ae                  _Motor_Board_obj1803_COB_ID_used_by_PDO
+                    0x14b6                  _Motor_Board_obj1803_Compatibility_Entry
+                    0x14b8                  _Motor_Board_obj1803_Event_Timer
+                    0x14b4                  _Motor_Board_obj1803_Inhibit_Time
+                    0x14ba                  _Motor_Board_obj1803_SYNC_start_value
+                    0x14b2                  _Motor_Board_obj1803_Transmission_Type
+                    0x1504                  _Motor_Board_obj1A00
+                    0x151a                  _Motor_Board_obj1A01
+                    0x1584                  _Motor_Board_obj1A02
+                    0x15ee                  _Motor_Board_obj1A03
+                    0x1024                  _Motor_data_Continous_current_limit
+                    0x102a                  _Motor_data_Maximal_speed_in_current_mode
+                    0x1026                  _Motor_data_Output_current_limit
+                    0x1028                  _Motor_data_Pole_pair_number
+                    0x102c                  _Motor_data_Thermal_time_constant_winding
+                    0x1012                  _Position_actual_value
+                    0x1000                  _Strain_Gauge1
+                    0x1004                  _Strain_Gauge2
+                    0x1008                  _Strain_Gauge3
+                    0x100c                  _Strain_Gauge4
+                    0x102e                  _Supported_drive_modes
+                    0x101c                  _Target_position
+                    0x1020                  _Target_velocity
+                    0x1016                  _Velocity_actual_value
+                    0x1010                  _Voltage_24V
+                    0x1cc4                  _can_rx_buffer_array
+                    0x1d00                  _can_rx_circ_buff
                     0x7f80                  _ecan1msgBuf
-                    0x1000                  _rx_ecan1message
+                    0x1cc0                  _last_timer_raw
+                    0x1d0c                  _rx_ecan1message
+                    0x1cc2                  _tdcount
+                    0x1a7c                  _timers
+                    0x1cbc                  _total_sleep_time
 
 External Symbols in Program Memory (by address):
 
                   0x000200                  __resetPRI
-                  0x000222                  __psv_init
-                  0x00022e                  __data_init
-                  0x00022e                  __data_init_extended
-                  0x0002c8                  __OscillatorFail
-                  0x0002ce                  __AddressError
-                  0x0002d4                  __StackError
-                  0x0002da                  __MathError
-                  0x0002e0                  __DMACError
-                  0x0002e6                  __DefaultInterrupt
-                  0x0002ea                  _Ecan1WriteMessage
-                  0x00030a                  _RxECAN1
-                  0x00054e                  _ClearIntrflags
-                  0x000560                  _OscConfig
-                  0x0005a4                  _main
-                  0x0005c8                  __C1Interrupt
-                  0x000600                  __DMA0Interrupt
-                  0x00060a                  __DMA2Interrupt
-                  0x000614                  _Ecan1WriteRxAcptFilter
-                  0x000682                  _Ecan1WriteRxAcptMask
-                  0x0006d8                  _Ecan1WriteTxMsgBufId
-                  0x0007e6                  _Ecan1WriteTxMsgBufData
-                  0x0008d6                  _Ecan1DisableRXFilter
-                  0x0008e8                  _DMA0Init
-                  0x00090e                  _DMA2Init
-                  0x000934                  _Ecan1ClkInit
-                  0x000960                  _Ecan1Init
+                  0x000226                  __psv_init
+                  0x000232                  __data_init_extended
+                  0x000232                  __data_init
+                  0x000340                  __OscillatorFail
+                  0x000346                  __AddressError
+                  0x00034c                  __StackError
+                  0x000352                  __MathError
+                  0x000358                  __DMACError
+                  0x00035e                  __DefaultInterrupt
+                  0x000362                  _ConfigIntCAN1
+                  0x000386                  ___umodsi3
+                  0x00038c                  ___udivsi3
+                  0x0003ac                  _memcmp
+                  0x0003da                  _memcpy
+                  0x0003ec                  _Motor_Board_iam_a_slave
+                  0x0003ee                  _Motor_Board_objdict
+                  0x0004b4                  _Motor_Board_firstIndex
+                  0x0004c0                  _Motor_Board_lastIndex
+                  0x0004cc                  _Motor_Board_ObjdictSize
+                  0x000506                  _SDOlineToObjdict
+                  0x000550                  _objdictToSDOline
+                  0x000598                  _lineToSDO
+                  0x000612                  _SDOtoLine
+                  0x00067c                  _initSDOline
+                  0x00072c                  _resetSDOline
+                  0x000774                  _resetSDO
+                  0x00078e                  _getSDOfreeLine
+                  0x0007d2                  _getSDOlineOnUse
+                  0x000806                  _getSDOlineToClose
+                  0x000834                  _getSDOlineRestBytes
+                  0x000866                  _setSDOlineRestBytes
+                  0x000888                  _sendSDO
+                  0x000902                  _sendSDOabort
+                  0x00092e                  _failedSDO
+                  0x0009b2                  _SDOTimeoutAlarm
+                  0x000a48                  _proceedSDO
+                  0x00220e                  _GetSDOClientFromNodeId
+                  0x002270                  _closeSDOtransfer
+                  0x0022a2                  __writeNetworkDict
+                  0x0023e8                  _writeNetworkDict
+                  0x002400                  _writeNetworkDictCallBack
+                  0x00241a                  _writeNetworkDictCallBackAI
+                  0x0024fc                  __readNetworkDict
+                  0x0025d6                  _readNetworkDict
+                  0x0025e2                  _readNetworkDictCallback
+                  0x0025ea                  _readNetworkDictCallbackAI
+                  0x0026ae                  _getReadResultNetworkDict
+                  0x00277c                  _getWriteResultNetworkDict
+                  0x00309e                  _sendPDOrequest
+                  0x0030ea                  _CopyBits
+                  0x003168                  _buildPDO
+                  0x003266                  _sendOnePDOevent
+                  0x003370                  _PDOInhibitTimerAlarm
+                  0x00338a                  _PDOEventTimerAlarm
+                  0x0033a6                  _TPDO_Communication_Parameter_Callback
+                  0x003408                  _proceedPDO
+                  0x003652                  __RxPDO_EventTimers_Handler
+                  0x003658                  __sendPDOevent
+                  0x00377e                  _sendPDOevent
+                  0x003788                  _PDOInit
+                  0x0037e4                  _PDOStop
+                  0x003840                  _ConsumerHeartbeatAlarm
+                  0x00386a                  _GuardTimeAlarm
+                  0x0038e2                  _ProducerHeartbeatAlarm
+                  0x00391a                  _getNodeState
+                  0x003932                  _proceedNODE_GUARD
+                  0x003a42                  _heartbeatInit
+                  0x003ad0                  _nodeguardInit
+                  0x003b40                  _heartbeatStop
+                  0x003b76                  _OnHeartbeatProducerUpdate
+                  0x003b8c                  _nodeguardStop
+                  0x003b9e                  _OnNodeGuardUpdate
+                  0x003bb4                  _lifeGuardInit
+                  0x003bc8                  _lifeGuardStop
+                  0x003bdc                  __heartbeatError
+                  0x003be2                  __post_SlaveBootup
+                  0x003be8                  __post_SlaveStateChange
+                  0x003bee                  __nodeguardError
+                  0x003bf4                  _getState
+                  0x003bfc                  _canDispatch
+                  0x003c70                  _switchCommunicationState
+                  0x003d4c                  _setState
+                  0x003e14                  _getNodeId
+                  0x003e1e                  _setNodeId
+                  0x003f0a                  __initialisation
+                  0x003f10                  __preOperational
+                  0x003f24                  __operational
+                  0x003f2a                  __stopped
+                  0x003f30                  _start_node
+                  0x003f52                  _init_consise_dcf
+                  0x003fa2                  _get_next_DCF_data
+                  0x004054                  _check_and_start_node
+                  0x004092                  _start_and_seek_node
+                  0x004104                  build/Motor_Board_v1.9a_b/production/_ext/379909333/dcf.o:_CheckSDOAndContinue
+                  0x004200                  _SaveNode
+                  0x004224                  _Ecan1WriteRxAcptFilter
+                  0x004292                  _Ecan1WriteRxAcptMask
+                  0x0042e8                  _Ecan1WriteTxMsgBufId
+                  0x0043f6                  _Ecan1WriteTxMsgBufData
+                  0x0044e8                  _Ecan1DisableRXFilter
+                  0x0044fa                  _CB_Init
+                  0x004532                  _CB_ReadByte
+                  0x00457a                  _CB_ReadMany
+                  0x0045c2                  _CB_WriteByte
+                  0x004618                  _CB_WriteMany
+                  0x0046c6                  _CB_Peek
+                  0x0046e2                  _CB_PeekMany
+                  0x00471e                  _CB_Remove
+                  0x00474c                  _OnNumberOfErrorsUpdate
+                  0x00477c                  _emergencyInit
+                  0x004796                  _emergencyStop
+                  0x00479c                  _sendEMCY
+                  0x0047e6                  _EMCY_setError
+                  0x0048e8                  _EMCY_errorRecovered
+                  0x00496c                  _proceedEMCY
+                  0x00498e                  __post_emcy
+                  0x004994                  _accessDictionaryError
+                  0x00499c                  __getODentry
+                  0x004a6c                  __setODentry
+                  0x004b7e                  _scanIndexOD
+                  0x004b90                  _RegisterSetODentryCallBack
+                  0x004bc2                  __storeODSubIndex
+                  0x004bc8                  _canInit
+                  0x004ccc                  _canSend
+                  0x004d92                  _canReceive
+                  0x004daa                  _canChangeBaudRate_driver
+                  0x004db2                  __C1Interrupt
+                  0x004dec                  _SetAlarm
+                  0x004e9c                  _DelAlarm
+                  0x004eba                  _TimeDispatch
+                  0x004fb0                  _Motor_Board_valueRangeTest
+                  0x004fce                  _Motor_Board_scanIndexOD
+                  0x005164                  _DMA0Init
+                  0x00518a                  _DMA2Init
+                  0x0051b0                  _Ecan1ClkInit
+                  0x0051e8                  _Ecan1Init
+                  0x0052a2                  _stopSYNC
+                  0x0052c8                  _startSYNC
+                  0x005324                  _OnCOB_ID_SyncUpdate
+                  0x00532e                  _sendSYNCMessage
+                  0x005344                  _proceedSYNC
+                  0x00536e                  _sendSYNC
+                  0x005386                  _SyncAlarm
+                  0x00538e                  __post_sync
+                  0x005394                  __post_TPDO
+                  0x00539a                  _proceedNMTstateChange
+                  0x005448                  _slaveSendBootUp
+                  0x005468                  _reset_board
+                  0x00546e                  _RxECAN1
+                  0x005474                  _ClearIntrflags
+                  0x005486                  _OscConfig
+                  0x0054ce                  _main
+                  0x005500                  __DMA0Interrupt
+                  0x00550a                  __DMA2Interrupt
+                  0x005514                  _initTimer
+                  0x00554c                  _setTimer
+                  0x005566                  _getElapsedTime
+                  0x00556e                  __T3Interrupt
+                  0x00557e                  _masterSendNMTstateChange
+                  0x005598                  _masterSendNMTnodeguard
+                  0x0055b2                  _masterRequestNodeState
 
 External Symbols in Program Memory (by name):
 
-                  0x00054e                  _ClearIntrflags
-                  0x0008e8                  _DMA0Init
-                  0x00090e                  _DMA2Init
-                  0x000934                  _Ecan1ClkInit
-                  0x0008d6                  _Ecan1DisableRXFilter
-                  0x000960                  _Ecan1Init
-                  0x0002ea                  _Ecan1WriteMessage
-                  0x000614                  _Ecan1WriteRxAcptFilter
-                  0x000682                  _Ecan1WriteRxAcptMask
-                  0x0007e6                  _Ecan1WriteTxMsgBufData
-                  0x0006d8                  _Ecan1WriteTxMsgBufId
-                  0x000560                  _OscConfig
-                  0x00030a                  _RxECAN1
-                  0x0002ce                  __AddressError
-                  0x0005c8                  __C1Interrupt
-                  0x000600                  __DMA0Interrupt
-                  0x00060a                  __DMA2Interrupt
-                  0x0002e0                  __DMACError
-                  0x0002e6                  __DefaultInterrupt
-                  0x0002da                  __MathError
-                  0x0002c8                  __OscillatorFail
-                  0x0002d4                  __StackError
-                  0x00022e                  __data_init
-                  0x00022e                  __data_init_extended
-                  0x000222                  __psv_init
+                  0x0044fa                  _CB_Init
+                  0x0046c6                  _CB_Peek
+                  0x0046e2                  _CB_PeekMany
+                  0x004532                  _CB_ReadByte
+                  0x00457a                  _CB_ReadMany
+                  0x00471e                  _CB_Remove
+                  0x0045c2                  _CB_WriteByte
+                  0x004618                  _CB_WriteMany
+                  0x005474                  _ClearIntrflags
+                  0x000362                  _ConfigIntCAN1
+                  0x003840                  _ConsumerHeartbeatAlarm
+                  0x0030ea                  _CopyBits
+                  0x005164                  _DMA0Init
+                  0x00518a                  _DMA2Init
+                  0x004e9c                  _DelAlarm
+                  0x0048e8                  _EMCY_errorRecovered
+                  0x0047e6                  _EMCY_setError
+                  0x0051b0                  _Ecan1ClkInit
+                  0x0044e8                  _Ecan1DisableRXFilter
+                  0x0051e8                  _Ecan1Init
+                  0x004224                  _Ecan1WriteRxAcptFilter
+                  0x004292                  _Ecan1WriteRxAcptMask
+                  0x0043f6                  _Ecan1WriteTxMsgBufData
+                  0x0042e8                  _Ecan1WriteTxMsgBufId
+                  0x00220e                  _GetSDOClientFromNodeId
+                  0x00386a                  _GuardTimeAlarm
+                  0x0004cc                  _Motor_Board_ObjdictSize
+                  0x0004b4                  _Motor_Board_firstIndex
+                  0x0003ec                  _Motor_Board_iam_a_slave
+                  0x0004c0                  _Motor_Board_lastIndex
+                  0x0003ee                  _Motor_Board_objdict
+                  0x004fce                  _Motor_Board_scanIndexOD
+                  0x004fb0                  _Motor_Board_valueRangeTest
+                  0x005324                  _OnCOB_ID_SyncUpdate
+                  0x003b76                  _OnHeartbeatProducerUpdate
+                  0x003b9e                  _OnNodeGuardUpdate
+                  0x00474c                  _OnNumberOfErrorsUpdate
+                  0x005486                  _OscConfig
+                  0x00338a                  _PDOEventTimerAlarm
+                  0x003370                  _PDOInhibitTimerAlarm
+                  0x003788                  _PDOInit
+                  0x0037e4                  _PDOStop
+                  0x0038e2                  _ProducerHeartbeatAlarm
+                  0x004b90                  _RegisterSetODentryCallBack
+                  0x00546e                  _RxECAN1
+                  0x0009b2                  _SDOTimeoutAlarm
+                  0x000506                  _SDOlineToObjdict
+                  0x000612                  _SDOtoLine
+                  0x004200                  _SaveNode
+                  0x004dec                  _SetAlarm
+                  0x005386                  _SyncAlarm
+                  0x0033a6                  _TPDO_Communication_Parameter_Callback
+                  0x004eba                  _TimeDispatch
+                  0x000346                  __AddressError
+                  0x004db2                  __C1Interrupt
+                  0x005500                  __DMA0Interrupt
+                  0x00550a                  __DMA2Interrupt
+                  0x000358                  __DMACError
+                  0x00035e                  __DefaultInterrupt
+                  0x000352                  __MathError
+                  0x000340                  __OscillatorFail
+                  0x003652                  __RxPDO_EventTimers_Handler
+                  0x00034c                  __StackError
+                  0x00556e                  __T3Interrupt
+                  0x00038c                  ___udivsi3
+                  0x000386                  ___umodsi3
+                  0x000232                  __data_init
+                  0x000232                  __data_init_extended
+                  0x00499c                  __getODentry
+                  0x003bdc                  __heartbeatError
+                  0x003f0a                  __initialisation
+                  0x003bee                  __nodeguardError
+                  0x003f24                  __operational
+                  0x003be2                  __post_SlaveBootup
+                  0x003be8                  __post_SlaveStateChange
+                  0x005394                  __post_TPDO
+                  0x00498e                  __post_emcy
+                  0x00538e                  __post_sync
+                  0x003f10                  __preOperational
+                  0x000226                  __psv_init
+                  0x0024fc                  __readNetworkDict
                   0x000200                  __resetPRI
-                  0x0005a4                  _main
+                  0x003658                  __sendPDOevent
+                  0x004a6c                  __setODentry
+                  0x003f2a                  __stopped
+                  0x004bc2                  __storeODSubIndex
+                  0x0022a2                  __writeNetworkDict
+                  0x004994                  _accessDictionaryError
+                  0x003168                  _buildPDO
+                  0x004daa                  _canChangeBaudRate_driver
+                  0x003bfc                  _canDispatch
+                  0x004bc8                  _canInit
+                  0x004d92                  _canReceive
+                  0x004ccc                  _canSend
+                  0x004054                  _check_and_start_node
+                  0x002270                  _closeSDOtransfer
+                  0x00477c                  _emergencyInit
+                  0x004796                  _emergencyStop
+                  0x00092e                  _failedSDO
+                  0x005566                  _getElapsedTime
+                  0x003e14                  _getNodeId
+                  0x00391a                  _getNodeState
+                  0x0026ae                  _getReadResultNetworkDict
+                  0x00078e                  _getSDOfreeLine
+                  0x0007d2                  _getSDOlineOnUse
+                  0x000834                  _getSDOlineRestBytes
+                  0x000806                  _getSDOlineToClose
+                  0x003bf4                  _getState
+                  0x00277c                  _getWriteResultNetworkDict
+                  0x003fa2                  _get_next_DCF_data
+                  0x003a42                  _heartbeatInit
+                  0x003b40                  _heartbeatStop
+                  0x00067c                  _initSDOline
+                  0x005514                  _initTimer
+                  0x003f52                  _init_consise_dcf
+                  0x003bb4                  _lifeGuardInit
+                  0x003bc8                  _lifeGuardStop
+                  0x000598                  _lineToSDO
+                  0x0054ce                  _main
+                  0x0055b2                  _masterRequestNodeState
+                  0x005598                  _masterSendNMTnodeguard
+                  0x00557e                  _masterSendNMTstateChange
+                  0x0003ac                  _memcmp
+                  0x0003da                  _memcpy
+                  0x003ad0                  _nodeguardInit
+                  0x003b8c                  _nodeguardStop
+                  0x000550                  _objdictToSDOline
+                  0x00496c                  _proceedEMCY
+                  0x00539a                  _proceedNMTstateChange
+                  0x003932                  _proceedNODE_GUARD
+                  0x003408                  _proceedPDO
+                  0x000a48                  _proceedSDO
+                  0x005344                  _proceedSYNC
+                  0x0025d6                  _readNetworkDict
+                  0x0025e2                  _readNetworkDictCallback
+                  0x0025ea                  _readNetworkDictCallbackAI
+                  0x000774                  _resetSDO
+                  0x00072c                  _resetSDOline
+                  0x005468                  _reset_board
+                  0x004b7e                  _scanIndexOD
+                  0x00479c                  _sendEMCY
+                  0x003266                  _sendOnePDOevent
+                  0x00377e                  _sendPDOevent
+                  0x00309e                  _sendPDOrequest
+                  0x000888                  _sendSDO
+                  0x000902                  _sendSDOabort
+                  0x00536e                  _sendSYNC
+                  0x00532e                  _sendSYNCMessage
+                  0x003e1e                  _setNodeId
+                  0x000866                  _setSDOlineRestBytes
+                  0x003d4c                  _setState
+                  0x00554c                  _setTimer
+                  0x005448                  _slaveSendBootUp
+                  0x0052c8                  _startSYNC
+                  0x004092                  _start_and_seek_node
+                  0x003f30                  _start_node
+                  0x0052a2                  _stopSYNC
+                  0x003c70                  _switchCommunicationState
+                  0x0023e8                  _writeNetworkDict
+                  0x002400                  _writeNetworkDictCallBack
+                  0x00241a                  _writeNetworkDictCallBackAI
+                  0x004104                  build/Motor_Board_v1.9a_b/production/_ext/379909333/dcf.o:_CheckSDOAndContinue
 
 Memory Configuration
 
@@ -187,8 +807,25 @@ LOAD build/Motor_Board_v1.9a_b/production/_ext/1360937237/ecan1drv.o
 LOAD build/Motor_Board_v1.9a_b/production/_ext/1360937237/traps.o
 LOAD build/Motor_Board_v1.9a_b/production/_ext/1360937237/ecan1_config.o
 LOAD build/Motor_Board_v1.9a_b/production/_ext/1360937237/main.o
+LOAD build/Motor_Board_v1.9a_b/production/_ext/379909333/dcf.o
+LOAD build/Motor_Board_v1.9a_b/production/_ext/379909333/emcy.o
+LOAD build/Motor_Board_v1.9a_b/production/_ext/379909333/lifegrd.o
+LOAD build/Motor_Board_v1.9a_b/production/_ext/379909333/lss.o
+LOAD build/Motor_Board_v1.9a_b/production/_ext/379909333/nmtMaster.o
+LOAD build/Motor_Board_v1.9a_b/production/_ext/379909333/nmtSlave.o
+LOAD build/Motor_Board_v1.9a_b/production/_ext/379909333/objacces.o
+LOAD build/Motor_Board_v1.9a_b/production/_ext/379909333/pdo.o
+LOAD build/Motor_Board_v1.9a_b/production/_ext/379909333/sdo.o
+LOAD build/Motor_Board_v1.9a_b/production/_ext/379909333/states.o
+LOAD build/Motor_Board_v1.9a_b/production/_ext/379909333/symbols.o
+LOAD build/Motor_Board_v1.9a_b/production/_ext/379909333/sync.o
+LOAD build/Motor_Board_v1.9a_b/production/_ext/379909333/timer.o
+LOAD build/Motor_Board_v1.9a_b/production/_ext/872612413/can_dspic33e.o
+LOAD build/Motor_Board_v1.9a_b/production/_ext/872612413/timer_dspic.o
+LOAD build/Motor_Board_v1.9a_b/production/_ext/1360937237/superball_circularbuffer.o
+LOAD build/Motor_Board_v1.9a_b/production/_ext/1360937237/motor_objdict.o
                     0x0001                  __MPLAB_BUILD = 0x1
-LOAD c:/program files (x86)/microchip/xc16/v1.11/bin/bin/../../lib/dsPIC33E\libp33EP256MU806-elf.a
+LOAD /opt/microchip/xc16/v1.20/bin/bin/../../lib/dsPIC33E/libp33EP256MU806-elf.a
                     0xf80004                  __FGS = 0xf80004
                     0xf80006                  __FOSCSEL = 0xf80006
                     0xf80008                  __FOSC = 0xf80008
@@ -212,30 +849,43 @@ LOAD c:/program files (x86)/microchip/xc16/v1.11/bin/bin/../../lib/dsPIC33E\libp
                   0x000002          0x2 SHORT 0x0 ((ABSOLUTE (__reset) >> 0x10) & 0x7f)
                   0x000003          0x2 SHORT 0x0
 
-.text             0x000200         0xea
+.text             0x000200        0x1ec
  *(.init)
- .init            0x000200         0x2e c:/program files (x86)/microchip/xc16/v1.11/bin/bin/../../lib\libpic30-elf.a(crt0_extendedep.o)
-                  0x000200                  __resetPRI
+ .init            0x000200         0x32 /opt/microchip/xc16/v1.20/bin/bin/../../lib/libpic30-elf.a(crt0_extendedep.o)
                   0x000200                  __reset
-                  0x000222                  __psv_init
- .init            0x00022e         0x9a c:/program files (x86)/microchip/xc16/v1.11/bin/bin/../../lib\libpic30-elf.a(data_init_extendedep.o)
-                  0x00022e                  __data_init
-                  0x00022e                  __data_init_extended
+                  0x000200                  __resetPRI
+                  0x000226                  __psv_init
+ .init            0x000232         0x9a /opt/microchip/xc16/v1.20/bin/bin/../../lib/libpic30-elf.a(data_init_extendedep.o)
+                  0x000232                  __data_init_extended
+                  0x000232                  __data_init
  *(.user_init)
  *(.handle)
+ .handle          0x0002cc         0x74 jump_table
  *(.isr*)
- .isr.text        0x0002c8         0x1e build/Motor_Board_v1.9a_b/production/_ext/1360937237/traps.o
-                  0x0002c8                  __OscillatorFail
-                  0x0002ce                  __AddressError
-                  0x0002d4                  __StackError
-                  0x0002da                  __MathError
-                  0x0002e0                  __DMACError
- .isr             0x0002e6          0x4 default_isr
-                  0x0002e6                  __DefaultInterrupt
+ .isr.text        0x000340         0x1e build/Motor_Board_v1.9a_b/production/_ext/1360937237/traps.o
+                  0x000340                  __OscillatorFail
+                  0x000346                  __AddressError
+                  0x00034c                  __StackError
+                  0x000352                  __MathError
+                  0x000358                  __DMACError
+ .isr             0x00035e          0x4 default_isr
+                  0x00035e                  __DefaultInterrupt
  *(.libc)
  *(.libm)
  *(.libdsp)
  *(.lib*)
+ .libperi         0x000362         0x24 /opt/microchip/xc16/v1.20/bin/bin/../../lib/dsPIC33E/libp33EP256MU806-elf.a(ConfigIntCAN1.o)
+                  0x000362                  _ConfigIntCAN1
+ .libm.umodsi3    0x000386          0x6 /opt/microchip/xc16/v1.20/bin/bin/../../lib/libm-elf.a(umodsi3.epeo)
+                  0x000386                  ___umodsi3
+ .libm.udivsi3    0x00038c         0x20 /opt/microchip/xc16/v1.20/bin/bin/../../lib/libm-elf.a(udivsi3.epeo)
+                  0x00038c                  ___udivsi3
+ .libc.memcmp.memcmp
+                  0x0003ac         0x2e /opt/microchip/xc16/v1.20/bin/bin/../../lib/libc-elf.a(memcmp.epeo)
+                  0x0003ac                  _memcmp
+ .libc.memcpy.memcpy
+                  0x0003da         0x12 /opt/microchip/xc16/v1.20/bin/bin/../../lib/libc-elf.a(memcpy.epeo)
+                  0x0003da                  _memcpy
 
 usercode
  *(usercode)
@@ -271,41 +921,119 @@ __FUID0
 .comment
  *(.comment)
 
-.debug_info       0x000000       0x3812
+.debug_info       0x000000      0x18c07
  *(.debug_info)
- .debug_info      0x000000        0x72d build/Motor_Board_v1.9a_b/production/_ext/1360937237/ecan1drv.o
- .debug_info      0x00072d        0x2df build/Motor_Board_v1.9a_b/production/_ext/1360937237/traps.o
- .debug_info      0x000a0c       0x1655 build/Motor_Board_v1.9a_b/production/_ext/1360937237/ecan1_config.o
- .debug_info      0x002061       0x17b1 build/Motor_Board_v1.9a_b/production/_ext/1360937237/main.o
+ .debug_info      0x000000        0x731 build/Motor_Board_v1.9a_b/production/_ext/1360937237/ecan1drv.o
+ .debug_info      0x000731        0x2e3 build/Motor_Board_v1.9a_b/production/_ext/1360937237/traps.o
+ .debug_info      0x000a14       0x1659 build/Motor_Board_v1.9a_b/production/_ext/1360937237/ecan1_config.o
+ .debug_info      0x00206d       0x207f build/Motor_Board_v1.9a_b/production/_ext/1360937237/main.o
+ .debug_info      0x0040ec       0x14b2 build/Motor_Board_v1.9a_b/production/_ext/379909333/dcf.o
+ .debug_info      0x00559e       0x13ba build/Motor_Board_v1.9a_b/production/_ext/379909333/emcy.o
+ .debug_info      0x006958       0x1676 build/Motor_Board_v1.9a_b/production/_ext/379909333/lifegrd.o
+ .debug_info      0x007fce        0x16e build/Motor_Board_v1.9a_b/production/_ext/379909333/lss.o
+ .debug_info      0x00813c       0x11eb build/Motor_Board_v1.9a_b/production/_ext/379909333/nmtMaster.o
+ .debug_info      0x009327       0x1198 build/Motor_Board_v1.9a_b/production/_ext/379909333/nmtSlave.o
+ .debug_info      0x00a4bf       0x146b build/Motor_Board_v1.9a_b/production/_ext/379909333/objacces.o
+ .debug_info      0x00b92a       0x18e6 build/Motor_Board_v1.9a_b/production/_ext/379909333/pdo.o
+ .debug_info      0x00d210       0x20e4 build/Motor_Board_v1.9a_b/production/_ext/379909333/sdo.o
+ .debug_info      0x00f2f4       0x13e0 build/Motor_Board_v1.9a_b/production/_ext/379909333/states.o
+ .debug_info      0x0106d4        0x172 build/Motor_Board_v1.9a_b/production/_ext/379909333/symbols.o
+ .debug_info      0x010846       0x12c2 build/Motor_Board_v1.9a_b/production/_ext/379909333/sync.o
+ .debug_info      0x011b08       0x137c build/Motor_Board_v1.9a_b/production/_ext/379909333/timer.o
+ .debug_info      0x012e84       0x27fa build/Motor_Board_v1.9a_b/production/_ext/872612413/can_dspic33e.o
+ .debug_info      0x01567e        0x9dd build/Motor_Board_v1.9a_b/production/_ext/872612413/timer_dspic.o
+ .debug_info      0x01605b        0x561 build/Motor_Board_v1.9a_b/production/_ext/1360937237/superball_circularbuffer.o
+ .debug_info      0x0165bc       0x264b build/Motor_Board_v1.9a_b/production/_ext/1360937237/motor_objdict.o
  *(.gnu.linkonce.wi.*)
 
-.debug_abbrev     0x000000        0x49a
+.debug_abbrev     0x000000       0x1d68
  *(.debug_abbrev)
  .debug_abbrev    0x000000        0x1a7 build/Motor_Board_v1.9a_b/production/_ext/1360937237/ecan1drv.o
  .debug_abbrev    0x0001a7         0x7d build/Motor_Board_v1.9a_b/production/_ext/1360937237/traps.o
  .debug_abbrev    0x000224         0xe8 build/Motor_Board_v1.9a_b/production/_ext/1360937237/ecan1_config.o
- .debug_abbrev    0x00030c        0x18e build/Motor_Board_v1.9a_b/production/_ext/1360937237/main.o
+ .debug_abbrev    0x00030c        0x218 build/Motor_Board_v1.9a_b/production/_ext/1360937237/main.o
+ .debug_abbrev    0x000524        0x205 build/Motor_Board_v1.9a_b/production/_ext/379909333/dcf.o
+ .debug_abbrev    0x000729        0x19c build/Motor_Board_v1.9a_b/production/_ext/379909333/emcy.o
+ .debug_abbrev    0x0008c5        0x206 build/Motor_Board_v1.9a_b/production/_ext/379909333/lifegrd.o
+ .debug_abbrev    0x000acb         0x1f build/Motor_Board_v1.9a_b/production/_ext/379909333/lss.o
+ .debug_abbrev    0x000aea        0x133 build/Motor_Board_v1.9a_b/production/_ext/379909333/nmtMaster.o
+ .debug_abbrev    0x000c1d        0x131 build/Motor_Board_v1.9a_b/production/_ext/379909333/nmtSlave.o
+ .debug_abbrev    0x000d4e        0x1cc build/Motor_Board_v1.9a_b/production/_ext/379909333/objacces.o
+ .debug_abbrev    0x000f1a        0x211 build/Motor_Board_v1.9a_b/production/_ext/379909333/pdo.o
+ .debug_abbrev    0x00112b        0x1f4 build/Motor_Board_v1.9a_b/production/_ext/379909333/sdo.o
+ .debug_abbrev    0x00131f        0x1d1 build/Motor_Board_v1.9a_b/production/_ext/379909333/states.o
+ .debug_abbrev    0x0014f0         0x1f build/Motor_Board_v1.9a_b/production/_ext/379909333/symbols.o
+ .debug_abbrev    0x00150f        0x132 build/Motor_Board_v1.9a_b/production/_ext/379909333/sync.o
+ .debug_abbrev    0x001641        0x195 build/Motor_Board_v1.9a_b/production/_ext/379909333/timer.o
+ .debug_abbrev    0x0017d6        0x1d7 build/Motor_Board_v1.9a_b/production/_ext/872612413/can_dspic33e.o
+ .debug_abbrev    0x0019ad        0x120 build/Motor_Board_v1.9a_b/production/_ext/872612413/timer_dspic.o
+ .debug_abbrev    0x001acd        0x107 build/Motor_Board_v1.9a_b/production/_ext/1360937237/superball_circularbuffer.o
+ .debug_abbrev    0x001bd4        0x194 build/Motor_Board_v1.9a_b/production/_ext/1360937237/motor_objdict.o
 
-.debug_line       0x000000        0xb33
+.debug_line       0x000000       0x6bf3
  *(.debug_line)
- .debug_line      0x000000        0x366 build/Motor_Board_v1.9a_b/production/_ext/1360937237/ecan1drv.o
- .debug_line      0x000366        0x118 build/Motor_Board_v1.9a_b/production/_ext/1360937237/traps.o
- .debug_line      0x00047e        0x2d5 build/Motor_Board_v1.9a_b/production/_ext/1360937237/ecan1_config.o
- .debug_line      0x000753        0x3e0 build/Motor_Board_v1.9a_b/production/_ext/1360937237/main.o
+ .debug_line      0x000000        0x342 build/Motor_Board_v1.9a_b/production/_ext/1360937237/ecan1drv.o
+ .debug_line      0x000342        0x106 build/Motor_Board_v1.9a_b/production/_ext/1360937237/traps.o
+ .debug_line      0x000448        0x2d1 build/Motor_Board_v1.9a_b/production/_ext/1360937237/ecan1_config.o
+ .debug_line      0x000719        0x376 build/Motor_Board_v1.9a_b/production/_ext/1360937237/main.o
+ .debug_line      0x000a8f        0x4c0 build/Motor_Board_v1.9a_b/production/_ext/379909333/dcf.o
+ .debug_line      0x000f4f        0x4aa build/Motor_Board_v1.9a_b/production/_ext/379909333/emcy.o
+ .debug_line      0x0013f9        0x5e3 build/Motor_Board_v1.9a_b/production/_ext/379909333/lifegrd.o
+ .debug_line      0x0019dc         0x24 build/Motor_Board_v1.9a_b/production/_ext/379909333/lss.o
+ .debug_line      0x001a00        0x1f5 build/Motor_Board_v1.9a_b/production/_ext/379909333/nmtMaster.o
+ .debug_line      0x001bf5        0x22a build/Motor_Board_v1.9a_b/production/_ext/379909333/nmtSlave.o
+ .debug_line      0x001e1f        0x39f build/Motor_Board_v1.9a_b/production/_ext/379909333/objacces.o
+ .debug_line      0x0021be        0xc6b build/Motor_Board_v1.9a_b/production/_ext/379909333/pdo.o
+ .debug_line      0x002e29       0x2506 build/Motor_Board_v1.9a_b/production/_ext/379909333/sdo.o
+ .debug_line      0x00532f        0x486 build/Motor_Board_v1.9a_b/production/_ext/379909333/states.o
+ .debug_line      0x0057b5         0x24 build/Motor_Board_v1.9a_b/production/_ext/379909333/symbols.o
+ .debug_line      0x0057d9        0x2c4 build/Motor_Board_v1.9a_b/production/_ext/379909333/sync.o
+ .debug_line      0x005a9d        0x332 build/Motor_Board_v1.9a_b/production/_ext/379909333/timer.o
+ .debug_line      0x005dcf        0x494 build/Motor_Board_v1.9a_b/production/_ext/872612413/can_dspic33e.o
+ .debug_line      0x006263        0x223 build/Motor_Board_v1.9a_b/production/_ext/872612413/timer_dspic.o
+ .debug_line      0x006486        0x4a3 build/Motor_Board_v1.9a_b/production/_ext/1360937237/superball_circularbuffer.o
+ .debug_line      0x006929        0x2ca build/Motor_Board_v1.9a_b/production/_ext/1360937237/motor_objdict.o
 
-.debug_frame      0x000000        0x1b0
+.debug_frame      0x000000        0xbac
  *(.debug_frame)
  .debug_frame     0x000000         0x64 build/Motor_Board_v1.9a_b/production/_ext/1360937237/ecan1drv.o
  .debug_frame     0x000064         0x64 build/Motor_Board_v1.9a_b/production/_ext/1360937237/traps.o
  .debug_frame     0x0000c8         0x54 build/Motor_Board_v1.9a_b/production/_ext/1360937237/ecan1_config.o
- .debug_frame     0x00011c         0x94 build/Motor_Board_v1.9a_b/production/_ext/1360937237/main.o
+ .debug_frame     0x00011c         0x84 build/Motor_Board_v1.9a_b/production/_ext/1360937237/main.o
+ .debug_frame     0x0001a0         0xec build/Motor_Board_v1.9a_b/production/_ext/379909333/dcf.o
+ .debug_frame     0x00028c         0x94 build/Motor_Board_v1.9a_b/production/_ext/379909333/emcy.o
+ .debug_frame     0x000320        0x124 build/Motor_Board_v1.9a_b/production/_ext/379909333/lifegrd.o
+ .debug_frame     0x000444         0x44 build/Motor_Board_v1.9a_b/production/_ext/379909333/nmtMaster.o
+ .debug_frame     0x000488         0x34 build/Motor_Board_v1.9a_b/production/_ext/379909333/nmtSlave.o
+ .debug_frame     0x0004bc         0x74 build/Motor_Board_v1.9a_b/production/_ext/379909333/objacces.o
+ .debug_frame     0x000530         0xf4 build/Motor_Board_v1.9a_b/production/_ext/379909333/pdo.o
+ .debug_frame     0x000624        0x26c build/Motor_Board_v1.9a_b/production/_ext/379909333/sdo.o
+ .debug_frame     0x000890         0xb4 build/Motor_Board_v1.9a_b/production/_ext/379909333/states.o
+ .debug_frame     0x000944         0xa4 build/Motor_Board_v1.9a_b/production/_ext/379909333/sync.o
+ .debug_frame     0x0009e8         0x44 build/Motor_Board_v1.9a_b/production/_ext/379909333/timer.o
+ .debug_frame     0x000a2c         0x64 build/Motor_Board_v1.9a_b/production/_ext/872612413/can_dspic33e.o
+ .debug_frame     0x000a90         0x54 build/Motor_Board_v1.9a_b/production/_ext/872612413/timer_dspic.o
+ .debug_frame     0x000ae4         0x94 build/Motor_Board_v1.9a_b/production/_ext/1360937237/superball_circularbuffer.o
+ .debug_frame     0x000b78         0x34 build/Motor_Board_v1.9a_b/production/_ext/1360937237/motor_objdict.o
 
-.debug_str        0x000000        0x1ea
+.debug_str        0x000000       0x1790
  *(.debug_str)
  .debug_str       0x000000         0x6a build/Motor_Board_v1.9a_b/production/_ext/1360937237/ecan1drv.o
  .debug_str       0x00006a          0xc build/Motor_Board_v1.9a_b/production/_ext/1360937237/traps.o
  .debug_str       0x000076         0xda build/Motor_Board_v1.9a_b/production/_ext/1360937237/ecan1_config.o
- .debug_str       0x000150         0x9a build/Motor_Board_v1.9a_b/production/_ext/1360937237/main.o
+ .debug_str       0x000150         0x60 build/Motor_Board_v1.9a_b/production/_ext/1360937237/main.o
+ .debug_str       0x0001b0         0x24 build/Motor_Board_v1.9a_b/production/_ext/379909333/dcf.o
+ .debug_str       0x0001d4         0x29 build/Motor_Board_v1.9a_b/production/_ext/379909333/emcy.o
+ .debug_str       0x0001fd         0x3d build/Motor_Board_v1.9a_b/production/_ext/379909333/lifegrd.o
+ .debug_str       0x00023a         0x6f build/Motor_Board_v1.9a_b/production/_ext/379909333/objacces.o
+ .debug_str       0x0002a9         0x96 build/Motor_Board_v1.9a_b/production/_ext/379909333/pdo.o
+ .debug_str       0x00033f         0xa2 build/Motor_Board_v1.9a_b/production/_ext/379909333/sdo.o
+ .debug_str       0x0003e1         0x27 build/Motor_Board_v1.9a_b/production/_ext/379909333/states.o
+ .debug_str       0x000408         0x29 build/Motor_Board_v1.9a_b/production/_ext/379909333/timer.o
+ .debug_str       0x000431        0x157 build/Motor_Board_v1.9a_b/production/_ext/872612413/can_dspic33e.o
+ .debug_str       0x000588         0x2f build/Motor_Board_v1.9a_b/production/_ext/872612413/timer_dspic.o
+ .debug_str       0x0005b7          0xf build/Motor_Board_v1.9a_b/production/_ext/1360937237/superball_circularbuffer.o
+ .debug_str       0x0005c6       0x11ca build/Motor_Board_v1.9a_b/production/_ext/1360937237/motor_objdict.o
 
 .debug_loc
  *(.debug_loc)
@@ -314,7 +1042,7 @@ __FUID0
  *(.debug_macinfo)
 
 .debug_pubnames
-                  0x000000        0x228
+                  0x000000       0x219c
  *(.debug_pubnames)
  .debug_pubnames
                   0x000000         0x93 build/Motor_Board_v1.9a_b/production/_ext/1360937237/ecan1drv.o
@@ -323,12 +1051,42 @@ __FUID0
  .debug_pubnames
                   0x0000f9         0x4b build/Motor_Board_v1.9a_b/production/_ext/1360937237/ecan1_config.o
  .debug_pubnames
-                  0x000144         0xe4 build/Motor_Board_v1.9a_b/production/_ext/1360937237/main.o
+                  0x000144         0xcd build/Motor_Board_v1.9a_b/production/_ext/1360937237/main.o
+ .debug_pubnames
+                  0x000211         0x8a build/Motor_Board_v1.9a_b/production/_ext/379909333/dcf.o
+ .debug_pubnames
+                  0x00029b         0xa7 build/Motor_Board_v1.9a_b/production/_ext/379909333/emcy.o
+ .debug_pubnames
+                  0x000342        0x17b build/Motor_Board_v1.9a_b/production/_ext/379909333/lifegrd.o
+ .debug_pubnames
+                  0x0004bd         0x65 build/Motor_Board_v1.9a_b/production/_ext/379909333/nmtMaster.o
+ .debug_pubnames
+                  0x000522         0x40 build/Motor_Board_v1.9a_b/production/_ext/379909333/nmtSlave.o
+ .debug_pubnames
+                  0x000562         0x90 build/Motor_Board_v1.9a_b/production/_ext/379909333/objacces.o
+ .debug_pubnames
+                  0x0005f2        0x116 build/Motor_Board_v1.9a_b/production/_ext/379909333/pdo.o
+ .debug_pubnames
+                  0x000708        0x276 build/Motor_Board_v1.9a_b/production/_ext/379909333/sdo.o
+ .debug_pubnames
+                  0x00097e         0xbb build/Motor_Board_v1.9a_b/production/_ext/379909333/states.o
+ .debug_pubnames
+                  0x000a39         0xa2 build/Motor_Board_v1.9a_b/production/_ext/379909333/sync.o
+ .debug_pubnames
+                  0x000adb         0x7c build/Motor_Board_v1.9a_b/production/_ext/379909333/timer.o
+ .debug_pubnames
+                  0x000b57         0x94 build/Motor_Board_v1.9a_b/production/_ext/872612413/can_dspic33e.o
+ .debug_pubnames
+                  0x000beb         0x51 build/Motor_Board_v1.9a_b/production/_ext/872612413/timer_dspic.o
+ .debug_pubnames
+                  0x000c3c         0x8a build/Motor_Board_v1.9a_b/production/_ext/1360937237/superball_circularbuffer.o
+ .debug_pubnames
+                  0x000cc6       0x14d6 build/Motor_Board_v1.9a_b/production/_ext/1360937237/motor_objdict.o
 
 .debug_ranges
  *(.debug_ranges)
 
-.debug_aranges    0x000000         0x60
+.debug_aranges    0x000000        0x1c8
  *(.debug_aranges)
  .debug_aranges
                   0x000000         0x18 build/Motor_Board_v1.9a_b/production/_ext/1360937237/ecan1drv.o
@@ -338,160 +1096,190 @@ __FUID0
                   0x000030         0x18 build/Motor_Board_v1.9a_b/production/_ext/1360937237/ecan1_config.o
  .debug_aranges
                   0x000048         0x18 build/Motor_Board_v1.9a_b/production/_ext/1360937237/main.o
+ .debug_aranges
+                  0x000060         0x18 build/Motor_Board_v1.9a_b/production/_ext/379909333/dcf.o
+ .debug_aranges
+                  0x000078         0x18 build/Motor_Board_v1.9a_b/production/_ext/379909333/emcy.o
+ .debug_aranges
+                  0x000090         0x18 build/Motor_Board_v1.9a_b/production/_ext/379909333/lifegrd.o
+ .debug_aranges
+                  0x0000a8         0x18 build/Motor_Board_v1.9a_b/production/_ext/379909333/nmtMaster.o
+ .debug_aranges
+                  0x0000c0         0x18 build/Motor_Board_v1.9a_b/production/_ext/379909333/nmtSlave.o
+ .debug_aranges
+                  0x0000d8         0x18 build/Motor_Board_v1.9a_b/production/_ext/379909333/objacces.o
+ .debug_aranges
+                  0x0000f0         0x18 build/Motor_Board_v1.9a_b/production/_ext/379909333/pdo.o
+ .debug_aranges
+                  0x000108         0x18 build/Motor_Board_v1.9a_b/production/_ext/379909333/sdo.o
+ .debug_aranges
+                  0x000120         0x18 build/Motor_Board_v1.9a_b/production/_ext/379909333/states.o
+ .debug_aranges
+                  0x000138         0x18 build/Motor_Board_v1.9a_b/production/_ext/379909333/sync.o
+ .debug_aranges
+                  0x000150         0x18 build/Motor_Board_v1.9a_b/production/_ext/379909333/timer.o
+ .debug_aranges
+                  0x000168         0x18 build/Motor_Board_v1.9a_b/production/_ext/872612413/can_dspic33e.o
+ .debug_aranges
+                  0x000180         0x18 build/Motor_Board_v1.9a_b/production/_ext/872612413/timer_dspic.o
+ .debug_aranges
+                  0x000198         0x18 build/Motor_Board_v1.9a_b/production/_ext/1360937237/superball_circularbuffer.o
+ .debug_aranges
+                  0x0001b0         0x18 build/Motor_Board_v1.9a_b/production/_ext/1360937237/motor_objdict.o
 
 .ivt              0x000004        0x130
-                  0x000004          0x4 LONG 0x2c8 DEFINED (__OscillatorFail)?ABSOLUTE (__OscillatorFail):ABSOLUTE (__DefaultInterrupt)
-                  0x000006          0x4 LONG 0x2ce DEFINED (__AddressError)?ABSOLUTE (__AddressError):ABSOLUTE (__DefaultInterrupt)
-                  0x000008          0x4 LONG 0x2e6 DEFINED (__HardTrapError)?ABSOLUTE (__HardTrapError):ABSOLUTE (__DefaultInterrupt)
-                  0x00000a          0x4 LONG 0x2d4 DEFINED (__StackError)?ABSOLUTE (__StackError):ABSOLUTE (__DefaultInterrupt)
-                  0x00000c          0x4 LONG 0x2da DEFINED (__MathError)?ABSOLUTE (__MathError):ABSOLUTE (__DefaultInterrupt)
-                  0x00000e          0x4 LONG 0x2e0 DEFINED (__DMACError)?ABSOLUTE (__DMACError):ABSOLUTE (__DefaultInterrupt)
-                  0x000010          0x4 LONG 0x2e6 DEFINED (__SoftTrapError)?ABSOLUTE (__SoftTrapError):ABSOLUTE (__DefaultInterrupt)
-                  0x000012          0x4 LONG 0x2e6 DEFINED (__ReservedTrap7)?ABSOLUTE (__ReservedTrap7):ABSOLUTE (__DefaultInterrupt)
-                  0x000014          0x4 LONG 0x2e6 DEFINED (__INT0Interrupt)?ABSOLUTE (__INT0Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x000016          0x4 LONG 0x2e6 DEFINED (__IC1Interrupt)?ABSOLUTE (__IC1Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x000018          0x4 LONG 0x2e6 DEFINED (__OC1Interrupt)?ABSOLUTE (__OC1Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x00001a          0x4 LONG 0x2e6 DEFINED (__T1Interrupt)?ABSOLUTE (__T1Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x00001c          0x4 LONG 0x600 DEFINED (__DMA0Interrupt)?ABSOLUTE (__DMA0Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x00001e          0x4 LONG 0x2e6 DEFINED (__IC2Interrupt)?ABSOLUTE (__IC2Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x000020          0x4 LONG 0x2e6 DEFINED (__OC2Interrupt)?ABSOLUTE (__OC2Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x000022          0x4 LONG 0x2e6 DEFINED (__T2Interrupt)?ABSOLUTE (__T2Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x000024          0x4 LONG 0x2e6 DEFINED (__T3Interrupt)?ABSOLUTE (__T3Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x000026          0x4 LONG 0x2e6 DEFINED (__SPI1ErrInterrupt)?ABSOLUTE (__SPI1ErrInterrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x000028          0x4 LONG 0x2e6 DEFINED (__SPI1Interrupt)?ABSOLUTE (__SPI1Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x00002a          0x4 LONG 0x2e6 DEFINED (__U1RXInterrupt)?ABSOLUTE (__U1RXInterrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x00002c          0x4 LONG 0x2e6 DEFINED (__U1TXInterrupt)?ABSOLUTE (__U1TXInterrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x00002e          0x4 LONG 0x2e6 DEFINED (__AD1Interrupt)?ABSOLUTE (__AD1Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x000030          0x4 LONG 0x2e6 DEFINED (__DMA1Interrupt)?ABSOLUTE (__DMA1Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x000032          0x4 LONG 0x2e6 DEFINED (__NVMInterrupt)?ABSOLUTE (__NVMInterrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x000034          0x4 LONG 0x2e6 DEFINED (__SI2C1Interrupt)?ABSOLUTE (__SI2C1Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x000036          0x4 LONG 0x2e6 DEFINED (__MI2C1Interrupt)?ABSOLUTE (__MI2C1Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x000038          0x4 LONG 0x2e6 DEFINED (__CM1Interrupt)?ABSOLUTE (__CM1Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x00003a          0x4 LONG 0x2e6 DEFINED (__CNInterrupt)?ABSOLUTE (__CNInterrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x00003c          0x4 LONG 0x2e6 DEFINED (__INT1Interrupt)?ABSOLUTE (__INT1Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x00003e          0x4 LONG 0x2e6 DEFINED (__AD2Interrupt)?ABSOLUTE (__AD2Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x000040          0x4 LONG 0x2e6 DEFINED (__IC7Interrupt)?ABSOLUTE (__IC7Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x000042          0x4 LONG 0x2e6 DEFINED (__IC8Interrupt)?ABSOLUTE (__IC8Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x000044          0x4 LONG 0x60a DEFINED (__DMA2Interrupt)?ABSOLUTE (__DMA2Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x000046          0x4 LONG 0x2e6 DEFINED (__OC3Interrupt)?ABSOLUTE (__OC3Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x000048          0x4 LONG 0x2e6 DEFINED (__OC4Interrupt)?ABSOLUTE (__OC4Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x00004a          0x4 LONG 0x2e6 DEFINED (__T4Interrupt)?ABSOLUTE (__T4Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x00004c          0x4 LONG 0x2e6 DEFINED (__T5Interrupt)?ABSOLUTE (__T5Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x00004e          0x4 LONG 0x2e6 DEFINED (__INT2Interrupt)?ABSOLUTE (__INT2Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x000050          0x4 LONG 0x2e6 DEFINED (__U2RXInterrupt)?ABSOLUTE (__U2RXInterrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x000052          0x4 LONG 0x2e6 DEFINED (__U2TXInterrupt)?ABSOLUTE (__U2TXInterrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x000054          0x4 LONG 0x2e6 DEFINED (__SPI2ErrInterrupt)?ABSOLUTE (__SPI2ErrInterrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x000056          0x4 LONG 0x2e6 DEFINED (__SPI2Interrupt)?ABSOLUTE (__SPI2Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x000058          0x4 LONG 0x2e6 DEFINED (__C1RxRdyInterrupt)?ABSOLUTE (__C1RxRdyInterrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x00005a          0x4 LONG 0x5c8 DEFINED (__C1Interrupt)?ABSOLUTE (__C1Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x00005c          0x4 LONG 0x2e6 DEFINED (__DMA3Interrupt)?ABSOLUTE (__DMA3Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x00005e          0x4 LONG 0x2e6 DEFINED (__IC3Interrupt)?ABSOLUTE (__IC3Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x000060          0x4 LONG 0x2e6 DEFINED (__IC4Interrupt)?ABSOLUTE (__IC4Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x000062          0x4 LONG 0x2e6 DEFINED (__IC5Interrupt)?ABSOLUTE (__IC5Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x000064          0x4 LONG 0x2e6 DEFINED (__IC6Interrupt)?ABSOLUTE (__IC6Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x000066          0x4 LONG 0x2e6 DEFINED (__OC5Interrupt)?ABSOLUTE (__OC5Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x000068          0x4 LONG 0x2e6 DEFINED (__OC6Interrupt)?ABSOLUTE (__OC6Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x00006a          0x4 LONG 0x2e6 DEFINED (__OC7Interrupt)?ABSOLUTE (__OC7Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x00006c          0x4 LONG 0x2e6 DEFINED (__OC8Interrupt)?ABSOLUTE (__OC8Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x00006e          0x4 LONG 0x2e6 DEFINED (__PMPInterrupt)?ABSOLUTE (__PMPInterrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x000070          0x4 LONG 0x2e6 DEFINED (__DMA4Interrupt)?ABSOLUTE (__DMA4Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x000072          0x4 LONG 0x2e6 DEFINED (__T6Interrupt)?ABSOLUTE (__T6Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x000074          0x4 LONG 0x2e6 DEFINED (__T7Interrupt)?ABSOLUTE (__T7Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x000076          0x4 LONG 0x2e6 DEFINED (__SI2C2Interrupt)?ABSOLUTE (__SI2C2Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x000078          0x4 LONG 0x2e6 DEFINED (__MI2C2Interrupt)?ABSOLUTE (__MI2C2Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x00007a          0x4 LONG 0x2e6 DEFINED (__T8Interrupt)?ABSOLUTE (__T8Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x00007c          0x4 LONG 0x2e6 DEFINED (__T9Interrupt)?ABSOLUTE (__T9Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x00007e          0x4 LONG 0x2e6 DEFINED (__INT3Interrupt)?ABSOLUTE (__INT3Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x000080          0x4 LONG 0x2e6 DEFINED (__INT4Interrupt)?ABSOLUTE (__INT4Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x000082          0x4 LONG 0x2e6 DEFINED (__C2RxRdyInterrupt)?ABSOLUTE (__C2RxRdyInterrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x000084          0x4 LONG 0x2e6 DEFINED (__C2Interrupt)?ABSOLUTE (__C2Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x000086          0x4 LONG 0x2e6 DEFINED (__PWMSpEventMatchInterrupt)?ABSOLUTE (__PWMSpEventMatchInterrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x000088          0x4 LONG 0x2e6 DEFINED (__QEI1Interrupt)?ABSOLUTE (__QEI1Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x00008a          0x4 LONG 0x2e6 DEFINED (__DCIEInterrupt)?ABSOLUTE (__DCIEInterrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x00008c          0x4 LONG 0x2e6 DEFINED (__DCIInterrupt)?ABSOLUTE (__DCIInterrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x00008e          0x4 LONG 0x2e6 DEFINED (__DMA5Interrupt)?ABSOLUTE (__DMA5Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x000090          0x4 LONG 0x2e6 DEFINED (__RTCCInterrupt)?ABSOLUTE (__RTCCInterrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x000092          0x4 LONG 0x2e6 DEFINED (__Interrupt63)?ABSOLUTE (__Interrupt63):ABSOLUTE (__DefaultInterrupt)
-                  0x000094          0x4 LONG 0x2e6 DEFINED (__Interrupt64)?ABSOLUTE (__Interrupt64):ABSOLUTE (__DefaultInterrupt)
-                  0x000096          0x4 LONG 0x2e6 DEFINED (__U1ErrInterrupt)?ABSOLUTE (__U1ErrInterrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x000098          0x4 LONG 0x2e6 DEFINED (__U2ErrInterrupt)?ABSOLUTE (__U2ErrInterrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x00009a          0x4 LONG 0x2e6 DEFINED (__CRCInterrupt)?ABSOLUTE (__CRCInterrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x00009c          0x4 LONG 0x2e6 DEFINED (__DMA6Interrupt)?ABSOLUTE (__DMA6Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x00009e          0x4 LONG 0x2e6 DEFINED (__DMA7Interrupt)?ABSOLUTE (__DMA7Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x0000a0          0x4 LONG 0x2e6 DEFINED (__C1TxReqInterrupt)?ABSOLUTE (__C1TxReqInterrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x0000a2          0x4 LONG 0x2e6 DEFINED (__C2TxReqInterrupt)?ABSOLUTE (__C2TxReqInterrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x0000a4          0x4 LONG 0x2e6 DEFINED (__Interrupt72)?ABSOLUTE (__Interrupt72):ABSOLUTE (__DefaultInterrupt)
-                  0x0000a6          0x4 LONG 0x2e6 DEFINED (__PWMSecSpEventMatchInterrupt)?ABSOLUTE (__PWMSecSpEventMatchInterrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x0000a8          0x4 LONG 0x2e6 DEFINED (__Interrupt74)?ABSOLUTE (__Interrupt74):ABSOLUTE (__DefaultInterrupt)
-                  0x0000aa          0x4 LONG 0x2e6 DEFINED (__QEI2Interrupt)?ABSOLUTE (__QEI2Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x0000ac          0x4 LONG 0x2e6 DEFINED (__Interrupt76)?ABSOLUTE (__Interrupt76):ABSOLUTE (__DefaultInterrupt)
-                  0x0000ae          0x4 LONG 0x2e6 DEFINED (__Interrupt77)?ABSOLUTE (__Interrupt77):ABSOLUTE (__DefaultInterrupt)
-                  0x0000b0          0x4 LONG 0x2e6 DEFINED (__Interrupt78)?ABSOLUTE (__Interrupt78):ABSOLUTE (__DefaultInterrupt)
-                  0x0000b2          0x4 LONG 0x2e6 DEFINED (__Interrupt79)?ABSOLUTE (__Interrupt79):ABSOLUTE (__DefaultInterrupt)
-                  0x0000b4          0x4 LONG 0x2e6 DEFINED (__Interrupt80)?ABSOLUTE (__Interrupt80):ABSOLUTE (__DefaultInterrupt)
-                  0x0000b6          0x4 LONG 0x2e6 DEFINED (__U3ErrInterrupt)?ABSOLUTE (__U3ErrInterrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x0000b8          0x4 LONG 0x2e6 DEFINED (__U3RXInterrupt)?ABSOLUTE (__U3RXInterrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x0000ba          0x4 LONG 0x2e6 DEFINED (__U3TXInterrupt)?ABSOLUTE (__U3TXInterrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x0000bc          0x4 LONG 0x2e6 DEFINED (__Interrupt84)?ABSOLUTE (__Interrupt84):ABSOLUTE (__DefaultInterrupt)
-                  0x0000be          0x4 LONG 0x2e6 DEFINED (__Interrupt85)?ABSOLUTE (__Interrupt85):ABSOLUTE (__DefaultInterrupt)
-                  0x0000c0          0x4 LONG 0x2e6 DEFINED (__USB1Interrupt)?ABSOLUTE (__USB1Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x0000c2          0x4 LONG 0x2e6 DEFINED (__U4ErrInterrupt)?ABSOLUTE (__U4ErrInterrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x0000c4          0x4 LONG 0x2e6 DEFINED (__U4RXInterrupt)?ABSOLUTE (__U4RXInterrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x0000c6          0x4 LONG 0x2e6 DEFINED (__U4TXInterrupt)?ABSOLUTE (__U4TXInterrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x0000c8          0x4 LONG 0x2e6 DEFINED (__SPI3ErrInterrupt)?ABSOLUTE (__SPI3ErrInterrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x0000ca          0x4 LONG 0x2e6 DEFINED (__SPI3Interrupt)?ABSOLUTE (__SPI3Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x0000cc          0x4 LONG 0x2e6 DEFINED (__OC9Interrupt)?ABSOLUTE (__OC9Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x0000ce          0x4 LONG 0x2e6 DEFINED (__IC9Interrupt)?ABSOLUTE (__IC9Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x0000d0          0x4 LONG 0x2e6 DEFINED (__PWM1Interrupt)?ABSOLUTE (__PWM1Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x0000d2          0x4 LONG 0x2e6 DEFINED (__PWM2Interrupt)?ABSOLUTE (__PWM2Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x0000d4          0x4 LONG 0x2e6 DEFINED (__PWM3Interrupt)?ABSOLUTE (__PWM3Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x0000d6          0x4 LONG 0x2e6 DEFINED (__PWM4Interrupt)?ABSOLUTE (__PWM4Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x0000d8          0x4 LONG 0x2e6 DEFINED (__Interrupt98)?ABSOLUTE (__Interrupt98):ABSOLUTE (__DefaultInterrupt)
-                  0x0000da          0x4 LONG 0x2e6 DEFINED (__Interrupt99)?ABSOLUTE (__Interrupt99):ABSOLUTE (__DefaultInterrupt)
-                  0x0000dc          0x4 LONG 0x2e6 DEFINED (__Interrupt100)?ABSOLUTE (__Interrupt100):ABSOLUTE (__DefaultInterrupt)
-                  0x0000de          0x4 LONG 0x2e6 DEFINED (__Interrupt101)?ABSOLUTE (__Interrupt101):ABSOLUTE (__DefaultInterrupt)
-                  0x0000e0          0x4 LONG 0x2e6 DEFINED (__Interrupt102)?ABSOLUTE (__Interrupt102):ABSOLUTE (__DefaultInterrupt)
-                  0x0000e2          0x4 LONG 0x2e6 DEFINED (__Interrupt103)?ABSOLUTE (__Interrupt103):ABSOLUTE (__DefaultInterrupt)
-                  0x0000e4          0x4 LONG 0x2e6 DEFINED (__Interrupt104)?ABSOLUTE (__Interrupt104):ABSOLUTE (__DefaultInterrupt)
-                  0x0000e6          0x4 LONG 0x2e6 DEFINED (__Interrupt105)?ABSOLUTE (__Interrupt105):ABSOLUTE (__DefaultInterrupt)
-                  0x0000e8          0x4 LONG 0x2e6 DEFINED (__Interrupt106)?ABSOLUTE (__Interrupt106):ABSOLUTE (__DefaultInterrupt)
-                  0x0000ea          0x4 LONG 0x2e6 DEFINED (__Interrupt107)?ABSOLUTE (__Interrupt107):ABSOLUTE (__DefaultInterrupt)
-                  0x0000ec          0x4 LONG 0x2e6 DEFINED (__Interrupt108)?ABSOLUTE (__Interrupt108):ABSOLUTE (__DefaultInterrupt)
-                  0x0000ee          0x4 LONG 0x2e6 DEFINED (__Interrupt109)?ABSOLUTE (__Interrupt109):ABSOLUTE (__DefaultInterrupt)
-                  0x0000f0          0x4 LONG 0x2e6 DEFINED (__Interrupt110)?ABSOLUTE (__Interrupt110):ABSOLUTE (__DefaultInterrupt)
-                  0x0000f2          0x4 LONG 0x2e6 DEFINED (__Interrupt111)?ABSOLUTE (__Interrupt111):ABSOLUTE (__DefaultInterrupt)
-                  0x0000f4          0x4 LONG 0x2e6 DEFINED (__Interrupt112)?ABSOLUTE (__Interrupt112):ABSOLUTE (__DefaultInterrupt)
-                  0x0000f6          0x4 LONG 0x2e6 DEFINED (__Interrupt113)?ABSOLUTE (__Interrupt113):ABSOLUTE (__DefaultInterrupt)
-                  0x0000f8          0x4 LONG 0x2e6 DEFINED (__Interrupt114)?ABSOLUTE (__Interrupt114):ABSOLUTE (__DefaultInterrupt)
-                  0x0000fa          0x4 LONG 0x2e6 DEFINED (__Interrupt115)?ABSOLUTE (__Interrupt115):ABSOLUTE (__DefaultInterrupt)
-                  0x0000fc          0x4 LONG 0x2e6 DEFINED (__Interrupt116)?ABSOLUTE (__Interrupt116):ABSOLUTE (__DefaultInterrupt)
-                  0x0000fe          0x4 LONG 0x2e6 DEFINED (__Interrupt117)?ABSOLUTE (__Interrupt117):ABSOLUTE (__DefaultInterrupt)
-                  0x000100          0x4 LONG 0x2e6 DEFINED (__DMA8Interrupt)?ABSOLUTE (__DMA8Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x000102          0x4 LONG 0x2e6 DEFINED (__DMA9Interrupt)?ABSOLUTE (__DMA9Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x000104          0x4 LONG 0x2e6 DEFINED (__DMA10Interrupt)?ABSOLUTE (__DMA10Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x000106          0x4 LONG 0x2e6 DEFINED (__DMA11Interrupt)?ABSOLUTE (__DMA11Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x000108          0x4 LONG 0x2e6 DEFINED (__SPI4ErrInterrupt)?ABSOLUTE (__SPI4ErrInterrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x00010a          0x4 LONG 0x2e6 DEFINED (__SPI4Interrupt)?ABSOLUTE (__SPI4Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x00010c          0x4 LONG 0x2e6 DEFINED (__OC10Interrupt)?ABSOLUTE (__OC10Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x00010e          0x4 LONG 0x2e6 DEFINED (__IC10Interrupt)?ABSOLUTE (__IC10Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x000110          0x4 LONG 0x2e6 DEFINED (__OC11Interrupt)?ABSOLUTE (__OC11Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x000112          0x4 LONG 0x2e6 DEFINED (__IC11Interrupt)?ABSOLUTE (__IC11Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x000114          0x4 LONG 0x2e6 DEFINED (__OC12Interrupt)?ABSOLUTE (__OC12Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x000116          0x4 LONG 0x2e6 DEFINED (__IC12Interrupt)?ABSOLUTE (__IC12Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x000118          0x4 LONG 0x2e6 DEFINED (__DMA12Interrupt)?ABSOLUTE (__DMA12Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x00011a          0x4 LONG 0x2e6 DEFINED (__DMA13Interrupt)?ABSOLUTE (__DMA13Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x00011c          0x4 LONG 0x2e6 DEFINED (__DMA14Interrupt)?ABSOLUTE (__DMA14Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x00011e          0x4 LONG 0x2e6 DEFINED (__Interrupt133)?ABSOLUTE (__Interrupt133):ABSOLUTE (__DefaultInterrupt)
-                  0x000120          0x4 LONG 0x2e6 DEFINED (__OC13Interrupt)?ABSOLUTE (__OC13Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x000122          0x4 LONG 0x2e6 DEFINED (__IC13Interrupt)?ABSOLUTE (__IC13Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x000124          0x4 LONG 0x2e6 DEFINED (__OC14Interrupt)?ABSOLUTE (__OC14Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x000126          0x4 LONG 0x2e6 DEFINED (__IC14Interrupt)?ABSOLUTE (__IC14Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x000128          0x4 LONG 0x2e6 DEFINED (__OC15Interrupt)?ABSOLUTE (__OC15Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x00012a          0x4 LONG 0x2e6 DEFINED (__IC15Interrupt)?ABSOLUTE (__IC15Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x00012c          0x4 LONG 0x2e6 DEFINED (__OC16Interrupt)?ABSOLUTE (__OC16Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x00012e          0x4 LONG 0x2e6 DEFINED (__IC16Interrupt)?ABSOLUTE (__IC16Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x000130          0x4 LONG 0x2e6 DEFINED (__ICDInterrupt)?ABSOLUTE (__ICDInterrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x000132          0x4 LONG 0x2e6 DEFINED (__JTAGInterrupt)?ABSOLUTE (__JTAGInterrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x000004          0x4 LONG 0x340 DEFINED (__OscillatorFail)?ABSOLUTE (__OscillatorFail):ABSOLUTE (__DefaultInterrupt)
+                  0x000006          0x4 LONG 0x346 DEFINED (__AddressError)?ABSOLUTE (__AddressError):ABSOLUTE (__DefaultInterrupt)
+                  0x000008          0x4 LONG 0x35e DEFINED (__HardTrapError)?ABSOLUTE (__HardTrapError):ABSOLUTE (__DefaultInterrupt)
+                  0x00000a          0x4 LONG 0x34c DEFINED (__StackError)?ABSOLUTE (__StackError):ABSOLUTE (__DefaultInterrupt)
+                  0x00000c          0x4 LONG 0x352 DEFINED (__MathError)?ABSOLUTE (__MathError):ABSOLUTE (__DefaultInterrupt)
+                  0x00000e          0x4 LONG 0x358 DEFINED (__DMACError)?ABSOLUTE (__DMACError):ABSOLUTE (__DefaultInterrupt)
+                  0x000010          0x4 LONG 0x35e DEFINED (__SoftTrapError)?ABSOLUTE (__SoftTrapError):ABSOLUTE (__DefaultInterrupt)
+                  0x000012          0x4 LONG 0x35e DEFINED (__ReservedTrap7)?ABSOLUTE (__ReservedTrap7):ABSOLUTE (__DefaultInterrupt)
+                  0x000014          0x4 LONG 0x35e DEFINED (__INT0Interrupt)?ABSOLUTE (__INT0Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x000016          0x4 LONG 0x35e DEFINED (__IC1Interrupt)?ABSOLUTE (__IC1Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x000018          0x4 LONG 0x35e DEFINED (__OC1Interrupt)?ABSOLUTE (__OC1Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x00001a          0x4 LONG 0x35e DEFINED (__T1Interrupt)?ABSOLUTE (__T1Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x00001c          0x4 LONG 0x5500 DEFINED (__DMA0Interrupt)?ABSOLUTE (__DMA0Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x00001e          0x4 LONG 0x35e DEFINED (__IC2Interrupt)?ABSOLUTE (__IC2Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x000020          0x4 LONG 0x35e DEFINED (__OC2Interrupt)?ABSOLUTE (__OC2Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x000022          0x4 LONG 0x35e DEFINED (__T2Interrupt)?ABSOLUTE (__T2Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x000024          0x4 LONG 0x556e DEFINED (__T3Interrupt)?ABSOLUTE (__T3Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x000026          0x4 LONG 0x35e DEFINED (__SPI1ErrInterrupt)?ABSOLUTE (__SPI1ErrInterrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x000028          0x4 LONG 0x35e DEFINED (__SPI1Interrupt)?ABSOLUTE (__SPI1Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x00002a          0x4 LONG 0x35e DEFINED (__U1RXInterrupt)?ABSOLUTE (__U1RXInterrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x00002c          0x4 LONG 0x35e DEFINED (__U1TXInterrupt)?ABSOLUTE (__U1TXInterrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x00002e          0x4 LONG 0x35e DEFINED (__AD1Interrupt)?ABSOLUTE (__AD1Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x000030          0x4 LONG 0x35e DEFINED (__DMA1Interrupt)?ABSOLUTE (__DMA1Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x000032          0x4 LONG 0x35e DEFINED (__NVMInterrupt)?ABSOLUTE (__NVMInterrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x000034          0x4 LONG 0x35e DEFINED (__SI2C1Interrupt)?ABSOLUTE (__SI2C1Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x000036          0x4 LONG 0x35e DEFINED (__MI2C1Interrupt)?ABSOLUTE (__MI2C1Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x000038          0x4 LONG 0x35e DEFINED (__CM1Interrupt)?ABSOLUTE (__CM1Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x00003a          0x4 LONG 0x35e DEFINED (__CNInterrupt)?ABSOLUTE (__CNInterrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x00003c          0x4 LONG 0x35e DEFINED (__INT1Interrupt)?ABSOLUTE (__INT1Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x00003e          0x4 LONG 0x35e DEFINED (__AD2Interrupt)?ABSOLUTE (__AD2Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x000040          0x4 LONG 0x35e DEFINED (__IC7Interrupt)?ABSOLUTE (__IC7Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x000042          0x4 LONG 0x35e DEFINED (__IC8Interrupt)?ABSOLUTE (__IC8Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x000044          0x4 LONG 0x550a DEFINED (__DMA2Interrupt)?ABSOLUTE (__DMA2Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x000046          0x4 LONG 0x35e DEFINED (__OC3Interrupt)?ABSOLUTE (__OC3Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x000048          0x4 LONG 0x35e DEFINED (__OC4Interrupt)?ABSOLUTE (__OC4Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x00004a          0x4 LONG 0x35e DEFINED (__T4Interrupt)?ABSOLUTE (__T4Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x00004c          0x4 LONG 0x35e DEFINED (__T5Interrupt)?ABSOLUTE (__T5Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x00004e          0x4 LONG 0x35e DEFINED (__INT2Interrupt)?ABSOLUTE (__INT2Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x000050          0x4 LONG 0x35e DEFINED (__U2RXInterrupt)?ABSOLUTE (__U2RXInterrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x000052          0x4 LONG 0x35e DEFINED (__U2TXInterrupt)?ABSOLUTE (__U2TXInterrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x000054          0x4 LONG 0x35e DEFINED (__SPI2ErrInterrupt)?ABSOLUTE (__SPI2ErrInterrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x000056          0x4 LONG 0x35e DEFINED (__SPI2Interrupt)?ABSOLUTE (__SPI2Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x000058          0x4 LONG 0x35e DEFINED (__C1RxRdyInterrupt)?ABSOLUTE (__C1RxRdyInterrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x00005a          0x4 LONG 0x4db2 DEFINED (__C1Interrupt)?ABSOLUTE (__C1Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x00005c          0x4 LONG 0x35e DEFINED (__DMA3Interrupt)?ABSOLUTE (__DMA3Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x00005e          0x4 LONG 0x35e DEFINED (__IC3Interrupt)?ABSOLUTE (__IC3Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x000060          0x4 LONG 0x35e DEFINED (__IC4Interrupt)?ABSOLUTE (__IC4Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x000062          0x4 LONG 0x35e DEFINED (__IC5Interrupt)?ABSOLUTE (__IC5Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x000064          0x4 LONG 0x35e DEFINED (__IC6Interrupt)?ABSOLUTE (__IC6Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x000066          0x4 LONG 0x35e DEFINED (__OC5Interrupt)?ABSOLUTE (__OC5Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x000068          0x4 LONG 0x35e DEFINED (__OC6Interrupt)?ABSOLUTE (__OC6Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x00006a          0x4 LONG 0x35e DEFINED (__OC7Interrupt)?ABSOLUTE (__OC7Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x00006c          0x4 LONG 0x35e DEFINED (__OC8Interrupt)?ABSOLUTE (__OC8Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x00006e          0x4 LONG 0x35e DEFINED (__PMPInterrupt)?ABSOLUTE (__PMPInterrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x000070          0x4 LONG 0x35e DEFINED (__DMA4Interrupt)?ABSOLUTE (__DMA4Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x000072          0x4 LONG 0x35e DEFINED (__T6Interrupt)?ABSOLUTE (__T6Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x000074          0x4 LONG 0x35e DEFINED (__T7Interrupt)?ABSOLUTE (__T7Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x000076          0x4 LONG 0x35e DEFINED (__SI2C2Interrupt)?ABSOLUTE (__SI2C2Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x000078          0x4 LONG 0x35e DEFINED (__MI2C2Interrupt)?ABSOLUTE (__MI2C2Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x00007a          0x4 LONG 0x35e DEFINED (__T8Interrupt)?ABSOLUTE (__T8Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x00007c          0x4 LONG 0x35e DEFINED (__T9Interrupt)?ABSOLUTE (__T9Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x00007e          0x4 LONG 0x35e DEFINED (__INT3Interrupt)?ABSOLUTE (__INT3Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x000080          0x4 LONG 0x35e DEFINED (__INT4Interrupt)?ABSOLUTE (__INT4Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x000082          0x4 LONG 0x35e DEFINED (__C2RxRdyInterrupt)?ABSOLUTE (__C2RxRdyInterrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x000084          0x4 LONG 0x35e DEFINED (__C2Interrupt)?ABSOLUTE (__C2Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x000086          0x4 LONG 0x35e DEFINED (__PWMSpEventMatchInterrupt)?ABSOLUTE (__PWMSpEventMatchInterrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x000088          0x4 LONG 0x35e DEFINED (__QEI1Interrupt)?ABSOLUTE (__QEI1Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x00008a          0x4 LONG 0x35e DEFINED (__DCIEInterrupt)?ABSOLUTE (__DCIEInterrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x00008c          0x4 LONG 0x35e DEFINED (__DCIInterrupt)?ABSOLUTE (__DCIInterrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x00008e          0x4 LONG 0x35e DEFINED (__DMA5Interrupt)?ABSOLUTE (__DMA5Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x000090          0x4 LONG 0x35e DEFINED (__RTCCInterrupt)?ABSOLUTE (__RTCCInterrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x000092          0x4 LONG 0x35e DEFINED (__Interrupt63)?ABSOLUTE (__Interrupt63):ABSOLUTE (__DefaultInterrupt)
+                  0x000094          0x4 LONG 0x35e DEFINED (__Interrupt64)?ABSOLUTE (__Interrupt64):ABSOLUTE (__DefaultInterrupt)
+                  0x000096          0x4 LONG 0x35e DEFINED (__U1ErrInterrupt)?ABSOLUTE (__U1ErrInterrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x000098          0x4 LONG 0x35e DEFINED (__U2ErrInterrupt)?ABSOLUTE (__U2ErrInterrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x00009a          0x4 LONG 0x35e DEFINED (__CRCInterrupt)?ABSOLUTE (__CRCInterrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x00009c          0x4 LONG 0x35e DEFINED (__DMA6Interrupt)?ABSOLUTE (__DMA6Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x00009e          0x4 LONG 0x35e DEFINED (__DMA7Interrupt)?ABSOLUTE (__DMA7Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x0000a0          0x4 LONG 0x35e DEFINED (__C1TxReqInterrupt)?ABSOLUTE (__C1TxReqInterrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x0000a2          0x4 LONG 0x35e DEFINED (__C2TxReqInterrupt)?ABSOLUTE (__C2TxReqInterrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x0000a4          0x4 LONG 0x35e DEFINED (__Interrupt72)?ABSOLUTE (__Interrupt72):ABSOLUTE (__DefaultInterrupt)
+                  0x0000a6          0x4 LONG 0x35e DEFINED (__PWMSecSpEventMatchInterrupt)?ABSOLUTE (__PWMSecSpEventMatchInterrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x0000a8          0x4 LONG 0x35e DEFINED (__Interrupt74)?ABSOLUTE (__Interrupt74):ABSOLUTE (__DefaultInterrupt)
+                  0x0000aa          0x4 LONG 0x35e DEFINED (__QEI2Interrupt)?ABSOLUTE (__QEI2Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x0000ac          0x4 LONG 0x35e DEFINED (__Interrupt76)?ABSOLUTE (__Interrupt76):ABSOLUTE (__DefaultInterrupt)
+                  0x0000ae          0x4 LONG 0x35e DEFINED (__Interrupt77)?ABSOLUTE (__Interrupt77):ABSOLUTE (__DefaultInterrupt)
+                  0x0000b0          0x4 LONG 0x35e DEFINED (__Interrupt78)?ABSOLUTE (__Interrupt78):ABSOLUTE (__DefaultInterrupt)
+                  0x0000b2          0x4 LONG 0x35e DEFINED (__Interrupt79)?ABSOLUTE (__Interrupt79):ABSOLUTE (__DefaultInterrupt)
+                  0x0000b4          0x4 LONG 0x35e DEFINED (__Interrupt80)?ABSOLUTE (__Interrupt80):ABSOLUTE (__DefaultInterrupt)
+                  0x0000b6          0x4 LONG 0x35e DEFINED (__U3ErrInterrupt)?ABSOLUTE (__U3ErrInterrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x0000b8          0x4 LONG 0x35e DEFINED (__U3RXInterrupt)?ABSOLUTE (__U3RXInterrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x0000ba          0x4 LONG 0x35e DEFINED (__U3TXInterrupt)?ABSOLUTE (__U3TXInterrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x0000bc          0x4 LONG 0x35e DEFINED (__Interrupt84)?ABSOLUTE (__Interrupt84):ABSOLUTE (__DefaultInterrupt)
+                  0x0000be          0x4 LONG 0x35e DEFINED (__Interrupt85)?ABSOLUTE (__Interrupt85):ABSOLUTE (__DefaultInterrupt)
+                  0x0000c0          0x4 LONG 0x35e DEFINED (__USB1Interrupt)?ABSOLUTE (__USB1Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x0000c2          0x4 LONG 0x35e DEFINED (__U4ErrInterrupt)?ABSOLUTE (__U4ErrInterrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x0000c4          0x4 LONG 0x35e DEFINED (__U4RXInterrupt)?ABSOLUTE (__U4RXInterrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x0000c6          0x4 LONG 0x35e DEFINED (__U4TXInterrupt)?ABSOLUTE (__U4TXInterrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x0000c8          0x4 LONG 0x35e DEFINED (__SPI3ErrInterrupt)?ABSOLUTE (__SPI3ErrInterrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x0000ca          0x4 LONG 0x35e DEFINED (__SPI3Interrupt)?ABSOLUTE (__SPI3Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x0000cc          0x4 LONG 0x35e DEFINED (__OC9Interrupt)?ABSOLUTE (__OC9Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x0000ce          0x4 LONG 0x35e DEFINED (__IC9Interrupt)?ABSOLUTE (__IC9Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x0000d0          0x4 LONG 0x35e DEFINED (__PWM1Interrupt)?ABSOLUTE (__PWM1Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x0000d2          0x4 LONG 0x35e DEFINED (__PWM2Interrupt)?ABSOLUTE (__PWM2Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x0000d4          0x4 LONG 0x35e DEFINED (__PWM3Interrupt)?ABSOLUTE (__PWM3Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x0000d6          0x4 LONG 0x35e DEFINED (__PWM4Interrupt)?ABSOLUTE (__PWM4Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x0000d8          0x4 LONG 0x35e DEFINED (__Interrupt98)?ABSOLUTE (__Interrupt98):ABSOLUTE (__DefaultInterrupt)
+                  0x0000da          0x4 LONG 0x35e DEFINED (__Interrupt99)?ABSOLUTE (__Interrupt99):ABSOLUTE (__DefaultInterrupt)
+                  0x0000dc          0x4 LONG 0x35e DEFINED (__Interrupt100)?ABSOLUTE (__Interrupt100):ABSOLUTE (__DefaultInterrupt)
+                  0x0000de          0x4 LONG 0x35e DEFINED (__Interrupt101)?ABSOLUTE (__Interrupt101):ABSOLUTE (__DefaultInterrupt)
+                  0x0000e0          0x4 LONG 0x35e DEFINED (__Interrupt102)?ABSOLUTE (__Interrupt102):ABSOLUTE (__DefaultInterrupt)
+                  0x0000e2          0x4 LONG 0x35e DEFINED (__Interrupt103)?ABSOLUTE (__Interrupt103):ABSOLUTE (__DefaultInterrupt)
+                  0x0000e4          0x4 LONG 0x35e DEFINED (__Interrupt104)?ABSOLUTE (__Interrupt104):ABSOLUTE (__DefaultInterrupt)
+                  0x0000e6          0x4 LONG 0x35e DEFINED (__Interrupt105)?ABSOLUTE (__Interrupt105):ABSOLUTE (__DefaultInterrupt)
+                  0x0000e8          0x4 LONG 0x35e DEFINED (__Interrupt106)?ABSOLUTE (__Interrupt106):ABSOLUTE (__DefaultInterrupt)
+                  0x0000ea          0x4 LONG 0x35e DEFINED (__Interrupt107)?ABSOLUTE (__Interrupt107):ABSOLUTE (__DefaultInterrupt)
+                  0x0000ec          0x4 LONG 0x35e DEFINED (__Interrupt108)?ABSOLUTE (__Interrupt108):ABSOLUTE (__DefaultInterrupt)
+                  0x0000ee          0x4 LONG 0x35e DEFINED (__Interrupt109)?ABSOLUTE (__Interrupt109):ABSOLUTE (__DefaultInterrupt)
+                  0x0000f0          0x4 LONG 0x35e DEFINED (__Interrupt110)?ABSOLUTE (__Interrupt110):ABSOLUTE (__DefaultInterrupt)
+                  0x0000f2          0x4 LONG 0x35e DEFINED (__Interrupt111)?ABSOLUTE (__Interrupt111):ABSOLUTE (__DefaultInterrupt)
+                  0x0000f4          0x4 LONG 0x35e DEFINED (__Interrupt112)?ABSOLUTE (__Interrupt112):ABSOLUTE (__DefaultInterrupt)
+                  0x0000f6          0x4 LONG 0x35e DEFINED (__Interrupt113)?ABSOLUTE (__Interrupt113):ABSOLUTE (__DefaultInterrupt)
+                  0x0000f8          0x4 LONG 0x35e DEFINED (__Interrupt114)?ABSOLUTE (__Interrupt114):ABSOLUTE (__DefaultInterrupt)
+                  0x0000fa          0x4 LONG 0x35e DEFINED (__Interrupt115)?ABSOLUTE (__Interrupt115):ABSOLUTE (__DefaultInterrupt)
+                  0x0000fc          0x4 LONG 0x35e DEFINED (__Interrupt116)?ABSOLUTE (__Interrupt116):ABSOLUTE (__DefaultInterrupt)
+                  0x0000fe          0x4 LONG 0x35e DEFINED (__Interrupt117)?ABSOLUTE (__Interrupt117):ABSOLUTE (__DefaultInterrupt)
+                  0x000100          0x4 LONG 0x35e DEFINED (__DMA8Interrupt)?ABSOLUTE (__DMA8Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x000102          0x4 LONG 0x35e DEFINED (__DMA9Interrupt)?ABSOLUTE (__DMA9Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x000104          0x4 LONG 0x35e DEFINED (__DMA10Interrupt)?ABSOLUTE (__DMA10Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x000106          0x4 LONG 0x35e DEFINED (__DMA11Interrupt)?ABSOLUTE (__DMA11Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x000108          0x4 LONG 0x35e DEFINED (__SPI4ErrInterrupt)?ABSOLUTE (__SPI4ErrInterrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x00010a          0x4 LONG 0x35e DEFINED (__SPI4Interrupt)?ABSOLUTE (__SPI4Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x00010c          0x4 LONG 0x35e DEFINED (__OC10Interrupt)?ABSOLUTE (__OC10Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x00010e          0x4 LONG 0x35e DEFINED (__IC10Interrupt)?ABSOLUTE (__IC10Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x000110          0x4 LONG 0x35e DEFINED (__OC11Interrupt)?ABSOLUTE (__OC11Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x000112          0x4 LONG 0x35e DEFINED (__IC11Interrupt)?ABSOLUTE (__IC11Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x000114          0x4 LONG 0x35e DEFINED (__OC12Interrupt)?ABSOLUTE (__OC12Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x000116          0x4 LONG 0x35e DEFINED (__IC12Interrupt)?ABSOLUTE (__IC12Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x000118          0x4 LONG 0x35e DEFINED (__DMA12Interrupt)?ABSOLUTE (__DMA12Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x00011a          0x4 LONG 0x35e DEFINED (__DMA13Interrupt)?ABSOLUTE (__DMA13Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x00011c          0x4 LONG 0x35e DEFINED (__DMA14Interrupt)?ABSOLUTE (__DMA14Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x00011e          0x4 LONG 0x35e DEFINED (__Interrupt133)?ABSOLUTE (__Interrupt133):ABSOLUTE (__DefaultInterrupt)
+                  0x000120          0x4 LONG 0x35e DEFINED (__OC13Interrupt)?ABSOLUTE (__OC13Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x000122          0x4 LONG 0x35e DEFINED (__IC13Interrupt)?ABSOLUTE (__IC13Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x000124          0x4 LONG 0x35e DEFINED (__OC14Interrupt)?ABSOLUTE (__OC14Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x000126          0x4 LONG 0x35e DEFINED (__IC14Interrupt)?ABSOLUTE (__IC14Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x000128          0x4 LONG 0x35e DEFINED (__OC15Interrupt)?ABSOLUTE (__OC15Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x00012a          0x4 LONG 0x35e DEFINED (__IC15Interrupt)?ABSOLUTE (__IC15Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x00012c          0x4 LONG 0x35e DEFINED (__OC16Interrupt)?ABSOLUTE (__OC16Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x00012e          0x4 LONG 0x35e DEFINED (__IC16Interrupt)?ABSOLUTE (__IC16Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x000130          0x4 LONG 0x35e DEFINED (__ICDInterrupt)?ABSOLUTE (__ICDInterrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x000132          0x4 LONG 0x35e DEFINED (__JTAGInterrupt)?ABSOLUTE (__JTAGInterrupt):ABSOLUTE (__DefaultInterrupt)
                     0x0000                  WREG0 = 0x0
                     0x0000                  _WREG0 = 0x0
                     0x0002                  WREG1 = 0x2
@@ -2701,6 +3489,7 @@ __FUID0
                     0x0c04                  _PTPER = 0xc04
                     0x0c06                  SEVTCMP = 0xc06
                     0x0c06                  _SEVTCMP = 0xc06
+                    0x0c06                  _SEVTCMPbits = 0xc06
                     0x0c0a                  MDC = 0xc0a
                     0x0c0a                  _MDC = 0xc0a
                     0x0c0e                  STCON = 0xc0e
@@ -2713,6 +3502,7 @@ __FUID0
                     0x0c12                  _STPER = 0xc12
                     0x0c14                  SSEVTCMP = 0xc14
                     0x0c14                  _SSEVTCMP = 0xc14
+                    0x0c14                  _SSEVTCMPbits = 0xc14
                     0x0c1a                  CHOP = 0xc1a
                     0x0c1a                  _CHOP = 0xc1a
                     0x0c1a                  _CHOPbits = 0xc1a
@@ -3055,71 +3845,468 @@ __FUID0
                     0x0230                  UART2 = 0x230
                     0x0230                  _UART2 = 0x230
 START GROUP
-LOAD c:/program files (x86)/microchip/xc16/v1.11/bin/bin/../../lib\libpic30-elf.a
-LOAD c:/program files (x86)/microchip/xc16/v1.11/bin/bin/../../lib\libm-elf.a
-LOAD c:/program files (x86)/microchip/xc16/v1.11/bin/bin/../../lib\libc-elf.a
+LOAD /opt/microchip/xc16/v1.20/bin/bin/../../lib/libfx-elf.a
+LOAD /opt/microchip/xc16/v1.20/bin/bin/../../lib/libpic30-elf.a
+LOAD /opt/microchip/xc16/v1.20/bin/bin/../../lib/libm-elf.a
+LOAD /opt/microchip/xc16/v1.20/bin/bin/../../lib/libc-elf.a
 END GROUP
 OUTPUT(dist/Motor_Board_v1.9a_b/production/CANTestingMotorBoard.X.production.elf elf32-pic30)
+LOAD jump_table
 LOAD default_isr
 LOAD data_init
 
 .debug_pubtypes
-                  0x000060        0x42d
+                  0x0001c8       0x2b04
  .debug_pubtypes
-                  0x000060         0x67 build/Motor_Board_v1.9a_b/production/_ext/1360937237/ecan1drv.o
+                  0x0001c8         0x67 build/Motor_Board_v1.9a_b/production/_ext/1360937237/ecan1drv.o
  .debug_pubtypes
-                  0x0000c7         0x35 build/Motor_Board_v1.9a_b/production/_ext/1360937237/traps.o
+                  0x00022f         0x35 build/Motor_Board_v1.9a_b/production/_ext/1360937237/traps.o
  .debug_pubtypes
-                  0x0000fc        0x1c1 build/Motor_Board_v1.9a_b/production/_ext/1360937237/ecan1_config.o
+                  0x000264        0x1c1 build/Motor_Board_v1.9a_b/production/_ext/1360937237/ecan1_config.o
  .debug_pubtypes
-                  0x0002bd        0x1d0 build/Motor_Board_v1.9a_b/production/_ext/1360937237/main.o
+                  0x000425        0x3df build/Motor_Board_v1.9a_b/production/_ext/1360937237/main.o
+ .debug_pubtypes
+                  0x000804        0x2bb build/Motor_Board_v1.9a_b/production/_ext/379909333/dcf.o
+ .debug_pubtypes
+                  0x000abf        0x2ab build/Motor_Board_v1.9a_b/production/_ext/379909333/emcy.o
+ .debug_pubtypes
+                  0x000d6a        0x2b8 build/Motor_Board_v1.9a_b/production/_ext/379909333/lifegrd.o
+ .debug_pubtypes
+                  0x001022         0x12 build/Motor_Board_v1.9a_b/production/_ext/379909333/lss.o
+ .debug_pubtypes
+                  0x001034        0x2ab build/Motor_Board_v1.9a_b/production/_ext/379909333/nmtMaster.o
+ .debug_pubtypes
+                  0x0012df        0x2ab build/Motor_Board_v1.9a_b/production/_ext/379909333/nmtSlave.o
+ .debug_pubtypes
+                  0x00158a        0x2ab build/Motor_Board_v1.9a_b/production/_ext/379909333/objacces.o
+ .debug_pubtypes
+                  0x001835        0x2b8 build/Motor_Board_v1.9a_b/production/_ext/379909333/pdo.o
+ .debug_pubtypes
+                  0x001aed        0x2ab build/Motor_Board_v1.9a_b/production/_ext/379909333/sdo.o
+ .debug_pubtypes
+                  0x001d98        0x2ab build/Motor_Board_v1.9a_b/production/_ext/379909333/states.o
+ .debug_pubtypes
+                  0x002043         0x12 build/Motor_Board_v1.9a_b/production/_ext/379909333/symbols.o
+ .debug_pubtypes
+                  0x002055        0x2ab build/Motor_Board_v1.9a_b/production/_ext/379909333/sync.o
+ .debug_pubtypes
+                  0x002300        0x2f7 build/Motor_Board_v1.9a_b/production/_ext/379909333/timer.o
+ .debug_pubtypes
+                  0x0025f7        0x32c build/Motor_Board_v1.9a_b/production/_ext/872612413/can_dspic33e.o
+ .debug_pubtypes
+                  0x002923         0xb4 build/Motor_Board_v1.9a_b/production/_ext/872612413/timer_dspic.o
+ .debug_pubtypes
+                  0x0029d7         0x4a build/Motor_Board_v1.9a_b/production/_ext/1360937237/superball_circularbuffer.o
+ .debug_pubtypes
+                  0x002a21        0x2ab build/Motor_Board_v1.9a_b/production/_ext/1360937237/motor_objdict.o
 
 __c30_signature
-                  0x00048e         0x24
+                  0x002ccc         0xa8
  __c30_signature
-                  0x00048e          0x6 build/Motor_Board_v1.9a_b/production/_ext/1360937237/ecan1drv.o
+                  0x002ccc          0x6 build/Motor_Board_v1.9a_b/production/_ext/1360937237/ecan1drv.o
  __c30_signature
-                  0x000494          0x6 build/Motor_Board_v1.9a_b/production/_ext/1360937237/traps.o
+                  0x002cd2          0x6 build/Motor_Board_v1.9a_b/production/_ext/1360937237/traps.o
  __c30_signature
-                  0x00049a          0x6 build/Motor_Board_v1.9a_b/production/_ext/1360937237/ecan1_config.o
+                  0x002cd8          0x6 build/Motor_Board_v1.9a_b/production/_ext/1360937237/ecan1_config.o
  __c30_signature
-                  0x0004a0          0x6 build/Motor_Board_v1.9a_b/production/_ext/1360937237/main.o
+                  0x002cde          0x6 build/Motor_Board_v1.9a_b/production/_ext/1360937237/main.o
  __c30_signature
-                  0x0004a6          0x6 c:/program files (x86)/microchip/xc16/v1.11/bin/bin/../../lib\libpic30-elf.a(crt0_extendedep.o)
+                  0x002ce4          0x6 build/Motor_Board_v1.9a_b/production/_ext/379909333/dcf.o
  __c30_signature
-                  0x0004ac          0x6 c:/program files (x86)/microchip/xc16/v1.11/bin/bin/../../lib\libpic30-elf.a(data_init_extendedep.o)
+                  0x002cea          0x6 build/Motor_Board_v1.9a_b/production/_ext/379909333/emcy.o
+ __c30_signature
+                  0x002cf0          0x6 build/Motor_Board_v1.9a_b/production/_ext/379909333/lifegrd.o
+ __c30_signature
+                  0x002cf6          0x6 build/Motor_Board_v1.9a_b/production/_ext/379909333/lss.o
+ __c30_signature
+                  0x002cfc          0x6 build/Motor_Board_v1.9a_b/production/_ext/379909333/nmtMaster.o
+ __c30_signature
+                  0x002d02          0x6 build/Motor_Board_v1.9a_b/production/_ext/379909333/nmtSlave.o
+ __c30_signature
+                  0x002d08          0x6 build/Motor_Board_v1.9a_b/production/_ext/379909333/objacces.o
+ __c30_signature
+                  0x002d0e          0x6 build/Motor_Board_v1.9a_b/production/_ext/379909333/pdo.o
+ __c30_signature
+                  0x002d14          0x6 build/Motor_Board_v1.9a_b/production/_ext/379909333/sdo.o
+ __c30_signature
+                  0x002d1a          0x6 build/Motor_Board_v1.9a_b/production/_ext/379909333/states.o
+ __c30_signature
+                  0x002d20          0x6 build/Motor_Board_v1.9a_b/production/_ext/379909333/symbols.o
+ __c30_signature
+                  0x002d26          0x6 build/Motor_Board_v1.9a_b/production/_ext/379909333/sync.o
+ __c30_signature
+                  0x002d2c          0x6 build/Motor_Board_v1.9a_b/production/_ext/379909333/timer.o
+ __c30_signature
+                  0x002d32          0x6 build/Motor_Board_v1.9a_b/production/_ext/872612413/can_dspic33e.o
+ __c30_signature
+                  0x002d38          0x6 build/Motor_Board_v1.9a_b/production/_ext/872612413/timer_dspic.o
+ __c30_signature
+                  0x002d3e          0x6 build/Motor_Board_v1.9a_b/production/_ext/1360937237/superball_circularbuffer.o
+ __c30_signature
+                  0x002d44          0x6 build/Motor_Board_v1.9a_b/production/_ext/1360937237/motor_objdict.o
+ __c30_signature
+                  0x002d4a          0x6 /opt/microchip/xc16/v1.20/bin/bin/../../lib/dsPIC33E/libp33EP256MU806-elf.a(ConfigIntCAN1.o)
+ __c30_signature
+                  0x002d50          0x6 /opt/microchip/xc16/v1.20/bin/bin/../../lib/libpic30-elf.a(crt0_extendedep.o)
+ __c30_signature
+                  0x002d56          0x6 /opt/microchip/xc16/v1.20/bin/bin/../../lib/libpic30-elf.a(data_init_extendedep.o)
+ __c30_signature
+                  0x002d5c          0x6 /opt/microchip/xc16/v1.20/bin/bin/../../lib/libm-elf.a(umodsi3.epeo)
+ __c30_signature
+                  0x002d62          0x6 /opt/microchip/xc16/v1.20/bin/bin/../../lib/libm-elf.a(udivsi3.epeo)
+ __c30_signature
+                  0x002d68          0x6 /opt/microchip/xc16/v1.20/bin/bin/../../lib/libc-elf.a(memcmp.epeo)
+ __c30_signature
+                  0x002d6e          0x6 /opt/microchip/xc16/v1.20/bin/bin/../../lib/libc-elf.a(memcpy.epeo)
 
-.nbss               0x1000         0x12
- .nbss              0x1000         0x12 build/Motor_Board_v1.9a_b/production/_ext/1360937237/main.o
-                    0x1000                  _rx_ecan1message
+.ndata              0x1000        0xcc4
+ .ndata             0x1000        0xa7c build/Motor_Board_v1.9a_b/production/_ext/1360937237/motor_objdict.o
+                    0x1000                  _Strain_Gauge1
+                    0x1004                  _Strain_Gauge2
+                    0x1008                  _Strain_Gauge3
+                    0x100c                  _Strain_Gauge4
+                    0x1010                  _Voltage_24V
+                    0x1012                  _Position_actual_value
+                    0x1016                  _Velocity_actual_value
+                    0x101a                  _Current_actual_value
+                    0x101c                  _Target_position
+                    0x1020                  _Target_velocity
+                    0x1024                  _Motor_data_Continous_current_limit
+                    0x1026                  _Motor_data_Output_current_limit
+                    0x1028                  _Motor_data_Pole_pair_number
+                    0x102a                  _Motor_data_Maximal_speed_in_current_mode
+                    0x102c                  _Motor_data_Thermal_time_constant_winding
+                    0x102e                  _Supported_drive_modes
+                    0x1032                  _Motor_Board_bDeviceNodeId
+                    0x1034                  _Motor_Board_obj1000
+                    0x1038                  _Motor_Board_Index1000
+                    0x1040                  _Motor_Board_obj1001
+                    0x1042                  _Motor_Board_Index1001
+                    0x104a                  _Motor_Board_highestSubIndex_obj1003
+                    0x104c                  _Motor_Board_obj1003
+                    0x1050                  _Motor_Board_Index1003_callbacks
+                    0x1054                  _Motor_Board_Index1003
+                    0x1064                  _Motor_Board_obj1005
+                    0x1068                  _Motor_Board_obj1006
+                    0x106c                  _Motor_Board_obj100C
+                    0x106e                  _Motor_Board_obj100D
+                    0x1070                  _Motor_Board_obj1014
+                    0x1074                  _Motor_Board_highestSubIndex_obj1016
+                    0x1076                  _Motor_Board_obj1016
+                    0x107a                  _Motor_Board_obj1017
+                    0x107c                  _Motor_Board_Index1017_callbacks
+                    0x107e                  _Motor_Board_Index1017
+                    0x1086                  _Motor_Board_highestSubIndex_obj1018
+                    0x1088                  _Motor_Board_obj1018_Vendor_ID
+                    0x108c                  _Motor_Board_obj1018_Product_Code
+                    0x1090                  _Motor_Board_obj1018_Revision_Number
+                    0x1094                  _Motor_Board_obj1018_Serial_Number
+                    0x1098                  _Motor_Board_Index1018
+                    0x10c0                  _Motor_Board_highestSubIndex_obj1200
+                    0x10c2                  _Motor_Board_obj1200_COB_ID_Client_to_Server_Receive_SDO
+                    0x10c6                  _Motor_Board_obj1200_COB_ID_Server_to_Client_Transmit_SDO
+                    0x10ca                  _Motor_Board_Index1200
+                    0x10e2                  _Motor_Board_highestSubIndex_obj1400
+                    0x10e4                  _Motor_Board_obj1400_COB_ID_used_by_PDO
+                    0x10e8                  _Motor_Board_obj1400_Transmission_Type
+                    0x10ea                  _Motor_Board_obj1400_Inhibit_Time
+                    0x10ec                  _Motor_Board_obj1400_Compatibility_Entry
+                    0x10ee                  _Motor_Board_obj1400_Event_Timer
+                    0x10f0                  _Motor_Board_obj1400_SYNC_start_value
+                    0x10f2                  _Motor_Board_Index1400
+                    0x112a                  _Motor_Board_highestSubIndex_obj1401
+                    0x112c                  _Motor_Board_obj1401_COB_ID_used_by_PDO
+                    0x1130                  _Motor_Board_obj1401_Transmission_Type
+                    0x1132                  _Motor_Board_obj1401_Inhibit_Time
+                    0x1134                  _Motor_Board_obj1401_Compatibility_Entry
+                    0x1136                  _Motor_Board_obj1401_Event_Timer
+                    0x1138                  _Motor_Board_obj1401_SYNC_start_value
+                    0x113a                  _Motor_Board_Index1401
+                    0x1172                  _Motor_Board_highestSubIndex_obj1402
+                    0x1174                  _Motor_Board_obj1402_COB_ID_used_by_PDO
+                    0x1178                  _Motor_Board_obj1402_Transmission_Type
+                    0x117a                  _Motor_Board_obj1402_Inhibit_Time
+                    0x117c                  _Motor_Board_obj1402_Compatibility_Entry
+                    0x117e                  _Motor_Board_obj1402_Event_Timer
+                    0x1180                  _Motor_Board_obj1402_SYNC_start_value
+                    0x1182                  _Motor_Board_Index1402
+                    0x11ba                  _Motor_Board_highestSubIndex_obj1403
+                    0x11bc                  _Motor_Board_obj1403_COB_ID_used_by_PDO
+                    0x11c0                  _Motor_Board_obj1403_Transmission_Type
+                    0x11c2                  _Motor_Board_obj1403_Inhibit_Time
+                    0x11c4                  _Motor_Board_obj1403_Compatibility_Entry
+                    0x11c6                  _Motor_Board_obj1403_Event_Timer
+                    0x11c8                  _Motor_Board_obj1403_SYNC_start_value
+                    0x11ca                  _Motor_Board_Index1403
+                    0x1202                  _Motor_Board_highestSubIndex_obj1600
+                    0x1204                  _Motor_Board_obj1600
+                    0x1224                  _Motor_Board_Index1600
+                    0x126c                  _Motor_Board_highestSubIndex_obj1601
+                    0x126e                  _Motor_Board_obj1601
+                    0x128e                  _Motor_Board_Index1601
+                    0x12d6                  _Motor_Board_highestSubIndex_obj1602
+                    0x12d8                  _Motor_Board_obj1602
+                    0x12f8                  _Motor_Board_Index1602
+                    0x1340                  _Motor_Board_highestSubIndex_obj1603
+                    0x1342                  _Motor_Board_obj1603
+                    0x1362                  _Motor_Board_Index1603
+                    0x13aa                  _Motor_Board_highestSubIndex_obj1800
+                    0x13ac                  _Motor_Board_obj1800_COB_ID_used_by_PDO
+                    0x13b0                  _Motor_Board_obj1800_Transmission_Type
+                    0x13b2                  _Motor_Board_obj1800_Inhibit_Time
+                    0x13b4                  _Motor_Board_obj1800_Compatibility_Entry
+                    0x13b6                  _Motor_Board_obj1800_Event_Timer
+                    0x13b8                  _Motor_Board_obj1800_SYNC_start_value
+                    0x13ba                  _Motor_Board_Index1800_callbacks
+                    0x13c8                  _Motor_Board_Index1800
+                    0x1400                  _Motor_Board_highestSubIndex_obj1801
+                    0x1402                  _Motor_Board_obj1801_COB_ID_used_by_PDO
+                    0x1406                  _Motor_Board_obj1801_Transmission_Type
+                    0x1408                  _Motor_Board_obj1801_Inhibit_Time
+                    0x140a                  _Motor_Board_obj1801_Compatibility_Entry
+                    0x140c                  _Motor_Board_obj1801_Event_Timer
+                    0x140e                  _Motor_Board_obj1801_SYNC_start_value
+                    0x1410                  _Motor_Board_Index1801_callbacks
+                    0x141e                  _Motor_Board_Index1801
+                    0x1456                  _Motor_Board_highestSubIndex_obj1802
+                    0x1458                  _Motor_Board_obj1802_COB_ID_used_by_PDO
+                    0x145c                  _Motor_Board_obj1802_Transmission_Type
+                    0x145e                  _Motor_Board_obj1802_Inhibit_Time
+                    0x1460                  _Motor_Board_obj1802_Compatibility_Entry
+                    0x1462                  _Motor_Board_obj1802_Event_Timer
+                    0x1464                  _Motor_Board_obj1802_SYNC_start_value
+                    0x1466                  _Motor_Board_Index1802_callbacks
+                    0x1474                  _Motor_Board_Index1802
+                    0x14ac                  _Motor_Board_highestSubIndex_obj1803
+                    0x14ae                  _Motor_Board_obj1803_COB_ID_used_by_PDO
+                    0x14b2                  _Motor_Board_obj1803_Transmission_Type
+                    0x14b4                  _Motor_Board_obj1803_Inhibit_Time
+                    0x14b6                  _Motor_Board_obj1803_Compatibility_Entry
+                    0x14b8                  _Motor_Board_obj1803_Event_Timer
+                    0x14ba                  _Motor_Board_obj1803_SYNC_start_value
+                    0x14bc                  _Motor_Board_Index1803_callbacks
+                    0x14ca                  _Motor_Board_Index1803
+                    0x1502                  _Motor_Board_highestSubIndex_obj1A00
+                    0x1504                  _Motor_Board_obj1A00
+                    0x1508                  _Motor_Board_Index1A00
+                    0x1518                  _Motor_Board_highestSubIndex_obj1A01
+                    0x151a                  _Motor_Board_obj1A01
+                    0x153a                  _Motor_Board_Index1A01
+                    0x1582                  _Motor_Board_highestSubIndex_obj1A02
+                    0x1584                  _Motor_Board_obj1A02
+                    0x15a4                  _Motor_Board_Index1A02
+                    0x15ec                  _Motor_Board_highestSubIndex_obj1A03
+                    0x15ee                  _Motor_Board_obj1A03
+                    0x160e                  _Motor_Board_Index1A03
+                    0x1656                  _Motor_Board_Index2001
+                    0x165e                  _Motor_Board_Index2002
+                    0x1666                  _Motor_Board_Index2003
+                    0x166e                  _Motor_Board_Index2004
+                    0x1676                  _Motor_Board_Index4000
+                    0x167e                  _Motor_Board_Index6064
+                    0x1686                  _Motor_Board_Index606C
+                    0x168e                  _Motor_Board_Index6078
+                    0x1696                  _Motor_Board_Index607A
+                    0x169e                  _Motor_Board_Index60FF
+                    0x16a6                  _Motor_Board_highestSubIndex_obj6410
+                    0x16a8                  _Motor_Board_Index6410
+                    0x16d8                  _Motor_Board_Index6502
+                    0x16e0                  _Motor_Board_PDO_status
+                    0x1728                  _Motor_Board_Data
+ .ndata             0x1a7c        0x248 build/Motor_Board_v1.9a_b/production/_ext/379909333/timer.o
+                    0x1a7c                  _timers
+                    0x1cbc                  _total_sleep_time
+                    0x1cc0                  _last_timer_raw
+                    0x1cc2                  _tdcount
 
-_04B6D000540e3776
+.nbss               0x1cc4         0x60
+ .nbss              0x1cc4         0x48 build/Motor_Board_v1.9a_b/production/_ext/872612413/can_dspic33e.o
+                    0x1cc4                  _can_rx_buffer_array
+                    0x1d00                  _can_rx_circ_buff
+ .nbss              0x1d0c         0x12 build/Motor_Board_v1.9a_b/production/_ext/1360937237/main.o
+                    0x1d0c                  _rx_ecan1message
+ .nbss              0x1d1e          0x4 build/Motor_Board_v1.9a_b/production/_ext/872612413/timer_dspic.o
+ .nbss              0x1d22          0x2 build/Motor_Board_v1.9a_b/production/_ext/1360937237/motor_objdict.o
+                    0x1d22                  _Motor_Board_heartBeatTimers
+
+_0x5702a958540f8518
                     0x7f80         0x40
- _04B6D000540e3776
+ _0x5702a958540f8518
                     0x7f80         0x40 build/Motor_Board_v1.9a_b/production/_ext/1360937237/main.o
                     0x7f80                  _ecan1msgBuf
 
-.text             0x0002ea        0x70e
- .text            0x0002ea        0x32a build/Motor_Board_v1.9a_b/production/_ext/1360937237/main.o
-                  0x0002ea                  _Ecan1WriteMessage
-                  0x00030a                  _RxECAN1
-                  0x00054e                  _ClearIntrflags
-                  0x000560                  _OscConfig
-                  0x0005a4                  _main
-                  0x0005c8                  __C1Interrupt
-                  0x000600                  __DMA0Interrupt
-                  0x00060a                  __DMA2Interrupt
- .text            0x000614        0x2d4 build/Motor_Board_v1.9a_b/production/_ext/1360937237/ecan1drv.o
-                  0x000614                  _Ecan1WriteRxAcptFilter
-                  0x000682                  _Ecan1WriteRxAcptMask
-                  0x0006d8                  _Ecan1WriteTxMsgBufId
-                  0x0007e6                  _Ecan1WriteTxMsgBufData
-                  0x0008d6                  _Ecan1DisableRXFilter
- .text            0x0008e8        0x110 build/Motor_Board_v1.9a_b/production/_ext/1360937237/ecan1_config.o
-                  0x0008e8                  _DMA0Init
-                  0x00090e                  _DMA2Init
-                  0x000934                  _Ecan1ClkInit
-                  0x000960                  _Ecan1Init
+.const              0x83ec        0x11a load address 0x0003ec  
+ .const             0x83ec         0xe2 build/Motor_Board_v1.9a_b/production/_ext/1360937237/motor_objdict.o
+                    0x83ec                  _Motor_Board_iam_a_slave
+                    0x83ee                  _Motor_Board_objdict
+                    0x84b4                  _Motor_Board_firstIndex
+                    0x84c0                  _Motor_Board_lastIndex
+                    0x84cc                  _Motor_Board_ObjdictSize
+ .const             0x84ce         0x38 build/Motor_Board_v1.9a_b/production/_ext/379909333/states.o
 
-.dinit            0x0009f8          0xe
- .dinit           0x0009f8          0xe data_init
+.text             0x000506       0x22c4
+ .text            0x000506       0x22c4 build/Motor_Board_v1.9a_b/production/_ext/379909333/sdo.o
+                  0x000506                  _SDOlineToObjdict
+                  0x000550                  _objdictToSDOline
+                  0x000598                  _lineToSDO
+                  0x000612                  _SDOtoLine
+                  0x00067c                  _initSDOline
+                  0x00072c                  _resetSDOline
+                  0x000774                  _resetSDO
+                  0x00078e                  _getSDOfreeLine
+                  0x0007d2                  _getSDOlineOnUse
+                  0x000806                  _getSDOlineToClose
+                  0x000834                  _getSDOlineRestBytes
+                  0x000866                  _setSDOlineRestBytes
+                  0x000888                  _sendSDO
+                  0x000902                  _sendSDOabort
+                  0x00092e                  _failedSDO
+                  0x0009b2                  _SDOTimeoutAlarm
+                  0x000a48                  _proceedSDO
+                  0x00220e                  _GetSDOClientFromNodeId
+                  0x002270                  _closeSDOtransfer
+                  0x0022a2                  __writeNetworkDict
+                  0x0023e8                  _writeNetworkDict
+                  0x002400                  _writeNetworkDictCallBack
+                  0x00241a                  _writeNetworkDictCallBackAI
+                  0x0024fc                  __readNetworkDict
+                  0x0025d6                  _readNetworkDict
+                  0x0025e2                  _readNetworkDictCallback
+                  0x0025ea                  _readNetworkDictCallbackAI
+                  0x0026ae                  _getReadResultNetworkDict
+                  0x00277c                  _getWriteResultNetworkDict
+
+.dinit            0x0027ca        0x8b0
+ .dinit           0x0027ca        0x8b0 data_init
+
+.text             0x00307a       0x2566
+ .text            0x00307a        0x7c6 build/Motor_Board_v1.9a_b/production/_ext/379909333/pdo.o
+                  0x00309e                  _sendPDOrequest
+                  0x0030ea                  _CopyBits
+                  0x003168                  _buildPDO
+                  0x003266                  _sendOnePDOevent
+                  0x003370                  _PDOInhibitTimerAlarm
+                  0x00338a                  _PDOEventTimerAlarm
+                  0x0033a6                  _TPDO_Communication_Parameter_Callback
+                  0x003408                  _proceedPDO
+                  0x003652                  __RxPDO_EventTimers_Handler
+                  0x003658                  __sendPDOevent
+                  0x00377e                  _sendPDOevent
+                  0x003788                  _PDOInit
+                  0x0037e4                  _PDOStop
+ .text            0x003840        0x3b4 build/Motor_Board_v1.9a_b/production/_ext/379909333/lifegrd.o
+                  0x003840                  _ConsumerHeartbeatAlarm
+                  0x00386a                  _GuardTimeAlarm
+                  0x0038e2                  _ProducerHeartbeatAlarm
+                  0x00391a                  _getNodeState
+                  0x003932                  _proceedNODE_GUARD
+                  0x003a42                  _heartbeatInit
+                  0x003ad0                  _nodeguardInit
+                  0x003b40                  _heartbeatStop
+                  0x003b76                  _OnHeartbeatProducerUpdate
+                  0x003b8c                  _nodeguardStop
+                  0x003b9e                  _OnNodeGuardUpdate
+                  0x003bb4                  _lifeGuardInit
+                  0x003bc8                  _lifeGuardStop
+                  0x003bdc                  __heartbeatError
+                  0x003be2                  __post_SlaveBootup
+                  0x003be8                  __post_SlaveStateChange
+                  0x003bee                  __nodeguardError
+ .text            0x003bf4        0x33c build/Motor_Board_v1.9a_b/production/_ext/379909333/states.o
+                  0x003bf4                  _getState
+                  0x003bfc                  _canDispatch
+                  0x003c70                  _switchCommunicationState
+                  0x003d4c                  _setState
+                  0x003e14                  _getNodeId
+                  0x003e1e                  _setNodeId
+                  0x003f0a                  __initialisation
+                  0x003f10                  __preOperational
+                  0x003f24                  __operational
+                  0x003f2a                  __stopped
+ .text            0x003f30        0x2f4 build/Motor_Board_v1.9a_b/production/_ext/379909333/dcf.o
+                  0x003f30                  _start_node
+                  0x003f52                  _init_consise_dcf
+                  0x003fa2                  _get_next_DCF_data
+                  0x004054                  _check_and_start_node
+                  0x004092                  _start_and_seek_node
+                  0x004104                  build/Motor_Board_v1.9a_b/production/_ext/379909333/dcf.o:_CheckSDOAndContinue
+                  0x004200                  _SaveNode
+ .text            0x004224        0x2d6 build/Motor_Board_v1.9a_b/production/_ext/1360937237/ecan1drv.o
+                  0x004224                  _Ecan1WriteRxAcptFilter
+                  0x004292                  _Ecan1WriteRxAcptMask
+                  0x0042e8                  _Ecan1WriteTxMsgBufId
+                  0x0043f6                  _Ecan1WriteTxMsgBufData
+                  0x0044e8                  _Ecan1DisableRXFilter
+ .text            0x0044fa        0x252 build/Motor_Board_v1.9a_b/production/_ext/1360937237/superball_circularbuffer.o
+                  0x0044fa                  _CB_Init
+                  0x004532                  _CB_ReadByte
+                  0x00457a                  _CB_ReadMany
+                  0x0045c2                  _CB_WriteByte
+                  0x004618                  _CB_WriteMany
+                  0x0046c6                  _CB_Peek
+                  0x0046e2                  _CB_PeekMany
+                  0x00471e                  _CB_Remove
+ .text            0x00474c        0x248 build/Motor_Board_v1.9a_b/production/_ext/379909333/emcy.o
+                  0x00474c                  _OnNumberOfErrorsUpdate
+                  0x00477c                  _emergencyInit
+                  0x004796                  _emergencyStop
+                  0x00479c                  _sendEMCY
+                  0x0047e6                  _EMCY_setError
+                  0x0048e8                  _EMCY_errorRecovered
+                  0x00496c                  _proceedEMCY
+                  0x00498e                  __post_emcy
+ .text            0x004994        0x234 build/Motor_Board_v1.9a_b/production/_ext/379909333/objacces.o
+                  0x004994                  _accessDictionaryError
+                  0x00499c                  __getODentry
+                  0x004a6c                  __setODentry
+                  0x004b7e                  _scanIndexOD
+                  0x004b90                  _RegisterSetODentryCallBack
+                  0x004bc2                  __storeODSubIndex
+ .text            0x004bc8        0x224 build/Motor_Board_v1.9a_b/production/_ext/872612413/can_dspic33e.o
+                  0x004bc8                  _canInit
+                  0x004ccc                  _canSend
+                  0x004d92                  _canReceive
+                  0x004daa                  _canChangeBaudRate_driver
+                  0x004db2                  __C1Interrupt
+ .text            0x004dec        0x1c4 build/Motor_Board_v1.9a_b/production/_ext/379909333/timer.o
+                  0x004dec                  _SetAlarm
+                  0x004e9c                  _DelAlarm
+                  0x004eba                  _TimeDispatch
+ .text            0x004fb0        0x1b4 build/Motor_Board_v1.9a_b/production/_ext/1360937237/motor_objdict.o
+                  0x004fb0                  _Motor_Board_valueRangeTest
+                  0x004fce                  _Motor_Board_scanIndexOD
+ .text            0x005164        0x13e build/Motor_Board_v1.9a_b/production/_ext/1360937237/ecan1_config.o
+                  0x005164                  _DMA0Init
+                  0x00518a                  _DMA2Init
+                  0x0051b0                  _Ecan1ClkInit
+                  0x0051e8                  _Ecan1Init
+ .text            0x0052a2         0xf8 build/Motor_Board_v1.9a_b/production/_ext/379909333/sync.o
+                  0x0052a2                  _stopSYNC
+                  0x0052c8                  _startSYNC
+                  0x005324                  _OnCOB_ID_SyncUpdate
+                  0x00532e                  _sendSYNCMessage
+                  0x005344                  _proceedSYNC
+                  0x00536e                  _sendSYNC
+                  0x005386                  _SyncAlarm
+                  0x00538e                  __post_sync
+                  0x005394                  __post_TPDO
+ .text            0x00539a         0xce build/Motor_Board_v1.9a_b/production/_ext/379909333/nmtSlave.o
+                  0x00539a                  _proceedNMTstateChange
+                  0x005448                  _slaveSendBootUp
+ .text            0x005468         0xac build/Motor_Board_v1.9a_b/production/_ext/1360937237/main.o
+                  0x005468                  _reset_board
+                  0x00546e                  _RxECAN1
+                  0x005474                  _ClearIntrflags
+                  0x005486                  _OscConfig
+                  0x0054ce                  _main
+                  0x005500                  __DMA0Interrupt
+                  0x00550a                  __DMA2Interrupt
+ .text            0x005514         0x6a build/Motor_Board_v1.9a_b/production/_ext/872612413/timer_dspic.o
+                  0x005514                  _initTimer
+                  0x00554c                  _setTimer
+                  0x005566                  _getElapsedTime
+                  0x00556e                  __T3Interrupt
+ .text            0x00557e         0x62 build/Motor_Board_v1.9a_b/production/_ext/379909333/nmtMaster.o
+                  0x00557e                  _masterSendNMTstateChange
+                  0x005598                  _masterSendNMTnodeguard
+                  0x0055b2                  _masterRequestNodeState
