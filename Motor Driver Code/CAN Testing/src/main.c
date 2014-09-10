@@ -128,10 +128,10 @@ int main(void)
 	/* ECAN1 Initialisation
        Configure DMA Channel 0 for ECAN1 Transmit
        Configure DMA Channel 2 for ECAN1 Receive */
-	Ecan1Init();
-//	canInit(1000);
-	DMA0Init();
-	DMA2Init();
+//	Ecan1Init();
+	canInit(1000);
+//	DMA0Init();
+//	DMA2Init();
 
 	Motor_Board_Data.NMT_Slave_Node_Reset_Callback = reset_board;
 

@@ -64,7 +64,7 @@ unsigned char canInit(unsigned int bitrate)
 Initialize the hardware to receive CAN messages and start the timer for the
 CANopen stack.
 INPUT	bitrate		bitrate in kilobit
-OUTPUT	1 if successful	
+OUTPUT	1 if successful
  ******************************************************************************/
 {
 	unsigned int config;
@@ -93,7 +93,7 @@ OUTPUT	1 if successful
 	//1Mbaud
 	// Setup our frequencies for time quanta calculations.
 	// FCAN is selected to be FCY*2 = FP*2 = 140Mhz
-	C1CTRL1bits.CANCKS = 1; // 1 => FP*2; 0 => FP
+	C1CTRL1bits.CANCKS = 0; // 1 => FP*2; 0 => FP
 	C1CFG1bits.BRP = 6; //6 = (140MHz/(2*(10*1Mbaud)))-1 [10 TQ/bit = Bit Time]
 	// Based on Bit Time
 	// 10 = 1(SJW) + 4(Propagation Seg.) + 3(Phase Seg. 1) + 2(Phase Seg. 2)
@@ -106,97 +106,55 @@ OUTPUT	1 if successful
 	C1CFG2bits.SEG2PHTS = 0x1; // Keep segment 2 time programmable
 	C1CFG2bits.SEG2PH = 1; // Set phase segment 2 time (Value-1)
 	C1CFG2bits.SAM = 1; // Triple-sample for majority rules at bit sample point
+	C1FCTRLbits.DMABS = 0b000; /* 4 CAN Message Buffers in DMA RAM */
 
-	// No FIFO, 32 Buffers
-	C1FCTRL = 0xC01F;
+//	/* Enter Normal Mode */
+//	C1CTRL1bits.REQOP = 0;
+//	while (C1CTRL1bits.OPMODE != 0);
 
 	// Clear all interrupt bits
 	C1RXFUL1 = C1RXFUL2 = C1RXOVF1 = C1RXOVF2 = 0x0000;
-	C1CTRL1bits.WIN = 1; // Allow configuration of masks and filters
-	// Configure buffer settings.
-	C1TR01CON = 0;
-	//buffer 0 is transmit
-	C1TR01CONbits.TXEN0 = 1;
-	C1TR01CONbits.TXEN1 = 0;
-	C1TR23CONbits.TXEN2 = 1;
-	C1TR23CONbits.TXEN3 = 0;
-	C1TR45CONbits.TXEN4 = 1;
-	C1TR45CONbits.TXEN5 = 0;
-	C1TR67CONbits.TXEN6 = 1;
-	C1TR67CONbits.TXEN7 = 0;
-
+	C1TR01CONbits.TXEN0 = 1; /* ECAN1, Buffer 0 is a Transmit Buffer */
+	C1TR01CONbits.TXEN1 = 0; /* ECAN1, Buffer 1 is a Receive Buffer */
+	C1TR01CONbits.TX0PRI = 0b11; /* Message Buffer 0 Priority Level */
+	C1TR01CONbits.TX1PRI = 0b11; /* Message Buffer 1 Priority Level */
 
 //	CONFIG DMA
 //	TX
-//	DMA1CONbits.SIZE = 0; //word transfer mode
-//	DMA1CONbits.DIR = 0x1; //RAM to peripheral
-//	DMA1CONbits.AMODE = 0x2; //peripheral indirect addressing mode
-//	DMA1CONbits.MODE = 0x0; //continuous, no ping-pong
-//	DMA1REQ = 70; // CAN1 TX
-//	DMA1CNT = 7; // 8 words per transfer
-//	DMA1PAD = (volatile unsigned int) &C1TXD;
-//	DMA1STAL = (unsigned int) ecan1TXMsgBuf;
-//	DMA1STAH = 0x0;
-//	config = DMA1CON | 0b1000000000000000;
-//	irq = 70; //CAN TX
-//	count = 7; //8 words per transfer
-//	pad_address = (volatile unsigned int) &C1TXD;
-//	sta_address = ecan1MsgBuf;
-//	stb_address = 0x0;
-//	OpenDMA1(config, irq, (long unsigned int) ecan1TXMsgBuf,
-//		stb_address, pad_address, count);
-//
+	DMA1CONbits.SIZE = 0; //word transfer mode
+	DMA1CONbits.DIR = 0x1; //RAM to peripheral
+	DMA1CONbits.AMODE = 0x2; //peripheral indirect addressing mode
+	DMA1CONbits.MODE = 0x0; //continuous, no ping-pong
+	DMA1REQ = 70; // CAN1 TX
+	DMA1CNT = 7; // 8 words per transfer
+	DMA1PAD = (volatile unsigned int) &C1TXD;
+	DMA1STAL = (unsigned int) ecan1TXMsgBuf;
+	DMA1STAH = 0x0;
+
 //	RX
-//	DMA0CONbits.SIZE = 0;
-//	DMA0CONbits.DIR = 0; //Read to RAM from peripheral
-//	DMA0CONbits.AMODE = 2; // Continuous mode, single buffer
-//	DMA0CONbits.MODE = 0; // Peripheral Indirect Addressing
-//	DMA0REQ = 34; // CAN1 RX
-//	DMA0CNT = 7; // 8 words per transfer
-//	DMA0PAD = (volatile unsigned int) &C1RXD;
-//	DMA0STAL = (unsigned int) ecan1RXMsgBuf;
-//	DMA0STAH = 0x0;
-//	config = DMA0CON | 0b1000000000000000;
-//	irq = 0x22; // Select ECAN1 RX as DMA Request source
-//	count = 7; //8 words per transfer
-//	DMA0CONbits.CHEN = 1; // Enable DMA Channel 0
-//	pad_address = (volatile unsigned int) &C1RXD;
-//	stb_address = 0x0;
-//	OpenDMA0(config, irq, (long unsigned int) ecan1RXMsgBuf,
-//		stb_address, pad_address, count);
-//
-//
+	DMA0CONbits.SIZE = 0;
+	DMA0CONbits.DIR = 0; //Read to RAM from peripheral
+	DMA0CONbits.AMODE = 2; // Continuous mode, single buffer
+	DMA0CONbits.MODE = 0; // Peripheral Indirect Addressing
+	DMA0REQ = 34; // CAN1 RX
+	DMA0CNT = 7; // 8 words per transfer
+	DMA0PAD = (volatile unsigned int) &C1RXD;
+	DMA0STAL = (unsigned int) ecan1RXMsgBuf;
+	DMA0STAH = 0x0;
+
+
 //	 Enable DMA
-//	IFS0bits.DMA0IF = 0;
-//	IFS0bits.DMA1IF = 0;
-//	DMA0CONbits.CHEN = 1;
-//	DMA1CONbits.CHEN = 1;
-//	IEC0bits.DMA0IE = 0; // Disable DMA Channel 0 interrupt (everything is handled in the CAN interrupt)
-//	IEC0bits.DMA1IE = 0;
-
-	// Setup message filters and masks.
-
-	C1FMSKSEL1bits.F0MSK = 0x0; //Filter 0 will use mask 0
-	C1RXM0SIDbits.SID = 0x0; //0x000; // accept all
-	//C1FEN1bits.FLTEN0 = 1;
-	C1RXF0SIDbits.SID = 0x0; //0x7EE;// set filter
-
-	C1RXM0SIDbits.MIDE = 0x1; //only receive standard frames
-	C1RXF0SIDbits.EXIDE = 0x0;
-	C1BUFPNT1bits.F0BP = 0x0; //0x1; //use message buffer 0 to receive data
-	C1FEN1bits.FLTEN0 = 0x1; //Filter 0 enabled for Identifier match with incoming message
-
-	C1CTRL1bits.WIN = 0;
+	IFS0bits.DMA0IF = 0;
+	IFS0bits.DMA1IF = 0;
+	DMA0CONbits.CHEN = 1;
+	DMA1CONbits.CHEN = 1;
+	IEC0bits.DMA0IE = 0; // Disable DMA Channel 0 interrupt (everything is handled in the CAN interrupt)
+	IEC0bits.DMA1IE = 0;
 
 	// Place ECAN1 into normal mode
 	desired_mode = 0b000;
 	C1CTRL1bits.REQOP = desired_mode;
 	while (C1CTRL1bits.OPMODE != desired_mode);
-
-	// Enable interrupts for ECAN1
-	ConfigIntCAN1(CAN_INVALID_MESSAGE_INT_DIS & CAN_WAKEUP_INT_DIS & CAN_ERR_INT_DIS &
-		CAN_FIFO_INT_DIS & CAN_RXBUF_OVERFLOW_INT_DIS &
-		CAN_RXBUF_INT_EN & CAN_TXBUF_INT_DIS, CAN_INT_ENABLE & CAN_INT_PRI_5);
 
 	if (CB_Init(&can_rx_circ_buff, can_rx_buffer_array, CAN_RX_BUFF_SIZE) != SUCCESS) {
 		return 0;
@@ -256,13 +214,13 @@ OUTPUT	1 if  hardware -> CAN frame
 	//TODO: use multiple transmit buffers
 	while (C1TR01CONbits.TXREQ1 == 1);
 
-	ecan1msgBuf[0][0] = word0;
-	ecan1msgBuf[0][1] = word1;
-	ecan1msgBuf[0][2] = ((word2 & 0xFFF0) + m->len);
-	ecan1msgBuf[0][3] = (((uint16_t) m->data[1]) << 8) | (m->data[0]&0xFF);
-	ecan1msgBuf[0][4] = (((uint16_t) m->data[3]) << 8) | (m->data[2]&0xFF);
-	ecan1msgBuf[0][5] = (((uint16_t) m->data[5]) << 8) | (m->data[4]&0xFF);
-	ecan1msgBuf[0][6] = (((uint16_t) m->data[7]) << 8) | (m->data[6]&0xFF);
+	ecan1TXMsgBuf[0][0] = word0;
+	ecan1TXMsgBuf[0][1] = word1;
+	ecan1TXMsgBuf[0][2] = ((word2 & 0xFFF0) + m->len);
+	ecan1TXMsgBuf[0][3] = (((uint16_t) m->data[1]) << 8) | (m->data[0]&0xFF);
+	ecan1TXMsgBuf[0][4] = (((uint16_t) m->data[3]) << 8) | (m->data[2]&0xFF);
+	ecan1TXMsgBuf[0][5] = (((uint16_t) m->data[5]) << 8) | (m->data[4]&0xFF);
+	ecan1TXMsgBuf[0][6] = (((uint16_t) m->data[7]) << 8) | (m->data[6]&0xFF);
 	C1TR01CONbits.TXREQ0 = 1;
 
 

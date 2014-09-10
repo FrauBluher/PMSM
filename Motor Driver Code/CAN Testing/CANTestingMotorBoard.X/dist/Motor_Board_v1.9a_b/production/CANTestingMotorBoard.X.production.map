@@ -67,8 +67,6 @@ Command:
 
 Archive member included because of file (symbol)
 
-/opt/microchip/xc16/v1.20/bin/bin/../../lib/dsPIC33E/libp33EP256MU806-elf.a(ConfigIntCAN1.o)
-                              build/Motor_Board_v1.9a_b/production/_ext/872612413/can_dspic33e.o (_ConfigIntCAN1)
 /opt/microchip/xc16/v1.20/bin/bin/../../lib/libpic30-elf.a(crt0_extendedep.o)
                               (__resetPRI)
 /opt/microchip/xc16/v1.20/bin/bin/../../lib/libpic30-elf.a(data_init_extendedep.o)
@@ -87,13 +85,13 @@ Program Memory  [Origin = 0x200, Length = 0x2a9fe]
 
 section                    address   length (PC units)   length (bytes) (dec)
 -------                    -------   -----------------   --------------------
-.text                        0x200               0x1ec           0x2e2  (738)
-.const                       0x3ec               0x11a           0x1a7  (423)
-.text                        0x506              0x22c4          0x3426  (13350)
-.dinit                      0x27ca               0x8b0           0xd08  (3336)
-.text                       0x307a              0x2566          0x3819  (14361)
+.text                        0x200               0x1c8           0x2ac  (684)
+.const                       0x3c8               0x11a           0x1a7  (423)
+.text                        0x4e2              0x22c4          0x3426  (13350)
+.dinit                      0x27a6               0x8bc           0xd1a  (3354)
+.text                       0x3062              0x2534          0x37ce  (14286)
 
-                     Total program memory used (bytes):         0x7dd0  (32208) 12%
+                     Total program memory used (bytes):         0x7d61  (32097) 12%
 
 
 Auxflash Memory  [Origin = 0x7fc000, Length = 0x3ff8]
@@ -109,10 +107,13 @@ Data Memory  [Origin = 0x1000, Length = 0x7000]
 section                    address      alignment gaps    total length  (dec)
 -------                    -------      --------------    -------------------
 .ndata                      0x1000                   0           0xcc4  (3268)
-.nbss                       0x1cc4                   0            0x60  (96)
-_0x5702a958540f8518         0x7f80                   0            0x40  (64)
+.nbss                       0x1cc4                   0            0x48  (72)
+.nbss                       0x1d0c                   0            0x18  (24)
+_0x5706ba6c540f8d81         0x1d40                   0            0x40  (64)
+_0x5706ba10540f8d81         0x1d80                   0            0x40  (64)
+_0x5702a958540f8d41         0x7f80                   0            0x40  (64)
 
-                        Total data memory used (bytes):          0xd64  (3428) 11%
+                        Total data memory used (bytes):          0xde4  (3556) 12%
 
 
 Dynamic Memory Usage
@@ -120,9 +121,9 @@ Dynamic Memory Usage
 region                     address                      maximum length  (dec)
 ------                     -------                      ---------------------
 heap                             0                                   0  (0)
-stack                       0x1d24                              0x625c  (25180)
+stack                       0x1dc0                              0x61c0  (25024)
 
-                        Maximum dynamic memory (bytes):         0x625c  (25180)
+                        Maximum dynamic memory (bytes):         0x61c0  (25024)
 
 
 External Symbols in Data Memory (by address):
@@ -465,323 +466,321 @@ External Symbols in Program Memory (by address):
                   0x000352                  __MathError
                   0x000358                  __DMACError
                   0x00035e                  __DefaultInterrupt
-                  0x000362                  _ConfigIntCAN1
-                  0x000386                  ___umodsi3
-                  0x00038c                  ___udivsi3
-                  0x0003ac                  _memcmp
-                  0x0003da                  _memcpy
-                  0x0003ec                  _Motor_Board_iam_a_slave
-                  0x0003ee                  _Motor_Board_objdict
-                  0x0004b4                  _Motor_Board_firstIndex
-                  0x0004c0                  _Motor_Board_lastIndex
-                  0x0004cc                  _Motor_Board_ObjdictSize
-                  0x000506                  _SDOlineToObjdict
-                  0x000550                  _objdictToSDOline
-                  0x000598                  _lineToSDO
-                  0x000612                  _SDOtoLine
-                  0x00067c                  _initSDOline
-                  0x00072c                  _resetSDOline
-                  0x000774                  _resetSDO
-                  0x00078e                  _getSDOfreeLine
-                  0x0007d2                  _getSDOlineOnUse
-                  0x000806                  _getSDOlineToClose
-                  0x000834                  _getSDOlineRestBytes
-                  0x000866                  _setSDOlineRestBytes
-                  0x000888                  _sendSDO
-                  0x000902                  _sendSDOabort
-                  0x00092e                  _failedSDO
-                  0x0009b2                  _SDOTimeoutAlarm
-                  0x000a48                  _proceedSDO
-                  0x00220e                  _GetSDOClientFromNodeId
-                  0x002270                  _closeSDOtransfer
-                  0x0022a2                  __writeNetworkDict
-                  0x0023e8                  _writeNetworkDict
-                  0x002400                  _writeNetworkDictCallBack
-                  0x00241a                  _writeNetworkDictCallBackAI
-                  0x0024fc                  __readNetworkDict
-                  0x0025d6                  _readNetworkDict
-                  0x0025e2                  _readNetworkDictCallback
-                  0x0025ea                  _readNetworkDictCallbackAI
-                  0x0026ae                  _getReadResultNetworkDict
-                  0x00277c                  _getWriteResultNetworkDict
-                  0x00309e                  _sendPDOrequest
-                  0x0030ea                  _CopyBits
-                  0x003168                  _buildPDO
-                  0x003266                  _sendOnePDOevent
-                  0x003370                  _PDOInhibitTimerAlarm
-                  0x00338a                  _PDOEventTimerAlarm
-                  0x0033a6                  _TPDO_Communication_Parameter_Callback
-                  0x003408                  _proceedPDO
-                  0x003652                  __RxPDO_EventTimers_Handler
-                  0x003658                  __sendPDOevent
-                  0x00377e                  _sendPDOevent
-                  0x003788                  _PDOInit
-                  0x0037e4                  _PDOStop
-                  0x003840                  _ConsumerHeartbeatAlarm
-                  0x00386a                  _GuardTimeAlarm
-                  0x0038e2                  _ProducerHeartbeatAlarm
-                  0x00391a                  _getNodeState
-                  0x003932                  _proceedNODE_GUARD
-                  0x003a42                  _heartbeatInit
-                  0x003ad0                  _nodeguardInit
-                  0x003b40                  _heartbeatStop
-                  0x003b76                  _OnHeartbeatProducerUpdate
-                  0x003b8c                  _nodeguardStop
-                  0x003b9e                  _OnNodeGuardUpdate
-                  0x003bb4                  _lifeGuardInit
-                  0x003bc8                  _lifeGuardStop
-                  0x003bdc                  __heartbeatError
-                  0x003be2                  __post_SlaveBootup
-                  0x003be8                  __post_SlaveStateChange
-                  0x003bee                  __nodeguardError
-                  0x003bf4                  _getState
-                  0x003bfc                  _canDispatch
-                  0x003c70                  _switchCommunicationState
-                  0x003d4c                  _setState
-                  0x003e14                  _getNodeId
-                  0x003e1e                  _setNodeId
-                  0x003f0a                  __initialisation
-                  0x003f10                  __preOperational
-                  0x003f24                  __operational
-                  0x003f2a                  __stopped
-                  0x003f30                  _start_node
-                  0x003f52                  _init_consise_dcf
-                  0x003fa2                  _get_next_DCF_data
-                  0x004054                  _check_and_start_node
-                  0x004092                  _start_and_seek_node
-                  0x004104                  build/Motor_Board_v1.9a_b/production/_ext/379909333/dcf.o:_CheckSDOAndContinue
-                  0x004200                  _SaveNode
-                  0x004224                  _Ecan1WriteRxAcptFilter
-                  0x004292                  _Ecan1WriteRxAcptMask
-                  0x0042e8                  _Ecan1WriteTxMsgBufId
-                  0x0043f6                  _Ecan1WriteTxMsgBufData
-                  0x0044e8                  _Ecan1DisableRXFilter
-                  0x0044fa                  _CB_Init
-                  0x004532                  _CB_ReadByte
-                  0x00457a                  _CB_ReadMany
-                  0x0045c2                  _CB_WriteByte
-                  0x004618                  _CB_WriteMany
-                  0x0046c6                  _CB_Peek
-                  0x0046e2                  _CB_PeekMany
-                  0x00471e                  _CB_Remove
-                  0x00474c                  _OnNumberOfErrorsUpdate
-                  0x00477c                  _emergencyInit
-                  0x004796                  _emergencyStop
-                  0x00479c                  _sendEMCY
-                  0x0047e6                  _EMCY_setError
-                  0x0048e8                  _EMCY_errorRecovered
-                  0x00496c                  _proceedEMCY
-                  0x00498e                  __post_emcy
-                  0x004994                  _accessDictionaryError
-                  0x00499c                  __getODentry
-                  0x004a6c                  __setODentry
-                  0x004b7e                  _scanIndexOD
-                  0x004b90                  _RegisterSetODentryCallBack
-                  0x004bc2                  __storeODSubIndex
-                  0x004bc8                  _canInit
-                  0x004ccc                  _canSend
-                  0x004d92                  _canReceive
-                  0x004daa                  _canChangeBaudRate_driver
-                  0x004db2                  __C1Interrupt
-                  0x004dec                  _SetAlarm
-                  0x004e9c                  _DelAlarm
-                  0x004eba                  _TimeDispatch
-                  0x004fb0                  _Motor_Board_valueRangeTest
-                  0x004fce                  _Motor_Board_scanIndexOD
-                  0x005164                  _DMA0Init
-                  0x00518a                  _DMA2Init
-                  0x0051b0                  _Ecan1ClkInit
-                  0x0051e8                  _Ecan1Init
-                  0x0052a2                  _stopSYNC
-                  0x0052c8                  _startSYNC
-                  0x005324                  _OnCOB_ID_SyncUpdate
-                  0x00532e                  _sendSYNCMessage
-                  0x005344                  _proceedSYNC
-                  0x00536e                  _sendSYNC
-                  0x005386                  _SyncAlarm
-                  0x00538e                  __post_sync
-                  0x005394                  __post_TPDO
-                  0x00539a                  _proceedNMTstateChange
-                  0x005448                  _slaveSendBootUp
-                  0x005468                  _reset_board
-                  0x00546e                  _RxECAN1
-                  0x005474                  _ClearIntrflags
-                  0x005486                  _OscConfig
-                  0x0054ce                  _main
-                  0x005500                  __DMA0Interrupt
-                  0x00550a                  __DMA2Interrupt
-                  0x005514                  _initTimer
-                  0x00554c                  _setTimer
-                  0x005566                  _getElapsedTime
-                  0x00556e                  __T3Interrupt
-                  0x00557e                  _masterSendNMTstateChange
-                  0x005598                  _masterSendNMTnodeguard
-                  0x0055b2                  _masterRequestNodeState
+                  0x000362                  ___umodsi3
+                  0x000368                  ___udivsi3
+                  0x000388                  _memcmp
+                  0x0003b6                  _memcpy
+                  0x0003c8                  _Motor_Board_iam_a_slave
+                  0x0003ca                  _Motor_Board_objdict
+                  0x000490                  _Motor_Board_firstIndex
+                  0x00049c                  _Motor_Board_lastIndex
+                  0x0004a8                  _Motor_Board_ObjdictSize
+                  0x0004e2                  _SDOlineToObjdict
+                  0x00052c                  _objdictToSDOline
+                  0x000574                  _lineToSDO
+                  0x0005ee                  _SDOtoLine
+                  0x000658                  _initSDOline
+                  0x000708                  _resetSDOline
+                  0x000750                  _resetSDO
+                  0x00076a                  _getSDOfreeLine
+                  0x0007ae                  _getSDOlineOnUse
+                  0x0007e2                  _getSDOlineToClose
+                  0x000810                  _getSDOlineRestBytes
+                  0x000842                  _setSDOlineRestBytes
+                  0x000864                  _sendSDO
+                  0x0008de                  _sendSDOabort
+                  0x00090a                  _failedSDO
+                  0x00098e                  _SDOTimeoutAlarm
+                  0x000a24                  _proceedSDO
+                  0x0021ea                  _GetSDOClientFromNodeId
+                  0x00224c                  _closeSDOtransfer
+                  0x00227e                  __writeNetworkDict
+                  0x0023c4                  _writeNetworkDict
+                  0x0023dc                  _writeNetworkDictCallBack
+                  0x0023f6                  _writeNetworkDictCallBackAI
+                  0x0024d8                  __readNetworkDict
+                  0x0025b2                  _readNetworkDict
+                  0x0025be                  _readNetworkDictCallback
+                  0x0025c6                  _readNetworkDictCallbackAI
+                  0x00268a                  _getReadResultNetworkDict
+                  0x002758                  _getWriteResultNetworkDict
+                  0x003086                  _sendPDOrequest
+                  0x0030d2                  _CopyBits
+                  0x003150                  _buildPDO
+                  0x00324e                  _sendOnePDOevent
+                  0x003358                  _PDOInhibitTimerAlarm
+                  0x003372                  _PDOEventTimerAlarm
+                  0x00338e                  _TPDO_Communication_Parameter_Callback
+                  0x0033f0                  _proceedPDO
+                  0x00363a                  __RxPDO_EventTimers_Handler
+                  0x003640                  __sendPDOevent
+                  0x003766                  _sendPDOevent
+                  0x003770                  _PDOInit
+                  0x0037cc                  _PDOStop
+                  0x003828                  _ConsumerHeartbeatAlarm
+                  0x003852                  _GuardTimeAlarm
+                  0x0038ca                  _ProducerHeartbeatAlarm
+                  0x003902                  _getNodeState
+                  0x00391a                  _proceedNODE_GUARD
+                  0x003a2a                  _heartbeatInit
+                  0x003ab8                  _nodeguardInit
+                  0x003b28                  _heartbeatStop
+                  0x003b5e                  _OnHeartbeatProducerUpdate
+                  0x003b74                  _nodeguardStop
+                  0x003b86                  _OnNodeGuardUpdate
+                  0x003b9c                  _lifeGuardInit
+                  0x003bb0                  _lifeGuardStop
+                  0x003bc4                  __heartbeatError
+                  0x003bca                  __post_SlaveBootup
+                  0x003bd0                  __post_SlaveStateChange
+                  0x003bd6                  __nodeguardError
+                  0x003bdc                  _getState
+                  0x003be4                  _canDispatch
+                  0x003c58                  _switchCommunicationState
+                  0x003d34                  _setState
+                  0x003dfc                  _getNodeId
+                  0x003e06                  _setNodeId
+                  0x003ef2                  __initialisation
+                  0x003ef8                  __preOperational
+                  0x003f0c                  __operational
+                  0x003f12                  __stopped
+                  0x003f18                  _start_node
+                  0x003f3a                  _init_consise_dcf
+                  0x003f8a                  _get_next_DCF_data
+                  0x00403c                  _check_and_start_node
+                  0x00407a                  _start_and_seek_node
+                  0x0040ec                  build/Motor_Board_v1.9a_b/production/_ext/379909333/dcf.o:_CheckSDOAndContinue
+                  0x0041e8                  _SaveNode
+                  0x00420c                  _Ecan1WriteRxAcptFilter
+                  0x00427a                  _Ecan1WriteRxAcptMask
+                  0x0042d0                  _Ecan1WriteTxMsgBufId
+                  0x0043de                  _Ecan1WriteTxMsgBufData
+                  0x0044d0                  _Ecan1DisableRXFilter
+                  0x0044e2                  _CB_Init
+                  0x00451a                  _CB_ReadByte
+                  0x004562                  _CB_ReadMany
+                  0x0045aa                  _CB_WriteByte
+                  0x004600                  _CB_WriteMany
+                  0x0046ae                  _CB_Peek
+                  0x0046ca                  _CB_PeekMany
+                  0x004706                  _CB_Remove
+                  0x004734                  _OnNumberOfErrorsUpdate
+                  0x004764                  _emergencyInit
+                  0x00477e                  _emergencyStop
+                  0x004784                  _sendEMCY
+                  0x0047ce                  _EMCY_setError
+                  0x0048d0                  _EMCY_errorRecovered
+                  0x004954                  _proceedEMCY
+                  0x004976                  __post_emcy
+                  0x00497c                  _accessDictionaryError
+                  0x004984                  __getODentry
+                  0x004a54                  __setODentry
+                  0x004b66                  _scanIndexOD
+                  0x004b78                  _RegisterSetODentryCallBack
+                  0x004baa                  __storeODSubIndex
+                  0x004bb0                  _canInit
+                  0x004ce0                  _canSend
+                  0x004d4c                  _canReceive
+                  0x004d64                  _canChangeBaudRate_driver
+                  0x004d6c                  __C1Interrupt
+                  0x004da6                  _SetAlarm
+                  0x004e56                  _DelAlarm
+                  0x004e74                  _TimeDispatch
+                  0x004f6a                  _Motor_Board_valueRangeTest
+                  0x004f88                  _Motor_Board_scanIndexOD
+                  0x00511e                  _DMA0Init
+                  0x005144                  _DMA2Init
+                  0x00516a                  _Ecan1ClkInit
+                  0x0051a2                  _Ecan1Init
+                  0x00525c                  _stopSYNC
+                  0x005282                  _startSYNC
+                  0x0052de                  _OnCOB_ID_SyncUpdate
+                  0x0052e8                  _sendSYNCMessage
+                  0x0052fe                  _proceedSYNC
+                  0x005328                  _sendSYNC
+                  0x005340                  _SyncAlarm
+                  0x005348                  __post_sync
+                  0x00534e                  __post_TPDO
+                  0x005354                  _proceedNMTstateChange
+                  0x005402                  _slaveSendBootUp
+                  0x005422                  _reset_board
+                  0x005428                  _RxECAN1
+                  0x00542e                  _ClearIntrflags
+                  0x005440                  _OscConfig
+                  0x005488                  _main
+                  0x0054b6                  __DMA0Interrupt
+                  0x0054c0                  __DMA2Interrupt
+                  0x0054ca                  _initTimer
+                  0x005502                  _setTimer
+                  0x00551c                  _getElapsedTime
+                  0x005524                  __T3Interrupt
+                  0x005534                  _masterSendNMTstateChange
+                  0x00554e                  _masterSendNMTnodeguard
+                  0x005568                  _masterRequestNodeState
 
 External Symbols in Program Memory (by name):
 
-                  0x0044fa                  _CB_Init
-                  0x0046c6                  _CB_Peek
-                  0x0046e2                  _CB_PeekMany
-                  0x004532                  _CB_ReadByte
-                  0x00457a                  _CB_ReadMany
-                  0x00471e                  _CB_Remove
-                  0x0045c2                  _CB_WriteByte
-                  0x004618                  _CB_WriteMany
-                  0x005474                  _ClearIntrflags
-                  0x000362                  _ConfigIntCAN1
-                  0x003840                  _ConsumerHeartbeatAlarm
-                  0x0030ea                  _CopyBits
-                  0x005164                  _DMA0Init
-                  0x00518a                  _DMA2Init
-                  0x004e9c                  _DelAlarm
-                  0x0048e8                  _EMCY_errorRecovered
-                  0x0047e6                  _EMCY_setError
-                  0x0051b0                  _Ecan1ClkInit
-                  0x0044e8                  _Ecan1DisableRXFilter
-                  0x0051e8                  _Ecan1Init
-                  0x004224                  _Ecan1WriteRxAcptFilter
-                  0x004292                  _Ecan1WriteRxAcptMask
-                  0x0043f6                  _Ecan1WriteTxMsgBufData
-                  0x0042e8                  _Ecan1WriteTxMsgBufId
-                  0x00220e                  _GetSDOClientFromNodeId
-                  0x00386a                  _GuardTimeAlarm
-                  0x0004cc                  _Motor_Board_ObjdictSize
-                  0x0004b4                  _Motor_Board_firstIndex
-                  0x0003ec                  _Motor_Board_iam_a_slave
-                  0x0004c0                  _Motor_Board_lastIndex
-                  0x0003ee                  _Motor_Board_objdict
-                  0x004fce                  _Motor_Board_scanIndexOD
-                  0x004fb0                  _Motor_Board_valueRangeTest
-                  0x005324                  _OnCOB_ID_SyncUpdate
-                  0x003b76                  _OnHeartbeatProducerUpdate
-                  0x003b9e                  _OnNodeGuardUpdate
-                  0x00474c                  _OnNumberOfErrorsUpdate
-                  0x005486                  _OscConfig
-                  0x00338a                  _PDOEventTimerAlarm
-                  0x003370                  _PDOInhibitTimerAlarm
-                  0x003788                  _PDOInit
-                  0x0037e4                  _PDOStop
-                  0x0038e2                  _ProducerHeartbeatAlarm
-                  0x004b90                  _RegisterSetODentryCallBack
-                  0x00546e                  _RxECAN1
-                  0x0009b2                  _SDOTimeoutAlarm
-                  0x000506                  _SDOlineToObjdict
-                  0x000612                  _SDOtoLine
-                  0x004200                  _SaveNode
-                  0x004dec                  _SetAlarm
-                  0x005386                  _SyncAlarm
-                  0x0033a6                  _TPDO_Communication_Parameter_Callback
-                  0x004eba                  _TimeDispatch
+                  0x0044e2                  _CB_Init
+                  0x0046ae                  _CB_Peek
+                  0x0046ca                  _CB_PeekMany
+                  0x00451a                  _CB_ReadByte
+                  0x004562                  _CB_ReadMany
+                  0x004706                  _CB_Remove
+                  0x0045aa                  _CB_WriteByte
+                  0x004600                  _CB_WriteMany
+                  0x00542e                  _ClearIntrflags
+                  0x003828                  _ConsumerHeartbeatAlarm
+                  0x0030d2                  _CopyBits
+                  0x00511e                  _DMA0Init
+                  0x005144                  _DMA2Init
+                  0x004e56                  _DelAlarm
+                  0x0048d0                  _EMCY_errorRecovered
+                  0x0047ce                  _EMCY_setError
+                  0x00516a                  _Ecan1ClkInit
+                  0x0044d0                  _Ecan1DisableRXFilter
+                  0x0051a2                  _Ecan1Init
+                  0x00420c                  _Ecan1WriteRxAcptFilter
+                  0x00427a                  _Ecan1WriteRxAcptMask
+                  0x0043de                  _Ecan1WriteTxMsgBufData
+                  0x0042d0                  _Ecan1WriteTxMsgBufId
+                  0x0021ea                  _GetSDOClientFromNodeId
+                  0x003852                  _GuardTimeAlarm
+                  0x0004a8                  _Motor_Board_ObjdictSize
+                  0x000490                  _Motor_Board_firstIndex
+                  0x0003c8                  _Motor_Board_iam_a_slave
+                  0x00049c                  _Motor_Board_lastIndex
+                  0x0003ca                  _Motor_Board_objdict
+                  0x004f88                  _Motor_Board_scanIndexOD
+                  0x004f6a                  _Motor_Board_valueRangeTest
+                  0x0052de                  _OnCOB_ID_SyncUpdate
+                  0x003b5e                  _OnHeartbeatProducerUpdate
+                  0x003b86                  _OnNodeGuardUpdate
+                  0x004734                  _OnNumberOfErrorsUpdate
+                  0x005440                  _OscConfig
+                  0x003372                  _PDOEventTimerAlarm
+                  0x003358                  _PDOInhibitTimerAlarm
+                  0x003770                  _PDOInit
+                  0x0037cc                  _PDOStop
+                  0x0038ca                  _ProducerHeartbeatAlarm
+                  0x004b78                  _RegisterSetODentryCallBack
+                  0x005428                  _RxECAN1
+                  0x00098e                  _SDOTimeoutAlarm
+                  0x0004e2                  _SDOlineToObjdict
+                  0x0005ee                  _SDOtoLine
+                  0x0041e8                  _SaveNode
+                  0x004da6                  _SetAlarm
+                  0x005340                  _SyncAlarm
+                  0x00338e                  _TPDO_Communication_Parameter_Callback
+                  0x004e74                  _TimeDispatch
                   0x000346                  __AddressError
-                  0x004db2                  __C1Interrupt
-                  0x005500                  __DMA0Interrupt
-                  0x00550a                  __DMA2Interrupt
+                  0x004d6c                  __C1Interrupt
+                  0x0054b6                  __DMA0Interrupt
+                  0x0054c0                  __DMA2Interrupt
                   0x000358                  __DMACError
                   0x00035e                  __DefaultInterrupt
                   0x000352                  __MathError
                   0x000340                  __OscillatorFail
-                  0x003652                  __RxPDO_EventTimers_Handler
+                  0x00363a                  __RxPDO_EventTimers_Handler
                   0x00034c                  __StackError
-                  0x00556e                  __T3Interrupt
-                  0x00038c                  ___udivsi3
-                  0x000386                  ___umodsi3
+                  0x005524                  __T3Interrupt
+                  0x000368                  ___udivsi3
+                  0x000362                  ___umodsi3
                   0x000232                  __data_init
                   0x000232                  __data_init_extended
-                  0x00499c                  __getODentry
-                  0x003bdc                  __heartbeatError
-                  0x003f0a                  __initialisation
-                  0x003bee                  __nodeguardError
-                  0x003f24                  __operational
-                  0x003be2                  __post_SlaveBootup
-                  0x003be8                  __post_SlaveStateChange
-                  0x005394                  __post_TPDO
-                  0x00498e                  __post_emcy
-                  0x00538e                  __post_sync
-                  0x003f10                  __preOperational
+                  0x004984                  __getODentry
+                  0x003bc4                  __heartbeatError
+                  0x003ef2                  __initialisation
+                  0x003bd6                  __nodeguardError
+                  0x003f0c                  __operational
+                  0x003bca                  __post_SlaveBootup
+                  0x003bd0                  __post_SlaveStateChange
+                  0x00534e                  __post_TPDO
+                  0x004976                  __post_emcy
+                  0x005348                  __post_sync
+                  0x003ef8                  __preOperational
                   0x000226                  __psv_init
-                  0x0024fc                  __readNetworkDict
+                  0x0024d8                  __readNetworkDict
                   0x000200                  __resetPRI
-                  0x003658                  __sendPDOevent
-                  0x004a6c                  __setODentry
-                  0x003f2a                  __stopped
-                  0x004bc2                  __storeODSubIndex
-                  0x0022a2                  __writeNetworkDict
-                  0x004994                  _accessDictionaryError
-                  0x003168                  _buildPDO
-                  0x004daa                  _canChangeBaudRate_driver
-                  0x003bfc                  _canDispatch
-                  0x004bc8                  _canInit
-                  0x004d92                  _canReceive
-                  0x004ccc                  _canSend
-                  0x004054                  _check_and_start_node
-                  0x002270                  _closeSDOtransfer
-                  0x00477c                  _emergencyInit
-                  0x004796                  _emergencyStop
-                  0x00092e                  _failedSDO
-                  0x005566                  _getElapsedTime
-                  0x003e14                  _getNodeId
-                  0x00391a                  _getNodeState
-                  0x0026ae                  _getReadResultNetworkDict
-                  0x00078e                  _getSDOfreeLine
-                  0x0007d2                  _getSDOlineOnUse
-                  0x000834                  _getSDOlineRestBytes
-                  0x000806                  _getSDOlineToClose
-                  0x003bf4                  _getState
-                  0x00277c                  _getWriteResultNetworkDict
-                  0x003fa2                  _get_next_DCF_data
-                  0x003a42                  _heartbeatInit
-                  0x003b40                  _heartbeatStop
-                  0x00067c                  _initSDOline
-                  0x005514                  _initTimer
-                  0x003f52                  _init_consise_dcf
-                  0x003bb4                  _lifeGuardInit
-                  0x003bc8                  _lifeGuardStop
-                  0x000598                  _lineToSDO
-                  0x0054ce                  _main
-                  0x0055b2                  _masterRequestNodeState
-                  0x005598                  _masterSendNMTnodeguard
-                  0x00557e                  _masterSendNMTstateChange
-                  0x0003ac                  _memcmp
-                  0x0003da                  _memcpy
-                  0x003ad0                  _nodeguardInit
-                  0x003b8c                  _nodeguardStop
-                  0x000550                  _objdictToSDOline
-                  0x00496c                  _proceedEMCY
-                  0x00539a                  _proceedNMTstateChange
-                  0x003932                  _proceedNODE_GUARD
-                  0x003408                  _proceedPDO
-                  0x000a48                  _proceedSDO
-                  0x005344                  _proceedSYNC
-                  0x0025d6                  _readNetworkDict
-                  0x0025e2                  _readNetworkDictCallback
-                  0x0025ea                  _readNetworkDictCallbackAI
-                  0x000774                  _resetSDO
-                  0x00072c                  _resetSDOline
-                  0x005468                  _reset_board
-                  0x004b7e                  _scanIndexOD
-                  0x00479c                  _sendEMCY
-                  0x003266                  _sendOnePDOevent
-                  0x00377e                  _sendPDOevent
-                  0x00309e                  _sendPDOrequest
-                  0x000888                  _sendSDO
-                  0x000902                  _sendSDOabort
-                  0x00536e                  _sendSYNC
-                  0x00532e                  _sendSYNCMessage
-                  0x003e1e                  _setNodeId
-                  0x000866                  _setSDOlineRestBytes
-                  0x003d4c                  _setState
-                  0x00554c                  _setTimer
-                  0x005448                  _slaveSendBootUp
-                  0x0052c8                  _startSYNC
-                  0x004092                  _start_and_seek_node
-                  0x003f30                  _start_node
-                  0x0052a2                  _stopSYNC
-                  0x003c70                  _switchCommunicationState
-                  0x0023e8                  _writeNetworkDict
-                  0x002400                  _writeNetworkDictCallBack
-                  0x00241a                  _writeNetworkDictCallBackAI
-                  0x004104                  build/Motor_Board_v1.9a_b/production/_ext/379909333/dcf.o:_CheckSDOAndContinue
+                  0x003640                  __sendPDOevent
+                  0x004a54                  __setODentry
+                  0x003f12                  __stopped
+                  0x004baa                  __storeODSubIndex
+                  0x00227e                  __writeNetworkDict
+                  0x00497c                  _accessDictionaryError
+                  0x003150                  _buildPDO
+                  0x004d64                  _canChangeBaudRate_driver
+                  0x003be4                  _canDispatch
+                  0x004bb0                  _canInit
+                  0x004d4c                  _canReceive
+                  0x004ce0                  _canSend
+                  0x00403c                  _check_and_start_node
+                  0x00224c                  _closeSDOtransfer
+                  0x004764                  _emergencyInit
+                  0x00477e                  _emergencyStop
+                  0x00090a                  _failedSDO
+                  0x00551c                  _getElapsedTime
+                  0x003dfc                  _getNodeId
+                  0x003902                  _getNodeState
+                  0x00268a                  _getReadResultNetworkDict
+                  0x00076a                  _getSDOfreeLine
+                  0x0007ae                  _getSDOlineOnUse
+                  0x000810                  _getSDOlineRestBytes
+                  0x0007e2                  _getSDOlineToClose
+                  0x003bdc                  _getState
+                  0x002758                  _getWriteResultNetworkDict
+                  0x003f8a                  _get_next_DCF_data
+                  0x003a2a                  _heartbeatInit
+                  0x003b28                  _heartbeatStop
+                  0x000658                  _initSDOline
+                  0x0054ca                  _initTimer
+                  0x003f3a                  _init_consise_dcf
+                  0x003b9c                  _lifeGuardInit
+                  0x003bb0                  _lifeGuardStop
+                  0x000574                  _lineToSDO
+                  0x005488                  _main
+                  0x005568                  _masterRequestNodeState
+                  0x00554e                  _masterSendNMTnodeguard
+                  0x005534                  _masterSendNMTstateChange
+                  0x000388                  _memcmp
+                  0x0003b6                  _memcpy
+                  0x003ab8                  _nodeguardInit
+                  0x003b74                  _nodeguardStop
+                  0x00052c                  _objdictToSDOline
+                  0x004954                  _proceedEMCY
+                  0x005354                  _proceedNMTstateChange
+                  0x00391a                  _proceedNODE_GUARD
+                  0x0033f0                  _proceedPDO
+                  0x000a24                  _proceedSDO
+                  0x0052fe                  _proceedSYNC
+                  0x0025b2                  _readNetworkDict
+                  0x0025be                  _readNetworkDictCallback
+                  0x0025c6                  _readNetworkDictCallbackAI
+                  0x000750                  _resetSDO
+                  0x000708                  _resetSDOline
+                  0x005422                  _reset_board
+                  0x004b66                  _scanIndexOD
+                  0x004784                  _sendEMCY
+                  0x00324e                  _sendOnePDOevent
+                  0x003766                  _sendPDOevent
+                  0x003086                  _sendPDOrequest
+                  0x000864                  _sendSDO
+                  0x0008de                  _sendSDOabort
+                  0x005328                  _sendSYNC
+                  0x0052e8                  _sendSYNCMessage
+                  0x003e06                  _setNodeId
+                  0x000842                  _setSDOlineRestBytes
+                  0x003d34                  _setState
+                  0x005502                  _setTimer
+                  0x005402                  _slaveSendBootUp
+                  0x005282                  _startSYNC
+                  0x00407a                  _start_and_seek_node
+                  0x003f18                  _start_node
+                  0x00525c                  _stopSYNC
+                  0x003c58                  _switchCommunicationState
+                  0x0023c4                  _writeNetworkDict
+                  0x0023dc                  _writeNetworkDictCallBack
+                  0x0023f6                  _writeNetworkDictCallBackAI
+                  0x0040ec                  build/Motor_Board_v1.9a_b/production/_ext/379909333/dcf.o:_CheckSDOAndContinue
 
 Memory Configuration
 
@@ -849,7 +848,7 @@ LOAD /opt/microchip/xc16/v1.20/bin/bin/../../lib/dsPIC33E/libp33EP256MU806-elf.a
                   0x000002          0x2 SHORT 0x0 ((ABSOLUTE (__reset) >> 0x10) & 0x7f)
                   0x000003          0x2 SHORT 0x0
 
-.text             0x000200        0x1ec
+.text             0x000200        0x1c8
  *(.init)
  .init            0x000200         0x32 /opt/microchip/xc16/v1.20/bin/bin/../../lib/libpic30-elf.a(crt0_extendedep.o)
                   0x000200                  __reset
@@ -874,18 +873,16 @@ LOAD /opt/microchip/xc16/v1.20/bin/bin/../../lib/dsPIC33E/libp33EP256MU806-elf.a
  *(.libm)
  *(.libdsp)
  *(.lib*)
- .libperi         0x000362         0x24 /opt/microchip/xc16/v1.20/bin/bin/../../lib/dsPIC33E/libp33EP256MU806-elf.a(ConfigIntCAN1.o)
-                  0x000362                  _ConfigIntCAN1
- .libm.umodsi3    0x000386          0x6 /opt/microchip/xc16/v1.20/bin/bin/../../lib/libm-elf.a(umodsi3.epeo)
-                  0x000386                  ___umodsi3
- .libm.udivsi3    0x00038c         0x20 /opt/microchip/xc16/v1.20/bin/bin/../../lib/libm-elf.a(udivsi3.epeo)
-                  0x00038c                  ___udivsi3
+ .libm.umodsi3    0x000362          0x6 /opt/microchip/xc16/v1.20/bin/bin/../../lib/libm-elf.a(umodsi3.epeo)
+                  0x000362                  ___umodsi3
+ .libm.udivsi3    0x000368         0x20 /opt/microchip/xc16/v1.20/bin/bin/../../lib/libm-elf.a(udivsi3.epeo)
+                  0x000368                  ___udivsi3
  .libc.memcmp.memcmp
-                  0x0003ac         0x2e /opt/microchip/xc16/v1.20/bin/bin/../../lib/libc-elf.a(memcmp.epeo)
-                  0x0003ac                  _memcmp
+                  0x000388         0x2e /opt/microchip/xc16/v1.20/bin/bin/../../lib/libc-elf.a(memcmp.epeo)
+                  0x000388                  _memcmp
  .libc.memcpy.memcpy
-                  0x0003da         0x12 /opt/microchip/xc16/v1.20/bin/bin/../../lib/libc-elf.a(memcpy.epeo)
-                  0x0003da                  _memcpy
+                  0x0003b6         0x12 /opt/microchip/xc16/v1.20/bin/bin/../../lib/libc-elf.a(memcpy.epeo)
+                  0x0003b6                  _memcpy
 
 usercode
  *(usercode)
@@ -921,7 +918,7 @@ __FUID0
 .comment
  *(.comment)
 
-.debug_info       0x000000      0x18c07
+.debug_info       0x000000      0x1847f
  *(.debug_info)
  .debug_info      0x000000        0x731 build/Motor_Board_v1.9a_b/production/_ext/1360937237/ecan1drv.o
  .debug_info      0x000731        0x2e3 build/Motor_Board_v1.9a_b/production/_ext/1360937237/traps.o
@@ -940,10 +937,10 @@ __FUID0
  .debug_info      0x0106d4        0x172 build/Motor_Board_v1.9a_b/production/_ext/379909333/symbols.o
  .debug_info      0x010846       0x12c2 build/Motor_Board_v1.9a_b/production/_ext/379909333/sync.o
  .debug_info      0x011b08       0x137c build/Motor_Board_v1.9a_b/production/_ext/379909333/timer.o
- .debug_info      0x012e84       0x27fa build/Motor_Board_v1.9a_b/production/_ext/872612413/can_dspic33e.o
- .debug_info      0x01567e        0x9dd build/Motor_Board_v1.9a_b/production/_ext/872612413/timer_dspic.o
- .debug_info      0x01605b        0x561 build/Motor_Board_v1.9a_b/production/_ext/1360937237/superball_circularbuffer.o
- .debug_info      0x0165bc       0x264b build/Motor_Board_v1.9a_b/production/_ext/1360937237/motor_objdict.o
+ .debug_info      0x012e84       0x2072 build/Motor_Board_v1.9a_b/production/_ext/872612413/can_dspic33e.o
+ .debug_info      0x014ef6        0x9dd build/Motor_Board_v1.9a_b/production/_ext/872612413/timer_dspic.o
+ .debug_info      0x0158d3        0x561 build/Motor_Board_v1.9a_b/production/_ext/1360937237/superball_circularbuffer.o
+ .debug_info      0x015e34       0x264b build/Motor_Board_v1.9a_b/production/_ext/1360937237/motor_objdict.o
  *(.gnu.linkonce.wi.*)
 
 .debug_abbrev     0x000000       0x1d68
@@ -970,29 +967,29 @@ __FUID0
  .debug_abbrev    0x001acd        0x107 build/Motor_Board_v1.9a_b/production/_ext/1360937237/superball_circularbuffer.o
  .debug_abbrev    0x001bd4        0x194 build/Motor_Board_v1.9a_b/production/_ext/1360937237/motor_objdict.o
 
-.debug_line       0x000000       0x6bf3
+.debug_line       0x000000       0x6c19
  *(.debug_line)
  .debug_line      0x000000        0x342 build/Motor_Board_v1.9a_b/production/_ext/1360937237/ecan1drv.o
  .debug_line      0x000342        0x106 build/Motor_Board_v1.9a_b/production/_ext/1360937237/traps.o
  .debug_line      0x000448        0x2d1 build/Motor_Board_v1.9a_b/production/_ext/1360937237/ecan1_config.o
- .debug_line      0x000719        0x376 build/Motor_Board_v1.9a_b/production/_ext/1360937237/main.o
- .debug_line      0x000a8f        0x4c0 build/Motor_Board_v1.9a_b/production/_ext/379909333/dcf.o
- .debug_line      0x000f4f        0x4aa build/Motor_Board_v1.9a_b/production/_ext/379909333/emcy.o
- .debug_line      0x0013f9        0x5e3 build/Motor_Board_v1.9a_b/production/_ext/379909333/lifegrd.o
- .debug_line      0x0019dc         0x24 build/Motor_Board_v1.9a_b/production/_ext/379909333/lss.o
- .debug_line      0x001a00        0x1f5 build/Motor_Board_v1.9a_b/production/_ext/379909333/nmtMaster.o
- .debug_line      0x001bf5        0x22a build/Motor_Board_v1.9a_b/production/_ext/379909333/nmtSlave.o
- .debug_line      0x001e1f        0x39f build/Motor_Board_v1.9a_b/production/_ext/379909333/objacces.o
- .debug_line      0x0021be        0xc6b build/Motor_Board_v1.9a_b/production/_ext/379909333/pdo.o
- .debug_line      0x002e29       0x2506 build/Motor_Board_v1.9a_b/production/_ext/379909333/sdo.o
- .debug_line      0x00532f        0x486 build/Motor_Board_v1.9a_b/production/_ext/379909333/states.o
- .debug_line      0x0057b5         0x24 build/Motor_Board_v1.9a_b/production/_ext/379909333/symbols.o
- .debug_line      0x0057d9        0x2c4 build/Motor_Board_v1.9a_b/production/_ext/379909333/sync.o
- .debug_line      0x005a9d        0x332 build/Motor_Board_v1.9a_b/production/_ext/379909333/timer.o
- .debug_line      0x005dcf        0x494 build/Motor_Board_v1.9a_b/production/_ext/872612413/can_dspic33e.o
- .debug_line      0x006263        0x223 build/Motor_Board_v1.9a_b/production/_ext/872612413/timer_dspic.o
- .debug_line      0x006486        0x4a3 build/Motor_Board_v1.9a_b/production/_ext/1360937237/superball_circularbuffer.o
- .debug_line      0x006929        0x2ca build/Motor_Board_v1.9a_b/production/_ext/1360937237/motor_objdict.o
+ .debug_line      0x000719        0x366 build/Motor_Board_v1.9a_b/production/_ext/1360937237/main.o
+ .debug_line      0x000a7f        0x4c0 build/Motor_Board_v1.9a_b/production/_ext/379909333/dcf.o
+ .debug_line      0x000f3f        0x4aa build/Motor_Board_v1.9a_b/production/_ext/379909333/emcy.o
+ .debug_line      0x0013e9        0x5e3 build/Motor_Board_v1.9a_b/production/_ext/379909333/lifegrd.o
+ .debug_line      0x0019cc         0x24 build/Motor_Board_v1.9a_b/production/_ext/379909333/lss.o
+ .debug_line      0x0019f0        0x1f5 build/Motor_Board_v1.9a_b/production/_ext/379909333/nmtMaster.o
+ .debug_line      0x001be5        0x22a build/Motor_Board_v1.9a_b/production/_ext/379909333/nmtSlave.o
+ .debug_line      0x001e0f        0x39f build/Motor_Board_v1.9a_b/production/_ext/379909333/objacces.o
+ .debug_line      0x0021ae        0xc6b build/Motor_Board_v1.9a_b/production/_ext/379909333/pdo.o
+ .debug_line      0x002e19       0x2506 build/Motor_Board_v1.9a_b/production/_ext/379909333/sdo.o
+ .debug_line      0x00531f        0x486 build/Motor_Board_v1.9a_b/production/_ext/379909333/states.o
+ .debug_line      0x0057a5         0x24 build/Motor_Board_v1.9a_b/production/_ext/379909333/symbols.o
+ .debug_line      0x0057c9        0x2c4 build/Motor_Board_v1.9a_b/production/_ext/379909333/sync.o
+ .debug_line      0x005a8d        0x332 build/Motor_Board_v1.9a_b/production/_ext/379909333/timer.o
+ .debug_line      0x005dbf        0x4ca build/Motor_Board_v1.9a_b/production/_ext/872612413/can_dspic33e.o
+ .debug_line      0x006289        0x223 build/Motor_Board_v1.9a_b/production/_ext/872612413/timer_dspic.o
+ .debug_line      0x0064ac        0x4a3 build/Motor_Board_v1.9a_b/production/_ext/1360937237/superball_circularbuffer.o
+ .debug_line      0x00694f        0x2ca build/Motor_Board_v1.9a_b/production/_ext/1360937237/motor_objdict.o
 
 .debug_frame      0x000000        0xbac
  *(.debug_frame)
@@ -1016,7 +1013,7 @@ __FUID0
  .debug_frame     0x000ae4         0x94 build/Motor_Board_v1.9a_b/production/_ext/1360937237/superball_circularbuffer.o
  .debug_frame     0x000b78         0x34 build/Motor_Board_v1.9a_b/production/_ext/1360937237/motor_objdict.o
 
-.debug_str        0x000000       0x1790
+.debug_str        0x000000       0x1766
  *(.debug_str)
  .debug_str       0x000000         0x6a build/Motor_Board_v1.9a_b/production/_ext/1360937237/ecan1drv.o
  .debug_str       0x00006a          0xc build/Motor_Board_v1.9a_b/production/_ext/1360937237/traps.o
@@ -1030,10 +1027,10 @@ __FUID0
  .debug_str       0x00033f         0xa2 build/Motor_Board_v1.9a_b/production/_ext/379909333/sdo.o
  .debug_str       0x0003e1         0x27 build/Motor_Board_v1.9a_b/production/_ext/379909333/states.o
  .debug_str       0x000408         0x29 build/Motor_Board_v1.9a_b/production/_ext/379909333/timer.o
- .debug_str       0x000431        0x157 build/Motor_Board_v1.9a_b/production/_ext/872612413/can_dspic33e.o
- .debug_str       0x000588         0x2f build/Motor_Board_v1.9a_b/production/_ext/872612413/timer_dspic.o
- .debug_str       0x0005b7          0xf build/Motor_Board_v1.9a_b/production/_ext/1360937237/superball_circularbuffer.o
- .debug_str       0x0005c6       0x11ca build/Motor_Board_v1.9a_b/production/_ext/1360937237/motor_objdict.o
+ .debug_str       0x000431        0x12d build/Motor_Board_v1.9a_b/production/_ext/872612413/can_dspic33e.o
+ .debug_str       0x00055e         0x2f build/Motor_Board_v1.9a_b/production/_ext/872612413/timer_dspic.o
+ .debug_str       0x00058d          0xf build/Motor_Board_v1.9a_b/production/_ext/1360937237/superball_circularbuffer.o
+ .debug_str       0x00059c       0x11ca build/Motor_Board_v1.9a_b/production/_ext/1360937237/motor_objdict.o
 
 .debug_loc
  *(.debug_loc)
@@ -1140,11 +1137,11 @@ __FUID0
                   0x000016          0x4 LONG 0x35e DEFINED (__IC1Interrupt)?ABSOLUTE (__IC1Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000018          0x4 LONG 0x35e DEFINED (__OC1Interrupt)?ABSOLUTE (__OC1Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x00001a          0x4 LONG 0x35e DEFINED (__T1Interrupt)?ABSOLUTE (__T1Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x00001c          0x4 LONG 0x5500 DEFINED (__DMA0Interrupt)?ABSOLUTE (__DMA0Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x00001c          0x4 LONG 0x54b6 DEFINED (__DMA0Interrupt)?ABSOLUTE (__DMA0Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x00001e          0x4 LONG 0x35e DEFINED (__IC2Interrupt)?ABSOLUTE (__IC2Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000020          0x4 LONG 0x35e DEFINED (__OC2Interrupt)?ABSOLUTE (__OC2Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000022          0x4 LONG 0x35e DEFINED (__T2Interrupt)?ABSOLUTE (__T2Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x000024          0x4 LONG 0x556e DEFINED (__T3Interrupt)?ABSOLUTE (__T3Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x000024          0x4 LONG 0x5524 DEFINED (__T3Interrupt)?ABSOLUTE (__T3Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000026          0x4 LONG 0x35e DEFINED (__SPI1ErrInterrupt)?ABSOLUTE (__SPI1ErrInterrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000028          0x4 LONG 0x35e DEFINED (__SPI1Interrupt)?ABSOLUTE (__SPI1Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x00002a          0x4 LONG 0x35e DEFINED (__U1RXInterrupt)?ABSOLUTE (__U1RXInterrupt):ABSOLUTE (__DefaultInterrupt)
@@ -1160,7 +1157,7 @@ __FUID0
                   0x00003e          0x4 LONG 0x35e DEFINED (__AD2Interrupt)?ABSOLUTE (__AD2Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000040          0x4 LONG 0x35e DEFINED (__IC7Interrupt)?ABSOLUTE (__IC7Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000042          0x4 LONG 0x35e DEFINED (__IC8Interrupt)?ABSOLUTE (__IC8Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x000044          0x4 LONG 0x550a DEFINED (__DMA2Interrupt)?ABSOLUTE (__DMA2Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x000044          0x4 LONG 0x54c0 DEFINED (__DMA2Interrupt)?ABSOLUTE (__DMA2Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000046          0x4 LONG 0x35e DEFINED (__OC3Interrupt)?ABSOLUTE (__OC3Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000048          0x4 LONG 0x35e DEFINED (__OC4Interrupt)?ABSOLUTE (__OC4Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x00004a          0x4 LONG 0x35e DEFINED (__T4Interrupt)?ABSOLUTE (__T4Interrupt):ABSOLUTE (__DefaultInterrupt)
@@ -1171,7 +1168,7 @@ __FUID0
                   0x000054          0x4 LONG 0x35e DEFINED (__SPI2ErrInterrupt)?ABSOLUTE (__SPI2ErrInterrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000056          0x4 LONG 0x35e DEFINED (__SPI2Interrupt)?ABSOLUTE (__SPI2Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000058          0x4 LONG 0x35e DEFINED (__C1RxRdyInterrupt)?ABSOLUTE (__C1RxRdyInterrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x00005a          0x4 LONG 0x4db2 DEFINED (__C1Interrupt)?ABSOLUTE (__C1Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x00005a          0x4 LONG 0x4d6c DEFINED (__C1Interrupt)?ABSOLUTE (__C1Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x00005c          0x4 LONG 0x35e DEFINED (__DMA3Interrupt)?ABSOLUTE (__DMA3Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x00005e          0x4 LONG 0x35e DEFINED (__IC3Interrupt)?ABSOLUTE (__IC3Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000060          0x4 LONG 0x35e DEFINED (__IC4Interrupt)?ABSOLUTE (__IC4Interrupt):ABSOLUTE (__DefaultInterrupt)
@@ -3856,7 +3853,7 @@ LOAD default_isr
 LOAD data_init
 
 .debug_pubtypes
-                  0x0001c8       0x2b04
+                  0x0001c8       0x2a63
  .debug_pubtypes
                   0x0001c8         0x67 build/Motor_Board_v1.9a_b/production/_ext/1360937237/ecan1drv.o
  .debug_pubtypes
@@ -3892,72 +3889,70 @@ LOAD data_init
  .debug_pubtypes
                   0x002300        0x2f7 build/Motor_Board_v1.9a_b/production/_ext/379909333/timer.o
  .debug_pubtypes
-                  0x0025f7        0x32c build/Motor_Board_v1.9a_b/production/_ext/872612413/can_dspic33e.o
+                  0x0025f7        0x28b build/Motor_Board_v1.9a_b/production/_ext/872612413/can_dspic33e.o
  .debug_pubtypes
-                  0x002923         0xb4 build/Motor_Board_v1.9a_b/production/_ext/872612413/timer_dspic.o
+                  0x002882         0xb4 build/Motor_Board_v1.9a_b/production/_ext/872612413/timer_dspic.o
  .debug_pubtypes
-                  0x0029d7         0x4a build/Motor_Board_v1.9a_b/production/_ext/1360937237/superball_circularbuffer.o
+                  0x002936         0x4a build/Motor_Board_v1.9a_b/production/_ext/1360937237/superball_circularbuffer.o
  .debug_pubtypes
-                  0x002a21        0x2ab build/Motor_Board_v1.9a_b/production/_ext/1360937237/motor_objdict.o
+                  0x002980        0x2ab build/Motor_Board_v1.9a_b/production/_ext/1360937237/motor_objdict.o
 
 __c30_signature
-                  0x002ccc         0xa8
+                  0x002c2c         0xa2
  __c30_signature
-                  0x002ccc          0x6 build/Motor_Board_v1.9a_b/production/_ext/1360937237/ecan1drv.o
+                  0x002c2c          0x6 build/Motor_Board_v1.9a_b/production/_ext/1360937237/ecan1drv.o
  __c30_signature
-                  0x002cd2          0x6 build/Motor_Board_v1.9a_b/production/_ext/1360937237/traps.o
+                  0x002c32          0x6 build/Motor_Board_v1.9a_b/production/_ext/1360937237/traps.o
  __c30_signature
-                  0x002cd8          0x6 build/Motor_Board_v1.9a_b/production/_ext/1360937237/ecan1_config.o
+                  0x002c38          0x6 build/Motor_Board_v1.9a_b/production/_ext/1360937237/ecan1_config.o
  __c30_signature
-                  0x002cde          0x6 build/Motor_Board_v1.9a_b/production/_ext/1360937237/main.o
+                  0x002c3e          0x6 build/Motor_Board_v1.9a_b/production/_ext/1360937237/main.o
  __c30_signature
-                  0x002ce4          0x6 build/Motor_Board_v1.9a_b/production/_ext/379909333/dcf.o
+                  0x002c44          0x6 build/Motor_Board_v1.9a_b/production/_ext/379909333/dcf.o
  __c30_signature
-                  0x002cea          0x6 build/Motor_Board_v1.9a_b/production/_ext/379909333/emcy.o
+                  0x002c4a          0x6 build/Motor_Board_v1.9a_b/production/_ext/379909333/emcy.o
  __c30_signature
-                  0x002cf0          0x6 build/Motor_Board_v1.9a_b/production/_ext/379909333/lifegrd.o
+                  0x002c50          0x6 build/Motor_Board_v1.9a_b/production/_ext/379909333/lifegrd.o
  __c30_signature
-                  0x002cf6          0x6 build/Motor_Board_v1.9a_b/production/_ext/379909333/lss.o
+                  0x002c56          0x6 build/Motor_Board_v1.9a_b/production/_ext/379909333/lss.o
  __c30_signature
-                  0x002cfc          0x6 build/Motor_Board_v1.9a_b/production/_ext/379909333/nmtMaster.o
+                  0x002c5c          0x6 build/Motor_Board_v1.9a_b/production/_ext/379909333/nmtMaster.o
  __c30_signature
-                  0x002d02          0x6 build/Motor_Board_v1.9a_b/production/_ext/379909333/nmtSlave.o
+                  0x002c62          0x6 build/Motor_Board_v1.9a_b/production/_ext/379909333/nmtSlave.o
  __c30_signature
-                  0x002d08          0x6 build/Motor_Board_v1.9a_b/production/_ext/379909333/objacces.o
+                  0x002c68          0x6 build/Motor_Board_v1.9a_b/production/_ext/379909333/objacces.o
  __c30_signature
-                  0x002d0e          0x6 build/Motor_Board_v1.9a_b/production/_ext/379909333/pdo.o
+                  0x002c6e          0x6 build/Motor_Board_v1.9a_b/production/_ext/379909333/pdo.o
  __c30_signature
-                  0x002d14          0x6 build/Motor_Board_v1.9a_b/production/_ext/379909333/sdo.o
+                  0x002c74          0x6 build/Motor_Board_v1.9a_b/production/_ext/379909333/sdo.o
  __c30_signature
-                  0x002d1a          0x6 build/Motor_Board_v1.9a_b/production/_ext/379909333/states.o
+                  0x002c7a          0x6 build/Motor_Board_v1.9a_b/production/_ext/379909333/states.o
  __c30_signature
-                  0x002d20          0x6 build/Motor_Board_v1.9a_b/production/_ext/379909333/symbols.o
+                  0x002c80          0x6 build/Motor_Board_v1.9a_b/production/_ext/379909333/symbols.o
  __c30_signature
-                  0x002d26          0x6 build/Motor_Board_v1.9a_b/production/_ext/379909333/sync.o
+                  0x002c86          0x6 build/Motor_Board_v1.9a_b/production/_ext/379909333/sync.o
  __c30_signature
-                  0x002d2c          0x6 build/Motor_Board_v1.9a_b/production/_ext/379909333/timer.o
+                  0x002c8c          0x6 build/Motor_Board_v1.9a_b/production/_ext/379909333/timer.o
  __c30_signature
-                  0x002d32          0x6 build/Motor_Board_v1.9a_b/production/_ext/872612413/can_dspic33e.o
+                  0x002c92          0x6 build/Motor_Board_v1.9a_b/production/_ext/872612413/can_dspic33e.o
  __c30_signature
-                  0x002d38          0x6 build/Motor_Board_v1.9a_b/production/_ext/872612413/timer_dspic.o
+                  0x002c98          0x6 build/Motor_Board_v1.9a_b/production/_ext/872612413/timer_dspic.o
  __c30_signature
-                  0x002d3e          0x6 build/Motor_Board_v1.9a_b/production/_ext/1360937237/superball_circularbuffer.o
+                  0x002c9e          0x6 build/Motor_Board_v1.9a_b/production/_ext/1360937237/superball_circularbuffer.o
  __c30_signature
-                  0x002d44          0x6 build/Motor_Board_v1.9a_b/production/_ext/1360937237/motor_objdict.o
+                  0x002ca4          0x6 build/Motor_Board_v1.9a_b/production/_ext/1360937237/motor_objdict.o
  __c30_signature
-                  0x002d4a          0x6 /opt/microchip/xc16/v1.20/bin/bin/../../lib/dsPIC33E/libp33EP256MU806-elf.a(ConfigIntCAN1.o)
+                  0x002caa          0x6 /opt/microchip/xc16/v1.20/bin/bin/../../lib/libpic30-elf.a(crt0_extendedep.o)
  __c30_signature
-                  0x002d50          0x6 /opt/microchip/xc16/v1.20/bin/bin/../../lib/libpic30-elf.a(crt0_extendedep.o)
+                  0x002cb0          0x6 /opt/microchip/xc16/v1.20/bin/bin/../../lib/libpic30-elf.a(data_init_extendedep.o)
  __c30_signature
-                  0x002d56          0x6 /opt/microchip/xc16/v1.20/bin/bin/../../lib/libpic30-elf.a(data_init_extendedep.o)
+                  0x002cb6          0x6 /opt/microchip/xc16/v1.20/bin/bin/../../lib/libm-elf.a(umodsi3.epeo)
  __c30_signature
-                  0x002d5c          0x6 /opt/microchip/xc16/v1.20/bin/bin/../../lib/libm-elf.a(umodsi3.epeo)
+                  0x002cbc          0x6 /opt/microchip/xc16/v1.20/bin/bin/../../lib/libm-elf.a(udivsi3.epeo)
  __c30_signature
-                  0x002d62          0x6 /opt/microchip/xc16/v1.20/bin/bin/../../lib/libm-elf.a(udivsi3.epeo)
+                  0x002cc2          0x6 /opt/microchip/xc16/v1.20/bin/bin/../../lib/libc-elf.a(memcmp.epeo)
  __c30_signature
-                  0x002d68          0x6 /opt/microchip/xc16/v1.20/bin/bin/../../lib/libc-elf.a(memcmp.epeo)
- __c30_signature
-                  0x002d6e          0x6 /opt/microchip/xc16/v1.20/bin/bin/../../lib/libc-elf.a(memcpy.epeo)
+                  0x002cc8          0x6 /opt/microchip/xc16/v1.20/bin/bin/../../lib/libc-elf.a(memcpy.epeo)
 
 .ndata              0x1000        0xcc4
  .ndata             0x1000        0xa7c build/Motor_Board_v1.9a_b/production/_ext/1360937237/motor_objdict.o
@@ -4119,194 +4114,206 @@ __c30_signature
                     0x1cc0                  _last_timer_raw
                     0x1cc2                  _tdcount
 
-.nbss               0x1cc4         0x60
+.nbss               0x1cc4         0x48
  .nbss              0x1cc4         0x48 build/Motor_Board_v1.9a_b/production/_ext/872612413/can_dspic33e.o
                     0x1cc4                  _can_rx_buffer_array
                     0x1d00                  _can_rx_circ_buff
+
+_0x5706ba6c540f8d81
+                    0x1d40         0x40
+ _0x5706ba6c540f8d81
+                    0x1d40         0x40 build/Motor_Board_v1.9a_b/production/_ext/872612413/can_dspic33e.o
+
+_0x5706ba10540f8d81
+                    0x1d80         0x40
+ _0x5706ba10540f8d81
+                    0x1d80         0x40 build/Motor_Board_v1.9a_b/production/_ext/872612413/can_dspic33e.o
+
+.nbss               0x1d0c         0x18
  .nbss              0x1d0c         0x12 build/Motor_Board_v1.9a_b/production/_ext/1360937237/main.o
                     0x1d0c                  _rx_ecan1message
  .nbss              0x1d1e          0x4 build/Motor_Board_v1.9a_b/production/_ext/872612413/timer_dspic.o
  .nbss              0x1d22          0x2 build/Motor_Board_v1.9a_b/production/_ext/1360937237/motor_objdict.o
                     0x1d22                  _Motor_Board_heartBeatTimers
 
-_0x5702a958540f8518
+_0x5702a958540f8d41
                     0x7f80         0x40
- _0x5702a958540f8518
+ _0x5702a958540f8d41
                     0x7f80         0x40 build/Motor_Board_v1.9a_b/production/_ext/1360937237/main.o
                     0x7f80                  _ecan1msgBuf
 
-.const              0x83ec        0x11a load address 0x0003ec  
- .const             0x83ec         0xe2 build/Motor_Board_v1.9a_b/production/_ext/1360937237/motor_objdict.o
-                    0x83ec                  _Motor_Board_iam_a_slave
-                    0x83ee                  _Motor_Board_objdict
-                    0x84b4                  _Motor_Board_firstIndex
-                    0x84c0                  _Motor_Board_lastIndex
-                    0x84cc                  _Motor_Board_ObjdictSize
- .const             0x84ce         0x38 build/Motor_Board_v1.9a_b/production/_ext/379909333/states.o
+.const              0x83c8        0x11a load address 0x0003c8  
+ .const             0x83c8         0xe2 build/Motor_Board_v1.9a_b/production/_ext/1360937237/motor_objdict.o
+                    0x83c8                  _Motor_Board_iam_a_slave
+                    0x83ca                  _Motor_Board_objdict
+                    0x8490                  _Motor_Board_firstIndex
+                    0x849c                  _Motor_Board_lastIndex
+                    0x84a8                  _Motor_Board_ObjdictSize
+ .const             0x84aa         0x38 build/Motor_Board_v1.9a_b/production/_ext/379909333/states.o
 
-.text             0x000506       0x22c4
- .text            0x000506       0x22c4 build/Motor_Board_v1.9a_b/production/_ext/379909333/sdo.o
-                  0x000506                  _SDOlineToObjdict
-                  0x000550                  _objdictToSDOline
-                  0x000598                  _lineToSDO
-                  0x000612                  _SDOtoLine
-                  0x00067c                  _initSDOline
-                  0x00072c                  _resetSDOline
-                  0x000774                  _resetSDO
-                  0x00078e                  _getSDOfreeLine
-                  0x0007d2                  _getSDOlineOnUse
-                  0x000806                  _getSDOlineToClose
-                  0x000834                  _getSDOlineRestBytes
-                  0x000866                  _setSDOlineRestBytes
-                  0x000888                  _sendSDO
-                  0x000902                  _sendSDOabort
-                  0x00092e                  _failedSDO
-                  0x0009b2                  _SDOTimeoutAlarm
-                  0x000a48                  _proceedSDO
-                  0x00220e                  _GetSDOClientFromNodeId
-                  0x002270                  _closeSDOtransfer
-                  0x0022a2                  __writeNetworkDict
-                  0x0023e8                  _writeNetworkDict
-                  0x002400                  _writeNetworkDictCallBack
-                  0x00241a                  _writeNetworkDictCallBackAI
-                  0x0024fc                  __readNetworkDict
-                  0x0025d6                  _readNetworkDict
-                  0x0025e2                  _readNetworkDictCallback
-                  0x0025ea                  _readNetworkDictCallbackAI
-                  0x0026ae                  _getReadResultNetworkDict
-                  0x00277c                  _getWriteResultNetworkDict
+.text             0x0004e2       0x22c4
+ .text            0x0004e2       0x22c4 build/Motor_Board_v1.9a_b/production/_ext/379909333/sdo.o
+                  0x0004e2                  _SDOlineToObjdict
+                  0x00052c                  _objdictToSDOline
+                  0x000574                  _lineToSDO
+                  0x0005ee                  _SDOtoLine
+                  0x000658                  _initSDOline
+                  0x000708                  _resetSDOline
+                  0x000750                  _resetSDO
+                  0x00076a                  _getSDOfreeLine
+                  0x0007ae                  _getSDOlineOnUse
+                  0x0007e2                  _getSDOlineToClose
+                  0x000810                  _getSDOlineRestBytes
+                  0x000842                  _setSDOlineRestBytes
+                  0x000864                  _sendSDO
+                  0x0008de                  _sendSDOabort
+                  0x00090a                  _failedSDO
+                  0x00098e                  _SDOTimeoutAlarm
+                  0x000a24                  _proceedSDO
+                  0x0021ea                  _GetSDOClientFromNodeId
+                  0x00224c                  _closeSDOtransfer
+                  0x00227e                  __writeNetworkDict
+                  0x0023c4                  _writeNetworkDict
+                  0x0023dc                  _writeNetworkDictCallBack
+                  0x0023f6                  _writeNetworkDictCallBackAI
+                  0x0024d8                  __readNetworkDict
+                  0x0025b2                  _readNetworkDict
+                  0x0025be                  _readNetworkDictCallback
+                  0x0025c6                  _readNetworkDictCallbackAI
+                  0x00268a                  _getReadResultNetworkDict
+                  0x002758                  _getWriteResultNetworkDict
 
-.dinit            0x0027ca        0x8b0
- .dinit           0x0027ca        0x8b0 data_init
+.dinit            0x0027a6        0x8bc
+ .dinit           0x0027a6        0x8bc data_init
 
-.text             0x00307a       0x2566
- .text            0x00307a        0x7c6 build/Motor_Board_v1.9a_b/production/_ext/379909333/pdo.o
-                  0x00309e                  _sendPDOrequest
-                  0x0030ea                  _CopyBits
-                  0x003168                  _buildPDO
-                  0x003266                  _sendOnePDOevent
-                  0x003370                  _PDOInhibitTimerAlarm
-                  0x00338a                  _PDOEventTimerAlarm
-                  0x0033a6                  _TPDO_Communication_Parameter_Callback
-                  0x003408                  _proceedPDO
-                  0x003652                  __RxPDO_EventTimers_Handler
-                  0x003658                  __sendPDOevent
-                  0x00377e                  _sendPDOevent
-                  0x003788                  _PDOInit
-                  0x0037e4                  _PDOStop
- .text            0x003840        0x3b4 build/Motor_Board_v1.9a_b/production/_ext/379909333/lifegrd.o
-                  0x003840                  _ConsumerHeartbeatAlarm
-                  0x00386a                  _GuardTimeAlarm
-                  0x0038e2                  _ProducerHeartbeatAlarm
-                  0x00391a                  _getNodeState
-                  0x003932                  _proceedNODE_GUARD
-                  0x003a42                  _heartbeatInit
-                  0x003ad0                  _nodeguardInit
-                  0x003b40                  _heartbeatStop
-                  0x003b76                  _OnHeartbeatProducerUpdate
-                  0x003b8c                  _nodeguardStop
-                  0x003b9e                  _OnNodeGuardUpdate
-                  0x003bb4                  _lifeGuardInit
-                  0x003bc8                  _lifeGuardStop
-                  0x003bdc                  __heartbeatError
-                  0x003be2                  __post_SlaveBootup
-                  0x003be8                  __post_SlaveStateChange
-                  0x003bee                  __nodeguardError
- .text            0x003bf4        0x33c build/Motor_Board_v1.9a_b/production/_ext/379909333/states.o
-                  0x003bf4                  _getState
-                  0x003bfc                  _canDispatch
-                  0x003c70                  _switchCommunicationState
-                  0x003d4c                  _setState
-                  0x003e14                  _getNodeId
-                  0x003e1e                  _setNodeId
-                  0x003f0a                  __initialisation
-                  0x003f10                  __preOperational
-                  0x003f24                  __operational
-                  0x003f2a                  __stopped
- .text            0x003f30        0x2f4 build/Motor_Board_v1.9a_b/production/_ext/379909333/dcf.o
-                  0x003f30                  _start_node
-                  0x003f52                  _init_consise_dcf
-                  0x003fa2                  _get_next_DCF_data
-                  0x004054                  _check_and_start_node
-                  0x004092                  _start_and_seek_node
-                  0x004104                  build/Motor_Board_v1.9a_b/production/_ext/379909333/dcf.o:_CheckSDOAndContinue
-                  0x004200                  _SaveNode
- .text            0x004224        0x2d6 build/Motor_Board_v1.9a_b/production/_ext/1360937237/ecan1drv.o
-                  0x004224                  _Ecan1WriteRxAcptFilter
-                  0x004292                  _Ecan1WriteRxAcptMask
-                  0x0042e8                  _Ecan1WriteTxMsgBufId
-                  0x0043f6                  _Ecan1WriteTxMsgBufData
-                  0x0044e8                  _Ecan1DisableRXFilter
- .text            0x0044fa        0x252 build/Motor_Board_v1.9a_b/production/_ext/1360937237/superball_circularbuffer.o
-                  0x0044fa                  _CB_Init
-                  0x004532                  _CB_ReadByte
-                  0x00457a                  _CB_ReadMany
-                  0x0045c2                  _CB_WriteByte
-                  0x004618                  _CB_WriteMany
-                  0x0046c6                  _CB_Peek
-                  0x0046e2                  _CB_PeekMany
-                  0x00471e                  _CB_Remove
- .text            0x00474c        0x248 build/Motor_Board_v1.9a_b/production/_ext/379909333/emcy.o
-                  0x00474c                  _OnNumberOfErrorsUpdate
-                  0x00477c                  _emergencyInit
-                  0x004796                  _emergencyStop
-                  0x00479c                  _sendEMCY
-                  0x0047e6                  _EMCY_setError
-                  0x0048e8                  _EMCY_errorRecovered
-                  0x00496c                  _proceedEMCY
-                  0x00498e                  __post_emcy
- .text            0x004994        0x234 build/Motor_Board_v1.9a_b/production/_ext/379909333/objacces.o
-                  0x004994                  _accessDictionaryError
-                  0x00499c                  __getODentry
-                  0x004a6c                  __setODentry
-                  0x004b7e                  _scanIndexOD
-                  0x004b90                  _RegisterSetODentryCallBack
-                  0x004bc2                  __storeODSubIndex
- .text            0x004bc8        0x224 build/Motor_Board_v1.9a_b/production/_ext/872612413/can_dspic33e.o
-                  0x004bc8                  _canInit
-                  0x004ccc                  _canSend
-                  0x004d92                  _canReceive
-                  0x004daa                  _canChangeBaudRate_driver
-                  0x004db2                  __C1Interrupt
- .text            0x004dec        0x1c4 build/Motor_Board_v1.9a_b/production/_ext/379909333/timer.o
-                  0x004dec                  _SetAlarm
-                  0x004e9c                  _DelAlarm
-                  0x004eba                  _TimeDispatch
- .text            0x004fb0        0x1b4 build/Motor_Board_v1.9a_b/production/_ext/1360937237/motor_objdict.o
-                  0x004fb0                  _Motor_Board_valueRangeTest
-                  0x004fce                  _Motor_Board_scanIndexOD
- .text            0x005164        0x13e build/Motor_Board_v1.9a_b/production/_ext/1360937237/ecan1_config.o
-                  0x005164                  _DMA0Init
-                  0x00518a                  _DMA2Init
-                  0x0051b0                  _Ecan1ClkInit
-                  0x0051e8                  _Ecan1Init
- .text            0x0052a2         0xf8 build/Motor_Board_v1.9a_b/production/_ext/379909333/sync.o
-                  0x0052a2                  _stopSYNC
-                  0x0052c8                  _startSYNC
-                  0x005324                  _OnCOB_ID_SyncUpdate
-                  0x00532e                  _sendSYNCMessage
-                  0x005344                  _proceedSYNC
-                  0x00536e                  _sendSYNC
-                  0x005386                  _SyncAlarm
-                  0x00538e                  __post_sync
-                  0x005394                  __post_TPDO
- .text            0x00539a         0xce build/Motor_Board_v1.9a_b/production/_ext/379909333/nmtSlave.o
-                  0x00539a                  _proceedNMTstateChange
-                  0x005448                  _slaveSendBootUp
- .text            0x005468         0xac build/Motor_Board_v1.9a_b/production/_ext/1360937237/main.o
-                  0x005468                  _reset_board
-                  0x00546e                  _RxECAN1
-                  0x005474                  _ClearIntrflags
-                  0x005486                  _OscConfig
-                  0x0054ce                  _main
-                  0x005500                  __DMA0Interrupt
-                  0x00550a                  __DMA2Interrupt
- .text            0x005514         0x6a build/Motor_Board_v1.9a_b/production/_ext/872612413/timer_dspic.o
-                  0x005514                  _initTimer
-                  0x00554c                  _setTimer
-                  0x005566                  _getElapsedTime
-                  0x00556e                  __T3Interrupt
- .text            0x00557e         0x62 build/Motor_Board_v1.9a_b/production/_ext/379909333/nmtMaster.o
-                  0x00557e                  _masterSendNMTstateChange
-                  0x005598                  _masterSendNMTnodeguard
-                  0x0055b2                  _masterRequestNodeState
+.text             0x003062       0x2534
+ .text            0x003062        0x7c6 build/Motor_Board_v1.9a_b/production/_ext/379909333/pdo.o
+                  0x003086                  _sendPDOrequest
+                  0x0030d2                  _CopyBits
+                  0x003150                  _buildPDO
+                  0x00324e                  _sendOnePDOevent
+                  0x003358                  _PDOInhibitTimerAlarm
+                  0x003372                  _PDOEventTimerAlarm
+                  0x00338e                  _TPDO_Communication_Parameter_Callback
+                  0x0033f0                  _proceedPDO
+                  0x00363a                  __RxPDO_EventTimers_Handler
+                  0x003640                  __sendPDOevent
+                  0x003766                  _sendPDOevent
+                  0x003770                  _PDOInit
+                  0x0037cc                  _PDOStop
+ .text            0x003828        0x3b4 build/Motor_Board_v1.9a_b/production/_ext/379909333/lifegrd.o
+                  0x003828                  _ConsumerHeartbeatAlarm
+                  0x003852                  _GuardTimeAlarm
+                  0x0038ca                  _ProducerHeartbeatAlarm
+                  0x003902                  _getNodeState
+                  0x00391a                  _proceedNODE_GUARD
+                  0x003a2a                  _heartbeatInit
+                  0x003ab8                  _nodeguardInit
+                  0x003b28                  _heartbeatStop
+                  0x003b5e                  _OnHeartbeatProducerUpdate
+                  0x003b74                  _nodeguardStop
+                  0x003b86                  _OnNodeGuardUpdate
+                  0x003b9c                  _lifeGuardInit
+                  0x003bb0                  _lifeGuardStop
+                  0x003bc4                  __heartbeatError
+                  0x003bca                  __post_SlaveBootup
+                  0x003bd0                  __post_SlaveStateChange
+                  0x003bd6                  __nodeguardError
+ .text            0x003bdc        0x33c build/Motor_Board_v1.9a_b/production/_ext/379909333/states.o
+                  0x003bdc                  _getState
+                  0x003be4                  _canDispatch
+                  0x003c58                  _switchCommunicationState
+                  0x003d34                  _setState
+                  0x003dfc                  _getNodeId
+                  0x003e06                  _setNodeId
+                  0x003ef2                  __initialisation
+                  0x003ef8                  __preOperational
+                  0x003f0c                  __operational
+                  0x003f12                  __stopped
+ .text            0x003f18        0x2f4 build/Motor_Board_v1.9a_b/production/_ext/379909333/dcf.o
+                  0x003f18                  _start_node
+                  0x003f3a                  _init_consise_dcf
+                  0x003f8a                  _get_next_DCF_data
+                  0x00403c                  _check_and_start_node
+                  0x00407a                  _start_and_seek_node
+                  0x0040ec                  build/Motor_Board_v1.9a_b/production/_ext/379909333/dcf.o:_CheckSDOAndContinue
+                  0x0041e8                  _SaveNode
+ .text            0x00420c        0x2d6 build/Motor_Board_v1.9a_b/production/_ext/1360937237/ecan1drv.o
+                  0x00420c                  _Ecan1WriteRxAcptFilter
+                  0x00427a                  _Ecan1WriteRxAcptMask
+                  0x0042d0                  _Ecan1WriteTxMsgBufId
+                  0x0043de                  _Ecan1WriteTxMsgBufData
+                  0x0044d0                  _Ecan1DisableRXFilter
+ .text            0x0044e2        0x252 build/Motor_Board_v1.9a_b/production/_ext/1360937237/superball_circularbuffer.o
+                  0x0044e2                  _CB_Init
+                  0x00451a                  _CB_ReadByte
+                  0x004562                  _CB_ReadMany
+                  0x0045aa                  _CB_WriteByte
+                  0x004600                  _CB_WriteMany
+                  0x0046ae                  _CB_Peek
+                  0x0046ca                  _CB_PeekMany
+                  0x004706                  _CB_Remove
+ .text            0x004734        0x248 build/Motor_Board_v1.9a_b/production/_ext/379909333/emcy.o
+                  0x004734                  _OnNumberOfErrorsUpdate
+                  0x004764                  _emergencyInit
+                  0x00477e                  _emergencyStop
+                  0x004784                  _sendEMCY
+                  0x0047ce                  _EMCY_setError
+                  0x0048d0                  _EMCY_errorRecovered
+                  0x004954                  _proceedEMCY
+                  0x004976                  __post_emcy
+ .text            0x00497c        0x234 build/Motor_Board_v1.9a_b/production/_ext/379909333/objacces.o
+                  0x00497c                  _accessDictionaryError
+                  0x004984                  __getODentry
+                  0x004a54                  __setODentry
+                  0x004b66                  _scanIndexOD
+                  0x004b78                  _RegisterSetODentryCallBack
+                  0x004baa                  __storeODSubIndex
+ .text            0x004bb0        0x1f6 build/Motor_Board_v1.9a_b/production/_ext/872612413/can_dspic33e.o
+                  0x004bb0                  _canInit
+                  0x004ce0                  _canSend
+                  0x004d4c                  _canReceive
+                  0x004d64                  _canChangeBaudRate_driver
+                  0x004d6c                  __C1Interrupt
+ .text            0x004da6        0x1c4 build/Motor_Board_v1.9a_b/production/_ext/379909333/timer.o
+                  0x004da6                  _SetAlarm
+                  0x004e56                  _DelAlarm
+                  0x004e74                  _TimeDispatch
+ .text            0x004f6a        0x1b4 build/Motor_Board_v1.9a_b/production/_ext/1360937237/motor_objdict.o
+                  0x004f6a                  _Motor_Board_valueRangeTest
+                  0x004f88                  _Motor_Board_scanIndexOD
+ .text            0x00511e        0x13e build/Motor_Board_v1.9a_b/production/_ext/1360937237/ecan1_config.o
+                  0x00511e                  _DMA0Init
+                  0x005144                  _DMA2Init
+                  0x00516a                  _Ecan1ClkInit
+                  0x0051a2                  _Ecan1Init
+ .text            0x00525c         0xf8 build/Motor_Board_v1.9a_b/production/_ext/379909333/sync.o
+                  0x00525c                  _stopSYNC
+                  0x005282                  _startSYNC
+                  0x0052de                  _OnCOB_ID_SyncUpdate
+                  0x0052e8                  _sendSYNCMessage
+                  0x0052fe                  _proceedSYNC
+                  0x005328                  _sendSYNC
+                  0x005340                  _SyncAlarm
+                  0x005348                  __post_sync
+                  0x00534e                  __post_TPDO
+ .text            0x005354         0xce build/Motor_Board_v1.9a_b/production/_ext/379909333/nmtSlave.o
+                  0x005354                  _proceedNMTstateChange
+                  0x005402                  _slaveSendBootUp
+ .text            0x005422         0xa8 build/Motor_Board_v1.9a_b/production/_ext/1360937237/main.o
+                  0x005422                  _reset_board
+                  0x005428                  _RxECAN1
+                  0x00542e                  _ClearIntrflags
+                  0x005440                  _OscConfig
+                  0x005488                  _main
+                  0x0054b6                  __DMA0Interrupt
+                  0x0054c0                  __DMA2Interrupt
+ .text            0x0054ca         0x6a build/Motor_Board_v1.9a_b/production/_ext/872612413/timer_dspic.o
+                  0x0054ca                  _initTimer
+                  0x005502                  _setTimer
+                  0x00551c                  _getElapsedTime
+                  0x005524                  __T3Interrupt
+ .text            0x005534         0x62 build/Motor_Board_v1.9a_b/production/_ext/379909333/nmtMaster.o
+                  0x005534                  _masterSendNMTstateChange
+                  0x00554e                  _masterSendNMTnodeguard
+                  0x005568                  _masterRequestNodeState
