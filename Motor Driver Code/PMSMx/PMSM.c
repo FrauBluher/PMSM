@@ -33,7 +33,6 @@
  *
  */
 
-
 #include <xc.h>
 #include <math.h>
 #include <stdlib.h>
@@ -43,10 +42,12 @@
 #include "PMSM.h"
 #include "PMSMBoard.h"
 #include "DMA_Transfer.h"
-#include "TrigData.h"
 #include "cordic.h"
 #include <qei32.h>
 #include <uart.h>
+
+#ifndef CHARACTERIZE
+#include "TrigData.h"
 
 #warning The motor driver code is in alpha.
 
@@ -87,7 +88,7 @@ void SpaceVectorModulation(TimesOut sv);
 InvClarkOut InverseClarke(InvParkOut pP);
 InvParkOut InversePark(float Vd, float Vq, int16_t position);
 TimesOut SVPWMTimeCalc(InvParkOut pP);
-.
+
 //Matrix, Row, Column
 //static float SVPWM_Rotation[6][2][2] = {
 //	{ //Sector 1
@@ -180,7 +181,7 @@ uint8_t PMSM_Init(MotorInfo *information)
 	rotorOffset = (rotorOffset + rotorOffset2) / 2;
 
 	size = sprintf((char *) out, "Rotor Offset: %li\r\n", rotorOffset);
-	putsUART2((const char *) out);
+	DMA0_UART2_Transfer(size, (uint8_t *) out);
 
 	return(0);
 }
@@ -233,8 +234,8 @@ void PMSM_Update(void)
 	theta = indexCount;
 
 
-//	size = sprintf((char *) out, "%i\r\n", theta);
-//	DMA0_UART2_Transfer(size, out);
+	//	size = sprintf((char *) out, "%i\r\n", theta);
+	//	DMA0_UART2_Transfer(size, out);
 
 	SpaceVectorModulation(SVPWMTimeCalc(InversePark(0.3, 0, theta)));
 }
@@ -328,3 +329,5 @@ void __attribute__((__interrupt__, no_auto_psv)) _QEI1Interrupt(void)
 
 	IFS3bits.QEI1IF = 0; /* Clear QEI interrupt flag */
 }
+
+#endif

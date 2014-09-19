@@ -18,6 +18,7 @@
       <itemPath>LQG_NoiseCharacterization.h</itemPath>
       <itemPath>cordic.h</itemPath>
       <itemPath>TrigData.h</itemPath>
+      <itemPath>PMSM_Characterize.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -26,6 +27,11 @@
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
+      <logicalFolder name="f1" displayName="Characterization" projectFiles="true">
+        <itemPath>LQG_NoiseCharacterization.c</itemPath>
+        <itemPath>PMSM_Characterize.c</itemPath>
+        <itemPath>PRBSCharacterization.c</itemPath>
+      </logicalFolder>
       <itemPath>main.c</itemPath>
       <itemPath>Makefile</itemPath>
       <itemPath>SPIdsPIC.c</itemPath>
@@ -34,12 +40,10 @@
       <itemPath>PMSMBoard.c</itemPath>
       <itemPath>BasicMotorControl.c</itemPath>
       <itemPath>CircularBuffer.c</itemPath>
-      <itemPath>MotorControl.c</itemPath>
       <itemPath>DMA_Transfer.c</itemPath>
       <itemPath>PID_Library.c</itemPath>
-      <itemPath>PRBSCharacterization.c</itemPath>
-      <itemPath>LQG_NoiseCharacterization.c</itemPath>
       <itemPath>cordic.c</itemPath>
+      <itemPath>traps.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -62,7 +66,7 @@
         <platformTool>PICkit3PlatformTool</platformTool>
         <languageToolchain>XC16</languageToolchain>
         <languageToolchainVersion>1.20</languageToolchainVersion>
-        <platform>3</platform>
+        <platform>2</platform>
       </toolsSet>
       <compileType>
         <linkerTool>
@@ -147,8 +151,10 @@
         <property key="preprocessor-macros" value=""/>
         <property key="scalar-model" value="default"/>
         <property key="use-cci" value="false"/>
+        <property key="use-iar" value="false"/>
       </C30>
       <C30-AR>
+        <property key="additional-options-chop-files" value="false"/>
       </C30-AR>
       <C30-AS>
         <property key="assembler-symbols" value=""/>
@@ -181,11 +187,19 @@
         <property key="enable-handles" value="true"/>
         <property key="enable-pack-data" value="true"/>
         <property key="extra-lib-directories" value=""/>
+        <property key="fill-flash-options-addr" value=""/>
+        <property key="fill-flash-options-const" value=""/>
+        <property key="fill-flash-options-how" value="0"/>
+        <property key="fill-flash-options-inc-const" value="1"/>
+        <property key="fill-flash-options-increment" value=""/>
+        <property key="fill-flash-options-seq" value=""/>
+        <property key="fill-flash-options-what" value="0"/>
         <property key="general-code-protect" value="no_code_protect"/>
         <property key="general-write-protect" value="no_write_protect"/>
         <property key="generate-cross-reference-file" value="false"/>
         <property key="heap-size" value="2096"/>
         <property key="input-libraries" value=""/>
+        <property key="linker-stack" value="true"/>
         <property key="linker-symbols" value=""/>
         <property key="map-file" value="${DISTDIR}/${PROJECTNAME}.${IMAGE_TYPE}.map"/>
         <property key="oXC16ld-extra-opts" value=""/>
@@ -218,18 +232,6 @@
         <property key="relaxed-math" value="false"/>
         <property key="save-temps" value="false"/>
       </C30Global>
-      <item path="MotorControl.c" ex="true" overriding="false">
-        <C30>
-        </C30>
-        <C30-AR>
-        </C30-AR>
-        <C30-AS>
-        </C30-AS>
-        <C30-LD>
-        </C30-LD>
-        <C30Global>
-        </C30Global>
-      </item>
       <PICkit3PlatformTool>
         <property key="ADC 1" value="true"/>
         <property key="ADC 2" value="true"/>
@@ -297,18 +299,22 @@
         <property key="UART 3" value="true"/>
         <property key="UART 4" value="true"/>
         <property key="USB" value="true"/>
+        <property key="firmware.download.all" value="false"/>
         <property key="hwtoolclock.frcindebug" value="false"/>
         <property key="memories.aux" value="false"/>
         <property key="memories.bootflash" value="false"/>
         <property key="memories.configurationmemory" value="false"/>
+        <property key="memories.dataflash" value="true"/>
         <property key="memories.eeprom" value="false"/>
         <property key="memories.flashdata" value="true"/>
         <property key="memories.id" value="false"/>
         <property key="memories.programmemory" value="true"/>
         <property key="memories.programmemory.end" value="0xabff"/>
         <property key="memories.programmemory.start" value="0x0"/>
+        <property key="memories.userotp" value="false"/>
         <property key="poweroptions.powerenable" value="false"/>
         <property key="programmertogo.imagename" value=""/>
+        <property key="programoptions.donoteraseauxmem" value="false"/>
         <property key="programoptions.eraseb4program" value="true"/>
         <property key="programoptions.pgmspeed" value="2"/>
         <property key="programoptions.preserveeeprom" value="false"/>
@@ -316,10 +322,14 @@
         <property key="programoptions.preserveprogramrange.end" value="0xabff"/>
         <property key="programoptions.preserveprogramrange.start" value="0x0"/>
         <property key="programoptions.preserveuserid" value="false"/>
+        <property key="programoptions.programcalmem" value="false"/>
+        <property key="programoptions.testmodeentrymethod" value="VPPFirst"/>
         <property key="programoptions.usehighvoltageonmclr" value="false"/>
         <property key="programoptions.uselvpprogramming" value="false"/>
         <property key="voltagevalue" value="3.375"/>
       </PICkit3PlatformTool>
+      <item path="traps.c" ex="true" overriding="false">
+      </item>
     </conf>
   </confs>
 </configurationDescriptor>

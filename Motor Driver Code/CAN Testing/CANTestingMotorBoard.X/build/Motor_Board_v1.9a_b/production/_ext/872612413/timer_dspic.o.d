@@ -18,4 +18,7 @@ build/Motor_Board_v1.9a_b/production/_ext/872612413/timer_dspic.o:  \
  ../drivers/dspic33e/../../include/sync.h  \
  ../drivers/dspic33e/../../include/nmtSlave.h  \
  ../drivers/dspic33e/../../include/nmtMaster.h  \
- ../drivers/dspic33e/../../include/emcy.h 
+ ../drivers/dspic33e/../../include/emcy.h  \
+ ../drivers/dspic33e/../../src/common.h  \
+ ../drivers/dspic33e/../../src/ecan1_config.h  \
+ ../drivers/dspic33e/../../src/ecan1drv.h 

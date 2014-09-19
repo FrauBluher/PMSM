@@ -36,6 +36,8 @@
 #ifndef PMSM_H
 #define PMSM_H
 
+#ifndef CHARACTERIZE
+
 #include <stdint.h>
 
 #if defined(__dsPIC33FJ128MC802__)
@@ -126,3 +128,4 @@ void SetAirGapFluxLinkage(float id);
 
 
 #endif    /*PMSM_H  */
+#endif

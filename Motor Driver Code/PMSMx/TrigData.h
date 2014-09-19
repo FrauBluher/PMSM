@@ -9,6 +9,8 @@
  *                                                             
  */
 
+#ifndef TRIG_DATA_H
+#define TRIG_DATA_H
 
 //TODO: PUT THIS BACK INTO PROGRAM MEMORY
 //This will require two position reads as each single precision floating point
@@ -245,3 +247,4 @@ float TRIG_DATA[TRIG_SIZE] = {
     -0.039892, -0.036825, -0.033758, -0.030690, -0.027622, -0.024553, -0.021485, -0.018416, -0.015347,
     -0.012278, -0.009208, -0.006139, -0.003069, -0.000000
 };
+#endif

@@ -132,7 +132,7 @@ void DMA6_ADC_Enable(ADCBuffer *ADCBuff)
 	DMA6CONbits.AMODE = 0; // Configure DMA for Register Indirect/Post Inc.
 	DMA6CONbits.MODE = 0; // Configure DMA for Continuous mode no pingpong
 	DMA6PAD = (volatile unsigned int) &ADC1BUF0; // Point DMA to ADC1BUF0
-	DMA6CNT = 127; // 12 DMA request (2 buffers, each with 64 words)
+	DMA6CNT = 1; // 2 DMA request (2 buffers, each with 1 words)
 	DMA6REQ = 13; // Select ADC1 as DMA request source
 	DMA6STAL = (volatile uint16_t) ADCBuff;
 	DMA6STAH = 0x0000;
