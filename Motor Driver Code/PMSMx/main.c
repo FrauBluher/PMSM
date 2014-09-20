@@ -22,6 +22,8 @@
 #include "PMSM.h"
 #include <dsp.h>
 #include <uart.h>
+#include "../../../../../Code/SSB_Code/Motor_Driver/motor_can.h"
+#include "../../../../../Code/SSB_Code/Motor_Driver/can_dspic33e_motor.h"
 
 #ifndef CHARACTERIZE
 #ifndef LQG_NOISE
@@ -47,6 +49,10 @@ uint16_t events = 0;
 uint16_t faultPrescalar = 0;
 uint16_t torque;
 
+uint8_t canPrescaler = 0;
+extern can_data can_state;
+extern uint8_t txreq_bitarray;
+
 enum {
 	EVENT_UART_DATA_READY = 0x01,
 	EVENT_CAN_RX = 0x02,
@@ -69,6 +75,11 @@ int main(void)
 		Nop();
 	}
 	InitBoard(&ADCBuff, &uartBuffer, &spiBuffer, EventChecker);
+
+	can_state.init_return = RET_UNKNOWN;
+	if (can_motor_init()) {
+		while (1);
+	}
 
 	LED1 = 1;
 	LED2 = 1;
@@ -139,6 +150,43 @@ int main(void)
 void EventChecker(void)
 {
 #ifndef CHARACTERIZE
+	if (canPrescaler > 2) {
+		can_process();
+
+		if (txreq_bitarray & 0b00000001 && !C1TR01CONbits.TXREQ0) {
+			C1TR01CONbits.TXREQ0 = 1;
+			txreq_bitarray = txreq_bitarray & 0b11111110;
+		}
+		if (txreq_bitarray & 0b00000010 && !C1TR01CONbits.TXREQ1) {
+			C1TR01CONbits.TXREQ1 = 1;
+			txreq_bitarray = txreq_bitarray & 0b11111101;
+		}
+		if (txreq_bitarray & 0b00000100 && !C1TR23CONbits.TXREQ2) {
+			C1TR23CONbits.TXREQ2 = 1;
+			txreq_bitarray = txreq_bitarray & 0b11111011;
+		}
+		if (txreq_bitarray & 0b00001000 && !C1TR23CONbits.TXREQ3) {
+			C1TR23CONbits.TXREQ3 = 1;
+			txreq_bitarray = txreq_bitarray & 0b11110111;
+		}
+		if (txreq_bitarray & 0b00010000 && !C1TR45CONbits.TXREQ4) {
+			C1TR45CONbits.TXREQ4 = 1;
+			txreq_bitarray = txreq_bitarray & 0b11101111;
+		}
+		if (txreq_bitarray & 0b00100000 && !C1TR45CONbits.TXREQ5) {
+			C1TR45CONbits.TXREQ5 = 1;
+			txreq_bitarray = txreq_bitarray & 0b11011111;
+		}
+		if (txreq_bitarray & 0b01000000 && !C1TR67CONbits.TXREQ6) {
+			C1TR67CONbits.TXREQ6 = 1;
+			txreq_bitarray = txreq_bitarray & 0b10111111;
+		}
+
+		can_time_dispatch();
+		canPrescaler = 0;
+	} else {
+		canPrescaler++;
+	}
 	//Until I can make a nice non-blocking way of checking the drv for faults
 	//this will be called approximately every second and will block for 50uS
 	//Pushing the DRV to its max SPI Fcy should bring this number down a little.

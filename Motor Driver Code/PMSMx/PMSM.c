@@ -48,6 +48,10 @@
 #include <qei32.h>
 #include <uart.h>
 
+#ifdef SINE
+
+#include "../../../../../Code/SSB_Code/Motor_Driver/motor_can.h"
+
 #warning The motor driver code is in alpha.
 
 #define SQRT_3 1.732050807568877
@@ -87,7 +91,7 @@ void SpaceVectorModulation(TimesOut sv);
 InvClarkOut InverseClarke(InvParkOut pP);
 InvParkOut InversePark(float Vd, float Vq, int16_t position);
 TimesOut SVPWMTimeCalc(InvParkOut pP);
-.
+
 //Matrix, Row, Column
 //static float SVPWM_Rotation[6][2][2] = {
 //	{ //Sector 1
@@ -223,12 +227,13 @@ void PMSM_Update(void)
 	static uint16_t size;
 	static uint8_t out[56];
 	int32_t indexCount = 0;
+	static float position;
 
 	indexCount = Read32bitQEI1PositionCounter();
 
-	indexCount += 512 - rotorOffset; //Maybe phase offset..
+	indexCount += -512 - rotorOffset; //Maybe phase offset..
 
-	indexCount = (-indexCount + 2048) % 2048;
+	indexCount = (-indexCount) % 2048;
 
 	theta = indexCount;
 
@@ -236,7 +241,14 @@ void PMSM_Update(void)
 //	size = sprintf((char *) out, "%i\r\n", theta);
 //	DMA0_UART2_Transfer(size, out);
 
-	SpaceVectorModulation(SVPWMTimeCalc(InversePark(0.3, 0, theta)));
+	position = ((float)(Target_position))/100.0;
+	if((position <= 1.0)){
+		SpaceVectorModulation(SVPWMTimeCalc(InversePark(position, 0, theta)));
+	}
+	else{
+		SpaceVectorModulation(SVPWMTimeCalc(InversePark(0, 0, theta)));
+	}
+//	SpaceVectorModulation(SVPWMTimeCalc(InversePark(0.3, 0, theta)));
 }
 
 /****************************   Private Stuff   *******************************/
@@ -328,3 +340,4 @@ void __attribute__((__interrupt__, no_auto_psv)) _QEI1Interrupt(void)
 
 	IFS3bits.QEI1IF = 0; /* Clear QEI interrupt flag */
 }
+#endif

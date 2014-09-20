@@ -77,11 +77,12 @@ void InitBoard(ADCBuffer *ADBuff, CircularBuffer *cB, CircularBuffer *spi_cB, vo
 		DRV8301_Init(&motorDriverInfo);
 #ifndef SINE
 		CNInit();
+#else
+		PMSM_Init(&motorInformation);
 #endif
 #ifdef QEI
 		QEIInit();
 #endif
-		PMSM_Init(&motorInformation);
 		EventCheckInit(eventCallback);
 		TimersInit();
 		putsUART2((unsigned int *) "Initialization Complete.\r\n");
@@ -268,6 +269,11 @@ void PinInit(void)
 		IN_FN_PPS_QEI1 = IN_PIN_PPS_RP71; //QEI Index
 		IN_FN_PPS_QEB1 = IN_PIN_PPS_RP70; //QEI B
 		IN_FN_PPS_QEA1 = IN_PIN_PPS_RP69; //QEI A
+
+		TRISFbits.TRISF4 = 1;
+		TRISFbits.TRISF5 = 1;
+		IN_FN_PPS_C1RX = IN_PIN_PPS_RP100; //CAN1 RX
+		OUT_PIN_PPS_RP101 = OUT_FN_PPS_C1TX; //CAN1 TX
 
 		//Lock PPS Registers
 		__builtin_write_OSCCONL(OSCCON | (1 << 6));
@@ -476,8 +482,8 @@ void __attribute__((__interrupt__, no_auto_psv)) _T7Interrupt(void)
 	IFS3bits.T7IF = 0; // Clear Timer1 Interrupt Flag
 }
 
-void __attribute__((__interrupt__, no_auto_psv)) _T3Interrupt(void)
-{
-	/* Interrupt Service Routine code goes here */
-	IFS0bits.T3IF = 0; //Clear Timer3 interrupt flag
-}
+//void __attribute__((__interrupt__, no_auto_psv)) _T3Interrupt(void)
+//{
+//	/* Interrupt Service Routine code goes here */
+//	IFS0bits.T3IF = 0; //Clear Timer3 interrupt flag
+//}
