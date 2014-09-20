@@ -33,7 +33,6 @@
  *
  */
 
-
 #include <xc.h>
 #include <math.h>
 #include <stdlib.h>
@@ -43,14 +42,14 @@
 #include "PMSM.h"
 #include "PMSMBoard.h"
 #include "DMA_Transfer.h"
-#include "TrigData.h"
 #include "cordic.h"
 #include <qei32.h>
 #include <uart.h>
+#include "../../../../../Code/SSB_Code/Motor_Driver/motor_can.h"
 
 #ifdef SINE
-
-#include "../../../../../Code/SSB_Code/Motor_Driver/motor_can.h"
+#ifndef CHARACTERIZE
+#include "TrigData.h"
 
 #warning The motor driver code is in alpha.
 
@@ -184,7 +183,7 @@ uint8_t PMSM_Init(MotorInfo *information)
 	rotorOffset = (rotorOffset + rotorOffset2) / 2;
 
 	size = sprintf((char *) out, "Rotor Offset: %li\r\n", rotorOffset);
-	putsUART2((const char *) out);
+	DMA0_UART2_Transfer(size, (uint8_t *) out);
 
 	return(0);
 }
@@ -238,8 +237,8 @@ void PMSM_Update(void)
 	theta = indexCount;
 
 
-//	size = sprintf((char *) out, "%i\r\n", theta);
-//	DMA0_UART2_Transfer(size, out);
+	//	size = sprintf((char *) out, "%i\r\n", theta);
+	//	DMA0_UART2_Transfer(size, out);
 
 	position = ((float)(Target_position))/100.0;
 	if((position <= 1.0)){
@@ -340,4 +339,5 @@ void __attribute__((__interrupt__, no_auto_psv)) _QEI1Interrupt(void)
 
 	IFS3bits.QEI1IF = 0; /* Clear QEI interrupt flag */
 }
+
 #endif

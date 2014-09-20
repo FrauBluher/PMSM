@@ -104,6 +104,13 @@ extern "C" {
         uint8_t data_length;
     } mID;
 
+        typedef struct {
+        uint8_t                 init_return;
+        char                    is_master;
+        int volatile            state;
+        volatile uint8_t           timer_flag;
+    } can_data;
+
 
 #ifdef __cplusplus  // Provide C++ Compatibility
 }

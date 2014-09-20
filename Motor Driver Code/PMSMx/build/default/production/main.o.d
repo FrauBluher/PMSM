@@ -5,4 +5,4 @@ CircularBuffer.h  \
  DMA_Transfer.h  \
 DRV8301.h  \
 PMSM.h  \
-BasicMotorControl.h 
+PMSM_Characterize.h 

@@ -9,7 +9,13 @@
 #ifndef CHARACTERIZE
 #include "BasicMotorControl.h"
 #else
+
+#ifndef SINE
 #include "PRBSCharacterization.h"
+#else
+#include "PMSM_Characterize.h"
+#endif
+
 #endif
 
 #include "DMA_Transfer.h"
@@ -85,7 +91,7 @@ void InitBoard(ADCBuffer *ADBuff, CircularBuffer *cB, CircularBuffer *spi_cB, vo
 #endif
 		EventCheckInit(eventCallback);
 		TimersInit();
-		putsUART2((unsigned int *) "Initialization Complete.\r\n");
+		//putsUART2((unsigned int *) "Initialization Complete.\r\n");
 
 
 		//		if (!(initInfo.ClockInited & initInfo.EventCheckInited
@@ -124,6 +130,8 @@ void MotorInit()
 
 	if (1) { //!(initInfo.UARTInited & 0x01)) {!(initInfo.MotorInited & 0x02)) {
 #ifdef SINE
+	//TODO: DETERMINE A GOOD SWITCHING FREQUENCY...  DOES A LOW FREQUENCY REALLY JUST KILL THE MOTOR?
+
 		/* Set PWM Periods on PHASEx Registers */
 		PHASE1 = 400;
 		PHASE2 = 400;
@@ -150,7 +158,7 @@ void MotorInit()
 		//ADC trigger stuff.
 		TRGCON1bits.TRGDIV = 0;
 		TRGCON1bits.TRGSTRT = 0b111111;
-		TRIG1 = PHASE1 / 2;
+		TRIG1 = PHASE1 - 1;
 
 
 		/* Enable PWM Module */
@@ -367,8 +375,8 @@ void QEIInit(void)
 		QEI_HOM_POL_NON_INVERTED &
 		QEI_QEA_QEB_NOT_SWAPPED &
 		QEI_COMPARE_HIGH_OUTPUT_DISABLE &
-		QEI_DIF_FLTR_PRESCALE_8 &
-		QEI_DIG_FLTR_ENABLE &
+		QEI_DIF_FLTR_PRESCALE_1 &
+		QEI_DIG_FLTR_DISABLE &
 		QEI_POS_COUNT_TRIG_DISABLE,
 
 		QEI_INDEX_INTERRUPT_ENABLE &
@@ -459,7 +467,7 @@ void ADCInit(void)
 
 	AD1CON1bits.ADDMABM = 0; // DMA buffers are built in scatter/gather mode
 	AD1CON2bits.SMPI = 1; // 2 ADC buffers
-	AD1CON4bits.DMABL = 0b110; // Allocate 64 words of buffer to each analog input
+	AD1CON4bits.DMABL = 0; // Allocate one word of buffer per input.
 	IFS0bits.AD1IF = 0; // Clear Analog-to-Digital Interrupt Flag bit
 	IEC0bits.AD1IE = 0; // Do Not Enable Analog-to-Digital interrupt
 	AD1CON1bits.ADON = 1; // Turn on the ADC

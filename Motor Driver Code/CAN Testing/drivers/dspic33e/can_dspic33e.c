@@ -108,9 +108,9 @@ OUTPUT	1 if successful
 	C1CFG2bits.SAM = 1; // Triple-sample for majority rules at bit sample point
 	C1FCTRLbits.DMABS = 0b000; /* 4 CAN Message Buffers in DMA RAM */
 
-//	/* Enter Normal Mode */
-//	C1CTRL1bits.REQOP = 0;
-//	while (C1CTRL1bits.OPMODE != 0);
+	//	/* Enter Normal Mode */
+	//	C1CTRL1bits.REQOP = 0;
+	//	while (C1CTRL1bits.OPMODE != 0);
 
 	// Clear all interrupt bits
 	C1RXFUL1 = C1RXFUL2 = C1RXOVF1 = C1RXOVF2 = 0x0000;
@@ -119,42 +119,25 @@ OUTPUT	1 if successful
 	C1TR01CONbits.TX0PRI = 0b11; /* Message Buffer 0 Priority Level */
 	C1TR01CONbits.TX1PRI = 0b11; /* Message Buffer 1 Priority Level */
 
-//	CONFIG DMA
-//	TX
-	DMA1CONbits.SIZE = 0; //word transfer mode
-	DMA1CONbits.DIR = 0x1; //RAM to peripheral
-	DMA1CONbits.AMODE = 0x2; //peripheral indirect addressing mode
-	DMA1CONbits.MODE = 0x0; //continuous, no ping-pong
-	DMA1REQ = 70; // CAN1 TX
-	DMA1CNT = 7; // 8 words per transfer
-	DMA1PAD = (volatile unsigned int) &C1TXD;
-	DMA1STAL = (unsigned int) ecan1TXMsgBuf;
-	DMA1STAH = 0x0;
-
-//	RX
-	DMA0CONbits.SIZE = 0;
-	DMA0CONbits.DIR = 0; //Read to RAM from peripheral
-	DMA0CONbits.AMODE = 2; // Continuous mode, single buffer
-	DMA0CONbits.MODE = 0; // Peripheral Indirect Addressing
-	DMA0REQ = 34; // CAN1 RX
-	DMA0CNT = 7; // 8 words per transfer
-	DMA0PAD = (volatile unsigned int) &C1RXD;
-	DMA0STAL = (unsigned int) ecan1RXMsgBuf;
-	DMA0STAH = 0x0;
+	// Place ECAN1 into normal mode
+	desired_mode = 0b000;
+	C1CTRL1bits.REQOP = desired_mode;
+	while (C1CTRL1bits.OPMODE != desired_mode);
 
 
-//	 Enable DMA
+	//	CONFIG DMA
+
+
+
+
+
+	//	 Enable DMA
 	IFS0bits.DMA0IF = 0;
 	IFS0bits.DMA1IF = 0;
 	DMA0CONbits.CHEN = 1;
 	DMA1CONbits.CHEN = 1;
 	IEC0bits.DMA0IE = 0; // Disable DMA Channel 0 interrupt (everything is handled in the CAN interrupt)
 	IEC0bits.DMA1IE = 0;
-
-	// Place ECAN1 into normal mode
-	desired_mode = 0b000;
-	C1CTRL1bits.REQOP = desired_mode;
-	while (C1CTRL1bits.OPMODE != desired_mode);
 
 	if (CB_Init(&can_rx_circ_buff, can_rx_buffer_array, CAN_RX_BUFF_SIZE) != SUCCESS) {
 		return 0;
@@ -397,6 +380,7 @@ void __attribute__((interrupt, no_auto_psv)) _C1Interrupt(void)
 	}
 
 	if (C1INTFbits.RBIF) {
+		LED4 = 1;
 		// read the message
 		if (C1RXFUL1bits.RXFUL1 == 1) {
 			rx_ecan1message.buffer = 1;
@@ -404,108 +388,108 @@ void __attribute__((interrupt, no_auto_psv)) _C1Interrupt(void)
 		}
 
 
-		RxECAN1(&rx_ecan1message); // We replace this with our own RX function.
+		//RxECAN1(&rx_ecan1message); // We replace this with our own RX function.
 		// in this example RxECAN1 is found in main.c.
 		C1INTFbits.RBIF = 0;
 	}
-	LED4 = 1;
 
-//
-//
-//	// while(1);
-//	// Give us a CAN message struct to populate and use
-//	Message m;
-//	uint8_t ide = 0;
-//	uint8_t srr = 0;
-//	uint32_t id = 0;
-//	uint8_t index_byte;
-//	uint16_t buffer;
-//	uint16_t *ecan_msg_buf_ptr;
-//	static uint8_t packet_idx;
-//	unsigned i;
-//
-//	if (C1INTFbits.TBIF) {
-//		C1INTFbits.TBIF = 0; //message was transmitted, nothing to do, I guess
-//	}
-//	// If the interrupt was fired because of a received message
-//	// package it all up and store in the queue.
-//	if (C1INTFbits.RBIF) {
-//		//LATDbits.LATD8 = !LATDbits.LATD8;
-//		//find current message in buffer, we overwrite old messages in case the buffer overflows
-//		//(thus we can handle emergencies etc.)
-//		//        m = &rxbuffer[rxbuffer_stop++];
-//		//        if(rxbuffer_stop>CAN_RX_BUF_SIZE){
-//		//            rxbuffer_stop = 0;
-//		//        }
-//		m.cob_id = 0xFFFF;
-//		m.rtr = 1;
-//		m.len = 255;
-//
-//		// Obtain the buffer the message was stored into, checking that the value is valid to refer to a buffer
-//		if (C1VECbits.ICODE < 4) {
-//			buffer = C1VECbits.ICODE;
-//		}
-//
-//		ecan_msg_buf_ptr = ecan1RXMsgBuf[buffer];
-//
-//		// Clear the buffer full status bit so more messages can be received.
-//		if (C1RXFUL1 & (1 << buffer)) {
-//			C1RXFUL1 &= ~(1 << buffer);
-//		}
-//
-//		//  Move the message from the DMA buffer to a data structure and then push it into our circular buffer.
-//
-//		// Read the first word to see the message type
-//		ide = ecan_msg_buf_ptr[0] & 0x0001;
-//		srr = ecan_msg_buf_ptr[0] & 0x0002;
-//
-//		/* Format the message properly according to whether it
-//		 * uses an extended identifier or not.
-//		 */
-//		if (ide == 0) {
-//			m.cob_id = (uint32_t) ((ecan_msg_buf_ptr[0] & 0x1FFC) >> 2);
-//		} else {
-//			//ehm, error. only std messages supported for now
-//		}
-//
-//		/* If message is a remote transmit request, mark it as such.
-//		 * Otherwise it will be a regular transmission so fill its
-//		 * payload with the relevant data.
-//		 */
-//		if (srr == 1) {
-//			m.rtr = 1; //TODO: do we need to copy the payload??? I don't think so?
-//		} else {
-//			m.rtr = 0;
-//
-//			m.len = (uint8_t) (ecan_msg_buf_ptr[2] & 0x000F);
-//			m.data[0] = (uint8_t) (ecan_msg_buf_ptr[3]&0xFF);
-//			m.data[1] = (uint8_t) ((ecan_msg_buf_ptr[3] & 0xFF00) >> 8);
-//			//LED3 != LED3;//message.payload[1];
-//			//LED2 =  message.payload[0];
-//			m.data[2] = (uint8_t) (ecan_msg_buf_ptr[4]&0xFF);
-//			m.data[3] = (uint8_t) ((ecan_msg_buf_ptr[4] & 0xFF00) >> 8);
-//			m.data[4] = (uint8_t) (ecan_msg_buf_ptr[5]&0xFF);
-//			m.data[5] = (uint8_t) ((ecan_msg_buf_ptr[5] & 0xFF00) >> 8);
-//			m.data[6] = (uint8_t) (ecan_msg_buf_ptr[6]&0xFF);
-//			m.data[7] = (uint8_t) ((ecan_msg_buf_ptr[6] & 0xFF00) >> 8);
-//
-//
-//		}
-//
-//		//copy message to circular buffer
-//		CB_WriteMany(&can_rx_circ_buff, &m, sizeof(Message), 1);
-//
-//		// Be sure to clear the interrupt flag.
-//		C1RXFUL1 = 0;
-//		C1INTFbits.RBIF = 0;
-//	}
-//
-//	// Clear the general ECAN1 interrupt flag.
-//	IFS0bits.DMA0IF = 0;
-//	IFS0bits.DMA1IF = 0;
-//	CAN1ClearRXFUL1();
-//	CAN1ClearRXFUL2();
-//	CAN1ClearRXOVF1();
-//	CAN1ClearRXOVF2();
-//	IFS2bits.C1IF = 0;
+
+
+	//
+	//	// while(1);
+	//	// Give us a CAN message struct to populate and use
+	//	Message m;
+	//	uint8_t ide = 0;
+	//	uint8_t srr = 0;
+	//	uint32_t id = 0;
+	//	uint8_t index_byte;
+	//	uint16_t buffer;
+	//	uint16_t *ecan_msg_buf_ptr;
+	//	static uint8_t packet_idx;
+	//	unsigned i;
+	//
+	//	if (C1INTFbits.TBIF) {
+	//		C1INTFbits.TBIF = 0; //message was transmitted, nothing to do, I guess
+	//	}
+	//	// If the interrupt was fired because of a received message
+	//	// package it all up and store in the queue.
+	//	if (C1INTFbits.RBIF) {
+	//		//LATDbits.LATD8 = !LATDbits.LATD8;
+	//		//find current message in buffer, we overwrite old messages in case the buffer overflows
+	//		//(thus we can handle emergencies etc.)
+	//		//        m = &rxbuffer[rxbuffer_stop++];
+	//		//        if(rxbuffer_stop>CAN_RX_BUF_SIZE){
+	//		//            rxbuffer_stop = 0;
+	//		//        }
+	//		m.cob_id = 0xFFFF;
+	//		m.rtr = 1;
+	//		m.len = 255;
+	//
+	//		// Obtain the buffer the message was stored into, checking that the value is valid to refer to a buffer
+	//		if (C1VECbits.ICODE < 4) {
+	//			buffer = C1VECbits.ICODE;
+	//		}
+	//
+	//		ecan_msg_buf_ptr = ecan1RXMsgBuf[buffer];
+	//
+	//		// Clear the buffer full status bit so more messages can be received.
+	//		if (C1RXFUL1 & (1 << buffer)) {
+	//			C1RXFUL1 &= ~(1 << buffer);
+	//		}
+	//
+	//		//  Move the message from the DMA buffer to a data structure and then push it into our circular buffer.
+	//
+	//		// Read the first word to see the message type
+	//		ide = ecan_msg_buf_ptr[0] & 0x0001;
+	//		srr = ecan_msg_buf_ptr[0] & 0x0002;
+	//
+	//		/* Format the message properly according to whether it
+	//		 * uses an extended identifier or not.
+	//		 */
+	//		if (ide == 0) {
+	//			m.cob_id = (uint32_t) ((ecan_msg_buf_ptr[0] & 0x1FFC) >> 2);
+	//		} else {
+	//			//ehm, error. only std messages supported for now
+	//		}
+	//
+	//		/* If message is a remote transmit request, mark it as such.
+	//		 * Otherwise it will be a regular transmission so fill its
+	//		 * payload with the relevant data.
+	//		 */
+	//		if (srr == 1) {
+	//			m.rtr = 1; //TODO: do we need to copy the payload??? I don't think so?
+	//		} else {
+	//			m.rtr = 0;
+	//
+	//			m.len = (uint8_t) (ecan_msg_buf_ptr[2] & 0x000F);
+	//			m.data[0] = (uint8_t) (ecan_msg_buf_ptr[3]&0xFF);
+	//			m.data[1] = (uint8_t) ((ecan_msg_buf_ptr[3] & 0xFF00) >> 8);
+	//			//LED3 != LED3;//message.payload[1];
+	//			//LED2 =  message.payload[0];
+	//			m.data[2] = (uint8_t) (ecan_msg_buf_ptr[4]&0xFF);
+	//			m.data[3] = (uint8_t) ((ecan_msg_buf_ptr[4] & 0xFF00) >> 8);
+	//			m.data[4] = (uint8_t) (ecan_msg_buf_ptr[5]&0xFF);
+	//			m.data[5] = (uint8_t) ((ecan_msg_buf_ptr[5] & 0xFF00) >> 8);
+	//			m.data[6] = (uint8_t) (ecan_msg_buf_ptr[6]&0xFF);
+	//			m.data[7] = (uint8_t) ((ecan_msg_buf_ptr[6] & 0xFF00) >> 8);
+	//
+	//
+	//		}
+	//
+	//		//copy message to circular buffer
+	//		CB_WriteMany(&can_rx_circ_buff, &m, sizeof(Message), 1);
+	//
+	//		// Be sure to clear the interrupt flag.
+	//		C1RXFUL1 = 0;
+	//		C1INTFbits.RBIF = 0;
+	//	}
+	//
+	//	// Clear the general ECAN1 interrupt flag.
+	//	IFS0bits.DMA0IF = 0;
+	//	IFS0bits.DMA1IF = 0;
+	//	CAN1ClearRXFUL1();
+	//	CAN1ClearRXFUL2();
+	//	CAN1ClearRXOVF1();
+	//	CAN1ClearRXOVF2();
+	//	IFS2bits.C1IF = 0;
 }

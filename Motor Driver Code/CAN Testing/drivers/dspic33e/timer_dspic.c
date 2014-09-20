@@ -26,7 +26,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 // Includes for the Canfestival driver
 #include "../../include/dspic33e/applicfg.h"
 #include "../../include/timer.h"
-//#include "../../../../../Sensor_Board/sensor_state.h"
+#include "../../src/common.h"
 #include <p33Exxxx.h>
 
 //NOTE TO JONATHAN: I'm using TIMER2/3 in 32 bit mode
@@ -34,7 +34,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 /************************** Modul variables **********************************/
 // Store the last timer value to calculate the elapsed time
 static volatile TIMEVAL last_time_set = 0;
-//extern can_data can_state;
+extern can_data can_state;
 
 void initTimer(void)
 /******************************************************************************
@@ -63,7 +63,7 @@ OUTPUT	void
     IEC0bits.T3IE = 0; 		// Disable Timer3 interrupt for now
 //    last_time_set = 0;
     T2CONbits.TON = 0; 		// Don't start Timer
-//    can_state.timer_flag = 0;
+    can_state.timer_flag = 0;
 }
 
 void setTimer(TIMEVAL value)
@@ -135,7 +135,7 @@ void __attribute__((__interrupt__, no_auto_psv)) _T3Interrupt(void)
 //        Nop();Nop();Nop();Nop();Nop();Nop();Nop();
 //    }
 
-//    can_state.timer_flag = 1;
+    can_state.timer_flag = 1;
     //dispatch!
     //TimeDispatch();   // Call the time handler of the stack to adapt the elapsed time
     //TODO: is there a way to do this in the main loop (might not be fast enough?)

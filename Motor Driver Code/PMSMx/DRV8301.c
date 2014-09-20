@@ -62,7 +62,7 @@ uint8_t DRV8301_Init(DRV8301_Info *drv8301Info)
 
 	drv8301Info->controlRegister2.DC_CAL_CH1 = DC_CAL_CH1_OFF;
 	drv8301Info->controlRegister2.DC_CAL_CH2 = DC_CAL_CH2_OFF;
-	drv8301Info->controlRegister2.GAIN = GAIN_80V;
+	drv8301Info->controlRegister2.GAIN = GAIN_20V;
 	drv8301Info->controlRegister2.OC_TOFF = OC_TOFF_CBC;
 	drv8301Info->controlRegister2.OCTW_SET = OCTW_SET_OCTW;
 

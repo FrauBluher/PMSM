@@ -30,8 +30,14 @@
 #include "BasicMotorControl.h"
 #endif
 #else
+
+#ifndef SINE
 #include "PRBSCharacterization.h"
+#else
+#include "PMSM_Characterize.h"
 #endif
+#endif
+
 #ifdef LQG_NOISE
 #include "LQG_NoiseCharacterization.h"
 #endif
@@ -63,6 +69,7 @@ enum {
 };
 
 void EventChecker(void);
+uint16_t ADC_LPF(void);
 
 int main(void)
 {
@@ -89,22 +96,30 @@ int main(void)
 	while (1) {
 		if (events & EVENT_UPDATE_SPEED) {
 #ifndef CHARACTERIZE
+
 #ifndef LQG_NOISE
+
 #ifndef SINE
 			SpeedControlStep(200);
 #endif
+
 #endif
+
 #else
 			CharacterizeStep();
 #endif
+
 #ifdef LQG_NOISE
 			NoiseInputStep();
 #endif
+
+#ifndef CHARACTERIZE
 #ifdef SINE
 			SetAirGapFluxLinkage(0);
 			SetTorque(.1);
 			PMSM_Update();
 			LED4 ^= 1;
+#endif
 #endif
 			events &= ~EVENT_UPDATE_SPEED;
 		}
@@ -122,10 +137,10 @@ int main(void)
 			static uint16_t message[32];
 			//			uint16_t size;
 			//			uint8_t out[56];
-			message[0] = 0;
-			message[1] = 0;
-			message[2] = 0;
-			message[3] = 0;
+			//			message[0] = 0;
+			//			message[1] = 0;
+			//			message[2] = 0;
+			//			message[3] = 0;
 			//			CB_ReadMany(&spiBuffer, message, spiBuffer.dataSize);
 			//			size = sprintf((char *) out, "0x%X, 0x%X, 0x%X, 0x%X\r\n", message[0], message[1], message[2], message[3]);
 			//			DMA0_UART2_Transfer(size, out);
@@ -137,14 +152,11 @@ int main(void)
 		}
 
 		if (events & EVENT_ADC_DATA) {
-			size = sprintf((char *) out, "%i, %i\r\n",
-				ADCBuff.Adc1Data[0], ADCBuff.Adc1Data[1], ADCBuff.Adc1Data[2]
-				);
-			DMA0_UART2_Transfer(size, out);
+//			size = sprintf((char *) out, "%i, %i\r\n", ADCBuff.Adc1Data[0], ADCBuff.Adc1Data[1]);
+//			DMA0_UART2_Transfer(size, out);
 			events &= ~EVENT_ADC_DATA;
 		}
 	}
-
 }
 
 void EventChecker(void)
@@ -214,10 +226,28 @@ void EventChecker(void)
 		events |= EVENT_SPI_RX;
 	}
 
+#endif
+
+#ifdef SINE
 	if (ADCBuff.newData) {
-		ADCBuff.newData = 0;
-		events |= EVENT_ADC_DATA;
+//		ADCBuff.newData = 0;
+//		events |= EVENT_ADC_DATA;
 	}
 #endif
 	events |= EVENT_UPDATE_SPEED;
+}
+
+uint16_t ADC_LPF(void)
+{
+	static float rk1 = 0;
+	static float rk2 = 0;
+	int i;
+
+	//LPF
+	for (i = 0; i < 10; i++) {
+		rk1 = .1 * (float) ADCBuff.Adc1Data[i] + .9 * rk2;
+		rk2 = rk1;
+	}
+
+	return((uint16_t) rk1);
 }
