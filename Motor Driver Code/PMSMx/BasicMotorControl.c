@@ -46,6 +46,8 @@
 #include <math.h>
 #include <qei32.h>
 
+#ifndef CHARACTERIZE
+#ifndef LQG_NOISE
 #ifndef SINE
 float Counts2RadSec(int16_t speed);
 
@@ -107,11 +109,16 @@ void SpeedControlStep(float speed)
 
 	u = -1 * ((K[0][0] * x_hat[0][0]) + (K[0][1] * x_hat[1][0]) + (K[0][2] * x_hat[2][0]));
 
+	//What's the proper case to handle u = 0?!
 	if (u < 0) {
 		TrapUpdate((uint16_t) (-1 * u * 1750), CCW);
 	} else if (u >= 0) {
 		TrapUpdate((uint16_t) (u * 1750), CW);
 	}
+	size = sprintf((char *) out, "%i,%u\r\n", indexCount, (uint16_t) (x_hat[2][0] * 10000));
+        DMA0_UART2_Transfer(size, out);
+
+        LED4 ^= 1;
 }
 
 float Counts2RadSec(int16_t speed)
@@ -284,4 +291,6 @@ void __attribute__((__interrupt__, no_auto_psv)) _QEI1Interrupt(void)
 	//POS1CNTH = 0;
 	IFS3bits.QEI1IF = 0; /* Clear QEI interrupt flag */
 }
+#endif
+#endif
 #endif

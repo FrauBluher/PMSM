@@ -47,7 +47,6 @@
 #include <uart.h>
 #include "../../../../../Code/SSB_Code/Motor_Driver/motor_can.h"
 
-#ifdef SINE
 #ifndef CHARACTERIZE
 #include "TrigData.h"
 

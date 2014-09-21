@@ -83,12 +83,11 @@ void InitBoard(ADCBuffer *ADBuff, CircularBuffer *cB, CircularBuffer *spi_cB, vo
 		DRV8301_Init(&motorDriverInfo);
 #ifndef SINE
 		CNInit();
-#else
-		PMSM_Init(&motorInformation);
 #endif
 #ifdef QEI
 		QEIInit();
 #endif
+		PMSM_Init(&motorInformation);
 		EventCheckInit(eventCallback);
 		TimersInit();
 		//putsUART2((unsigned int *) "Initialization Complete.\r\n");
