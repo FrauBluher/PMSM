@@ -357,6 +357,9 @@ InvParkOut InversePark(float Vq, float Vd, int16_t position1)
 	cosine = TRIG_DATA[cos_position];
 	sine = TRIG_DATA[position];
 
+	//float cosine = 0;
+	//float sine = 0;
+
 	returnVal.Va = Vd * cosine - Vq * sine;
 	returnVal.Vb = Vd * sine + Vq * cosine;
 	return(returnVal);

@@ -28,7 +28,15 @@
  * @date	March 21st, 2014
  * @brief 	This library provides implementation of control methods for the DRV8301.
  *
- * This library provides implementation of basic trapezoidal control for a BLDC motor.
+ * This library provides implementation of a 3rd order LQG controller for a PMSM motor with
+ * block commutation provided by hall effect sensors and a Change Notification interrupt system.
+ * This LQG controller has the estimator and all other values exposed for experimentation.
+ *
+ * As of Sept. 2014 this method is included only as a method of integrating BLDC motors easily 
+ * with the PMSMx module.  For use with the SUPER-Ball Bot and the geared Maxon Motors, please
+ * use PMSM.c for motor control with the #SINE definition.
+ * 
+ * Note: To use this method of motor control CN must be set up.
  *
  */
 
@@ -50,8 +58,21 @@
 #ifndef CHARACTERIZE
 #ifndef LQG_NOISE
 #ifndef SINE
+
+/**
+ * @brief Converts control input into hall scaling.
+ * @param speed radians per second to convert.
+ * 
+ * Takes a control input and scales it into hall counts.
+ */
 float Counts2RadSec(int16_t speed);
 
+
+/**
+ * @brief Linear Quadradic State Estimation
+ *
+ * All the state esimates in the Gaussian Estimator are visible here.
+ */
 static float u = 0;
 static float Ts = .0003333;
 
@@ -83,10 +104,22 @@ static float K[1][3] = {
 	{-0.4137, -0.6805, 0.744}
 };
 
+/**
+ * @brief Called by CN Interrupt to update commutation.
+ */
 void TrapUpdate(uint16_t torque, uint16_t direction);
+
 
 /**                          Public Functions                                **/
 
+
+/**
+ * @brief Call this to update the controller at a rate of 3kHz.
+ * @param speed Speed to set controller to follow.
+ * 
+ * It is required that the LQG controller which was characterized at a sample rate of n Hz is
+ * run every n Hz with this function call.
+ */
 void SpeedControlStep(float speed)
 {
 	uint16_t size = 0;
@@ -110,12 +143,10 @@ void SpeedControlStep(float speed)
 
 	u = -1 * ((K[0][0] * x_hat[0][0]) + (K[0][1] * x_hat[1][0]) + (K[0][2] * x_hat[2][0]));
 
-
-	//What's the proper case to handle u = 0?!
 	if (u < 0) {
-		TrapUpdate((uint16_t) (-1 * u * 1750), CCW);
+		TrapUpdate((uint16_t) (-1 * u * PTPER), CCW);
 	} else if (u >= 0) {
-		TrapUpdate((uint16_t) (u * 1750), CW);
+		TrapUpdate((uint16_t) (u * PTPER), CW);
 	}
 
 	size = sprintf((char *) out, "%i,%u\r\n", indexCount, (uint16_t) (x_hat[2][0] * 10000));
@@ -139,14 +170,14 @@ float Counts2RadSec(int16_t speed)
  *
  * TODO: Look into preempting this interrupt and turning off interrupts when adding
  * data to the circular buffers as they are non-reentrant.  Calling this function
- * will break those libraries.
+ * may break those libraries.
  * @param torque
  * @param direction
  */
 void TrapUpdate(uint16_t torque, uint16_t direction)
 {
-	if (torque > 1750) {
-		torque = 1750;
+	if (torque > PTPER) {
+		torque = PTPER;
 	}
 
 	if (direction == CW) {
@@ -280,18 +311,15 @@ void TrapUpdate(uint16_t torque, uint16_t direction)
 void __attribute__((__interrupt__, no_auto_psv)) _CNInterrupt(void)
 {
 	if (u < 0) {
-		TrapUpdate((uint16_t) (-1 * u * 1750), CCW);
+		TrapUpdate((uint16_t) (-1 * u * PTPER), CCW);
 	} else if (u >= 0) {
-		TrapUpdate((uint16_t) (u * 1750), CW);
+		TrapUpdate((uint16_t) (u * PTPER), CW);
 	}
 	IFS1bits.CNIF = 0; // Clear CN interrupt
 }
 
 void __attribute__((__interrupt__, no_auto_psv)) _QEI1Interrupt(void)
-
 {
-	//POS1CNTL = 0;
-	//POS1CNTH = 0;
 	IFS3bits.QEI1IF = 0; /* Clear QEI interrupt flag */
 }
 #endif

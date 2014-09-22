@@ -59,9 +59,6 @@ enum {
 /**
  * @brief Call this to update the controller at a rate of 3kHz.
  * @param speed Speed to set controller to follow.
- * 
- * It is required that the LQG controller which was characterized at a sample rate of n Hz is
- * run every n Hz with this function call.
  */
 void SpeedControlStep(float speed);
 #endif	/* BASICMOTORCONTROL_H */

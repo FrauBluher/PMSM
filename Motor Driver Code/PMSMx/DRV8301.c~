@@ -48,6 +48,12 @@ static DRV8301_Info *passedInfoStruct;
  */
 uint8_t DRV8301_Init(DRV8301_Info *drv8301Info)
 {
+	//Until the 8301 error reporting state machine is finished this is to remain
+	//commented out!
+	//	if (initGuardDRV8301 == 1) {
+	//		return(EXIT_FAILURE);
+	//	}
+
 	drv8301Info->controlRegister1.GATE_CURRENT = GATE_CURRENT_1_7A;
 	drv8301Info->controlRegister1.PWM_MODE = PWM_MODE_SIX_CHAN;
 	drv8301Info->controlRegister1.GATE_RESET = GATE_RESET_OFF;

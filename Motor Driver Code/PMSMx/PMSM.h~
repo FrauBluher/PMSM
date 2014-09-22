@@ -94,9 +94,12 @@ void PMSM_Update(void);
 
 /**
  * @brief Sets the commanded position of the motor.
- * @param pos The position of the rotor in radians.
+ * @param pos The position of the rotor in radians from 0 - 2pi / n-poles.
  * 
- * This method sets the angular position of the controller.
+ * This will set the position of the rotor to the commanded angle divided by the number
+ * of poles in the motor divided by three.  If the motor has six poles, it will take two
+ * commanded rotations from zero to 2*pi radians to complete one full rotation of the rotor.
+ * The passed value will be updated at 100Hz.
  */
 void SetPosition(float pos);
 
@@ -104,8 +107,10 @@ void SetPosition(float pos);
  * @brief Sets the commanded torque of the motor.
  * @param power Percentage of torque requested from 0 - 100%.
  * 
- * Scales the sinusoidal modulation index.  This method isn't used when LQG control is
- * enabled, but is included for future impedance controller integration.
+ * Scales the pulse-width-modulation duty cycles output from the PMSM algorithm
+ * by zero to 100% of generated.  Torque is continuous throughout the rotation of
+ * the motor.
+ * The passed value will be updated at 100Hz.
  */
 void SetTorque(uint8_t power);
 
@@ -121,6 +126,7 @@ void SetTorque(uint8_t power);
  * Suggested reading for air-gap flux linkage control:
  * http://ww1.microchip.com/downloads/en/AppNotes/01078B.pdf
  *
+ * The passed value will be updated at 100Hz.
  */
 void SetAirGapFluxLinkage(float id);
 

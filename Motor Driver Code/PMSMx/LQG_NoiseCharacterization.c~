@@ -28,7 +28,7 @@
  * @date	March 21st, 2014
  * @brief 	This library provides implementation of control methods for the DRV8301.
  *
- * This is now a completely deprecated file and shouldn't be used.  It will be removed soon.
+ * This library provides implementation of basic trapezoidal control for a BLDC motor.
  *
  */
 

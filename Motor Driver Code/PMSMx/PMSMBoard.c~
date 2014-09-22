@@ -164,7 +164,7 @@ void MotorInit()
 		PTCON = 0x8000;
 #else
 		/* Set PWM Period on Primary Time Base */
-		PTPER = 400;
+		PTPER = 1750;
 		/* Set Phase Shift */
 		PHASE1 = 0;
 		SPHASE1 = 0;
