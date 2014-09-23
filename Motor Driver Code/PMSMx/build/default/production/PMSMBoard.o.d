@@ -6,5 +6,5 @@ DMA_Transfer.h  \
 Uart2.h  \
 DRV8301.h  \
 PMSM.h  \
- PMSM_Characterize.h  \
+ BasicMotorControl.h  \
 SPIdsPIC.h 

@@ -45,17 +45,17 @@ OBJECTDIR=build/${CND_CONF}/${IMAGE_TYPE}
 DISTDIR=dist/${CND_CONF}/${IMAGE_TYPE}
 
 # Source Files Quoted if spaced
-SOURCEFILES_QUOTED_IF_SPACED=LQG_NoiseCharacterization.c PMSM_Characterize.c PRBSCharacterization.c main.c SPIdsPIC.c PMSM.c DRV8301.c PMSMBoard.c BasicMotorControl.c CircularBuffer.c DMA_Transfer.c PID_Library.c cordic.c
+SOURCEFILES_QUOTED_IF_SPACED=LQG_NoiseCharacterization.c PMSM_Characterize.c PRBSCharacterization.c main.c SPIdsPIC.c PMSM.c DRV8301.c PMSMBoard.c BasicMotorControl.c CircularBuffer.c DMA_Transfer.c cordic.c
 
 # Object Files Quoted if spaced
-OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/LQG_NoiseCharacterization.o ${OBJECTDIR}/PMSM_Characterize.o ${OBJECTDIR}/PRBSCharacterization.o ${OBJECTDIR}/main.o ${OBJECTDIR}/SPIdsPIC.o ${OBJECTDIR}/PMSM.o ${OBJECTDIR}/DRV8301.o ${OBJECTDIR}/PMSMBoard.o ${OBJECTDIR}/BasicMotorControl.o ${OBJECTDIR}/CircularBuffer.o ${OBJECTDIR}/DMA_Transfer.o ${OBJECTDIR}/PID_Library.o ${OBJECTDIR}/cordic.o
-POSSIBLE_DEPFILES=${OBJECTDIR}/LQG_NoiseCharacterization.o.d ${OBJECTDIR}/PMSM_Characterize.o.d ${OBJECTDIR}/PRBSCharacterization.o.d ${OBJECTDIR}/main.o.d ${OBJECTDIR}/SPIdsPIC.o.d ${OBJECTDIR}/PMSM.o.d ${OBJECTDIR}/DRV8301.o.d ${OBJECTDIR}/PMSMBoard.o.d ${OBJECTDIR}/BasicMotorControl.o.d ${OBJECTDIR}/CircularBuffer.o.d ${OBJECTDIR}/DMA_Transfer.o.d ${OBJECTDIR}/PID_Library.o.d ${OBJECTDIR}/cordic.o.d
+OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/LQG_NoiseCharacterization.o ${OBJECTDIR}/PMSM_Characterize.o ${OBJECTDIR}/PRBSCharacterization.o ${OBJECTDIR}/main.o ${OBJECTDIR}/SPIdsPIC.o ${OBJECTDIR}/PMSM.o ${OBJECTDIR}/DRV8301.o ${OBJECTDIR}/PMSMBoard.o ${OBJECTDIR}/BasicMotorControl.o ${OBJECTDIR}/CircularBuffer.o ${OBJECTDIR}/DMA_Transfer.o ${OBJECTDIR}/cordic.o
+POSSIBLE_DEPFILES=${OBJECTDIR}/LQG_NoiseCharacterization.o.d ${OBJECTDIR}/PMSM_Characterize.o.d ${OBJECTDIR}/PRBSCharacterization.o.d ${OBJECTDIR}/main.o.d ${OBJECTDIR}/SPIdsPIC.o.d ${OBJECTDIR}/PMSM.o.d ${OBJECTDIR}/DRV8301.o.d ${OBJECTDIR}/PMSMBoard.o.d ${OBJECTDIR}/BasicMotorControl.o.d ${OBJECTDIR}/CircularBuffer.o.d ${OBJECTDIR}/DMA_Transfer.o.d ${OBJECTDIR}/cordic.o.d
 
 # Object Files
-OBJECTFILES=${OBJECTDIR}/LQG_NoiseCharacterization.o ${OBJECTDIR}/PMSM_Characterize.o ${OBJECTDIR}/PRBSCharacterization.o ${OBJECTDIR}/main.o ${OBJECTDIR}/SPIdsPIC.o ${OBJECTDIR}/PMSM.o ${OBJECTDIR}/DRV8301.o ${OBJECTDIR}/PMSMBoard.o ${OBJECTDIR}/BasicMotorControl.o ${OBJECTDIR}/CircularBuffer.o ${OBJECTDIR}/DMA_Transfer.o ${OBJECTDIR}/PID_Library.o ${OBJECTDIR}/cordic.o
+OBJECTFILES=${OBJECTDIR}/LQG_NoiseCharacterization.o ${OBJECTDIR}/PMSM_Characterize.o ${OBJECTDIR}/PRBSCharacterization.o ${OBJECTDIR}/main.o ${OBJECTDIR}/SPIdsPIC.o ${OBJECTDIR}/PMSM.o ${OBJECTDIR}/DRV8301.o ${OBJECTDIR}/PMSMBoard.o ${OBJECTDIR}/BasicMotorControl.o ${OBJECTDIR}/CircularBuffer.o ${OBJECTDIR}/DMA_Transfer.o ${OBJECTDIR}/cordic.o
 
 # Source Files
-SOURCEFILES=LQG_NoiseCharacterization.c PMSM_Characterize.c PRBSCharacterization.c main.c SPIdsPIC.c PMSM.c DRV8301.c PMSMBoard.c BasicMotorControl.c CircularBuffer.c DMA_Transfer.c PID_Library.c cordic.c
+SOURCEFILES=LQG_NoiseCharacterization.c PMSM_Characterize.c PRBSCharacterization.c main.c SPIdsPIC.c PMSM.c DRV8301.c PMSMBoard.c BasicMotorControl.c CircularBuffer.c DMA_Transfer.c cordic.c
 
 
 CFLAGS=
@@ -159,13 +159,6 @@ ${OBJECTDIR}/DMA_Transfer.o: DMA_Transfer.c  nbproject/Makefile-${CND_CONF}.mk
 	${MP_CC} $(MP_EXTRA_CC_PRE)  DMA_Transfer.c  -o ${OBJECTDIR}/DMA_Transfer.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/DMA_Transfer.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1  -mno-eds-warn  -omf=elf -I"../../SystemID Matlab Support" -mlarge-code -mlarge-data -menable-large-arrays -O0 -msmart-io=1 -Wall -msfr-warn=off
 	@${FIXDEPS} "${OBJECTDIR}/DMA_Transfer.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
 	
-${OBJECTDIR}/PID_Library.o: PID_Library.c  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} ${OBJECTDIR} 
-	@${RM} ${OBJECTDIR}/PID_Library.o.d 
-	@${RM} ${OBJECTDIR}/PID_Library.o 
-	${MP_CC} $(MP_EXTRA_CC_PRE)  PID_Library.c  -o ${OBJECTDIR}/PID_Library.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/PID_Library.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1  -mno-eds-warn  -omf=elf -I"../../SystemID Matlab Support" -mlarge-code -mlarge-data -menable-large-arrays -O0 -msmart-io=1 -Wall -msfr-warn=off
-	@${FIXDEPS} "${OBJECTDIR}/PID_Library.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
-	
 ${OBJECTDIR}/cordic.o: cordic.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR} 
 	@${RM} ${OBJECTDIR}/cordic.o.d 
@@ -251,13 +244,6 @@ ${OBJECTDIR}/DMA_Transfer.o: DMA_Transfer.c  nbproject/Makefile-${CND_CONF}.mk
 	${MP_CC} $(MP_EXTRA_CC_PRE)  DMA_Transfer.c  -o ${OBJECTDIR}/DMA_Transfer.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/DMA_Transfer.o.d"      -mno-eds-warn  -g -omf=elf -I"../../SystemID Matlab Support" -mlarge-code -mlarge-data -menable-large-arrays -O0 -msmart-io=1 -Wall -msfr-warn=off
 	@${FIXDEPS} "${OBJECTDIR}/DMA_Transfer.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
 	
-${OBJECTDIR}/PID_Library.o: PID_Library.c  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} ${OBJECTDIR} 
-	@${RM} ${OBJECTDIR}/PID_Library.o.d 
-	@${RM} ${OBJECTDIR}/PID_Library.o 
-	${MP_CC} $(MP_EXTRA_CC_PRE)  PID_Library.c  -o ${OBJECTDIR}/PID_Library.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/PID_Library.o.d"      -mno-eds-warn  -g -omf=elf -I"../../SystemID Matlab Support" -mlarge-code -mlarge-data -menable-large-arrays -O0 -msmart-io=1 -Wall -msfr-warn=off
-	@${FIXDEPS} "${OBJECTDIR}/PID_Library.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
-	
 ${OBJECTDIR}/cordic.o: cordic.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR} 
 	@${RM} ${OBJECTDIR}/cordic.o.d 
@@ -284,7 +270,7 @@ endif
 ifeq ($(TYPE_IMAGE), DEBUG_RUN)
 dist/${CND_CONF}/${IMAGE_TYPE}/PMSMx.${IMAGE_TYPE}.${OUTPUT_SUFFIX}: ${OBJECTFILES}  nbproject/Makefile-${CND_CONF}.mk    
 	@${MKDIR} dist/${CND_CONF}/${IMAGE_TYPE} 
-	${MP_CC} $(MP_EXTRA_LD_PRE)  -o dist/${CND_CONF}/${IMAGE_TYPE}/PMSMx.${IMAGE_TYPE}.${OUTPUT_SUFFIX}  ${OBJECTFILES_QUOTED_IF_SPACED}      -mcpu=$(MP_PROCESSOR_OPTION)        -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1  -omf=elf -Wl,--local-stack,--defsym=__MPLAB_BUILD=1,--defsym=__ICD2RAM=1,--defsym=__MPLAB_DEBUG=1,--defsym=__DEBUG=1,--defsym=__MPLAB_DEBUGGER_PK3=1,$(MP_LINKER_FILE_OPTION),--heap=2096,--stack=16,--check-sections,--data-init,--pack-data,--handles,--isr,--no-gc-sections,--fill-upper=0,--stackguard=16,--no-force-link,--smart-io,-Map="${DISTDIR}/${PROJECTNAME}.${IMAGE_TYPE}.map",--report-mem$(MP_EXTRA_LD_POST) 
+	${MP_CC} $(MP_EXTRA_LD_PRE)  -o dist/${CND_CONF}/${IMAGE_TYPE}/PMSMx.${IMAGE_TYPE}.${OUTPUT_SUFFIX}  ${OBJECTFILES_QUOTED_IF_SPACED}      -mcpu=$(MP_PROCESSOR_OPTION)        -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1  -omf=elf  -mreserve=data@0x1000:0x101B -mreserve=data@0x101C:0x101D -mreserve=data@0x101E:0x101F -mreserve=data@0x1020:0x1021 -mreserve=data@0x1022:0x1023 -mreserve=data@0x1024:0x1027 -mreserve=data@0x1028:0x104F   -Wl,--local-stack,--defsym=__MPLAB_BUILD=1,--defsym=__MPLAB_DEBUG=1,--defsym=__DEBUG=1,--defsym=__MPLAB_DEBUGGER_PK3=1,$(MP_LINKER_FILE_OPTION),--heap=2096,--stack=16,--check-sections,--data-init,--pack-data,--handles,--isr,--no-gc-sections,--fill-upper=0,--stackguard=16,--no-force-link,--smart-io,-Map="${DISTDIR}/${PROJECTNAME}.${IMAGE_TYPE}.map",--report-mem$(MP_EXTRA_LD_POST) 
 	
 else
 dist/${CND_CONF}/${IMAGE_TYPE}/PMSMx.${IMAGE_TYPE}.${OUTPUT_SUFFIX}: ${OBJECTFILES}  nbproject/Makefile-${CND_CONF}.mk   

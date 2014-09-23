@@ -23,7 +23,7 @@
  * #define #SINE
  * #define #QEI
  */
-#define CHARACTERIZE
+//#define CHARACTERIZE
 #define QEI
 //#define LQG_NOISE
 #define SINE

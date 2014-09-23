@@ -10,9 +10,7 @@
       <itemPath>PMSMBoard.h</itemPath>
       <itemPath>BasicMotorControl.h</itemPath>
       <itemPath>CircularBuffer.h</itemPath>
-      <itemPath>MotorControl.h</itemPath>
       <itemPath>DMA_Transfer.h</itemPath>
-      <itemPath>PID_Library.h</itemPath>
       <itemPath>PRBSCharacterization.h</itemPath>
       <itemPath>../../SystemID Matlab Support/PRBSData.h</itemPath>
       <itemPath>LQG_NoiseCharacterization.h</itemPath>
@@ -41,7 +39,6 @@
       <itemPath>BasicMotorControl.c</itemPath>
       <itemPath>CircularBuffer.c</itemPath>
       <itemPath>DMA_Transfer.c</itemPath>
-      <itemPath>PID_Library.c</itemPath>
       <itemPath>cordic.c</itemPath>
       <itemPath>traps.c</itemPath>
     </logicalFolder>
@@ -65,7 +62,7 @@
         <targetPluginBoard></targetPluginBoard>
         <platformTool>PICkit3PlatformTool</platformTool>
         <languageToolchain>XC16</languageToolchain>
-        <languageToolchainVersion>1.20</languageToolchainVersion>
+        <languageToolchainVersion>1.22</languageToolchainVersion>
         <platform>2</platform>
       </toolsSet>
       <compileType>
@@ -329,6 +326,16 @@
         <property key="voltagevalue" value="3.375"/>
       </PICkit3PlatformTool>
       <item path="traps.c" ex="true" overriding="false">
+        <C30>
+        </C30>
+        <C30-AR>
+        </C30-AR>
+        <C30-AS>
+        </C30-AS>
+        <C30-LD>
+        </C30-LD>
+        <C30Global>
+        </C30Global>
       </item>
     </conf>
   </confs>

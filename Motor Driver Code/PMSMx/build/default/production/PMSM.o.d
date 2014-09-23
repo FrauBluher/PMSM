@@ -4,4 +4,5 @@ PMSM.h  \
 PMSMBoard.h  \
  CircularBuffer.h  \
 DMA_Transfer.h  \
-cordic.h 
+cordic.h  \
+TrigData.h 

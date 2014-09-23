@@ -54,11 +54,10 @@
 #ifndef CHARACTERIZE
 #include "TrigData.h"
 
-#warning The motor driver code is in alpha.
-
 #define SQRT_3 1.732050807568877
 #define SQRT_3_2 0.86602540378
-#define PWM 4000 //This should be centralized somewhere...
+#define TRANS QEI1STATbits.IDXIRQ
+
 
 typedef struct {
 	float Vr1;
@@ -106,12 +105,8 @@ static float b4 = 0;
 static float b5 = 0;
 
 static uint8_t flag = 0;
-static uint8_t seeded = 0;
 static int32_t rotorOffset2;
 static int32_t rotorOffset;
-
-static uint32_t counter = 0;
-static uint8_t counter2 = 0;
 
 static int32_t indexCount = 0;
 static int32_t lastIndexCount = 0;
@@ -270,7 +265,7 @@ void PMSM_Update(void)
 	y2 = y1;
 	y1 = y;
 
-	y = pos - ((float) (int32_t) runningPositionCount * 0.0030679616); //Scaling it back into radians.
+	y = theta - ((float) (int32_t) runningPositionCount * 0.0030679616); //Scaling it back into radians.
 	u = b1 * y + b2 * y1 + b3 * y2 + b4 * y3 - a1 * u - a2 * u1 - a3 * u2 - a4 * u3;
 
 

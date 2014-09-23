@@ -123,7 +123,7 @@ int main(void)
 		}
 
 		if (events & EVENT_SPI_RX) {
-			static uint16_t message[32];
+			//static uint16_t message[32];
 			//			uint16_t size;
 			//			uint8_t out[56];
 			//			message[0] = 0;
