@@ -72,23 +72,17 @@ typedef struct {
 } MotorInfo;
 
 /**
- * @brief PMSM initialization call. Sets up hardware and timers.
+ * @brief PMSM initialization call.  Calibrates rotor offset.
  * @param *information a pointer to the MotorInfo struct that will be updated.
  * @return Returns 1 if successful, returns 0 otherwise.
  *
- * This needs to be called after all other hardware peripherals have been initialized.
- * It is up to you to set newData to zero, it is set to one every time a new position is commanded.
- * Setting newData to zero isn't required and newData itself is provided only for implementation purposes.
- * 
- * PMSM_Init uses Timer2 and sets up the processor.
+ * This must be called before PMSM_Update is called.
  */
 uint8_t PMSM_Init(MotorInfo *information);
 
 /**
- * @brief calculates PMSM vectors and updates the init'd MotorInfo struct with duty values.
+ * @brief Updates the motor commutation and position control.  Call at 3kHz.
  *
- * This should be called after one is done updating position, field weakening, and torque.
- * Call only once after all three are updated, not after setting each individual parameter.
  */
 void PMSM_Update(void);
 

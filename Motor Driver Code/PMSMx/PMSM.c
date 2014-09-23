@@ -188,7 +188,6 @@ uint8_t PMSM_Init(MotorInfo *information)
 
 /**
  * @brief Sets the commanded position of the motor.
- * @param pos The position of the rotor in radians from 0 - 2pi / n-poles.
  */
 void SetPosition(float pos)
 {
@@ -213,12 +212,6 @@ void SetAirGapFluxLinkage(float id)
 	Id = id;
 }
 
-/**
- * @brief calculates PMSM vectors and updates the init'd MotorInfo struct with duty values.
- *
- * This should be called after one is done updating position, field weakening, and torque.
- * Call only once after all three are updated, not after setting each individual parameter.
- */
 void PMSM_Update(void)
 {
 	indexCount = Read32bitQEI1PositionCounter();
