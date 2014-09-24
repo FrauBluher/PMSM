@@ -77,6 +77,8 @@ int main(void)
 	}
 	InitBoard(&ADCBuff, &uartBuffer, &spiBuffer, EventChecker);
 
+	SetPosition(-100);
+
 	LED1 = 1;
 	LED2 = 1;
 	LED3 = 1;
