@@ -79,7 +79,7 @@ typedef struct {
 	float Vb;
 } TimesOut;
 
-static int32_t theta;
+static float theta;
 static float Iq;
 static float Id;
 
@@ -125,6 +125,7 @@ TimesOut SVPWMTimeCalc(InvParkOut pP);
 uint8_t PMSM_Init(MotorInfo *information)
 {
 	static uint16_t size;
+	static uint32_t theta1;
 	static uint8_t out[56];
 
 	uint16_t i;
@@ -132,13 +133,13 @@ uint8_t PMSM_Init(MotorInfo *information)
 	qeiCounter w;
 	w.l = 0;
 
-	theta = 0;
+	theta1 = 0;
 	for (i = 0; i < 3096; i++) {
-		SpaceVectorModulation(SVPWMTimeCalc(InversePark(0.05, 0, theta)));
+		SpaceVectorModulation(SVPWMTimeCalc(InversePark(0.05, 0, theta1)));
 		for (j = 0; j < 400; j++) {
 			Nop();
 		}
-		theta -= 1;
+		theta1 -= 1;
 	}
 
 	SpaceVectorModulation(SVPWMTimeCalc(InversePark(0.1, 0, 0)));
@@ -157,14 +158,14 @@ uint8_t PMSM_Init(MotorInfo *information)
 	/**********************************************************************/
 	/**********************************************************************/
 
-	theta = 0;
+	theta1 = 0;
 
 	for (i = 0; i < 3096; i++) {
-		SpaceVectorModulation(SVPWMTimeCalc(InversePark(0.05, 0, theta)));
+		SpaceVectorModulation(SVPWMTimeCalc(InversePark(0.05, 0, theta1)));
 		for (j = 0; j < 400; j++) {
 			Nop();
 		}
-		theta += 1;
+		theta1 += 1;
 	}
 
 	SpaceVectorModulation(SVPWMTimeCalc(InversePark(0.1, 0, 0)));
