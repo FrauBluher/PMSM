@@ -129,7 +129,7 @@ void MotorInit()
 
 	if (1) { //!(initInfo.UARTInited & 0x01)) {!(initInfo.MotorInited & 0x02)) {
 #ifdef SINE
-	//TODO: DETERMINE A GOOD SWITCHING FREQUENCY...  DOES A LOW FREQUENCY REALLY JUST KILL THE MOTOR?
+		//TODO: DETERMINE A GOOD SWITCHING FREQUENCY...  DOES A LOW FREQUENCY REALLY JUST KILL THE MOTOR?
 
 		/* Set PWM Periods on PHASEx Registers */
 		PHASE1 = 400;
@@ -276,6 +276,12 @@ void PinInit(void)
 		IN_FN_PPS_QEI1 = IN_PIN_PPS_RP71; //QEI Index
 		IN_FN_PPS_QEB1 = IN_PIN_PPS_RP70; //QEI B
 		IN_FN_PPS_QEA1 = IN_PIN_PPS_RP69; //QEI A
+
+		/*Initialize the pins as input, just in case the board doesn't init CAN*/
+		TRISFbits.TRISF4 = 1;
+		TRISFbits.TRISF5 = 1;
+		IN_FN_PPS_C1RX = IN_PIN_PPS_RP100; //C1Rx
+		OUT_PIN_PPS_RP101 = OUT_FN_PPS_C1TX; //C1Tx
 
 		//Lock PPS Registers
 		__builtin_write_OSCCONL(OSCCON | (1 << 6));
