@@ -484,8 +484,8 @@ void __attribute__((__interrupt__, no_auto_psv)) _T7Interrupt(void)
 	IFS3bits.T7IF = 0; // Clear Timer1 Interrupt Flag
 }
 
-void __attribute__((__interrupt__, no_auto_psv)) _T3Interrupt(void)
-{
-	/* Interrupt Service Routine code goes here */
-	IFS0bits.T3IF = 0; //Clear Timer3 interrupt flag
-}
+//void __attribute__((__interrupt__, no_auto_psv)) _T3Interrupt(void)
+//{
+//	/* Interrupt Service Routine code goes here */
+//	IFS0bits.T3IF = 0; //Clear Timer3 interrupt flag
+//}
