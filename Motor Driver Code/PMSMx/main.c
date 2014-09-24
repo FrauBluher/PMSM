@@ -115,10 +115,10 @@ int main(void)
 
 #ifndef CHARACTERIZE
 #ifdef SINE
-			SetAirGapFluxLinkage(0);
-			SetTorque(.1);
-			PMSM_Update();
-			LED4 ^= 1;
+//			SetAirGapFluxLinkage(0);
+//			SetTorque(.1);
+//			PMSM_Update();
+//			LED4 ^= 1;
 #endif
 #endif
 			events &= ~EVENT_UPDATE_SPEED;

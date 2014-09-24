@@ -222,78 +222,78 @@ void SetAirGapFluxLinkage(float id)
  */
 void PMSM_Update(void)
 {
-	indexCount = Read32bitQEI1PositionCounter();
-
-	if (!flag) {
-		lastIndexCount = indexCount;
-		flag = 1;
-	}
-
-	//TODO: Fix QEI Drift...
-	// -- Run event loop faster.
-	// -- Faster outer loop for tracking index count.
-	if (lastIndexCount != indexCount) {
-		if (lastIndexCount > 0) {
-			if (indexCount > 0) {
-				if ((lastIndexCount > indexCount) && TRANS) {
-					runningPositionCount += (2048 - lastIndexCount) + indexCount;
-				} else if ((lastIndexCount > indexCount) && !TRANS) {
-					runningPositionCount -= lastIndexCount - indexCount;
-				} else if ((lastIndexCount < indexCount) && !TRANS) {
-					runningPositionCount += indexCount - lastIndexCount;
-				}
-			} else {
-				runningPositionCount += indexCount - lastIndexCount;
-			}
-		} else {
-			if (indexCount < 0) {
-				if ((lastIndexCount < indexCount) && TRANS) {
-					runningPositionCount += -(2048 + lastIndexCount) + indexCount;
-				} else if ((lastIndexCount < indexCount) && !TRANS) {
-					runningPositionCount += -(lastIndexCount - indexCount);
-				} else if ((lastIndexCount > indexCount) && !TRANS) {
-					runningPositionCount += indexCount - lastIndexCount;
-				}
-			} else {
-				runningPositionCount -= indexCount - lastIndexCount;
-			}
-		}
-	}
-	QEI1STATbits.IDXIRQ = 0;
-
-	lastIndexCount = indexCount;
-	y3 = y2;
-	y2 = y1;
-	y1 = y;
-
-	y = pos - ((float) (int32_t) runningPositionCount * 0.0030679616); //Scaling it back into radians.
-	u = b1 * y + b2 * y1 + b3 * y2 + b4 * y3 - a1 * u - a2 * u1 - a3 * u2 - a4 * u3;
-
-
-	//SATURATION HERE...  IF YOU REALLY NEED MORE JUICE...  UP THIS TO 1 and -1
-	if (u > .7) {
-		u = .7;
-	} else if (u < -.7) {
-		u = -.7;
-	}
-	
-	u3 = u2;
-	u2 = u1;
-	u1 = u;
-
-	if (u > 0) {
-		//Commutation phase offset
-		indexCount += 512 - rotorOffset; //Phase offset of 90 degrees.
-		dummy_u = u;
-	} else {
-		indexCount += -512 - rotorOffset; //Phase offset of 90 degrees.
-		dummy_u = -u;
-	}
-		
-	indexCount = (-indexCount + 2048) % 2048;
-
-		
-	SpaceVectorModulation(SVPWMTimeCalc(InversePark(dummy_u, 0, indexCount)));
+//	indexCount = Read32bitQEI1PositionCounter();
+//
+//	if (!flag) {
+//		lastIndexCount = indexCount;
+//		flag = 1;
+//	}
+//
+//	//TODO: Fix QEI Drift...
+//	// -- Run event loop faster.
+//	// -- Faster outer loop for tracking index count.
+//	if (lastIndexCount != indexCount) {
+//		if (lastIndexCount > 0) {
+//			if (indexCount > 0) {
+//				if ((lastIndexCount > indexCount) && TRANS) {
+//					runningPositionCount += (2048 - lastIndexCount) + indexCount;
+//				} else if ((lastIndexCount > indexCount) && !TRANS) {
+//					runningPositionCount -= lastIndexCount - indexCount;
+//				} else if ((lastIndexCount < indexCount) && !TRANS) {
+//					runningPositionCount += indexCount - lastIndexCount;
+//				}
+//			} else {
+//				runningPositionCount += indexCount - lastIndexCount;
+//			}
+//		} else {
+//			if (indexCount < 0) {
+//				if ((lastIndexCount < indexCount) && TRANS) {
+//					runningPositionCount += -(2048 + lastIndexCount) + indexCount;
+//				} else if ((lastIndexCount < indexCount) && !TRANS) {
+//					runningPositionCount += -(lastIndexCount - indexCount);
+//				} else if ((lastIndexCount > indexCount) && !TRANS) {
+//					runningPositionCount += indexCount - lastIndexCount;
+//				}
+//			} else {
+//				runningPositionCount -= indexCount - lastIndexCount;
+//			}
+//		}
+//	}
+//	QEI1STATbits.IDXIRQ = 0;
+//
+//	lastIndexCount = indexCount;
+//	y3 = y2;
+//	y2 = y1;
+//	y1 = y;
+//
+//	y = pos - ((float) (int32_t) runningPositionCount * 0.0030679616); //Scaling it back into radians.
+//	u = b1 * y + b2 * y1 + b3 * y2 + b4 * y3 - a1 * u - a2 * u1 - a3 * u2 - a4 * u3;
+//
+//
+//	//SATURATION HERE...  IF YOU REALLY NEED MORE JUICE...  UP THIS TO 1 and -1
+//	if (u > .7) {
+//		u = .7;
+//	} else if (u < -.7) {
+//		u = -.7;
+//	}
+//
+//	u3 = u2;
+//	u2 = u1;
+//	u1 = u;
+//
+//	if (u > 0) {
+//		//Commutation phase offset
+//		indexCount += 512 - rotorOffset; //Phase offset of 90 degrees.
+//		dummy_u = u;
+//	} else {
+//		indexCount += -512 - rotorOffset; //Phase offset of 90 degrees.
+//		dummy_u = -u;
+//	}
+//
+//	indexCount = (-indexCount + 2048) % 2048;
+//
+//
+//	SpaceVectorModulation(SVPWMTimeCalc(InversePark(dummy_u, 0, indexCount)));
 }
 
 /****************************   Private Stuff   *******************************/
