@@ -54,6 +54,7 @@ ADCBuffer ADCBuff;
 
 uint16_t events = 0;
 uint16_t faultPrescalar = 0;
+uint16_t commutationPrescalar = 0;
 uint16_t torque;
 
 uint16_t canPrescaler = 0;
@@ -65,7 +66,8 @@ enum {
 	EVENT_SPI_RX = 0x04,
 	EVENT_REPORT_FAULT = 0x08,
 	EVENT_UPDATE_SPEED = 0x10,
-	EVENT_ADC_DATA = 0x20
+	EVENT_ADC_DATA = 0x20,
+	EVENT_QEI_RQ = 0x40
 };
 
 void EventChecker(void);
@@ -95,6 +97,10 @@ int main(void)
 	LED4 = 1;
 
 	while (1) {
+		if (events & EVENT_QEI_RQ) {
+			QEIPositionUpdate();
+			events &= ~EVENT_QEI_RQ;
+		}
 		if (events & EVENT_UPDATE_SPEED) {
 #ifndef CHARACTERIZE
 
@@ -204,14 +210,13 @@ void EventChecker(void)
 	//Until I can make a nice non-blocking way of checking the drv for faults
 	//this will be called approximately every second and will block for 50uS
 	//Pushing the DRV to its max SPI Fcy should bring this number down a little.
-	if (faultPrescalar > 999) {
+	if (faultPrescalar > 5999) {
 		DRV8301_UpdateStatus();
 		faultPrescalar = 0;
-		torque = 0;
 	} else {
-		torque++;
 		faultPrescalar++;
 	}
+
 	if (uartBuffer.dataSize) {
 
 		events |= EVENT_UART_DATA_READY;
@@ -235,8 +240,15 @@ void EventChecker(void)
 //		ADCBuff.newData = 0;
 //		events |= EVENT_ADC_DATA;
 	}
+	
+	events |= EVENT_QEI_RQ;
 #endif
-	events |= EVENT_UPDATE_SPEED;
+	if (commutationPrescalar > 4) {
+		events |= EVENT_UPDATE_SPEED;
+		commutationPrescalar = 0;
+	} else {
+		commutationPrescalar++;
+	}
 }
 
 uint16_t ADC_LPF(void)
