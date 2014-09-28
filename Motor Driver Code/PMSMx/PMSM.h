@@ -118,6 +118,27 @@ void SetTorque(uint8_t power);
  */
 void SetAirGapFluxLinkage(float id);
 
+/**
+ * @brief Returns last known cable velocity in mm/s.
+ * @return Cable velocity in mm/S.
+ */
+int32_t GetCableVelocity(void);
+
+/**
+ * @brief Calculates last known cable length and returns it.
+ * @return Cable length in mm.
+ */
+int32_t GetCableLength(void);
+
+/**
+ * @brief Exposes the QEI software errata workaround to a faster event loop.
+ * 
+ * Run this method fastest in the event loop and prescale accordingly to run
+ * PMSM_Update at a rate of 3kHz.
+ */
+
+void QEIPositionUpdate(void);
+
 
 #endif    /*PMSM_H  */
 #endif

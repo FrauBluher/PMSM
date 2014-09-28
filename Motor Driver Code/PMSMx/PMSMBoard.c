@@ -321,12 +321,12 @@ void TimersInit(void)
 		T7CONbits.TON = 0;
 		T7CONbits.TCS = 0;
 		T7CONbits.TGATE = 0;
-		T7CONbits.TCKPS = 0b11; // Select 1:256 Prescaler
+		T7CONbits.TCKPS = 0b0; // Select 1:1 Prescaler
 		TMR7 = 0x00;
 #ifdef CHARACTERIZE
-		PR7 = 91; //Approximately 5kHz (4974 Hz)... 0x0112 For 1kHz  0x0037 for 5kHz  0x0089 for 2kHz
+		PR7 = 4662; //91 = 15015 Hz
 #else
-		PR7 = 91; //91 = 3kHz
+		PR7 = 4662; //91 = 15015 Hz
 #endif
 		IPC12bits.T7IP = 0x01;
 		IFS3bits.T7IF = 0;

@@ -54,10 +54,12 @@
 #ifndef CHARACTERIZE
 #include "TrigData.h"
 
-#define SQRT_3 1.732050807568877
 #define SQRT_3_2 0.86602540378
-#define TRANS QEI1STATbits.IDXIRQ
+#define SQRT_3 1.732050807568877
+#define SPOOL_SCALING_FACTOR 565.486683301
+#define PULSES_PER_REVOLUTION 223232
 
+#define TRANS QEI1STATbits.IDXIRQ
 
 typedef struct {
 	float Vr1;
@@ -82,6 +84,7 @@ typedef struct {
 static float theta;
 static float Iq;
 static float Id;
+static float cableVelocity;
 
 static float u = 0;
 static float u1 = 0;
@@ -111,6 +114,7 @@ static int32_t rotorOffset;
 static int32_t indexCount = 0;
 static int32_t lastIndexCount = 0;
 static int32_t runningPositionCount = 0;
+static int32_t lastRunningPostionCount = 0;
 
 void SpaceVectorModulation(TimesOut sv);
 InvClarkOut InverseClarke(InvParkOut pP);
@@ -213,48 +217,37 @@ void SetAirGapFluxLinkage(float id)
 	Id = id;
 }
 
+/**
+ * @brief Calculates last known cable length and returns it.
+ * @return Cable length in mm.
+ */
+int32_t GetCableLength(void)
+{
+	return(runningPositionCount / PULSES_PER_REVOLUTION);
+}
+
+/**
+ * @brief Returns last known cable velocity in mm/s.
+ * @return Cable velocity in mm/S.
+ */
+int32_t GetCableVelocity(void)
+{
+	/**
+	 * Cable Velocity: ((2 * Pi * Radius of Spool) * Delta_Rotations) / Ts_Period
+	 * Radius of Spool: 30 mm
+	 * Ts_Period: 333 uS
+	 * Delta_Rotations: runningCount - lastCount
+	 *
+	 * All of these values combine to make SPOOL_SCALING_FACTOR
+	 */
+	cableVelocity = ((runningPositionCount - lastRunningPostionCount) /
+		PULSES_PER_REVOLUTION) / SPOOL_SCALING_FACTOR;
+
+	return((int32_t) cableVelocity);
+}
+
 void PMSM_Update(void)
 {
-	indexCount = Read32bitQEI1PositionCounter();
-
-	if (!flag) {
-		lastIndexCount = indexCount;
-		flag = 1;
-	}
-
-	//TODO: Fix QEI Drift...
-	// -- Run event loop faster.
-	// -- Faster outer loop for tracking index count.
-	if (lastIndexCount != indexCount) {
-		if (lastIndexCount > 0) {
-			if (indexCount > 0) {
-				if ((lastIndexCount > indexCount) && TRANS) {
-					runningPositionCount += (2048 - lastIndexCount) + indexCount;
-				} else if ((lastIndexCount > indexCount) && !TRANS) {
-					runningPositionCount -= lastIndexCount - indexCount;
-				} else if ((lastIndexCount < indexCount) && !TRANS) {
-					runningPositionCount += indexCount - lastIndexCount;
-				}
-			} else {
-				runningPositionCount += indexCount - lastIndexCount;
-			}
-		} else {
-			if (indexCount < 0) {
-				if ((lastIndexCount < indexCount) && TRANS) {
-					runningPositionCount += -(2048 + lastIndexCount) + indexCount;
-				} else if ((lastIndexCount < indexCount) && !TRANS) {
-					runningPositionCount += -(lastIndexCount - indexCount);
-				} else if ((lastIndexCount > indexCount) && !TRANS) {
-					runningPositionCount += indexCount - lastIndexCount;
-				}
-			} else {
-				runningPositionCount -= indexCount - lastIndexCount;
-			}
-		}
-	}
-	QEI1STATbits.IDXIRQ = 0;
-
-	lastIndexCount = indexCount;
 	y3 = y2;
 	y2 = y1;
 	y1 = y;
@@ -269,7 +262,7 @@ void PMSM_Update(void)
 	} else if (u < -.7) {
 		u = -.7;
 	}
-	
+
 	u3 = u2;
 	u2 = u1;
 	u1 = u;
@@ -282,10 +275,10 @@ void PMSM_Update(void)
 		indexCount += -512 - rotorOffset; //Phase offset of 90 degrees.
 		dummy_u = -u;
 	}
-		
+
 	indexCount = (-indexCount + 2048) % 2048;
 
-		
+
 	SpaceVectorModulation(SVPWMTimeCalc(InversePark(dummy_u, 0, indexCount)));
 }
 
@@ -370,4 +363,44 @@ void __attribute__((__interrupt__, no_auto_psv)) _QEI1Interrupt(void)
 	IFS3bits.QEI1IF = 0; /* Clear QEI interrupt flag */
 }
 
+void QEIPositionUpdate(void)
+{
+	indexCount = Read32bitQEI1PositionCounter();
+
+	if (!flag) {
+		lastIndexCount = indexCount;
+		flag = 1;
+	}
+
+	if (lastIndexCount != indexCount) {
+		if (lastIndexCount > 0) {
+			if (indexCount > 0) {
+				if ((lastIndexCount > indexCount) && TRANS) {
+					runningPositionCount += (2048 - lastIndexCount) + indexCount;
+				} else if ((lastIndexCount > indexCount) && !TRANS) {
+					runningPositionCount -= lastIndexCount - indexCount;
+				} else if ((lastIndexCount < indexCount) && !TRANS) {
+					runningPositionCount += indexCount - lastIndexCount;
+				}
+			} else {
+				runningPositionCount += indexCount - lastIndexCount;
+			}
+		} else {
+			if (indexCount < 0) {
+				if ((lastIndexCount < indexCount) && TRANS) {
+					runningPositionCount += -(2048 + lastIndexCount) + indexCount;
+				} else if ((lastIndexCount < indexCount) && !TRANS) {
+					runningPositionCount += -(lastIndexCount - indexCount);
+				} else if ((lastIndexCount > indexCount) && !TRANS) {
+					runningPositionCount += indexCount - lastIndexCount;
+				}
+			} else {
+				runningPositionCount -= indexCount - lastIndexCount;
+			}
+		}
+	}
+	QEI1STATbits.IDXIRQ = 0;
+
+	lastIndexCount = indexCount;
+}
 #endif
