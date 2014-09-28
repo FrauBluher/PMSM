@@ -51,6 +51,8 @@
 #include <qei32.h>
 #include <uart.h>
 
+#include "../../../../../Code/SSB_Code/Motor_Driver/motor_can.h"
+
 #ifndef CHARACTERIZE
 #include "TrigData.h"
 
@@ -285,6 +287,14 @@ void PMSM_Update(void)
 		
 	indexCount = (-indexCount + 2048) % 2048;
 
+	if(y < 0){
+		y = -1*y;
+	}
+	if(y1 < 0){
+		y1 = -1*y1;
+	}
+	Actual_Position = y;
+	Actual_Velocity = ((y1-y)/0.00033);
 		
 	SpaceVectorModulation(SVPWMTimeCalc(InversePark(dummy_u, 0, indexCount)));
 }

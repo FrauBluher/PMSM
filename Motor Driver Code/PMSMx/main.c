@@ -194,6 +194,7 @@ void EventChecker(void)
 			txreq_bitarray = txreq_bitarray & 0b10111111;
 		}
 
+		SetPosition((float)Target_position);
 		can_time_dispatch();
 		canPrescaler = 0;
 	} else {
