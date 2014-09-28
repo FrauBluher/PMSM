@@ -87,6 +87,10 @@ int main(void)
 	LED4 = 1;
 
 	while (1) {
+		if (events & EVENT_QEI_RQ) {
+			QEIPositionUpdate();
+			events &= ~EVENT_QEI_RQ;
+		}
 		if (events & EVENT_UPDATE_SPEED) {
 #ifndef CHARACTERIZE
 
@@ -188,6 +192,8 @@ void EventChecker(void)
 //		ADCBuff.newData = 0;
 //		events |= EVENT_ADC_DATA;
 	}
+	
+	events |= EVENT_QEI_RQ;
 #endif
 	if (commutationPrescalar > 4) {
 		events |= EVENT_UPDATE_SPEED;
