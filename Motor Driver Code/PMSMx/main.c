@@ -21,6 +21,7 @@
 #include "DMA_Transfer.h"
 #include "PMSM.h"
 #include "../../../../../Code/SSB_Code/Motor_Driver/motor_can.h"
+#include "../../../../../Code/SSB_Code/Motor_Driver/init_motor_control.h"
 #include <dsp.h>
 #include <uart.h>
 
