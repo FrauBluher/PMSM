@@ -51,7 +51,7 @@
 #include <qei32.h>
 #include <uart.h>
 
-#include "../../../../../Code/SSB_Code/Motor_Driver/motor_can.h"
+#include "../CAN Testing/canFiles/motor_can.h"
 
 #ifndef CHARACTERIZE
 #include "TrigData.h"
