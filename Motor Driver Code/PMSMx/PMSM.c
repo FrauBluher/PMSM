@@ -58,7 +58,12 @@
 
 #define SQRT_3_2 0.86602540378
 #define SQRT_3 1.732050807568877
-#define SPOOL_SCALING_FACTOR 565.486683301
+//#define SPOOL_SCALING_FACTOR 565.486683301
+#define TWO_PI 6.283185307
+#define SPOOL_RADIUS_MM 30
+#define LOOP_TIME_S 0.000333
+#define SPOOL_CIRCUMFERENCE_MM (TWO_PI*SPOOL_RADIUS_MM)
+#define	SPOOL_SCALING_FACTOR (SPOOL_CIRCUMFERENCE_MM)/LOOP_TIME_S //used full pi instead of 3.14
 #define PULSES_PER_REVOLUTION 223232
 
 #define TRANS QEI1STATbits.IDXIRQ
@@ -225,7 +230,8 @@ void SetAirGapFluxLinkage(float id)
  */
 int32_t GetCableLength(void)
 {
-	return(runningPositionCount / PULSES_PER_REVOLUTION);
+	return((runningPositionCount / PULSES_PER_REVOLUTION) *
+		SPOOL_CIRCUMFERENCE_MM);
 }
 
 /**
@@ -243,7 +249,7 @@ int32_t GetCableVelocity(void)
 	 * All of these values combine to make SPOOL_SCALING_FACTOR
 	 */
 	cableVelocity = ((runningPositionCount - lastRunningPostionCount) /
-		PULSES_PER_REVOLUTION) / SPOOL_SCALING_FACTOR;
+		PULSES_PER_REVOLUTION) * SPOOL_SCALING_FACTOR;
 
 	return((int32_t) cableVelocity);
 }

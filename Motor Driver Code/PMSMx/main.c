@@ -59,6 +59,7 @@ uint16_t torque;
 
 uint16_t canPrescaler = 0;
 extern uint8_t txreq_bitarray;
+uint16_t controlPrescale = 0;
 
 enum {
 	EVENT_UART_DATA_READY = 0x01,
@@ -85,10 +86,10 @@ int main(void)
 	}
 	InitBoard(&ADCBuff, &uartBuffer, &spiBuffer, EventChecker);
 
-	SetPosition(0);
+//	SetPosition(0);
 
-	if(can_motor_init()){
-		while(1);
+	if (can_motor_init()) {
+		while (1);
 	}
 
 	LED1 = 1;
@@ -159,8 +160,8 @@ int main(void)
 		}
 
 		if (events & EVENT_ADC_DATA) {
-//			size = sprintf((char *) out, "%i, %i\r\n", ADCBuff.Adc1Data[0], ADCBuff.Adc1Data[1]);
-//			DMA0_UART2_Transfer(size, out);
+			//			size = sprintf((char *) out, "%i, %i\r\n", ADCBuff.Adc1Data[0], ADCBuff.Adc1Data[1]);
+			//			DMA0_UART2_Transfer(size, out);
 			events &= ~EVENT_ADC_DATA;
 		}
 	}
@@ -201,7 +202,13 @@ void EventChecker(void)
 			txreq_bitarray = txreq_bitarray & 0b10111111;
 		}
 
-		SetPosition((float)Target_position);
+		//		SetPosition((float)Target_position);
+		if (controlPrescale > 100) {
+//			terrible_P_motor_controller(8192000);
+			impedance_controller(GetCableLength(),GetCableVelocity());
+			controlPrescale = 0;
+		}
+		controlPrescale++;
 		can_time_dispatch();
 		canPrescaler = 0;
 	} else {
@@ -237,10 +244,10 @@ void EventChecker(void)
 
 #ifdef SINE
 	if (ADCBuff.newData) {
-//		ADCBuff.newData = 0;
-//		events |= EVENT_ADC_DATA;
+		//		ADCBuff.newData = 0;
+		//		events |= EVENT_ADC_DATA;
 	}
-	
+
 	events |= EVENT_QEI_RQ;
 #endif
 	if (commutationPrescalar > 4) {
