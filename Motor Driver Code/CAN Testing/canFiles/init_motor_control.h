@@ -30,7 +30,7 @@ void impedance_controller(int32_t length, int32_t velocity);
  * @param force in [N]
  * @return A converted value for strain gauge bits
  */
-int32_t getBitsFromForce(int32_t torque);
+uint32_t getBitsFromForce(int32_t torque);
 
 /**
  *

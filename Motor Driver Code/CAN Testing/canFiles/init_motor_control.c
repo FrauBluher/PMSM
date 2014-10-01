@@ -18,7 +18,7 @@ extern float TRIG_DATA[];
 
  */
 
-int32_t getBitsFromForce(int32_t torque)
+uint32_t getBitsFromForce(int32_t torque)
 {
 	int32_t offSet = 8423700;
 	int32_t modifier1 = -12172;
@@ -59,25 +59,27 @@ void impedance_controller(int32_t length, int32_t velocity)
 	float value;
 
 
-	int32_t To = 250000; // Tension Offset
-	int32_t K = 1000; //1000000; // Length Gain Value
-	int32_t B = 0; //100000; // Velocity Gain Value
-	int32_t Lo = 0; // Length Offset, currently 2*pi*30 [mm]
-	int32_t Vo = 10; // Velocity Offset
+	int32_t To = 300*1000; // Tension Offset
+	int32_t K = 100*1000; //1000000; // Length Gain Value
+	int32_t B = 2*1000; //100000; // Velocity Gain Value
+	static int32_t Lo; // Length Offset, currently 2*pi*30 [mm]
+	static int32_t Vo; // Velocity Offset
 	int32_t l; // Length in mm
 	int32_t v; // Velocity in mm/s
 	int32_t T; // Calculated Tension in [kg-mm/s^2]
-	uint8_t flag = 0;
-
-	if (Strain_Gauge1 > 0) {
-		flag = 1;
-	}
+	static uint8_t flag = 0;
 
 	l = length;
 	v = velocity;
 
-	T = To + (K * (Lo - l)) + (B * (Vo - v));
-	T = T*SPOOL_RADIUS_MM; // To get convert [kg-mm/s^2] to [kg-mm/s^2]-mm
+	if (!flag) {
+		Lo = l + 0;
+		Vo = v + 100;
+		flag = 1;
+	}
+
+	T = To + (K * (l - Lo)) + (B * (Vo - v));
+	T = T*SPOOL_RADIUS_MM/1000; // To get convert [kg-mm/s^2] to [kg-mm/s^2]-mm
 
 	//	loop++;
 	//	if (loop > 1) {
@@ -91,7 +93,7 @@ void impedance_controller(int32_t length, int32_t velocity)
 	//
 	//	terrible_P_motor_controller((uint32_t) value);
 
-	terrible_P_motor_controller(T/1000000); // Divide by 1000 to get real Newtons-meters
+	terrible_P_motor_controller(T/1000); // Divide by 1000 to get real Newtons-meters
 }
 
 void terrible_P_motor_controller(uint32_t force)
@@ -102,14 +104,14 @@ void terrible_P_motor_controller(uint32_t force)
 	 */
 	float pGain = 40000*1.8;
 	float iGain = 0;//0.000000011*200;
-	float dGain = 0.000000938*1.8; //-0.00001;
+	float dGain = 0;//0.000000938*1.25*1.8; //-0.00001;
 	float forceSum;
 	static float integratorSum;
 	static float derivativeSum;
 	static float lastError = 0;
 	float total;
 
-	forceSum = (float) ((8230708 - Strain_Gauge1) & MASK);//(getBitsFromForce(force)
+	forceSum = (float) ((getBitsFromForce(force) - Strain_Gauge1) & MASK);//(getBitsFromForce(force)
 
 	integratorSum += forceSum;
 
