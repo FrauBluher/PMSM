@@ -63,7 +63,7 @@ uint16_t controlPrescale = 0;
 
 enum {
 	EVENT_UART_DATA_READY = 0x01,
-	EVENT_CAN_RX = 0x02,
+	EVENT_CAN = 0x02,
 	EVENT_SPI_RX = 0x04,
 	EVENT_REPORT_FAULT = 0x08,
 	EVENT_UPDATE_SPEED = 0x10,
@@ -86,7 +86,7 @@ int main(void)
 	}
 	InitBoard(&ADCBuff, &uartBuffer, &spiBuffer, EventChecker);
 
-//	SetPosition(0);
+	//	SetPosition(0);
 
 	if (can_motor_init()) {
 		while (1);
@@ -108,7 +108,7 @@ int main(void)
 #ifndef LQG_NOISE
 
 #ifndef SINE
-			SpeedControlStep(200);
+//			SpeedControlStep(200);
 #endif
 
 #endif
@@ -132,14 +132,56 @@ int main(void)
 			events &= ~EVENT_UPDATE_SPEED;
 		}
 
+		if (events & EVENT_CAN) {
+			can_process();
+
+			if (txreq_bitarray & 0b00000001 && !C1TR01CONbits.TXREQ0) {
+				C1TR01CONbits.TXREQ0 = 1;
+				txreq_bitarray = txreq_bitarray & 0b11111110;
+			}
+			if (txreq_bitarray & 0b00000010 && !C1TR01CONbits.TXREQ1) {
+				C1TR01CONbits.TXREQ1 = 1;
+				txreq_bitarray = txreq_bitarray & 0b11111101;
+			}
+			if (txreq_bitarray & 0b00000100 && !C1TR23CONbits.TXREQ2) {
+				C1TR23CONbits.TXREQ2 = 1;
+				txreq_bitarray = txreq_bitarray & 0b11111011;
+			}
+			if (txreq_bitarray & 0b00001000 && !C1TR23CONbits.TXREQ3) {
+				C1TR23CONbits.TXREQ3 = 1;
+				txreq_bitarray = txreq_bitarray & 0b11110111;
+			}
+			if (txreq_bitarray & 0b00010000 && !C1TR45CONbits.TXREQ4) {
+				C1TR45CONbits.TXREQ4 = 1;
+				txreq_bitarray = txreq_bitarray & 0b11101111;
+			}
+			if (txreq_bitarray & 0b00100000 && !C1TR45CONbits.TXREQ5) {
+				C1TR45CONbits.TXREQ5 = 1;
+				txreq_bitarray = txreq_bitarray & 0b11011111;
+			}
+			if (txreq_bitarray & 0b01000000 && !C1TR67CONbits.TXREQ6) {
+				C1TR67CONbits.TXREQ6 = 1;
+				txreq_bitarray = txreq_bitarray & 0b10111111;
+			}
+//			SetPosition((float)Target_position);
+
+			if (controlPrescale > 1) {
+				//			terrible_P_motor_controller(8192000);
+				impedance_controller(GetCableLength(), GetCableVelocity());
+				controlPrescale = 0;
+			}
+			controlPrescale++;
+			events &= ~EVENT_CAN;
+		}
+
 		if (events & EVENT_UART_DATA_READY) {
 			//Build and check sentence here! Woot woooooot.
 			events &= ~EVENT_UART_DATA_READY;
 		}
 
-		if (events & EVENT_CAN_RX) {
-			events &= ~EVENT_CAN_RX;
-		}
+//		if (events & EVENT_CAN_RX) {
+//			events &= ~EVENT_CAN_RX;
+//		}
 
 		if (events & EVENT_SPI_RX) {
 			//static uint16_t message[32];
@@ -171,45 +213,8 @@ void EventChecker(void)
 {
 #ifndef CHARACTERIZE
 	if (canPrescaler > 2) {
-		can_process();
-
-		if (txreq_bitarray & 0b00000001 && !C1TR01CONbits.TXREQ0) {
-			C1TR01CONbits.TXREQ0 = 1;
-			txreq_bitarray = txreq_bitarray & 0b11111110;
-		}
-		if (txreq_bitarray & 0b00000010 && !C1TR01CONbits.TXREQ1) {
-			C1TR01CONbits.TXREQ1 = 1;
-			txreq_bitarray = txreq_bitarray & 0b11111101;
-		}
-		if (txreq_bitarray & 0b00000100 && !C1TR23CONbits.TXREQ2) {
-			C1TR23CONbits.TXREQ2 = 1;
-			txreq_bitarray = txreq_bitarray & 0b11111011;
-		}
-		if (txreq_bitarray & 0b00001000 && !C1TR23CONbits.TXREQ3) {
-			C1TR23CONbits.TXREQ3 = 1;
-			txreq_bitarray = txreq_bitarray & 0b11110111;
-		}
-		if (txreq_bitarray & 0b00010000 && !C1TR45CONbits.TXREQ4) {
-			C1TR45CONbits.TXREQ4 = 1;
-			txreq_bitarray = txreq_bitarray & 0b11101111;
-		}
-		if (txreq_bitarray & 0b00100000 && !C1TR45CONbits.TXREQ5) {
-			C1TR45CONbits.TXREQ5 = 1;
-			txreq_bitarray = txreq_bitarray & 0b11011111;
-		}
-		if (txreq_bitarray & 0b01000000 && !C1TR67CONbits.TXREQ6) {
-			C1TR67CONbits.TXREQ6 = 1;
-			txreq_bitarray = txreq_bitarray & 0b10111111;
-		}
-
-		//		SetPosition((float)Target_position);
-		if (controlPrescale > 100) {
-//			terrible_P_motor_controller(8192000);
-			impedance_controller(GetCableLength(),GetCableVelocity());
-			controlPrescale = 0;
-		}
-		controlPrescale++;
 		can_time_dispatch();
+		events |= EVENT_CAN;
 		canPrescaler = 0;
 	} else {
 		canPrescaler++;
@@ -229,9 +234,9 @@ void EventChecker(void)
 		events |= EVENT_UART_DATA_READY;
 	}
 
-	if (canBuffer.dataSize) {
-		events |= EVENT_CAN_RX;
-	}
+	//	if (canBuffer.dataSize) {
+	//		events |= EVENT_CAN_RX;
+	//	}
 
 	if (spiBuffer.dataSize) {
 		//The first bit of SPI is nonsense from the DRV due to it starting up

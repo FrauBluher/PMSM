@@ -149,8 +149,8 @@ void SpeedControlStep(float speed)
 		TrapUpdate((uint16_t) (u * PTPER), CW);
 	}
 
-	size = sprintf((char *) out, "%i,%u\r\n", indexCount, (uint16_t) (x_hat[2][0] * 10000));
-	DMA0_UART2_Transfer(size, out);
+//	size = sprintf((char *) out, "%i,%u\r\n", indexCount, (uint16_t) (x_hat[2][0] * 10000));
+//	DMA0_UART2_Transfer(size, out);
 
 	LED4 ^= 1;
 }

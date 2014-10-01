@@ -192,8 +192,8 @@ uint8_t PMSM_Init(MotorInfo *information)
 
 	rotorOffset = (rotorOffset + rotorOffset2) / 2;
 
-	size = sprintf((char *) out, "Rotor Offset: %li\r\n", rotorOffset);
-	DMA0_UART2_Transfer(size, (uint8_t *) out);
+//	size = sprintf((char *) out, "Rotor Offset: %li\r\n", rotorOffset);
+//	DMA0_UART2_Transfer(size, (uint8_t *) out);
 
 	return(0);
 }
@@ -362,13 +362,13 @@ TimesOut SVPWMTimeCalc(InvParkOut pP)
 	return(t);
 }
 
-void __attribute__((__interrupt__, no_auto_psv)) _QEI1Interrupt(void)
-{
-	int i;
-	flag = 1;
-
-	IFS3bits.QEI1IF = 0; /* Clear QEI interrupt flag */
-}
+//void __attribute__((__interrupt__, no_auto_psv)) _QEI1Interrupt(void)
+//{
+//	int i;
+//	flag = 1;
+//
+//	IFS3bits.QEI1IF = 0; /* Clear QEI interrupt flag */
+//}
 
 void QEIPositionUpdate(void)
 {

@@ -7,59 +7,39 @@
 
 #include "init_motor_control.h"
 #include "../../PMSMx/PMSM.h"
-#include <math.h>
+#include <uart.h>
 
 #define SPOOL_RADIUS_MM 30
+#define MASK 0x00FFF000
+
+extern float TRIG_DATA[];
 
 /**
-x[bits] = -9.4331y[kg] + 8.4259*10^6		(1)
-x - 8.4259*10^6 = -9.4331y
-(1/-9.4331)x + 94690.721 = y
--0.106x[bits] + 94690.721 = y[kg]		(2)
----------------------------------------------
-N == kg*m/s^2
-kg*gravity == N
-moment_arm*kg*gravity == torque[N-m]
-gravity = 9.81[m/s^2]
-moment_arm = 57.5[mm]
-57.5*[kg]*9.81 = torque[N-mm]
-564.075*[kg] = torque[N-mm]			
-0.564075*[kg] = torque[N-m]			(3)
-[kg] = (1/0.564075)torque[N-m]
-[kg] = 1.773*torque[N-m]			(4)
----------------------------------------------
-(2) + (3):
-0.564075*(-0.106x[bits] + 94690.721) = y[N-m]
--0.0598x[bits] + 94690.721 = y[N-m]
--59.8x[bits] + 94690721 = 1000y[N-m] // getForceFromBits
-1000[N-mm] = [N-m]
--59.8x[bits] + 94690721 = y[N-mm]
-(1) + (4):
-x[bits] = -9.4331*1.773y[N-mm] + 8.4259*10^6
-x[bits] = -16.725y[N-mm] + 8.4259*10^6 // getBitsFromForce
+
  */
 
-int32_t getBitsFromForce(int32_t force)
+int32_t getBitsFromForce(int32_t torque)
 {
-	int32_t offSet = 8425900;
-	int32_t modifier = -17;
-	int32_t torque;
+	int32_t offSet = 8423700;
+	int32_t modifier1 = -12172;
+	int32_t modifier2 = -1494;
 
-	torque = force*SPOOL_RADIUS_MM; // [N-mm]
-
-	return((modifier * torque) + offSet);
+	return((modifier2 * torque*torque) + (modifier1 * torque) + offSet);
 }
 
-int32_t getForceFromBits(int32_t bits)
-{
-	int32_t offSet = 94690721;
-	int32_t modifier = -60;
-	int32_t torque;
+// This function is wrong !!!! DO NOT USE
+// TODO: Find a fix for this funtion....
 
-	torque = ((modifier * bits) + offSet); // [N-mm]
-
-	return(torque / SPOOL_RADIUS_MM);
-}
+//int32_t getForceFromBits(int32_t bits)
+//{
+//		int64_t offSet = 53412668448;
+//		int32_t modifier = -60;
+//		int32_t torque;
+//
+//		torque = ((modifier * bits) + offSet); // [N-mm]
+//
+//		return(torque / SPOOL_RADIUS_MM);
+//}
 
 void impedance_controller(int32_t length, int32_t velocity)
 {
@@ -74,50 +54,70 @@ void impedance_controller(int32_t length, int32_t velocity)
 	 * @return uint32_t setTension
 	 */
 
-	static uint16_t size;
-	static uint8_t out[56];
+	static uint8_t loop = 0;
+	static uint16_t counter = 0;
+	float value;
 
-	const int32_t To = 100000; // Tension Offset
-	const int32_t K = 1000; // Length Gain Value
-	const int32_t B = 100; // Velocity Gain Value
-	const int32_t Lo = 188; // Length Offset, currently 2*pi*30 [mm]
-	const int32_t Vo = 0; // Velocity Offset
+
+	int32_t To = 250000; // Tension Offset
+	int32_t K = 1000; //1000000; // Length Gain Value
+	int32_t B = 0; //100000; // Velocity Gain Value
+	int32_t Lo = 0; // Length Offset, currently 2*pi*30 [mm]
+	int32_t Vo = 10; // Velocity Offset
 	int32_t l; // Length in mm
 	int32_t v; // Velocity in mm/s
 	int32_t T; // Calculated Tension in [kg-mm/s^2]
+	uint8_t flag = 0;
+
+	if (Strain_Gauge1 > 0) {
+		flag = 1;
+	}
 
 	l = length;
 	v = velocity;
 
 	T = To + (K * (Lo - l)) + (B * (Vo - v));
+	T = T*SPOOL_RADIUS_MM; // To get convert [kg-mm/s^2] to [kg-mm/s^2]-mm
 
-	terrible_P_motor_controller(getBitsFromForce(T / 1000)); // Divide by 1000 to get real Newtons
-	size = sprintf((char *) out, "Rotor Offset: %li\r\n", getBitsFromForce(T / 1000));
-	DMA0_UART2_Transfer(size, (uint8_t *) out);
+	//	loop++;
+	//	if (loop > 1) {
+	//		counter++;
+	//		if (counter > 2048) {
+	//			counter = 0;
+	//		}
+	//		loop = 0;
+	//	}
+	//	value = TRIG_DATA[counter]*(178056) + 8368128;
+	//
+	//	terrible_P_motor_controller((uint32_t) value);
+
+	terrible_P_motor_controller(T/1000000); // Divide by 1000 to get real Newtons-meters
 }
 
-void terrible_P_motor_controller(uint32_t bitForce)
+void terrible_P_motor_controller(uint32_t force)
 {
 	/**
 	 * This is a gain to convert the sensor bits to a position in rads
 	 * It is not a rigorously dervived value..... O.o
 	 */
-	//	int32_T pGain = 100000;
-	int32_t deltaBitForce;
-	static int32_t commandedPosition = 0;
+	float pGain = 40000*1.8;
+	float iGain = 0;//0.000000011*200;
+	float dGain = 0.000000938*1.8; //-0.00001;
+	float forceSum;
+	static float integratorSum;
+	static float derivativeSum;
+	static float lastError = 0;
+	float total;
 
-	if (Strain_Gauge1 > 0) {
-		if (bitForce < 8323072) {
-			if (bitForce > (Strain_Gauge1 & 0xFF0000)) {
-				deltaBitForce = -30;
-			} else if (bitForce < (Strain_Gauge1 & 0xFF0000)) {
-				deltaBitForce = 30;
-			} else {
-				deltaBitForce = 0;
-			}
-		}
-	}
+	forceSum = (float) ((8230708 - Strain_Gauge1) & MASK);//(getBitsFromForce(force)
 
-	commandedPosition += deltaBitForce;
-	SetPosition((float) (commandedPosition));
+	integratorSum += forceSum;
+
+	derivativeSum = forceSum - lastError;
+	lastError = forceSum;
+
+	total = (forceSum / pGain) + (iGain * integratorSum) + (derivativeSum * dGain);
+	//	total = (forceSum / pGain);
+
+	SpeedControlStep(-1*total);
 }
