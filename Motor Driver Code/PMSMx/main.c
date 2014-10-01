@@ -165,12 +165,13 @@ int main(void)
 			}
 //			SetPosition((float)Target_position);
 
-			if (controlPrescale > 1) {
-				//			terrible_P_motor_controller(8192000);
-				impedance_controller(GetCableLength(), GetCableVelocity());
-				controlPrescale = 0;
-			}
-			controlPrescale++;
+			impedance_controller(GetCableLength(), GetCableVelocity());
+//			if (controlPrescale > 1) {
+//				//			terrible_P_motor_controller(8192000);
+//				impedance_controller(GetCableLength(), GetCableVelocity());
+//				controlPrescale = 0;
+//			}
+//			controlPrescale++;
 			events &= ~EVENT_CAN;
 		}
 
@@ -255,6 +256,8 @@ void EventChecker(void)
 
 	events |= EVENT_QEI_RQ;
 #endif
+	events |= EVENT_QEI_RQ; // ADDED for Speed Control with position sensing
+
 	if (commutationPrescalar > 4) {
 		events |= EVENT_UPDATE_SPEED;
 		commutationPrescalar = 0;

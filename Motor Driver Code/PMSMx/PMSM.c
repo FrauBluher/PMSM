@@ -230,8 +230,9 @@ void SetAirGapFluxLinkage(float id)
  */
 int32_t GetCableLength(void)
 {
-	return((runningPositionCount / PULSES_PER_REVOLUTION) *
-		SPOOL_CIRCUMFERENCE_MM);
+//	return((runningPositionCount / PULSES_PER_REVOLUTION) *
+//		SPOOL_CIRCUMFERENCE_MM);
+	return(runningPositionCount);
 }
 
 /**
@@ -362,13 +363,13 @@ TimesOut SVPWMTimeCalc(InvParkOut pP)
 	return(t);
 }
 
-//void __attribute__((__interrupt__, no_auto_psv)) _QEI1Interrupt(void)
-//{
-//	int i;
-//	flag = 1;
-//
-//	IFS3bits.QEI1IF = 0; /* Clear QEI interrupt flag */
-//}
+void __attribute__((__interrupt__, no_auto_psv)) _QEI1Interrupt(void)
+{
+	int i;
+	flag = 1;
+
+	IFS3bits.QEI1IF = 0; /* Clear QEI interrupt flag */
+}
 
 void QEIPositionUpdate(void)
 {

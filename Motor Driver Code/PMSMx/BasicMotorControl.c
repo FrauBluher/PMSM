@@ -318,10 +318,10 @@ void __attribute__((__interrupt__, no_auto_psv)) _CNInterrupt(void)
 	IFS1bits.CNIF = 0; // Clear CN interrupt
 }
 
-void __attribute__((__interrupt__, no_auto_psv)) _QEI1Interrupt(void)
-{
-	IFS3bits.QEI1IF = 0; /* Clear QEI interrupt flag */
-}
+//void __attribute__((__interrupt__, no_auto_psv)) _QEI1Interrupt(void)
+//{
+//	IFS3bits.QEI1IF = 0; /* Clear QEI interrupt flag */
+//}
 #endif
 #endif
 #endif

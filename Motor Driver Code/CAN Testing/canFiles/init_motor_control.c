@@ -24,7 +24,7 @@ uint32_t getBitsFromForce(int32_t torque)
 	int32_t modifier1 = -12172;
 	int32_t modifier2 = -1494;
 
-	return((modifier2 * torque*torque) + (modifier1 * torque) + offSet);
+	return((modifier2 * torque * torque) + (modifier1 * torque) + offSet);
 }
 
 // This function is wrong !!!! DO NOT USE
@@ -54,14 +54,16 @@ void impedance_controller(int32_t length, int32_t velocity)
 	 * @return uint32_t setTension
 	 */
 
+	static uint16_t size;
+	static uint8_t out[56];
+
 	static uint8_t loop = 0;
 	static uint16_t counter = 0;
 	float value;
 
-
-	int32_t To = 300*1000; // Tension Offset
-	int32_t K = 100*1000; //1000000; // Length Gain Value
-	int32_t B = 2*1000; //100000; // Velocity Gain Value
+	static int32_t To = 1 * 1000; // Tension Offset
+	int32_t K = 150 * 2 * 1000; //1000000; // Length Gain Value
+	int32_t B = 100 * 2 * 1000; //100000; // Velocity Gain Value
 	static int32_t Lo; // Length Offset, currently 2*pi*30 [mm]
 	static int32_t Vo; // Velocity Offset
 	int32_t l; // Length in mm
@@ -72,14 +74,17 @@ void impedance_controller(int32_t length, int32_t velocity)
 	l = length;
 	v = velocity;
 
-	if (!flag) {
+	if (flag == 0) {
 		Lo = l + 0;
 		Vo = v + 100;
 		flag = 1;
 	}
 
 	T = To + (K * (l - Lo)) + (B * (Vo - v));
-	T = T*SPOOL_RADIUS_MM/1000; // To get convert [kg-mm/s^2] to [kg-mm/s^2]-mm
+	T = T * SPOOL_RADIUS_MM / 1000; // To get convert [kg-mm/s^2] to [kg-mm/s^2]-mm
+
+	size = sprintf((char *) out, "Length: %i\r\n", l);
+	DMA0_UART2_Transfer(size, (uint8_t *) out);
 
 	//	loop++;
 	//	if (loop > 1) {
@@ -93,7 +98,7 @@ void impedance_controller(int32_t length, int32_t velocity)
 	//
 	//	terrible_P_motor_controller((uint32_t) value);
 
-	terrible_P_motor_controller(T/1000); // Divide by 1000 to get real Newtons-meters
+	terrible_P_motor_controller(T / 1000); // Divide by 1000 to get real Newtons-meters
 }
 
 void terrible_P_motor_controller(uint32_t force)
@@ -102,16 +107,16 @@ void terrible_P_motor_controller(uint32_t force)
 	 * This is a gain to convert the sensor bits to a position in rads
 	 * It is not a rigorously dervived value..... O.o
 	 */
-	float pGain = 40000*1.8;
-	float iGain = 0;//0.000000011*200;
-	float dGain = 0;//0.000000938*1.25*1.8; //-0.00001;
+	float pGain = 50000 * 1.6;
+	float iGain = 0; //0.000000011*200;
+	float dGain = 0.000000938 * 1.25 * 1.8; //-0.00001;
 	float forceSum;
 	static float integratorSum;
 	static float derivativeSum;
 	static float lastError = 0;
 	float total;
 
-	forceSum = (float) ((getBitsFromForce(force) - Strain_Gauge1) & MASK);//(getBitsFromForce(force)
+	forceSum = (float) ((getBitsFromForce(force) - Strain_Gauge1) & MASK); //(getBitsFromForce(force)
 
 	integratorSum += forceSum;
 
@@ -121,5 +126,5 @@ void terrible_P_motor_controller(uint32_t force)
 	total = (forceSum / pGain) + (iGain * integratorSum) + (derivativeSum * dGain);
 	//	total = (forceSum / pGain);
 
-	SpeedControlStep(-1*total);
+	SpeedControlStep(-1 * total);
 }
