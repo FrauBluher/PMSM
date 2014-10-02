@@ -132,22 +132,22 @@ uint8_t PMSM_Init(MotorInfo *information)
 	static uint32_t theta1;
 	static uint8_t out[56];
 
-	uint16_t i;
-	uint16_t j;
+	uint32_t i;
+	uint32_t j;
 	qeiCounter w;
 	w.l = 0;
 
 	theta1 = 0;
 	for (i = 0; i < 3096; i++) {
-		SpaceVectorModulation(SVPWMTimeCalc(InversePark(0.2, 0, theta1)));
-		for (j = 0; j < 400; j++) {
+		SpaceVectorModulation(SVPWMTimeCalc(InversePark(0.4, 0, theta1)));
+		for (j = 0; j < 800; j++) {
 			Nop();
 		}
 		theta1 -= 1;
 	}
 
-	SpaceVectorModulation(SVPWMTimeCalc(InversePark(0.4, 0, 0)));
-	for (i = 0; i < 20000; i++) {
+	SpaceVectorModulation(SVPWMTimeCalc(InversePark(0.8, 0, 0)));
+	for (i = 0; i < 40000; i++) {
 		Nop();
 	}
 
@@ -165,15 +165,15 @@ uint8_t PMSM_Init(MotorInfo *information)
 	theta1 = 0;
 
 	for (i = 0; i < 3096; i++) {
-		SpaceVectorModulation(SVPWMTimeCalc(InversePark(0.2, 0, theta1)));
-		for (j = 0; j < 400; j++) {
+		SpaceVectorModulation(SVPWMTimeCalc(InversePark(0.4, 0, theta1)));
+		for (j = 0; j < 800; j++) {
 			Nop();
 		}
 		theta1 += 1;
 	}
 
-	SpaceVectorModulation(SVPWMTimeCalc(InversePark(0.4, 0, 0)));
-	for (i = 0; i < 20000; i++) {
+	SpaceVectorModulation(SVPWMTimeCalc(InversePark(0.8, 0, 0)));
+	for (i = 0; i < 40000; i++) {
 		Nop();
 	}
 

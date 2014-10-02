@@ -46,6 +46,8 @@ CircularBuffer canBuffer;
 uint8_t canBuf[64];
 CircularBuffer spiBuffer;
 uint16_t spiBuf[64];
+uint16_t emptyBuf[64] = {};
+
 
 ADCBuffer ADCBuff;
 
@@ -71,13 +73,14 @@ int main(void)
 {
 	static uint16_t size;
 	static uint8_t out[56];
-	CB_Init(&uartBuffer, uartBuf, 32);
-	CB_Init(&spiBuffer, (uint8_t *) spiBuf, 128);
 
 	for (torque = 0; torque < 65533; torque++) {
 		Nop();
 	}
 	InitBoard(&ADCBuff, &uartBuffer, &spiBuffer, EventChecker);
+
+	CB_Init(&uartBuffer, uartBuf, 32);
+	CB_Init(&spiBuffer, (uint8_t *) spiBuf, 128);
 
 	SetPosition(-100);
 
@@ -131,16 +134,33 @@ int main(void)
 		}
 
 		if (events & EVENT_SPI_RX) {
-			//static uint16_t message[32];
-			//			uint16_t size;
-			//			uint8_t out[56];
-			//			message[0] = 0;
-			//			message[1] = 0;
-			//			message[2] = 0;
-			//			message[3] = 0;
-			//			CB_ReadMany(&spiBuffer, message, spiBuffer.dataSize);
-			//			size = sprintf((char *) out, "0x%X, 0x%X, 0x%X, 0x%X\r\n", message[0], message[1], message[2], message[3]);
-			//			DMA0_UART2_Transfer(size, out);
+			static uint8_t message[32];
+			uint16_t size;
+			uint8_t out[56];
+			message[0] = 0xFF;
+			message[1] = 0xFF;
+			message[2] = 0xFF;
+			message[3] = 0xFF;
+			message[4] = 0xFF;
+			message[5] = 0xFF;
+			message[6] = 0xFF;
+			message[7] = 0xFF;
+
+			CB_ReadByte(&spiBuffer, &message[0]);
+			CB_ReadByte(&spiBuffer, &message[1]);
+			CB_ReadByte(&spiBuffer, &message[2]);
+			CB_ReadByte(&spiBuffer, &message[3]);
+			CB_ReadByte(&spiBuffer, &message[4]);
+			CB_ReadByte(&spiBuffer, &message[5]);
+			CB_ReadByte(&spiBuffer, &message[6]);
+			CB_ReadByte(&spiBuffer, &message[7]);
+
+			CB_Init(&spiBuffer, &spiBuf, 64);
+
+			size = sprintf((char *) out, "0x%X, 0x%X, 0x%X, 0x%X\r\n",
+				((message[0] << 8) | message[1]), ((message[2] << 8) | message[3]),
+				((message[4] << 8) | message[5]), ((message[6] << 8) | message[7]));
+			DMA0_UART2_Transfer(size, out);
 			events &= ~EVENT_SPI_RX;
 		}
 
@@ -149,8 +169,8 @@ int main(void)
 		}
 
 		if (events & EVENT_ADC_DATA) {
-//			size = sprintf((char *) out, "%i, %i\r\n", ADCBuff.Adc1Data[0], ADCBuff.Adc1Data[1]);
-//			DMA0_UART2_Transfer(size, out);
+			//			size = sprintf((char *) out, "%i, %i\r\n", ADCBuff.Adc1Data[0], ADCBuff.Adc1Data[1]);
+			//			DMA0_UART2_Transfer(size, out);
 			events &= ~EVENT_ADC_DATA;
 		}
 	}
@@ -162,7 +182,7 @@ void EventChecker(void)
 	//Until I can make a nice non-blocking way of checking the drv for faults
 	//this will be called approximately every second and will block for 50uS
 	//Pushing the DRV to its max SPI Fcy should bring this number down a little.
-	if (faultPrescalar > 5999) {
+	if (faultPrescalar > 1000) {
 		DRV8301_UpdateStatus();
 		faultPrescalar = 0;
 	} else {
@@ -178,7 +198,7 @@ void EventChecker(void)
 		events |= EVENT_CAN_RX;
 	}
 
-	if (spiBuffer.dataSize) {
+	if (spiBuffer.dataSize > 6) {
 		//The first bit of SPI is nonsense from the DRV due to it starting up
 		//that needs to be handled in the event handler which will process this
 		//event.
@@ -189,10 +209,10 @@ void EventChecker(void)
 
 #ifdef SINE
 	if (ADCBuff.newData) {
-//		ADCBuff.newData = 0;
-//		events |= EVENT_ADC_DATA;
+		//		ADCBuff.newData = 0;
+		//		events |= EVENT_ADC_DATA;
 	}
-	
+
 	events |= EVENT_QEI_RQ;
 #endif
 	if (commutationPrescalar > 4) {
