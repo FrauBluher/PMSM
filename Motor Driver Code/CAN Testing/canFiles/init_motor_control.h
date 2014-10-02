@@ -10,36 +10,39 @@
 
 #include "motor_can.h"
 
+static float total;
+
+
 #ifdef	__cplusplus
 extern "C" {
 #endif
 
-/**
- * This controller uses the basic impedance equation of
- * T = To + K(l-lo) + B(v-vo)
- *
- * This Function calls terrible_P_motor_controller
- * @param length
- * @param velocity
- * 
- */
-void impedance_controller(int32_t length, int32_t velocity);
+    /**
+     * This controller uses the basic impedance equation of
+     * T = To + K(l-lo) + B(v-vo)
+     *
+     * This Function calls terrible_P_motor_controller
+     * @param length
+     * @param velocity
+     *
+     */
+    void impedance_controller(int32_t length, int32_t velocity);
 
-/**
- *
- * @param force in [N]
- * @return A converted value for strain gauge bits
- */
-uint32_t getBitsFromForce(int32_t torque);
+    /**
+     *
+     * @param force in [N]
+     * @return A converted value for strain gauge bits
+     */
+    float getBitsFromForce(float torque);
 
-/**
- *
- * @param bits
- * @return a force value in [N]
- */
-int32_t getForceFromBits(int32_t bits);
+    /**
+     *
+     * @param bits
+     * @return a force value in [N]
+     */
+    int32_t getForceFromBits(int32_t bits);
 
-void terrible_P_motor_controller(uint32_t bitForce);
+    void terrible_P_motor_controller(float bitForce);
 
 
 #ifdef	__cplusplus

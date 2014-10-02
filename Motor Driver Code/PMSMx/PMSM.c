@@ -146,7 +146,7 @@ uint8_t PMSM_Init(MotorInfo *information)
 
 	theta1 = 0;
 	for (i = 0; i < 3096; i++) {
-		SpaceVectorModulation(SVPWMTimeCalc(InversePark(0.2, 0, theta1)));
+		SpaceVectorModulation(SVPWMTimeCalc(InversePark(0.3, 0, theta1)));
 		for (j = 0; j < 400; j++) {
 			Nop();
 		}
@@ -172,7 +172,7 @@ uint8_t PMSM_Init(MotorInfo *information)
 	theta1 = 0;
 
 	for (i = 0; i < 3096; i++) {
-		SpaceVectorModulation(SVPWMTimeCalc(InversePark(0.2, 0, theta1)));
+		SpaceVectorModulation(SVPWMTimeCalc(InversePark(0.3, 0, theta1)));
 		for (j = 0; j < 400; j++) {
 			Nop();
 		}
@@ -191,9 +191,10 @@ uint8_t PMSM_Init(MotorInfo *information)
 	}
 
 	rotorOffset = (rotorOffset + rotorOffset2) / 2;
+//	rotorOffset = 1450;
 
-//	size = sprintf((char *) out, "Rotor Offset: %li\r\n", rotorOffset);
-//	DMA0_UART2_Transfer(size, (uint8_t *) out);
+	size = sprintf((char *) out, "Rotor Offset: %li\r\n", rotorOffset);
+	DMA0_UART2_Transfer(size, (uint8_t *) out);
 
 	return(0);
 }
@@ -230,9 +231,8 @@ void SetAirGapFluxLinkage(float id)
  */
 int32_t GetCableLength(void)
 {
-//	return((runningPositionCount / PULSES_PER_REVOLUTION) *
-//		SPOOL_CIRCUMFERENCE_MM);
-	return(runningPositionCount);
+	return((runningPositionCount / PULSES_PER_REVOLUTION) *
+		SPOOL_CIRCUMFERENCE_MM);
 }
 
 /**

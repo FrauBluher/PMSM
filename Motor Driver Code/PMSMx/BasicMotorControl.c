@@ -152,7 +152,7 @@ void SpeedControlStep(float speed)
 //	size = sprintf((char *) out, "%i,%u\r\n", indexCount, (uint16_t) (x_hat[2][0] * 10000));
 //	DMA0_UART2_Transfer(size, out);
 
-	LED4 ^= 1;
+//	LED4 ^= 1;
 }
 
 float Counts2RadSec(int16_t speed)

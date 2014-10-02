@@ -108,7 +108,7 @@ int main(void)
 #ifndef LQG_NOISE
 
 #ifndef SINE
-//			SpeedControlStep(200);
+			//			SpeedControlStep(200);
 #endif
 
 #endif
@@ -126,7 +126,7 @@ int main(void)
 			SetAirGapFluxLinkage(0);
 			SetTorque(.1);
 			PMSM_Update();
-			LED4 ^= 1;
+//			LED4 ^= 1;
 #endif
 #endif
 			events &= ~EVENT_UPDATE_SPEED;
@@ -163,15 +163,12 @@ int main(void)
 				C1TR67CONbits.TXREQ6 = 1;
 				txreq_bitarray = txreq_bitarray & 0b10111111;
 			}
-//			SetPosition((float)Target_position);
 
-			impedance_controller(GetCableLength(), GetCableVelocity());
-//			if (controlPrescale > 1) {
-//				//			terrible_P_motor_controller(8192000);
-//				impedance_controller(GetCableLength(), GetCableVelocity());
-//				controlPrescale = 0;
-//			}
-//			controlPrescale++;
+			SetPosition(1000);
+//			Actual_Position = GetCableLength();
+
+//			terrible_P_motor_controller(250);
+
 			events &= ~EVENT_CAN;
 		}
 
@@ -180,9 +177,9 @@ int main(void)
 			events &= ~EVENT_UART_DATA_READY;
 		}
 
-//		if (events & EVENT_CAN_RX) {
-//			events &= ~EVENT_CAN_RX;
-//		}
+		//		if (events & EVENT_CAN_RX) {
+		//			events &= ~EVENT_CAN_RX;
+		//		}
 
 		if (events & EVENT_SPI_RX) {
 			//static uint16_t message[32];
@@ -256,8 +253,6 @@ void EventChecker(void)
 
 	events |= EVENT_QEI_RQ;
 #endif
-	events |= EVENT_QEI_RQ; // ADDED for Speed Control with position sensing
-
 	if (commutationPrescalar > 4) {
 		events |= EVENT_UPDATE_SPEED;
 		commutationPrescalar = 0;
