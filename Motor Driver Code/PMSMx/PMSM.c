@@ -1,18 +1,18 @@
 /*
  * The MIT License (MIT)
- *
+ * 
  * Copyright (c) 2013 Pavlo Milo Manovi
- *
+ * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- *
+ * 
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- *
+ * 
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -26,12 +26,17 @@
  * @file	PMSM.c
  * @author 	Pavlo Manovi
  * @date 	July, 2013
- * @brief 	Provides methods for controlling PMSM motors sinusoidally.
+ * @brief 	This library provides SVPWM with position control with an LQG
  *
- * This file provides wrapping implementation of torque, position, and air
- * gap flux linkage control for permemant magnet synchronous motors, sinusoidally.
+ * This library provides implementation of a 3rd order LQG controller for a PMSM motor with
+ * space vector modulated sinusoidal pulse width modulation control of a permenant magnet
+ * synchronous motor.
  *
+ * The LQG controller has been characterized in closed loop with an ARX model using a noise
+ * model to uncorrelate the characterized input from noise.  Supporting MATLAB code can be
+ * found in the same repository that this code was found in.
  */
+
 
 #include <xc.h>
 #include <math.h>
@@ -47,14 +52,22 @@
 #include <uart.h>
 #include "../../../../../Code/SSB_Code/Motor_Driver/motor_can.h"
 
+#include "../CAN Testing/canFiles/motor_can.h"
+
 #ifndef CHARACTERIZE
 #include "TrigData.h"
 
-#warning The motor driver code is in alpha.
-
-#define SQRT_3 1.732050807568877
 #define SQRT_3_2 0.86602540378
-#define PWM 4000 //This should be centralized somewhere...
+#define SQRT_3 1.732050807568877
+//#define SPOOL_SCALING_FACTOR 565.486683301
+#define TWO_PI 6.283185307
+#define SPOOL_RADIUS_MM 30
+#define LOOP_TIME_S 0.000333
+#define SPOOL_CIRCUMFERENCE_MM (TWO_PI*SPOOL_RADIUS_MM)
+#define	SPOOL_SCALING_FACTOR (SPOOL_CIRCUMFERENCE_MM)/LOOP_TIME_S //used full pi instead of 3.14
+#define PULSES_PER_REVOLUTION 223232
+
+#define TRANS QEI1STATbits.IDXIRQ
 
 typedef struct {
 	float Vr1;
@@ -76,9 +89,10 @@ typedef struct {
 	float Vb;
 } TimesOut;
 
-static int32_t theta;
+static float theta;
 static float Iq;
 static float Id;
+static float cableVelocity;
 
 static float u = 0;
 static float u1 = 0;
@@ -102,16 +116,13 @@ static float b4 = 0;
 static float b5 = 0;
 
 static uint8_t flag = 0;
-static uint8_t seeded = 0;
 static int32_t rotorOffset2;
 static int32_t rotorOffset;
-
-static uint32_t counter = 0;
-static uint8_t counter2 = 0;
 
 static int32_t indexCount = 0;
 static int32_t lastIndexCount = 0;
 static int32_t runningPositionCount = 0;
+static int32_t lastRunningPostionCount = 0;
 
 void SpaceVectorModulation(TimesOut sv);
 InvClarkOut InverseClarke(InvParkOut pP);
@@ -126,24 +137,25 @@ TimesOut SVPWMTimeCalc(InvParkOut pP);
 uint8_t PMSM_Init(MotorInfo *information)
 {
 	static uint16_t size;
+	static uint32_t theta1;
 	static uint8_t out[56];
 
-	uint16_t i;
+	uint32_t i;
 	uint16_t j;
 	qeiCounter w;
 	w.l = 0;
 
-	theta = 0;
+	theta1 = 0;
 	for (i = 0; i < 3096; i++) {
-		SpaceVectorModulation(SVPWMTimeCalc(InversePark(0.05, 0, theta)));
-		for (j = 0; j < 400; j++) {
+		SpaceVectorModulation(SVPWMTimeCalc(InversePark(0.1, 0, theta1)));
+		for (j = 0; j < 800; j++) {
 			Nop();
 		}
-		theta -= 1;
+		theta1 -= 1;
 	}
 
-	SpaceVectorModulation(SVPWMTimeCalc(InversePark(0.1, 0, 0)));
-	for (i = 0; i < 40000; i++) {
+	SpaceVectorModulation(SVPWMTimeCalc(InversePark(0.2, 0, 0)));
+	for (i = 0; i < 80000; i++) {
 		Nop();
 	}
 
@@ -158,18 +170,18 @@ uint8_t PMSM_Init(MotorInfo *information)
 	/**********************************************************************/
 	/**********************************************************************/
 
-	theta = 0;
+	theta1 = 0;
 
 	for (i = 0; i < 3096; i++) {
-		SpaceVectorModulation(SVPWMTimeCalc(InversePark(0.05, 0, theta)));
-		for (j = 0; j < 400; j++) {
+		SpaceVectorModulation(SVPWMTimeCalc(InversePark(0.1, 0, theta1)));
+		for (j = 0; j < 800; j++) {
 			Nop();
 		}
-		theta += 1;
+		theta1 += 1;
 	}
 
-	SpaceVectorModulation(SVPWMTimeCalc(InversePark(0.1, 0, 0)));
-	for (i = 0; i < 40000; i++) {
+	SpaceVectorModulation(SVPWMTimeCalc(InversePark(0.2, 0, 0)));
+	for (i = 0; i < 80000; i++) {
 		Nop();
 	}
 
@@ -180,6 +192,7 @@ uint8_t PMSM_Init(MotorInfo *information)
 	}
 
 	rotorOffset = (rotorOffset + rotorOffset2) / 2;
+//	rotorOffset = 1450;
 
 	size = sprintf((char *) out, "Rotor Offset: %li\r\n", rotorOffset);
 	DMA0_UART2_Transfer(size, (uint8_t *) out);
@@ -189,7 +202,6 @@ uint8_t PMSM_Init(MotorInfo *information)
 
 /**
  * @brief Sets the commanded position of the motor.
- * @param pos The position of the rotor in radians from 0 - 2pi / n-poles.
  */
 void SetPosition(float pos)
 {
@@ -215,85 +227,68 @@ void SetAirGapFluxLinkage(float id)
 }
 
 /**
- * @brief calculates PMSM vectors and updates the init'd MotorInfo struct with duty values.
- *
- * This should be called after one is done updating position, field weakening, and torque.
- * Call only once after all three are updated, not after setting each individual parameter.
+ * @brief Calculates last known cable length and returns it.
+ * @return Cable length in mm.
  */
+int32_t GetCableLength(void)
+{
+	return((runningPositionCount / PULSES_PER_REVOLUTION) *
+		SPOOL_CIRCUMFERENCE_MM);
+}
+
+/**
+ * @brief Returns last known cable velocity in mm/s.
+ * @return Cable velocity in mm/S.
+ */
+int32_t GetCableVelocity(void)
+{
+	/**
+	 * Cable Velocity: ((2 * Pi * Radius of Spool) * Delta_Rotations) / Ts_Period
+	 * Radius of Spool: 30 mm
+	 * Ts_Period: 333 uS
+	 * Delta_Rotations: runningCount - lastCount
+	 *
+	 * All of these values combine to make SPOOL_SCALING_FACTOR
+	 */
+	cableVelocity = ((runningPositionCount - lastRunningPostionCount) /
+		PULSES_PER_REVOLUTION) * SPOOL_SCALING_FACTOR;
+
+	return((int32_t) cableVelocity);
+}
+
 void PMSM_Update(void)
 {
-//	indexCount = Read32bitQEI1PositionCounter();
-//
-//	if (!flag) {
-//		lastIndexCount = indexCount;
-//		flag = 1;
-//	}
-//
-//	//TODO: Fix QEI Drift...
-//	// -- Run event loop faster.
-//	// -- Faster outer loop for tracking index count.
-//	if (lastIndexCount != indexCount) {
-//		if (lastIndexCount > 0) {
-//			if (indexCount > 0) {
-//				if ((lastIndexCount > indexCount) && TRANS) {
-//					runningPositionCount += (2048 - lastIndexCount) + indexCount;
-//				} else if ((lastIndexCount > indexCount) && !TRANS) {
-//					runningPositionCount -= lastIndexCount - indexCount;
-//				} else if ((lastIndexCount < indexCount) && !TRANS) {
-//					runningPositionCount += indexCount - lastIndexCount;
-//				}
-//			} else {
-//				runningPositionCount += indexCount - lastIndexCount;
-//			}
-//		} else {
-//			if (indexCount < 0) {
-//				if ((lastIndexCount < indexCount) && TRANS) {
-//					runningPositionCount += -(2048 + lastIndexCount) + indexCount;
-//				} else if ((lastIndexCount < indexCount) && !TRANS) {
-//					runningPositionCount += -(lastIndexCount - indexCount);
-//				} else if ((lastIndexCount > indexCount) && !TRANS) {
-//					runningPositionCount += indexCount - lastIndexCount;
-//				}
-//			} else {
-//				runningPositionCount -= indexCount - lastIndexCount;
-//			}
-//		}
-//	}
-//	QEI1STATbits.IDXIRQ = 0;
-//
-//	lastIndexCount = indexCount;
-//	y3 = y2;
-//	y2 = y1;
-//	y1 = y;
-//
-//	y = pos - ((float) (int32_t) runningPositionCount * 0.0030679616); //Scaling it back into radians.
-//	u = b1 * y + b2 * y1 + b3 * y2 + b4 * y3 - a1 * u - a2 * u1 - a3 * u2 - a4 * u3;
-//
-//
-//	//SATURATION HERE...  IF YOU REALLY NEED MORE JUICE...  UP THIS TO 1 and -1
-//	if (u > .7) {
-//		u = .7;
-//	} else if (u < -.7) {
-//		u = -.7;
-//	}
-//
-//	u3 = u2;
-//	u2 = u1;
-//	u1 = u;
-//
-//	if (u > 0) {
-//		//Commutation phase offset
-//		indexCount += 512 - rotorOffset; //Phase offset of 90 degrees.
-//		dummy_u = u;
-//	} else {
-//		indexCount += -512 - rotorOffset; //Phase offset of 90 degrees.
-//		dummy_u = -u;
-//	}
-//
-//	indexCount = (-indexCount + 2048) % 2048;
-//
-//
-//	SpaceVectorModulation(SVPWMTimeCalc(InversePark(dummy_u, 0, indexCount)));
+	y3 = y2;
+	y2 = y1;
+	y1 = y;
+
+	y = theta - ((float) (int32_t) runningPositionCount * 0.0030679616); //Scaling it back into radians.
+	u = b1 * y + b2 * y1 + b3 * y2 + b4 * y3 - a1 * u - a2 * u1 - a3 * u2 - a4 * u3;
+
+
+	//SATURATION HERE...  IF YOU REALLY NEED MORE JUICE...  UP THIS TO 1 and -1
+	if (u > .7) {
+		u = .7;
+	} else if (u < -.7) {
+		u = -.7;
+	}
+
+	u3 = u2;
+	u2 = u1;
+	u1 = u;
+
+	if (u > 0) {
+		//Commutation phase offset
+		indexCount += 512 - rotorOffset; //Phase offset of 90 degrees.
+		dummy_u = u;
+	} else {
+		indexCount += -512 - rotorOffset; //Phase offset of 90 degrees.
+		dummy_u = -u;
+	}
+
+	indexCount = (-indexCount + 2048) % 2048;
+
+	SpaceVectorModulation(SVPWMTimeCalc(InversePark(dummy_u, 0, indexCount)));
 }
 
 /****************************   Private Stuff   *******************************/
@@ -319,12 +314,6 @@ void SpaceVectorModulation(TimesOut sv)
 	default:
 		break;
 	}
-
-
-	//	size = sprintf((char *) out, "%i, %i, %i, %u, %i, %i\r\n",
-	//		GH_A_DC, GH_B_DC, GH_C_DC, sv.sector, (int16_t) (sv.Va * 1000), (int16_t) (sv.Vb * 1000)
-	//		);
-	//	DMA0_UART2_Transfer(size, out);
 }
 
 InvClarkOut InverseClarke(InvParkOut pP)
@@ -350,7 +339,7 @@ InvParkOut InversePark(float Vq, float Vd, int16_t position1)
 
 	if (position1 <= 0) {
 		position = 2048 + (position1 % 2048);
-		cos_position = (2048 + ((position1 + 512) % 2048)) % 2048; //TODO: SPEED THIS UP!!!!!!
+		cos_position = (2048 + ((position1 + 512) % 2048)) % 2048;
 	} else {
 		position = position1 % 2048;
 		cos_position = (position1 + 512) % 2048;
@@ -358,9 +347,6 @@ InvParkOut InversePark(float Vq, float Vd, int16_t position1)
 
 	cosine = TRIG_DATA[cos_position];
 	sine = TRIG_DATA[position];
-
-	//float cosine = 0;
-	//float sine = 0;
 
 	returnVal.Va = Vd * cosine - Vq * sine;
 	returnVal.Vb = Vd * sine + Vq * cosine;
@@ -386,4 +372,45 @@ void __attribute__((__interrupt__, no_auto_psv)) _QEI1Interrupt(void)
 	IFS3bits.QEI1IF = 0; /* Clear QEI interrupt flag */
 }
 
+void QEIPositionUpdate(void)
+{
+	indexCount = Read32bitQEI1PositionCounter();
+
+	if (!flag) {
+		lastIndexCount = indexCount;
+		flag = 1;
+	}
+
+	if (lastIndexCount != indexCount) {
+		if (lastIndexCount > 0) {
+			if (indexCount > 0) {
+				if ((lastIndexCount > indexCount) && TRANS) {
+					runningPositionCount += (2048 - lastIndexCount) + indexCount;
+				} else if ((lastIndexCount > indexCount) && !TRANS) {
+					runningPositionCount -= lastIndexCount - indexCount;
+				} else if ((lastIndexCount < indexCount) && !TRANS) {
+					runningPositionCount += indexCount - lastIndexCount;
+				}
+			} else {
+				runningPositionCount += indexCount - lastIndexCount;
+			}
+		} else {
+			if (indexCount < 0) {
+				if ((lastIndexCount < indexCount) && TRANS) {
+					runningPositionCount += -(2048 + lastIndexCount) + indexCount;
+				} else if ((lastIndexCount < indexCount) && !TRANS) {
+					runningPositionCount += -(lastIndexCount - indexCount);
+				} else if ((lastIndexCount > indexCount) && !TRANS) {
+					runningPositionCount += indexCount - lastIndexCount;
+				}
+			} else {
+				runningPositionCount -= indexCount - lastIndexCount;
+			}
+		}
+	}
+	QEI1STATbits.IDXIRQ = 0;
+
+	lastIndexCount = indexCount;
+}
 #endif
+

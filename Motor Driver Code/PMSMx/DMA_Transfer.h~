@@ -32,7 +32,6 @@
  * Bot, DMA for the eCAN module is handled in the CAN festival libraries. 
  */
 
-
 #ifndef DMA_TRANSFER_H
 #define	DMA_TRANSFER_H
 

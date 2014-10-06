@@ -20,6 +20,8 @@
 #include "DRV8301.h"
 #include "DMA_Transfer.h"
 #include "PMSM.h"
+#include "../CAN Testing/canFiles/motor_can.h"
+#include "../CAN Testing/canFiles/init_motor_control.h"
 #include <dsp.h>
 #include <uart.h>
 #include "../../../../../Code/SSB_Code/Motor_Driver/motor_can.h"
@@ -28,6 +30,7 @@
 #ifndef CHARACTERIZE
 #ifndef LQG_NOISE
 #include "BasicMotorControl.h"
+#include "rtwtypes.h"
 #endif
 #else
 
@@ -53,19 +56,21 @@ ADCBuffer ADCBuff;
 
 uint16_t events = 0;
 uint16_t faultPrescalar = 0;
+uint16_t commutationPrescalar = 0;
 uint16_t torque;
 
-uint8_t canPrescaler = 0;
-extern can_data can_state;
+uint16_t canPrescaler = 0;
 extern uint8_t txreq_bitarray;
+uint16_t controlPrescale = 0;
 
 enum {
 	EVENT_UART_DATA_READY = 0x01,
-	EVENT_CAN_RX = 0x02,
+	EVENT_CAN = 0x02,
 	EVENT_SPI_RX = 0x04,
 	EVENT_REPORT_FAULT = 0x08,
 	EVENT_UPDATE_SPEED = 0x10,
-	EVENT_ADC_DATA = 0x20
+	EVENT_ADC_DATA = 0x20,
+	EVENT_QEI_RQ = 0x40
 };
 
 void EventChecker(void);
@@ -83,7 +88,8 @@ int main(void)
 	}
 	InitBoard(&ADCBuff, &uartBuffer, &spiBuffer, EventChecker);
 
-	can_state.init_return = RET_UNKNOWN;
+	//	SetPosition(0);
+
 	if (can_motor_init()) {
 		while (1);
 	}
@@ -94,13 +100,17 @@ int main(void)
 	LED4 = 1;
 
 	while (1) {
+		if (events & EVENT_QEI_RQ) {
+			QEIPositionUpdate();
+			events &= ~EVENT_QEI_RQ;
+		}
 		if (events & EVENT_UPDATE_SPEED) {
 #ifndef CHARACTERIZE
 
 #ifndef LQG_NOISE
 
 #ifndef SINE
-			SpeedControlStep(200);
+			//			SpeedControlStep(200);
 #endif
 
 #endif
@@ -118,10 +128,51 @@ int main(void)
 //			SetAirGapFluxLinkage(0);
 //			SetTorque(.1);
 //			PMSM_Update();
+
 //			LED4 ^= 1;
 #endif
 #endif
 			events &= ~EVENT_UPDATE_SPEED;
+		}
+
+		if (events & EVENT_CAN) {
+			can_process();
+
+			if (txreq_bitarray & 0b00000001 && !C1TR01CONbits.TXREQ0) {
+				C1TR01CONbits.TXREQ0 = 1;
+				txreq_bitarray = txreq_bitarray & 0b11111110;
+			}
+			if (txreq_bitarray & 0b00000010 && !C1TR01CONbits.TXREQ1) {
+				C1TR01CONbits.TXREQ1 = 1;
+				txreq_bitarray = txreq_bitarray & 0b11111101;
+			}
+			if (txreq_bitarray & 0b00000100 && !C1TR23CONbits.TXREQ2) {
+				C1TR23CONbits.TXREQ2 = 1;
+				txreq_bitarray = txreq_bitarray & 0b11111011;
+			}
+			if (txreq_bitarray & 0b00001000 && !C1TR23CONbits.TXREQ3) {
+				C1TR23CONbits.TXREQ3 = 1;
+				txreq_bitarray = txreq_bitarray & 0b11110111;
+			}
+			if (txreq_bitarray & 0b00010000 && !C1TR45CONbits.TXREQ4) {
+				C1TR45CONbits.TXREQ4 = 1;
+				txreq_bitarray = txreq_bitarray & 0b11101111;
+			}
+			if (txreq_bitarray & 0b00100000 && !C1TR45CONbits.TXREQ5) {
+				C1TR45CONbits.TXREQ5 = 1;
+				txreq_bitarray = txreq_bitarray & 0b11011111;
+			}
+			if (txreq_bitarray & 0b01000000 && !C1TR67CONbits.TXREQ6) {
+				C1TR67CONbits.TXREQ6 = 1;
+				txreq_bitarray = txreq_bitarray & 0b10111111;
+			}
+
+			SetPosition(1000);
+//			Actual_Position = GetCableLength();
+
+//			terrible_P_motor_controller(250);
+
+			events &= ~EVENT_CAN;
 		}
 
 		if (events & EVENT_UART_DATA_READY) {
@@ -129,12 +180,12 @@ int main(void)
 			events &= ~EVENT_UART_DATA_READY;
 		}
 
-		if (events & EVENT_CAN_RX) {
-			events &= ~EVENT_CAN_RX;
-		}
+		//		if (events & EVENT_CAN_RX) {
+		//			events &= ~EVENT_CAN_RX;
+		//		}
 
 		if (events & EVENT_SPI_RX) {
-			static uint16_t message[32];
+			//static uint16_t message[32];
 			//			uint16_t size;
 			//			uint8_t out[56];
 			//			message[0] = 0;
@@ -152,8 +203,8 @@ int main(void)
 		}
 
 		if (events & EVENT_ADC_DATA) {
-//			size = sprintf((char *) out, "%i, %i\r\n", ADCBuff.Adc1Data[0], ADCBuff.Adc1Data[1]);
-//			DMA0_UART2_Transfer(size, out);
+			//			size = sprintf((char *) out, "%i, %i\r\n", ADCBuff.Adc1Data[0], ADCBuff.Adc1Data[1]);
+			//			DMA0_UART2_Transfer(size, out);
 			events &= ~EVENT_ADC_DATA;
 		}
 	}
@@ -163,38 +214,8 @@ void EventChecker(void)
 {
 #ifndef CHARACTERIZE
 	if (canPrescaler > 2) {
-		can_process();
-
-		if (txreq_bitarray & 0b00000001 && !C1TR01CONbits.TXREQ0) {
-			C1TR01CONbits.TXREQ0 = 1;
-			txreq_bitarray = txreq_bitarray & 0b11111110;
-		}
-		if (txreq_bitarray & 0b00000010 && !C1TR01CONbits.TXREQ1) {
-			C1TR01CONbits.TXREQ1 = 1;
-			txreq_bitarray = txreq_bitarray & 0b11111101;
-		}
-		if (txreq_bitarray & 0b00000100 && !C1TR23CONbits.TXREQ2) {
-			C1TR23CONbits.TXREQ2 = 1;
-			txreq_bitarray = txreq_bitarray & 0b11111011;
-		}
-		if (txreq_bitarray & 0b00001000 && !C1TR23CONbits.TXREQ3) {
-			C1TR23CONbits.TXREQ3 = 1;
-			txreq_bitarray = txreq_bitarray & 0b11110111;
-		}
-		if (txreq_bitarray & 0b00010000 && !C1TR45CONbits.TXREQ4) {
-			C1TR45CONbits.TXREQ4 = 1;
-			txreq_bitarray = txreq_bitarray & 0b11101111;
-		}
-		if (txreq_bitarray & 0b00100000 && !C1TR45CONbits.TXREQ5) {
-			C1TR45CONbits.TXREQ5 = 1;
-			txreq_bitarray = txreq_bitarray & 0b11011111;
-		}
-		if (txreq_bitarray & 0b01000000 && !C1TR67CONbits.TXREQ6) {
-			C1TR67CONbits.TXREQ6 = 1;
-			txreq_bitarray = txreq_bitarray & 0b10111111;
-		}
-
 		can_time_dispatch();
+		events |= EVENT_CAN;
 		canPrescaler = 0;
 	} else {
 		canPrescaler++;
@@ -202,22 +223,21 @@ void EventChecker(void)
 	//Until I can make a nice non-blocking way of checking the drv for faults
 	//this will be called approximately every second and will block for 50uS
 	//Pushing the DRV to its max SPI Fcy should bring this number down a little.
-	if (faultPrescalar > 999) {
+	if (faultPrescalar > 5999) {
 		DRV8301_UpdateStatus();
 		faultPrescalar = 0;
-		torque = 0;
 	} else {
-		torque++;
 		faultPrescalar++;
 	}
+
 	if (uartBuffer.dataSize) {
 
 		events |= EVENT_UART_DATA_READY;
 	}
 
-	if (canBuffer.dataSize) {
-		events |= EVENT_CAN_RX;
-	}
+	//	if (canBuffer.dataSize) {
+	//		events |= EVENT_CAN_RX;
+	//	}
 
 	if (spiBuffer.dataSize) {
 		//The first bit of SPI is nonsense from the DRV due to it starting up
@@ -230,11 +250,18 @@ void EventChecker(void)
 
 #ifdef SINE
 	if (ADCBuff.newData) {
-//		ADCBuff.newData = 0;
-//		events |= EVENT_ADC_DATA;
+		//		ADCBuff.newData = 0;
+		//		events |= EVENT_ADC_DATA;
 	}
+
+	events |= EVENT_QEI_RQ;
 #endif
-	events |= EVENT_UPDATE_SPEED;
+	if (commutationPrescalar > 4) {
+		events |= EVENT_UPDATE_SPEED;
+		commutationPrescalar = 0;
+	} else {
+		commutationPrescalar++;
+	}
 }
 
 uint16_t ADC_LPF(void)

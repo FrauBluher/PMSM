@@ -13,6 +13,16 @@
 #include "CircularBuffer.h"
 #include "DMA_Transfer.h"
 
+/**
+ * For LQG Chacterization with sinusoidal commutation:
+ * #define SINE
+ * #define QEI
+ * #define CHARACTERIZE
+ * 
+ * For LQG sinusoidal Position Control
+ * #define #SINE
+ * #define #QEI
+ */
 //#define CHARACTERIZE
 #define QEI
 //#define LQG_NOISE

@@ -129,7 +129,7 @@ void MotorInit()
 
 	if (1) { //!(initInfo.UARTInited & 0x01)) {!(initInfo.MotorInited & 0x02)) {
 #ifdef SINE
-	//TODO: DETERMINE A GOOD SWITCHING FREQUENCY...  DOES A LOW FREQUENCY REALLY JUST KILL THE MOTOR?
+		//TODO: DETERMINE A GOOD SWITCHING FREQUENCY...  DOES A LOW FREQUENCY REALLY JUST KILL THE MOTOR?
 
 		/* Set PWM Periods on PHASEx Registers */
 		PHASE1 = 400;
@@ -164,7 +164,7 @@ void MotorInit()
 		PTCON = 0x8000;
 #else
 		/* Set PWM Period on Primary Time Base */
-		PTPER = 1750;
+		PTPER = 400;
 		/* Set Phase Shift */
 		PHASE1 = 0;
 		SPHASE1 = 0;
@@ -277,10 +277,11 @@ void PinInit(void)
 		IN_FN_PPS_QEB1 = IN_PIN_PPS_RP70; //QEI B
 		IN_FN_PPS_QEA1 = IN_PIN_PPS_RP69; //QEI A
 
+		/*Initialize the pins as input, just in case the board doesn't init CAN*/
 		TRISFbits.TRISF4 = 1;
 		TRISFbits.TRISF5 = 1;
-		IN_FN_PPS_C1RX = IN_PIN_PPS_RP100; //CAN1 RX
-		OUT_PIN_PPS_RP101 = OUT_FN_PPS_C1TX; //CAN1 TX
+		IN_FN_PPS_C1RX = IN_PIN_PPS_RP100; //C1Rx
+		OUT_PIN_PPS_RP101 = OUT_FN_PPS_C1TX; //C1Tx
 
 		//Lock PPS Registers
 		__builtin_write_OSCCONL(OSCCON | (1 << 6));
@@ -326,12 +327,12 @@ void TimersInit(void)
 		T7CONbits.TON = 0;
 		T7CONbits.TCS = 0;
 		T7CONbits.TGATE = 0;
-		T7CONbits.TCKPS = 0b11; // Select 1:256 Prescaler
+		T7CONbits.TCKPS = 0b0; // Select 1:1 Prescaler
 		TMR7 = 0x00;
 #ifdef CHARACTERIZE
-		PR7 = 91; //Approximately 5kHz (4974 Hz)... 0x0112 For 1kHz  0x0037 for 5kHz  0x0089 for 2kHz
+		PR7 = 4662; //91 = 15015 Hz
 #else
-		PR7 = 91; //91 = 3kHz
+		PR7 = 4662; //91 = 15015 Hz
 #endif
 		IPC12bits.T7IP = 0x01;
 		IFS3bits.T7IF = 0;

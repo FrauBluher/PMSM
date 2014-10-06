@@ -2,7 +2,7 @@
  * File:   PRBSCharacterization.h
  * Author: pavlo
  *
- * Deprecated method.
+ * Created on August 1, 2014, 9:24 AM
  */
 
 #ifndef LQG_NOISECHARACTERIZATION_H
