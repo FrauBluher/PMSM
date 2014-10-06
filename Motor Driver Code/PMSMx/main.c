@@ -24,8 +24,6 @@
 #include "../CAN Testing/canFiles/init_motor_control.h"
 #include <dsp.h>
 #include <uart.h>
-#include "../../../../../Code/SSB_Code/Motor_Driver/motor_can.h"
-#include "../../../../../Code/SSB_Code/Motor_Driver/can_dspic33e_motor.h"
 
 #ifndef CHARACTERIZE
 #ifndef LQG_NOISE
@@ -125,9 +123,9 @@ int main(void)
 
 #ifndef CHARACTERIZE
 #ifdef SINE
-//			SetAirGapFluxLinkage(0);
-//			SetTorque(.1);
-//			PMSM_Update();
+			SetAirGapFluxLinkage(0);
+			SetTorque(.1);
+			PMSM_Update();
 
 //			LED4 ^= 1;
 #endif
