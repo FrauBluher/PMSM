@@ -76,15 +76,15 @@ Archive member included because of file (symbol)
 /opt/microchip/xc16/v1.21/bin/bin/../../lib/libm-elf.a(addsf3.epeo)
                               build/default/production/PMSM.o (___subsf3)
 /opt/microchip/xc16/v1.21/bin/bin/../../lib/libm-elf.a(divsf3.epeo)
-                              build/default/production/cordic.o (___divsf3)
+                              build/default/production/PMSM.o (___divsf3)
 /opt/microchip/xc16/v1.21/bin/bin/../../lib/libm-elf.a(divsi3.epeo)
-                              build/default/production/cordic.o (___divsi3)
+                              build/default/production/PMSM.o (___divsi3)
 /opt/microchip/xc16/v1.21/bin/bin/../../lib/libm-elf.a(feqltle.epeo)
                               build/default/production/cordic.o (___eqsf2)
 /opt/microchip/xc16/v1.21/bin/bin/../../lib/libm-elf.a(fgtge.epeo)
                               build/default/production/PMSM.o (___gtsf2)
 /opt/microchip/xc16/v1.21/bin/bin/../../lib/libm-elf.a(fixsfsi.epeo)
-                              build/default/production/cordic.o (_(float, int, long long, short, float, short, int))
+                              build/default/production/PMSM.o (_(float, int, long long, short, float, short, int))
 /opt/microchip/xc16/v1.21/bin/bin/../../lib/libm-elf.a(fixunssfsi.epeo)
                               build/default/production/main.o (___fixunssfsi)
 /opt/microchip/xc16/v1.21/bin/bin/../../lib/libm-elf.a(floatsisf.epeo)
@@ -134,7 +134,7 @@ Archive member included because of file (symbol)
 /opt/microchip/xc16/v1.21/bin/bin/../../lib/libc-elf.a(_iob.epelo)
                               build/default/production/cordic.o (__iob)
 /opt/microchip/xc16/v1.21/bin/bin/../../lib/libc-elf.a(sprintf_cdnopuxX.EPeo)
-                              build/default/production/PMSM.o (__sprintf_cdnopuxX)
+                              build/default/production/main.o (__sprintf_cdnopuxX)
 /opt/microchip/xc16/v1.21/bin/bin/../../lib/libc-elf.a(doprnt_cdnopuxX.EPelo)
                               /opt/microchip/xc16/v1.21/bin/bin/../../lib/libc-elf.a(sprintf_cdnopuxX.EPeo) (__vfprintf_cdnopuxX)
 /opt/microchip/xc16/v1.21/bin/bin/../../lib/libc-elf.a(fflush.epelo)
@@ -164,11 +164,11 @@ Program Memory  [Origin = 0x200, Length = 0x2a9fe]
 section                    address   length (PC units)   length (bytes) (dec)
 -------                    -------   -----------------   --------------------
 .text                        0x200              0x146c          0x1ea2  (7842)
-.const                      0x166c               0x6f0           0xa68  (2664)
-.dinit                      0x1d5c              0x19a2          0x2673  (9843)
-.text                       0x36fe              0x3212          0x4b1b  (19227)
+.const                      0x166c               0x70a           0xa8f  (2703)
+.dinit                      0x1d76              0x19f8          0x26f4  (9972)
+.text                       0x376e              0x33d0          0x4db8  (19896)
 
-                     Total program memory used (bytes):         0x9a98  (39576) 15%
+                     Total program memory used (bytes):         0x9ddd  (40413) 15%
 
 
 Auxflash Memory  [Origin = 0x7fc000, Length = 0x3ff8]
@@ -185,30 +185,29 @@ section                    address      alignment gaps    total length  (dec)
 -------                    -------      --------------    -------------------
 .nbss                       0x1000                   0             0x2  (2)
 .data                       0x1002                   0          0x24b8  (9400)
-.bss                        0x34ba                   0           0x33c  (828)
-.data.dpowers               0x37f6                   0            0xa0  (160)
-.data._iob                  0x3896                   0            0x2c  (44)
-.data                       0x38c2                   0            0x2a  (42)
-.bss                        0x38ec                   0            0x64  (100)
-.data                       0x3950                   0             0x4  (4)
-.bss                        0x3954                   0             0x6  (6)
-.data.__C30_UART            0x395a                   0             0x2  (2)
-.bss                        0x395c                   0             0x2  (2)
-.heap                       0x395e                   0           0x830  (2096)
-_0xf5d0dac854232e44         0x7f3e                   0             0x2  (2)
-_0xf5d0db2454232e44         0x7f40                   0            0xc0  (192)
+.bss                        0x34ba                   0           0x364  (868)
+.data.dpowers               0x381e                   0            0xa0  (160)
+.data                       0x38be                   0            0x86  (134)
+.data._iob                  0x3944                   0            0x2c  (44)
+.data                       0x3970                   0            0x2a  (42)
+.bss                        0x399a                   0            0x6a  (106)
+.data.__C30_UART            0x3a04                   0             0x2  (2)
+.bss                        0x3a06                   0             0x2  (2)
+.heap                       0x3a08                   0           0x830  (2096)
+_0xf5cc6ac8542da350         0x7f3e                   0             0x2  (2)
+_0xf5cc6b24542da350         0x7f40                   0            0xc0  (192)
 
-                        Total data memory used (bytes):         0x3250  (12880) 44%
+                        Total data memory used (bytes):         0x32fa  (13050) 45%
 
 
 Dynamic Memory Usage
 
 region                     address                      maximum length  (dec)
 ------                     -------                      ---------------------
-heap                        0x395e                               0x830  (2096)
-stack                       0x418e                              0x3db0  (15792)
+heap                        0x3a08                               0x830  (2096)
+stack                       0x4238                              0x3d06  (15622)
 
-                        Maximum dynamic memory (bytes):         0x45e0  (17888)
+                        Maximum dynamic memory (bytes):         0x4536  (17718)
 
 
 External Symbols in Data Memory (by address):
@@ -222,62 +221,66 @@ External Symbols in Data Memory (by address):
                     0x355e                  _spiBuf
                     0x35de                  _ADCBuff
                     0x36e0                  _torque
-                    0x3896                  __iob
-                    0x38c0                  __Files
-                    0x38ec                  _uart_CB_Point
-                    0x38ee                  _spi_CB_Point
-                    0x38f0                  _can_CB_Point
-                    0x38f2                  _SPI1RxBuffA
-                    0x3912                  _ADCBuffPoint
-                    0x3930                  _eventCallbackFcn
-                    0x3932                  ___allocs
-                    0x393a                  ___allocp
-                    0x393c                  ___alloct
-                    0x393e                  ___allocx
-                    0x394a                  __outdone
-                    0x394b                  __sibuf
-                    0x394d                  __sobuf
-                    0x3950                  _events
-                    0x3952                  _faultPrescalar
-                    0x3958                  __atexitptr
-                    0x395a                  ___C30_UART
-                    0x395c                  ___curbrk
+                    0x38be                  _emptyBuf
+                    0x393e                  _events
+                    0x3940                  _faultPrescalar
+                    0x3942                  _commutationPrescalar
+                    0x3944                  __iob
+                    0x396e                  __Files
+                    0x399a                  _uart_CB_Point
+                    0x399c                  _spi_CB_Point
+                    0x399e                  _can_CB_Point
+                    0x39a0                  _SPI1RxBuffA
+                    0x39c0                  _ADCBuffPoint
+                    0x39de                  _eventCallbackFcn
+                    0x39e0                  ___allocs
+                    0x39e8                  ___allocp
+                    0x39ea                  ___alloct
+                    0x39ec                  ___allocx
+                    0x39f8                  __outdone
+                    0x39f9                  __sibuf
+                    0x39fb                  __sobuf
+                    0x3a02                  __atexitptr
+                    0x3a04                  ___C30_UART
+                    0x3a06                  ___curbrk
                     0x7f3e                  _BufferB
                     0x7f40                  _Ecan1Rx
 
 External Symbols in Data Memory (by name):
 
                     0x35de                  _ADCBuff
-                    0x3912                  _ADCBuffPoint
+                    0x39c0                  _ADCBuffPoint
                     0x7f3e                  _BufferB
                     0x7f40                  _Ecan1Rx
-                    0x38f2                  _SPI1RxBuffA
+                    0x39a0                  _SPI1RxBuffA
                     0x1002                  _TRIG_DATA
-                    0x38c0                  __Files
-                    0x395a                  ___C30_UART
-                    0x393a                  ___allocp
-                    0x3932                  ___allocs
-                    0x393c                  ___alloct
-                    0x393e                  ___allocx
-                    0x395c                  ___curbrk
-                    0x3958                  __atexitptr
-                    0x3896                  __iob
-                    0x394a                  __outdone
-                    0x394b                  __sibuf
-                    0x394d                  __sobuf
+                    0x396e                  __Files
+                    0x3a04                  ___C30_UART
+                    0x39e8                  ___allocp
+                    0x39e0                  ___allocs
+                    0x39ea                  ___alloct
+                    0x39ec                  ___allocx
+                    0x3a06                  ___curbrk
+                    0x3a02                  __atexitptr
+                    0x3944                  __iob
+                    0x39f8                  __outdone
+                    0x39f9                  __sibuf
+                    0x39fb                  __sobuf
                     0x3512                  _canBuf
                     0x3506                  _canBuffer
-                    0x38f0                  _can_CB_Point
-                    0x3930                  _eventCallbackFcn
-                    0x3950                  _events
-                    0x3952                  _faultPrescalar
+                    0x399e                  _can_CB_Point
+                    0x3942                  _commutationPrescalar
+                    0x38be                  _emptyBuf
+                    0x39de                  _eventCallbackFcn
+                    0x393e                  _events
+                    0x3940                  _faultPrescalar
                     0x355e                  _spiBuf
                     0x3552                  _spiBuffer
-                    0x38ee                  _spi_CB_Point
+                    0x399c                  _spi_CB_Point
                     0x36e0                  _torque
                     0x34c6                  _uartBuf
                     0x34ba                  _uartBuffer
-                    0x38ec                  _uart_CB_Point
+                    0x399a                  _uart_CB_Point
 
 External Symbols in Program Memory (by address):
 
@@ -335,146 +338,152 @@ External Symbols in Program Memory (by address):
                   0x00159c                  ___umoddi3
                   0x0015a8                  ___divdi3
                   0x00160c                  ___moddi3
-                  0x0036fe                  _angle_shift
-                  0x0037be                  _arccos_cordic
-                  0x0039bc                  _arccos_values
-                  0x003a30                  _arcsin_cordic
-                  0x003c2e                  _arcsin_values
-                  0x003ca2                  _arctan_cordic
-                  0x003e9a                  _arctan_values
-                  0x003f0e                  _cbrt_cordic
-                  0x0040fe                  _cbrt_values
-                  0x004172                  _cos_values
-                  0x0041e6                  _cossin_cordic
-                  0x004460                  _exp_cordic
-                  0x0046d4                  _exp_values
-                  0x004748                  _i4_huge
-                  0x004752                  _i4_min
-                  0x004772                  _ln_cordic
-                  0x004a12                  _ln_values
-                  0x004a86                  _r8_uniform_01
-                  0x004b50                  _sin_values
-                  0x004bc4                  _sqrt_cordic
-                  0x004d9c                  _sqrt_values
-                  0x004e10                  _tan_cordic
-                  0x004fe6                  _tan_values
-                  0x00505a                  _timestamp
-                  0x005060                  _PMSM_Init
-                  0x005252                  _SetPosition
-                  0x005260                  _SetTorque
-                  0x00527a                  _SetAirGapFluxLinkage
-                  0x005288                  _PMSM_Update
-                  0x0056ba                  _SpaceVectorModulation
-                  0x0059c8                  _InverseClarke
-                  0x005a64                  _InversePark
-                  0x005b62                  _SVPWMTimeCalc
-                  0x005bc6                  __QEI1Interrupt
-                  0x005bd8                  _CB_Init
-                  0x005c44                  _CB_ReadByte
-                  0x005cc2                  _CB_ReadMany
-                  0x005d44                  _CB_WriteByte
-                  0x005dac                  _CB_WriteMany
-                  0x005eb6                  _CB_Peek
-                  0x005ee8                  _CB_PeekMany
-                  0x005f54                  _CB_Remove
-                  0x005fba                  _InitBoard
-                  0x006032                  _UART2Init
-                  0x006060                  _MotorInit
-                  0x0060e6                  _ClockInit
-                  0x006140                  _PinInit
-                  0x006206                  _TimersInit
-                  0x006238                  _CNInit
-                  0x006248                  _QEIInit
-                  0x00625e                  _ADCInit
-                  0x0062d4                  _EventCheckInit
-                  0x0062e6                  __T7Interrupt
-                  0x006306                  __T3Interrupt
-                  0x00630e                  _DMA0_UART2_Transfer
-                  0x00634c                  _DMA1_UART2_Enable_RX
-                  0x00639a                  _DMA2_SPI_Transfer
-                  0x0063dc                  _DMA3_SPI_Enable_RX
-                  0x00641a                  _DMA4_CAN_Transfer
-                  0x00644e                  _DMA5_CAN_Enable_RX
-                  0x00645a                  _DMA6_ADC_Enable
-                  0x006490                  __DMA0Interrupt
-                  0x006498                  __DMA1Interrupt
-                  0x0064c2                  __DMA2Interrupt
-                  0x0064ca                  __DMA3Interrupt
-                  0x0064f4                  __DMA4Interrupt
-                  0x0064fc                  __DMA5Interrupt
-                  0x006526                  __DMA6Interrupt
-                  0x006538                  _main
-                  0x006614                  _EventChecker
-                  0x006666                  _ADC_LPF
-                  0x0066da                  _DRV8301_Init
-                  0x006780                  _DRV8301_UpdateStatus
-                  0x0067b4                  _DRV8301_Reset
-                  0x0067ce                  _DRV8301_DCCalibration
-                  0x00680a                  _SPI1_Init
-                  0x006846                  _SPI1_WriteToReg
-                  0x0068ac                  _SPI1_ReadFromReg
+                  0x00376e                  _angle_shift
+                  0x00382e                  _arccos_cordic
+                  0x003a2c                  _arccos_values
+                  0x003aa0                  _arcsin_cordic
+                  0x003c9e                  _arcsin_values
+                  0x003d12                  _arctan_cordic
+                  0x003f0a                  _arctan_values
+                  0x003f7e                  _cbrt_cordic
+                  0x00416e                  _cbrt_values
+                  0x0041e2                  _cos_values
+                  0x004256                  _cossin_cordic
+                  0x0044d0                  _exp_cordic
+                  0x004744                  _exp_values
+                  0x0047b8                  _i4_huge
+                  0x0047c2                  _i4_min
+                  0x0047e2                  _ln_cordic
+                  0x004a82                  _ln_values
+                  0x004af6                  _r8_uniform_01
+                  0x004bc0                  _sin_values
+                  0x004c34                  _sqrt_cordic
+                  0x004e0c                  _sqrt_values
+                  0x004e80                  _tan_cordic
+                  0x005056                  _tan_values
+                  0x0050ca                  _timestamp
+                  0x0050d0                  _PMSM_Init
+                  0x005308                  _SetPosition
+                  0x005316                  _SetTorque
+                  0x005330                  _SetAirGapFluxLinkage
+                  0x00533e                  _GetCableLength
+                  0x005356                  _GetCableVelocity
+                  0x00539a                  _PMSM_Update
+                  0x005604                  _SpaceVectorModulation
+                  0x005912                  _InverseClarke
+                  0x0059ae                  _InversePark
+                  0x005aac                  _SVPWMTimeCalc
+                  0x005b10                  __QEI1Interrupt
+                  0x005b22                  _QEIPositionUpdate
+                  0x005cf0                  _CB_Init
+                  0x005d5c                  _CB_ReadByte
+                  0x005dda                  _CB_ReadMany
+                  0x005e5c                  _CB_WriteByte
+                  0x005ec4                  _CB_WriteMany
+                  0x005fce                  _CB_Peek
+                  0x006000                  _CB_PeekMany
+                  0x00606c                  _CB_Remove
+                  0x0060d2                  _InitBoard
+                  0x00614a                  _UART2Init
+                  0x006178                  _MotorInit
+                  0x0061fe                  _ClockInit
+                  0x006258                  _PinInit
+                  0x00631e                  _TimersInit
+                  0x006350                  _CNInit
+                  0x006360                  _QEIInit
+                  0x006376                  _ADCInit
+                  0x0063ec                  _EventCheckInit
+                  0x0063fe                  __T7Interrupt
+                  0x00641e                  __T3Interrupt
+                  0x006426                  _main
+                  0x0065f8                  _EventChecker
+                  0x00665a                  _ADC_LPF
+                  0x0066ce                  _DMA0_UART2_Transfer
+                  0x00670c                  _DMA1_UART2_Enable_RX
+                  0x00675a                  _DMA2_SPI_Transfer
+                  0x00679c                  _DMA3_SPI_Enable_RX
+                  0x0067da                  _DMA4_CAN_Transfer
+                  0x00680e                  _DMA5_CAN_Enable_RX
+                  0x00681a                  _DMA6_ADC_Enable
+                  0x006850                  __DMA0Interrupt
+                  0x006858                  __DMA1Interrupt
+                  0x006882                  __DMA2Interrupt
+                  0x00688a                  __DMA3Interrupt
+                  0x0068c4                  __DMA4Interrupt
+                  0x0068cc                  __DMA5Interrupt
+                  0x0068f6                  __DMA6Interrupt
+                  0x006908                  _DRV8301_Init
+                  0x0069ae                  _DRV8301_UpdateStatus
+                  0x0069e2                  _DRV8301_Reset
+                  0x0069fc                  _DRV8301_DCCalibration
+                  0x006a38                  _SPI1_Init
+                  0x006a74                  _SPI1_WriteToReg
+                  0x006ada                  _SPI1_ReadFromReg
 
 External Symbols in Program Memory (by name):
 
-                  0x00625e                  _ADCInit
-                  0x006666                  _ADC_LPF
-                  0x005bd8                  _CB_Init
-                  0x005eb6                  _CB_Peek
-                  0x005ee8                  _CB_PeekMany
-                  0x005c44                  _CB_ReadByte
-                  0x005cc2                  _CB_ReadMany
-                  0x005f54                  _CB_Remove
-                  0x005d44                  _CB_WriteByte
-                  0x005dac                  _CB_WriteMany
-                  0x006238                  _CNInit
-                  0x0060e6                  _ClockInit
+                  0x006376                  _ADCInit
+                  0x00665a                  _ADC_LPF
+                  0x005cf0                  _CB_Init
+                  0x005fce                  _CB_Peek
+                  0x006000                  _CB_PeekMany
+                  0x005d5c                  _CB_ReadByte
+                  0x005dda                  _CB_ReadMany
+                  0x00606c                  _CB_Remove
+                  0x005e5c                  _CB_WriteByte
+                  0x005ec4                  _CB_WriteMany
+                  0x006350                  _CNInit
+                  0x0061fe                  _ClockInit
                   0x000312                  _CloseSPI1
                   0x0002d4                  _ConfigInt32bitQEI1
-                  0x00630e                  _DMA0_UART2_Transfer
-                  0x00634c                  _DMA1_UART2_Enable_RX
-                  0x00639a                  _DMA2_SPI_Transfer
-                  0x0063dc                  _DMA3_SPI_Enable_RX
-                  0x00641a                  _DMA4_CAN_Transfer
-                  0x00644e                  _DMA5_CAN_Enable_RX
-                  0x00645a                  _DMA6_ADC_Enable
-                  0x0067ce                  _DRV8301_DCCalibration
-                  0x0066da                  _DRV8301_Init
-                  0x0067b4                  _DRV8301_Reset
-                  0x006780                  _DRV8301_UpdateStatus
-                  0x0062d4                  _EventCheckInit
-                  0x006614                  _EventChecker
-                  0x005fba                  _InitBoard
-                  0x0059c8                  _InverseClarke
-                  0x005a64                  _InversePark
-                  0x006060                  _MotorInit
+                  0x0066ce                  _DMA0_UART2_Transfer
+                  0x00670c                  _DMA1_UART2_Enable_RX
+                  0x00675a                  _DMA2_SPI_Transfer
+                  0x00679c                  _DMA3_SPI_Enable_RX
+                  0x0067da                  _DMA4_CAN_Transfer
+                  0x00680e                  _DMA5_CAN_Enable_RX
+                  0x00681a                  _DMA6_ADC_Enable
+                  0x0069fc                  _DRV8301_DCCalibration
+                  0x006908                  _DRV8301_Init
+                  0x0069e2                  _DRV8301_Reset
+                  0x0069ae                  _DRV8301_UpdateStatus
+                  0x0063ec                  _EventCheckInit
+                  0x0065f8                  _EventChecker
+                  0x00533e                  _GetCableLength
+                  0x005356                  _GetCableVelocity
+                  0x0060d2                  _InitBoard
+                  0x005912                  _InverseClarke
+                  0x0059ae                  _InversePark
+                  0x006178                  _MotorInit
                   0x0002fc                  _Open32bitQEI1
                   0x00031e                  _OpenSPI1
-                  0x005060                  _PMSM_Init
-                  0x005288                  _PMSM_Update
-                  0x006140                  _PinInit
-                  0x006248                  _QEIInit
+                  0x0050d0                  _PMSM_Init
+                  0x00539a                  _PMSM_Update
+                  0x006258                  _PinInit
+                  0x006360                  _QEIInit
+                  0x005b22                  _QEIPositionUpdate
                   0x000308                  _Read32bitQEI1PositionCounter
-                  0x00680a                  _SPI1_Init
-                  0x0068ac                  _SPI1_ReadFromReg
-                  0x006846                  _SPI1_WriteToReg
-                  0x005b62                  _SVPWMTimeCalc
-                  0x00527a                  _SetAirGapFluxLinkage
-                  0x005252                  _SetPosition
-                  0x005260                  _SetTorque
-                  0x0056ba                  _SpaceVectorModulation
-                  0x006206                  _TimersInit
-                  0x006032                  _UART2Init
-                  0x006490                  __DMA0Interrupt
-                  0x006498                  __DMA1Interrupt
-                  0x0064c2                  __DMA2Interrupt
-                  0x0064ca                  __DMA3Interrupt
-                  0x0064f4                  __DMA4Interrupt
-                  0x0064fc                  __DMA5Interrupt
-                  0x006526                  __DMA6Interrupt
+                  0x006a38                  _SPI1_Init
+                  0x006ada                  _SPI1_ReadFromReg
+                  0x006a74                  _SPI1_WriteToReg
+                  0x005aac                  _SVPWMTimeCalc
+                  0x005330                  _SetAirGapFluxLinkage
+                  0x005308                  _SetPosition
+                  0x005316                  _SetTorque
+                  0x005604                  _SpaceVectorModulation
+                  0x00631e                  _TimersInit
+                  0x00614a                  _UART2Init
+                  0x006850                  __DMA0Interrupt
+                  0x006858                  __DMA1Interrupt
+                  0x006882                  __DMA2Interrupt
+                  0x00688a                  __DMA3Interrupt
+                  0x0068c4                  __DMA4Interrupt
+                  0x0068cc                  __DMA5Interrupt
+                  0x0068f6                  __DMA6Interrupt
                   0x0002d0                  __DefaultInterrupt
-                  0x005bc6                  __QEI1Interrupt
-                  0x006306                  __T3Interrupt
-                  0x0062e6                  __T7Interrupt
+                  0x005b10                  __QEI1Interrupt
+                  0x00641e                  __T3Interrupt
+                  0x0063fe                  __T7Interrupt
                   0x00032c                  ___addsf3
                   0x0015a8                  ___divdi3
                   0x0003e6                  ___divsf3
@@ -512,20 +521,20 @@ External Symbols in Program Memory (by name):
                   0x000200                  __resetPRI
                   0x000b9e                  __sprintf_cdnopuxX
                   0x000bc8                  __vfprintf_cdnopuxX
-                  0x0036fe                  _angle_shift
-                  0x0037be                  _arccos_cordic
-                  0x0039bc                  _arccos_values
-                  0x003a30                  _arcsin_cordic
-                  0x003c2e                  _arcsin_values
-                  0x003ca2                  _arctan_cordic
-                  0x003e9a                  _arctan_values
-                  0x003f0e                  _cbrt_cordic
-                  0x0040fe                  _cbrt_values
-                  0x004172                  _cos_values
-                  0x0041e6                  _cossin_cordic
+                  0x00376e                  _angle_shift
+                  0x00382e                  _arccos_cordic
+                  0x003a2c                  _arccos_values
+                  0x003aa0                  _arcsin_cordic
+                  0x003c9e                  _arcsin_values
+                  0x003d12                  _arctan_cordic
+                  0x003f0a                  _arctan_values
+                  0x003f7e                  _cbrt_cordic
+                  0x00416e                  _cbrt_values
+                  0x0041e2                  _cos_values
+                  0x004256                  _cossin_cordic
                   0x0007f4                  _exit
-                  0x004460                  _exp_cordic
-                  0x0046d4                  _exp_values
+                  0x0044d0                  _exp_cordic
+                  0x004744                  _exp_values
                   0x001146                  _fflush
                   0x000512                  _floorf
                   0x000522                  _fmodf
@@ -533,21 +542,21 @@ External Symbols in Program Memory (by name):
                   0x0012a2                  _fseek
                   0x001268                  _ftell
                   0x000896                  _fwrite
-                  0x004748                  _i4_huge
-                  0x004752                  _i4_min
-                  0x004772                  _ln_cordic
-                  0x004a12                  _ln_values
-                  0x006538                  _main
+                  0x0047b8                  _i4_huge
+                  0x0047c2                  _i4_min
+                  0x0047e2                  _ln_cordic
+                  0x004a82                  _ln_values
+                  0x006426                  _main
                   0x00097e                  _malloc
                   0x000b74                  _memcpy
-                  0x004a86                  _r8_uniform_01
+                  0x004af6                  _r8_uniform_01
                   0x000ade                  _realloc
-                  0x004b50                  _sin_values
-                  0x004bc4                  _sqrt_cordic
-                  0x004d9c                  _sqrt_values
-                  0x004e10                  _tan_cordic
-                  0x004fe6                  _tan_values
-                  0x00505a                  _timestamp
+                  0x004bc0                  _sin_values
+                  0x004c34                  _sqrt_cordic
+                  0x004e0c                  _sqrt_values
+                  0x004e80                  _tan_cordic
+                  0x005056                  _tan_values
+                  0x0050ca                  _timestamp
 
 Memory Configuration
 
@@ -809,72 +818,72 @@ __FUID0
 .comment
  *(.comment)
 
-.debug_info       0x000000       0x9a8e
+.debug_info       0x000000       0x9be7
  *(.debug_info)
  .debug_info      0x000000        0x177 build/default/production/LQG_NoiseCharacterization.o
  .debug_info      0x000177        0x16f build/default/production/PMSM_Characterize.o
- .debug_info      0x0002e6        0x6a8 build/default/production/main.o
- .debug_info      0x00098e        0x334 build/default/production/SPIdsPIC.o
- .debug_info      0x000cc2        0xc38 build/default/production/PMSM.o
- .debug_info      0x0018fa        0x62b build/default/production/DRV8301.o
- .debug_info      0x001f25       0x458a build/default/production/PMSMBoard.o
- .debug_info      0x0064af        0x16f build/default/production/BasicMotorControl.o
- .debug_info      0x00661e        0x541 build/default/production/CircularBuffer.o
- .debug_info      0x006b5f       0x2015 build/default/production/DMA_Transfer.o
- .debug_info      0x008b74        0xf1a build/default/production/cordic.o
+ .debug_info      0x0002e6        0x73a build/default/production/main.o
+ .debug_info      0x000a20        0x334 build/default/production/SPIdsPIC.o
+ .debug_info      0x000d54        0xce0 build/default/production/PMSM.o
+ .debug_info      0x001a34        0x62b build/default/production/DRV8301.o
+ .debug_info      0x00205f       0x458a build/default/production/PMSMBoard.o
+ .debug_info      0x0065e9        0x16f build/default/production/BasicMotorControl.o
+ .debug_info      0x006758        0x541 build/default/production/CircularBuffer.o
+ .debug_info      0x006c99       0x2034 build/default/production/DMA_Transfer.o
+ .debug_info      0x008ccd        0xf1a build/default/production/cordic.o
  *(.gnu.linkonce.wi.*)
 
-.debug_abbrev     0x000000        0xb6b
+.debug_abbrev     0x000000        0xbaf
  *(.debug_abbrev)
  .debug_abbrev    0x000000         0x1f build/default/production/LQG_NoiseCharacterization.o
  .debug_abbrev    0x00001f         0x1f build/default/production/PMSM_Characterize.o
  .debug_abbrev    0x00003e          0x1 build/default/production/PRBSCharacterization.o
- .debug_abbrev    0x00003f        0x150 build/default/production/main.o
- .debug_abbrev    0x00018f         0xe3 build/default/production/SPIdsPIC.o
- .debug_abbrev    0x000272        0x1cf build/default/production/PMSM.o
- .debug_abbrev    0x000441         0xf3 build/default/production/DRV8301.o
- .debug_abbrev    0x000534        0x223 build/default/production/PMSMBoard.o
- .debug_abbrev    0x000757         0x1f build/default/production/BasicMotorControl.o
- .debug_abbrev    0x000776         0xe4 build/default/production/CircularBuffer.o
- .debug_abbrev    0x00085a        0x197 build/default/production/DMA_Transfer.o
- .debug_abbrev    0x0009f1        0x17a build/default/production/cordic.o
+ .debug_abbrev    0x00003f        0x159 build/default/production/main.o
+ .debug_abbrev    0x000198         0xe3 build/default/production/SPIdsPIC.o
+ .debug_abbrev    0x00027b        0x1fb build/default/production/PMSM.o
+ .debug_abbrev    0x000476         0xf3 build/default/production/DRV8301.o
+ .debug_abbrev    0x000569        0x223 build/default/production/PMSMBoard.o
+ .debug_abbrev    0x00078c         0x1f build/default/production/BasicMotorControl.o
+ .debug_abbrev    0x0007ab         0xe4 build/default/production/CircularBuffer.o
+ .debug_abbrev    0x00088f        0x1a6 build/default/production/DMA_Transfer.o
+ .debug_abbrev    0x000a35        0x17a build/default/production/cordic.o
 
-.debug_line       0x000000       0x2d78
+.debug_line       0x000000       0x2f05
  *(.debug_line)
  .debug_line      0x000000         0x24 build/default/production/LQG_NoiseCharacterization.o
  .debug_line      0x000024         0x24 build/default/production/PMSM_Characterize.o
  .debug_line      0x000048         0x24 build/default/production/PRBSCharacterization.o
- .debug_line      0x00006c        0x29e build/default/production/main.o
- .debug_line      0x00030a        0x212 build/default/production/SPIdsPIC.o
- .debug_line      0x00051c        0x5e7 build/default/production/PMSM.o
- .debug_line      0x000b03        0x222 build/default/production/DRV8301.o
- .debug_line      0x000d25        0x6e6 build/default/production/PMSMBoard.o
- .debug_line      0x00140b         0x24 build/default/production/BasicMotorControl.o
- .debug_line      0x00142f        0x452 build/default/production/CircularBuffer.o
- .debug_line      0x001881        0x54a build/default/production/DMA_Transfer.o
- .debug_line      0x001dcb        0xfad build/default/production/cordic.o
+ .debug_line      0x00006c        0x397 build/default/production/main.o
+ .debug_line      0x000403        0x212 build/default/production/SPIdsPIC.o
+ .debug_line      0x000615        0x663 build/default/production/PMSM.o
+ .debug_line      0x000c78        0x222 build/default/production/DRV8301.o
+ .debug_line      0x000e9a        0x6e6 build/default/production/PMSMBoard.o
+ .debug_line      0x001580         0x24 build/default/production/BasicMotorControl.o
+ .debug_line      0x0015a4        0x452 build/default/production/CircularBuffer.o
+ .debug_line      0x0019f6        0x562 build/default/production/DMA_Transfer.o
+ .debug_line      0x001f58        0xfad build/default/production/cordic.o
 
-.debug_frame      0x000000        0x5a4
+.debug_frame      0x000000        0x60c
  *(.debug_frame)
- .debug_frame     0x000000         0x44 build/default/production/main.o
- .debug_frame     0x000044         0x44 build/default/production/SPIdsPIC.o
- .debug_frame     0x000088         0xd8 build/default/production/PMSM.o
- .debug_frame     0x000160         0x54 build/default/production/DRV8301.o
- .debug_frame     0x0001b4         0xd4 build/default/production/PMSMBoard.o
- .debug_frame     0x000288         0x94 build/default/production/CircularBuffer.o
- .debug_frame     0x00031c         0xf4 build/default/production/DMA_Transfer.o
- .debug_frame     0x000410        0x194 build/default/production/cordic.o
+ .debug_frame     0x000000         0x7c build/default/production/main.o
+ .debug_frame     0x00007c         0x44 build/default/production/SPIdsPIC.o
+ .debug_frame     0x0000c0        0x108 build/default/production/PMSM.o
+ .debug_frame     0x0001c8         0x54 build/default/production/DRV8301.o
+ .debug_frame     0x00021c         0xd4 build/default/production/PMSMBoard.o
+ .debug_frame     0x0002f0         0x94 build/default/production/CircularBuffer.o
+ .debug_frame     0x000384         0xf4 build/default/production/DMA_Transfer.o
+ .debug_frame     0x000478        0x194 build/default/production/cordic.o
 
-.debug_str        0x000000        0x44f
+.debug_str        0x000000        0x464
  *(.debug_str)
- .debug_str       0x000000         0x37 build/default/production/main.o
- .debug_str       0x000037         0x18 build/default/production/SPIdsPIC.o
- .debug_str       0x00004f         0x2a build/default/production/PMSM.o
- .debug_str       0x000079          0xe build/default/production/DRV8301.o
- .debug_str       0x000087        0x1d5 build/default/production/PMSMBoard.o
- .debug_str       0x00025c          0xf build/default/production/CircularBuffer.o
- .debug_str       0x00026b        0x1a0 build/default/production/DMA_Transfer.o
- .debug_str       0x00040b         0x44 build/default/production/cordic.o
+ .debug_str       0x000000         0x4c build/default/production/main.o
+ .debug_str       0x00004c         0x18 build/default/production/SPIdsPIC.o
+ .debug_str       0x000064         0x2a build/default/production/PMSM.o
+ .debug_str       0x00008e          0xe build/default/production/DRV8301.o
+ .debug_str       0x00009c        0x1d5 build/default/production/PMSMBoard.o
+ .debug_str       0x000271          0xf build/default/production/CircularBuffer.o
+ .debug_str       0x000280        0x1a0 build/default/production/DMA_Transfer.o
+ .debug_str       0x000420         0x44 build/default/production/cordic.o
 
 .debug_loc
  *(.debug_loc)
@@ -883,24 +892,24 @@ __FUID0
  *(.debug_macinfo)
 
 .debug_pubnames
-                  0x000000        0x6f8
+                  0x000000        0x75c
  *(.debug_pubnames)
  .debug_pubnames
-                  0x000000         0xba build/default/production/main.o
+                  0x000000         0xe0 build/default/production/main.o
  .debug_pubnames
-                  0x0000ba         0x49 build/default/production/SPIdsPIC.o
+                  0x0000e0         0x49 build/default/production/SPIdsPIC.o
  .debug_pubnames
-                  0x000103         0xd6 build/default/production/PMSM.o
+                  0x000129        0x114 build/default/production/PMSM.o
  .debug_pubnames
-                  0x0001d9         0x68 build/default/production/DRV8301.o
+                  0x00023d         0x68 build/default/production/DRV8301.o
  .debug_pubnames
-                  0x000241         0xfd build/default/production/PMSMBoard.o
+                  0x0002a5         0xfd build/default/production/PMSMBoard.o
  .debug_pubnames
-                  0x00033e         0x8a build/default/production/CircularBuffer.o
+                  0x0003a2         0x8a build/default/production/CircularBuffer.o
  .debug_pubnames
-                  0x0003c8        0x1a3 build/default/production/DMA_Transfer.o
+                  0x00042c        0x1a3 build/default/production/DMA_Transfer.o
  .debug_pubnames
-                  0x00056b        0x18d build/default/production/cordic.o
+                  0x0005cf        0x18d build/default/production/cordic.o
 
 .debug_ranges
  *(.debug_ranges)
@@ -937,17 +946,17 @@ __FUID0
                   0x000016          0x4 LONG 0x2d0 DEFINED (__IC1Interrupt)?ABSOLUTE (__IC1Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000018          0x4 LONG 0x2d0 DEFINED (__OC1Interrupt)?ABSOLUTE (__OC1Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x00001a          0x4 LONG 0x2d0 DEFINED (__T1Interrupt)?ABSOLUTE (__T1Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x00001c          0x4 LONG 0x6490 DEFINED (__DMA0Interrupt)?ABSOLUTE (__DMA0Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x00001c          0x4 LONG 0x6850 DEFINED (__DMA0Interrupt)?ABSOLUTE (__DMA0Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x00001e          0x4 LONG 0x2d0 DEFINED (__IC2Interrupt)?ABSOLUTE (__IC2Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000020          0x4 LONG 0x2d0 DEFINED (__OC2Interrupt)?ABSOLUTE (__OC2Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000022          0x4 LONG 0x2d0 DEFINED (__T2Interrupt)?ABSOLUTE (__T2Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x000024          0x4 LONG 0x6306 DEFINED (__T3Interrupt)?ABSOLUTE (__T3Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x000024          0x4 LONG 0x641e DEFINED (__T3Interrupt)?ABSOLUTE (__T3Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000026          0x4 LONG 0x2d0 DEFINED (__SPI1ErrInterrupt)?ABSOLUTE (__SPI1ErrInterrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000028          0x4 LONG 0x2d0 DEFINED (__SPI1Interrupt)?ABSOLUTE (__SPI1Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x00002a          0x4 LONG 0x2d0 DEFINED (__U1RXInterrupt)?ABSOLUTE (__U1RXInterrupt):ABSOLUTE (__DefaultInterrupt)
                   0x00002c          0x4 LONG 0x2d0 DEFINED (__U1TXInterrupt)?ABSOLUTE (__U1TXInterrupt):ABSOLUTE (__DefaultInterrupt)
                   0x00002e          0x4 LONG 0x2d0 DEFINED (__AD1Interrupt)?ABSOLUTE (__AD1Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x000030          0x4 LONG 0x6498 DEFINED (__DMA1Interrupt)?ABSOLUTE (__DMA1Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x000030          0x4 LONG 0x6858 DEFINED (__DMA1Interrupt)?ABSOLUTE (__DMA1Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000032          0x4 LONG 0x2d0 DEFINED (__NVMInterrupt)?ABSOLUTE (__NVMInterrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000034          0x4 LONG 0x2d0 DEFINED (__SI2C1Interrupt)?ABSOLUTE (__SI2C1Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000036          0x4 LONG 0x2d0 DEFINED (__MI2C1Interrupt)?ABSOLUTE (__MI2C1Interrupt):ABSOLUTE (__DefaultInterrupt)
@@ -957,7 +966,7 @@ __FUID0
                   0x00003e          0x4 LONG 0x2d0 DEFINED (__AD2Interrupt)?ABSOLUTE (__AD2Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000040          0x4 LONG 0x2d0 DEFINED (__IC7Interrupt)?ABSOLUTE (__IC7Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000042          0x4 LONG 0x2d0 DEFINED (__IC8Interrupt)?ABSOLUTE (__IC8Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x000044          0x4 LONG 0x64c2 DEFINED (__DMA2Interrupt)?ABSOLUTE (__DMA2Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x000044          0x4 LONG 0x6882 DEFINED (__DMA2Interrupt)?ABSOLUTE (__DMA2Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000046          0x4 LONG 0x2d0 DEFINED (__OC3Interrupt)?ABSOLUTE (__OC3Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000048          0x4 LONG 0x2d0 DEFINED (__OC4Interrupt)?ABSOLUTE (__OC4Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x00004a          0x4 LONG 0x2d0 DEFINED (__T4Interrupt)?ABSOLUTE (__T4Interrupt):ABSOLUTE (__DefaultInterrupt)
@@ -969,7 +978,7 @@ __FUID0
                   0x000056          0x4 LONG 0x2d0 DEFINED (__SPI2Interrupt)?ABSOLUTE (__SPI2Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000058          0x4 LONG 0x2d0 DEFINED (__C1RxRdyInterrupt)?ABSOLUTE (__C1RxRdyInterrupt):ABSOLUTE (__DefaultInterrupt)
                   0x00005a          0x4 LONG 0x2d0 DEFINED (__C1Interrupt)?ABSOLUTE (__C1Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x00005c          0x4 LONG 0x64ca DEFINED (__DMA3Interrupt)?ABSOLUTE (__DMA3Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x00005c          0x4 LONG 0x688a DEFINED (__DMA3Interrupt)?ABSOLUTE (__DMA3Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x00005e          0x4 LONG 0x2d0 DEFINED (__IC3Interrupt)?ABSOLUTE (__IC3Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000060          0x4 LONG 0x2d0 DEFINED (__IC4Interrupt)?ABSOLUTE (__IC4Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000062          0x4 LONG 0x2d0 DEFINED (__IC5Interrupt)?ABSOLUTE (__IC5Interrupt):ABSOLUTE (__DefaultInterrupt)
@@ -979,9 +988,9 @@ __FUID0
                   0x00006a          0x4 LONG 0x2d0 DEFINED (__OC7Interrupt)?ABSOLUTE (__OC7Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x00006c          0x4 LONG 0x2d0 DEFINED (__OC8Interrupt)?ABSOLUTE (__OC8Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x00006e          0x4 LONG 0x2d0 DEFINED (__PMPInterrupt)?ABSOLUTE (__PMPInterrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x000070          0x4 LONG 0x64f4 DEFINED (__DMA4Interrupt)?ABSOLUTE (__DMA4Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x000070          0x4 LONG 0x68c4 DEFINED (__DMA4Interrupt)?ABSOLUTE (__DMA4Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000072          0x4 LONG 0x2d0 DEFINED (__T6Interrupt)?ABSOLUTE (__T6Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x000074          0x4 LONG 0x62e6 DEFINED (__T7Interrupt)?ABSOLUTE (__T7Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x000074          0x4 LONG 0x63fe DEFINED (__T7Interrupt)?ABSOLUTE (__T7Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000076          0x4 LONG 0x2d0 DEFINED (__SI2C2Interrupt)?ABSOLUTE (__SI2C2Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000078          0x4 LONG 0x2d0 DEFINED (__MI2C2Interrupt)?ABSOLUTE (__MI2C2Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x00007a          0x4 LONG 0x2d0 DEFINED (__T8Interrupt)?ABSOLUTE (__T8Interrupt):ABSOLUTE (__DefaultInterrupt)
@@ -991,17 +1000,17 @@ __FUID0
                   0x000082          0x4 LONG 0x2d0 DEFINED (__C2RxRdyInterrupt)?ABSOLUTE (__C2RxRdyInterrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000084          0x4 LONG 0x2d0 DEFINED (__C2Interrupt)?ABSOLUTE (__C2Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000086          0x4 LONG 0x2d0 DEFINED (__PWMSpEventMatchInterrupt)?ABSOLUTE (__PWMSpEventMatchInterrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x000088          0x4 LONG 0x5bc6 DEFINED (__QEI1Interrupt)?ABSOLUTE (__QEI1Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x000088          0x4 LONG 0x5b10 DEFINED (__QEI1Interrupt)?ABSOLUTE (__QEI1Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x00008a          0x4 LONG 0x2d0 DEFINED (__DCIEInterrupt)?ABSOLUTE (__DCIEInterrupt):ABSOLUTE (__DefaultInterrupt)
                   0x00008c          0x4 LONG 0x2d0 DEFINED (__DCIInterrupt)?ABSOLUTE (__DCIInterrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x00008e          0x4 LONG 0x64fc DEFINED (__DMA5Interrupt)?ABSOLUTE (__DMA5Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x00008e          0x4 LONG 0x68cc DEFINED (__DMA5Interrupt)?ABSOLUTE (__DMA5Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000090          0x4 LONG 0x2d0 DEFINED (__RTCCInterrupt)?ABSOLUTE (__RTCCInterrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000092          0x4 LONG 0x2d0 DEFINED (__Interrupt63)?ABSOLUTE (__Interrupt63):ABSOLUTE (__DefaultInterrupt)
                   0x000094          0x4 LONG 0x2d0 DEFINED (__Interrupt64)?ABSOLUTE (__Interrupt64):ABSOLUTE (__DefaultInterrupt)
                   0x000096          0x4 LONG 0x2d0 DEFINED (__U1ErrInterrupt)?ABSOLUTE (__U1ErrInterrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000098          0x4 LONG 0x2d0 DEFINED (__U2ErrInterrupt)?ABSOLUTE (__U2ErrInterrupt):ABSOLUTE (__DefaultInterrupt)
                   0x00009a          0x4 LONG 0x2d0 DEFINED (__CRCInterrupt)?ABSOLUTE (__CRCInterrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x00009c          0x4 LONG 0x6526 DEFINED (__DMA6Interrupt)?ABSOLUTE (__DMA6Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x00009c          0x4 LONG 0x68f6 DEFINED (__DMA6Interrupt)?ABSOLUTE (__DMA6Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x00009e          0x4 LONG 0x2d0 DEFINED (__DMA7Interrupt)?ABSOLUTE (__DMA7Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x0000a0          0x4 LONG 0x2d0 DEFINED (__C1TxReqInterrupt)?ABSOLUTE (__C1TxReqInterrupt):ABSOLUTE (__DefaultInterrupt)
                   0x0000a2          0x4 LONG 0x2d0 DEFINED (__C2TxReqInterrupt)?ABSOLUTE (__C2TxReqInterrupt):ABSOLUTE (__DefaultInterrupt)
@@ -3803,15 +3812,15 @@ __c30_signature
  __c30_signature
                   0x000d2a          0x6 /opt/microchip/xc16/v1.21/bin/bin/../../lib/libm-elf.a(divmoddi3.epeo)
 
-_0xf5d0db2454232e44
+_0xf5cc6b24542da350
                     0x7f40         0xc0
- _0xf5d0db2454232e44
+ _0xf5cc6b24542da350
                     0x7f40         0xc0 build/default/production/DMA_Transfer.o
                     0x7f40                  _Ecan1Rx
 
-_0xf5d0dac854232e44
+_0xf5cc6ac8542da350
                     0x7f3e          0x2
- _0xf5d0dac854232e44
+ _0xf5cc6ac8542da350
                     0x7f3e          0x2 build/default/production/DMA_Transfer.o
                     0x7f3e                  _BufferB
 
@@ -3824,8 +3833,8 @@ _0xf5d0dac854232e44
                     0x1002                  _TRIG_DATA
  .data              0x301a        0x4a0 build/default/production/cordic.o
 
-.bss                0x34ba        0x33c
- .bss               0x34ba        0x26a build/default/production/main.o
+.bss                0x34ba        0x364
+ .bss               0x34ba        0x28a build/default/production/main.o
                     0x34ba                  _uartBuffer
                     0x34c6                  _uartBuf
                     0x3506                  _canBuffer
@@ -3834,153 +3843,157 @@ _0xf5d0dac854232e44
                     0x355e                  _spiBuf
                     0x35de                  _ADCBuff
                     0x36e0                  _torque
- .bss               0x3724         0xd2 build/default/production/PMSM.o
+ .bss               0x3744         0xda build/default/production/PMSM.o
 
-.data.dpowers       0x37f6         0xa0
- .data.dpowers      0x37f6         0xa0 /opt/microchip/xc16/v1.21/bin/bin/../../lib/libc-elf.a(doprnt_cdnopuxX.EPelo)
+.data.dpowers       0x381e         0xa0
+ .data.dpowers      0x381e         0xa0 /opt/microchip/xc16/v1.21/bin/bin/../../lib/libc-elf.a(doprnt_cdnopuxX.EPelo)
 
-.data._iob          0x3896         0x2c
- .data._iob         0x3896         0x2c /opt/microchip/xc16/v1.21/bin/bin/../../lib/libc-elf.a(_iob.epelo)
-                    0x3896                  __iob
-                    0x38c0                  __Files
+.data               0x38be         0x86
+ .data              0x38be         0x86 build/default/production/main.o
+                    0x38be                  _emptyBuf
+                    0x393e                  _events
+                    0x3940                  _faultPrescalar
+                    0x3942                  _commutationPrescalar
 
-.data               0x38c2         0x2a
- .data              0x38c2         0x2a /opt/microchip/xc16/v1.21/bin/bin/../../lib/libc-elf.a(doprnt_cdnopuxX.EPelo)
+.data._iob          0x3944         0x2c
+ .data._iob         0x3944         0x2c /opt/microchip/xc16/v1.21/bin/bin/../../lib/libc-elf.a(_iob.epelo)
+                    0x3944                  __iob
+                    0x396e                  __Files
 
-.bss                0x38ec         0x64
- .bss               0x38ec         0x28 build/default/production/DMA_Transfer.o
-                    0x38ec                  _uart_CB_Point
-                    0x38ee                  _spi_CB_Point
-                    0x38f0                  _can_CB_Point
-                    0x38f2                  _SPI1RxBuffA
-                    0x3912                  _ADCBuffPoint
- .bss               0x3914         0x1e build/default/production/PMSMBoard.o
-                    0x3930                  _eventCallbackFcn
- .bss               0x3932         0x10 /opt/microchip/xc16/v1.21/bin/bin/../../lib/libc-elf.a(malloc.epelo)
-                    0x3932                  ___allocs
-                    0x393a                  ___allocp
-                    0x393c                  ___alloct
-                    0x393e                  ___allocx
- .bss               0x3942          0x8 build/default/production/SPIdsPIC.o
- .bss               0x394a          0x6 /opt/microchip/xc16/v1.21/bin/bin/../../lib/libc-elf.a(_iob.epelo)
-                    0x394a                  __outdone
-                    0x394b                  __sibuf
-                    0x394d                  __sobuf
+.data               0x3970         0x2a
+ .data              0x3970         0x2a /opt/microchip/xc16/v1.21/bin/bin/../../lib/libc-elf.a(doprnt_cdnopuxX.EPelo)
 
-.data               0x3950          0x4
- .data              0x3950          0x4 build/default/production/main.o
-                    0x3950                  _events
-                    0x3952                  _faultPrescalar
-
-.bss                0x3954          0x6
- .bss               0x3954          0x4 build/default/production/DRV8301.o
- .bss               0x3958          0x2 /opt/microchip/xc16/v1.21/bin/bin/../../lib/libc-elf.a(stdclean.epeo)
-                    0x3958                  __atexitptr
+.bss                0x399a         0x6a
+ .bss               0x399a         0x28 build/default/production/DMA_Transfer.o
+                    0x399a                  _uart_CB_Point
+                    0x399c                  _spi_CB_Point
+                    0x399e                  _can_CB_Point
+                    0x39a0                  _SPI1RxBuffA
+                    0x39c0                  _ADCBuffPoint
+ .bss               0x39c2         0x1e build/default/production/PMSMBoard.o
+                    0x39de                  _eventCallbackFcn
+ .bss               0x39e0         0x10 /opt/microchip/xc16/v1.21/bin/bin/../../lib/libc-elf.a(malloc.epelo)
+                    0x39e0                  ___allocs
+                    0x39e8                  ___allocp
+                    0x39ea                  ___alloct
+                    0x39ec                  ___allocx
+ .bss               0x39f0          0x8 build/default/production/SPIdsPIC.o
+ .bss               0x39f8          0x6 /opt/microchip/xc16/v1.21/bin/bin/../../lib/libc-elf.a(_iob.epelo)
+                    0x39f8                  __outdone
+                    0x39f9                  __sibuf
+                    0x39fb                  __sobuf
+ .bss               0x39fe          0x4 build/default/production/DRV8301.o
+ .bss               0x3a02          0x2 /opt/microchip/xc16/v1.21/bin/bin/../../lib/libc-elf.a(stdclean.epeo)
+                    0x3a02                  __atexitptr
 
 .data.__C30_UART
-                    0x395a          0x2
+                    0x3a04          0x2
  .data.__C30_UART
-                    0x395a          0x2 /opt/microchip/xc16/v1.21/bin/bin/../../lib/libpic30-elf.a(c30_uartep.eo)
-                    0x395a                  ___C30_UART
+                    0x3a04          0x2 /opt/microchip/xc16/v1.21/bin/bin/../../lib/libpic30-elf.a(c30_uartep.eo)
+                    0x3a04                  ___C30_UART
 
-.bss                0x395c          0x2
- .bss               0x395c          0x2 /opt/microchip/xc16/v1.21/bin/bin/../../lib/libpic30-elf.a(brkep.elo)
-                    0x395c                  ___curbrk
+.bss                0x3a06          0x2
+ .bss               0x3a06          0x2 /opt/microchip/xc16/v1.21/bin/bin/../../lib/libpic30-elf.a(brkep.elo)
+                    0x3a06                  ___curbrk
 
-.heap               0x395e        0x830
- .heap              0x395e        0x830 heap
+.heap               0x3a08        0x830
+ .heap              0x3a08        0x830 heap
 
-.const              0x966c        0x6f0 load address 0x00166c  
+.const              0x966c        0x70a load address 0x00166c  
  .const             0x966c        0x6dc build/default/production/cordic.o
- .const             0x9d48         0x14 build/default/production/PMSM.o
+ .const             0x9d48         0x1a build/default/production/main.o
+ .const             0x9d62         0x14 build/default/production/PMSM.o
 
-.dinit            0x001d5c       0x19a2
- .dinit           0x001d5c       0x19a2 data_init
+.dinit            0x001d76       0x19f8
+ .dinit           0x001d76       0x19f8 data_init
 
-.text             0x0036fe       0x3212
- .text            0x0036fe       0x1962 build/default/production/cordic.o
-                  0x0036fe                  _angle_shift
-                  0x0037be                  _arccos_cordic
-                  0x0039bc                  _arccos_values
-                  0x003a30                  _arcsin_cordic
-                  0x003c2e                  _arcsin_values
-                  0x003ca2                  _arctan_cordic
-                  0x003e9a                  _arctan_values
-                  0x003f0e                  _cbrt_cordic
-                  0x0040fe                  _cbrt_values
-                  0x004172                  _cos_values
-                  0x0041e6                  _cossin_cordic
-                  0x004460                  _exp_cordic
-                  0x0046d4                  _exp_values
-                  0x004748                  _i4_huge
-                  0x004752                  _i4_min
-                  0x004772                  _ln_cordic
-                  0x004a12                  _ln_values
-                  0x004a86                  _r8_uniform_01
-                  0x004b50                  _sin_values
-                  0x004bc4                  _sqrt_cordic
-                  0x004d9c                  _sqrt_values
-                  0x004e10                  _tan_cordic
-                  0x004fe6                  _tan_values
-                  0x00505a                  _timestamp
- .text            0x005060        0xb78 build/default/production/PMSM.o
-                  0x005060                  _PMSM_Init
-                  0x005252                  _SetPosition
-                  0x005260                  _SetTorque
-                  0x00527a                  _SetAirGapFluxLinkage
-                  0x005288                  _PMSM_Update
-                  0x0056ba                  _SpaceVectorModulation
-                  0x0059c8                  _InverseClarke
-                  0x005a64                  _InversePark
-                  0x005b62                  _SVPWMTimeCalc
-                  0x005bc6                  __QEI1Interrupt
- .text            0x005bd8        0x3e2 build/default/production/CircularBuffer.o
-                  0x005bd8                  _CB_Init
-                  0x005c44                  _CB_ReadByte
-                  0x005cc2                  _CB_ReadMany
-                  0x005d44                  _CB_WriteByte
-                  0x005dac                  _CB_WriteMany
-                  0x005eb6                  _CB_Peek
-                  0x005ee8                  _CB_PeekMany
-                  0x005f54                  _CB_Remove
- .text            0x005fba        0x354 build/default/production/PMSMBoard.o
-                  0x005fba                  _InitBoard
-                  0x006032                  _UART2Init
-                  0x006060                  _MotorInit
-                  0x0060e6                  _ClockInit
-                  0x006140                  _PinInit
-                  0x006206                  _TimersInit
-                  0x006238                  _CNInit
-                  0x006248                  _QEIInit
-                  0x00625e                  _ADCInit
-                  0x0062d4                  _EventCheckInit
-                  0x0062e6                  __T7Interrupt
-                  0x006306                  __T3Interrupt
- .text            0x00630e        0x22a build/default/production/DMA_Transfer.o
-                  0x00630e                  _DMA0_UART2_Transfer
-                  0x00634c                  _DMA1_UART2_Enable_RX
-                  0x00639a                  _DMA2_SPI_Transfer
-                  0x0063dc                  _DMA3_SPI_Enable_RX
-                  0x00641a                  _DMA4_CAN_Transfer
-                  0x00644e                  _DMA5_CAN_Enable_RX
-                  0x00645a                  _DMA6_ADC_Enable
-                  0x006490                  __DMA0Interrupt
-                  0x006498                  __DMA1Interrupt
-                  0x0064c2                  __DMA2Interrupt
-                  0x0064ca                  __DMA3Interrupt
-                  0x0064f4                  __DMA4Interrupt
-                  0x0064fc                  __DMA5Interrupt
-                  0x006526                  __DMA6Interrupt
- .text            0x006538        0x1a2 build/default/production/main.o
-                  0x006538                  _main
-                  0x006614                  _EventChecker
-                  0x006666                  _ADC_LPF
- .text            0x0066da        0x130 build/default/production/DRV8301.o
-                  0x0066da                  _DRV8301_Init
-                  0x006780                  _DRV8301_UpdateStatus
-                  0x0067b4                  _DRV8301_Reset
-                  0x0067ce                  _DRV8301_DCCalibration
- .text            0x00680a        0x106 build/default/production/SPIdsPIC.o
-                  0x00680a                  _SPI1_Init
-                  0x006846                  _SPI1_WriteToReg
-                  0x0068ac                  _SPI1_ReadFromReg
+.text             0x00376e       0x33d0
+ .text            0x00376e       0x1962 build/default/production/cordic.o
+                  0x00376e                  _angle_shift
+                  0x00382e                  _arccos_cordic
+                  0x003a2c                  _arccos_values
+                  0x003aa0                  _arcsin_cordic
+                  0x003c9e                  _arcsin_values
+                  0x003d12                  _arctan_cordic
+                  0x003f0a                  _arctan_values
+                  0x003f7e                  _cbrt_cordic
+                  0x00416e                  _cbrt_values
+                  0x0041e2                  _cos_values
+                  0x004256                  _cossin_cordic
+                  0x0044d0                  _exp_cordic
+                  0x004744                  _exp_values
+                  0x0047b8                  _i4_huge
+                  0x0047c2                  _i4_min
+                  0x0047e2                  _ln_cordic
+                  0x004a82                  _ln_values
+                  0x004af6                  _r8_uniform_01
+                  0x004bc0                  _sin_values
+                  0x004c34                  _sqrt_cordic
+                  0x004e0c                  _sqrt_values
+                  0x004e80                  _tan_cordic
+                  0x005056                  _tan_values
+                  0x0050ca                  _timestamp
+ .text            0x0050d0        0xc20 build/default/production/PMSM.o
+                  0x0050d0                  _PMSM_Init
+                  0x005308                  _SetPosition
+                  0x005316                  _SetTorque
+                  0x005330                  _SetAirGapFluxLinkage
+                  0x00533e                  _GetCableLength
+                  0x005356                  _GetCableVelocity
+                  0x00539a                  _PMSM_Update
+                  0x005604                  _SpaceVectorModulation
+                  0x005912                  _InverseClarke
+                  0x0059ae                  _InversePark
+                  0x005aac                  _SVPWMTimeCalc
+                  0x005b10                  __QEI1Interrupt
+                  0x005b22                  _QEIPositionUpdate
+ .text            0x005cf0        0x3e2 build/default/production/CircularBuffer.o
+                  0x005cf0                  _CB_Init
+                  0x005d5c                  _CB_ReadByte
+                  0x005dda                  _CB_ReadMany
+                  0x005e5c                  _CB_WriteByte
+                  0x005ec4                  _CB_WriteMany
+                  0x005fce                  _CB_Peek
+                  0x006000                  _CB_PeekMany
+                  0x00606c                  _CB_Remove
+ .text            0x0060d2        0x354 build/default/production/PMSMBoard.o
+                  0x0060d2                  _InitBoard
+                  0x00614a                  _UART2Init
+                  0x006178                  _MotorInit
+                  0x0061fe                  _ClockInit
+                  0x006258                  _PinInit
+                  0x00631e                  _TimersInit
+                  0x006350                  _CNInit
+                  0x006360                  _QEIInit
+                  0x006376                  _ADCInit
+                  0x0063ec                  _EventCheckInit
+                  0x0063fe                  __T7Interrupt
+                  0x00641e                  __T3Interrupt
+ .text            0x006426        0x2a8 build/default/production/main.o
+                  0x006426                  _main
+                  0x0065f8                  _EventChecker
+                  0x00665a                  _ADC_LPF
+ .text            0x0066ce        0x23a build/default/production/DMA_Transfer.o
+                  0x0066ce                  _DMA0_UART2_Transfer
+                  0x00670c                  _DMA1_UART2_Enable_RX
+                  0x00675a                  _DMA2_SPI_Transfer
+                  0x00679c                  _DMA3_SPI_Enable_RX
+                  0x0067da                  _DMA4_CAN_Transfer
+                  0x00680e                  _DMA5_CAN_Enable_RX
+                  0x00681a                  _DMA6_ADC_Enable
+                  0x006850                  __DMA0Interrupt
+                  0x006858                  __DMA1Interrupt
+                  0x006882                  __DMA2Interrupt
+                  0x00688a                  __DMA3Interrupt
+                  0x0068c4                  __DMA4Interrupt
+                  0x0068cc                  __DMA5Interrupt
+                  0x0068f6                  __DMA6Interrupt
+ .text            0x006908        0x130 build/default/production/DRV8301.o
+                  0x006908                  _DRV8301_Init
+                  0x0069ae                  _DRV8301_UpdateStatus
+                  0x0069e2                  _DRV8301_Reset
+                  0x0069fc                  _DRV8301_DCCalibration
+ .text            0x006a38        0x106 build/default/production/SPIdsPIC.o
+                  0x006a38                  _SPI1_Init
+                  0x006a74                  _SPI1_WriteToReg
+                  0x006ada                  _SPI1_ReadFromReg

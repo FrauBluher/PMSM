@@ -159,8 +159,15 @@ void __attribute__((__interrupt__, no_auto_psv)) _DMA2Interrupt(void)
 
 void __attribute__((__interrupt__, no_auto_psv)) _DMA3Interrupt(void)
 {
+	uint8_t b1;
+	uint8_t b2;
+
+	b2 = SPI1RxBuffA[0] & 0xFF;
+	b1 = (SPI1RxBuffA[0] & 0xFF00) >> 8;
+
 	//Think about a global interrupt disable here as CB is non reentrant...
-	CB_WriteByte(spi_CB_Point, SPI1RxBuffA[0]);
+	CB_WriteByte(spi_CB_Point, b1);
+	CB_WriteByte(spi_CB_Point, b2);
 	IFS2bits.DMA3IF = 0;
 }
 
