@@ -9,7 +9,7 @@
 <grid distance="0.05" unitdist="mm" unit="mm" style="lines" multiple="1" display="yes" altdistance="0.1" altunitdist="mm" altunit="mm"/>
 <layers>
 <layer number="1" name="Top" color="4" fill="1" visible="yes" active="yes"/>
-<layer number="2" name="Route2" color="3" fill="1" visible="yes" active="yes"/>
+<layer number="2" name="Route2" color="3" fill="1" visible="no" active="yes"/>
 <layer number="3" name="Route3" color="4" fill="3" visible="no" active="no"/>
 <layer number="4" name="Route4" color="1" fill="4" visible="no" active="no"/>
 <layer number="5" name="Route5" color="4" fill="4" visible="no" active="no"/>
@@ -22,8 +22,8 @@
 <layer number="12" name="Route12" color="1" fill="5" visible="no" active="no"/>
 <layer number="13" name="Route13" color="4" fill="5" visible="no" active="no"/>
 <layer number="14" name="Route14" color="1" fill="6" visible="no" active="no"/>
-<layer number="15" name="Route15" color="5" fill="1" visible="yes" active="yes"/>
-<layer number="16" name="Bottom" color="1" fill="1" visible="yes" active="yes"/>
+<layer number="15" name="Route15" color="5" fill="1" visible="no" active="yes"/>
+<layer number="16" name="Bottom" color="1" fill="1" visible="no" active="yes"/>
 <layer number="17" name="Pads" color="2" fill="1" visible="yes" active="yes"/>
 <layer number="18" name="Vias" color="2" fill="1" visible="yes" active="yes"/>
 <layer number="19" name="Unrouted" color="6" fill="1" visible="yes" active="yes"/>
@@ -1746,11 +1746,11 @@ design rules under a new name.</description>
 <attribute name="NAME" x="10.9245" y="38.213" size="0.8128" layer="25" ratio="15" rot="R90"/>
 <attribute name="VALUE" x="11.972" y="35.634" size="0.4064" layer="27" rot="R90"/>
 </element>
-<element name="R14" library="ASL" package="0805" value="" x="27.875" y="22.45" smashed="yes" rot="R180">
+<element name="R14" library="ASL" package="0805" value="1k" x="27.875" y="22.45" smashed="yes" rot="R180">
 <attribute name="NAME" x="25.388" y="23.3505" size="0.8128" layer="25" ratio="15"/>
 <attribute name="VALUE" x="28.891" y="23.847" size="0.4064" layer="27" rot="R180"/>
 </element>
-<element name="R15" library="ASL" package="0805" value="" x="27.875" y="20.65" smashed="yes" rot="R180">
+<element name="R15" library="ASL" package="0805" value="1k" x="27.875" y="20.65" smashed="yes" rot="R180">
 <attribute name="NAME" x="26.813" y="19.0255" size="0.8128" layer="25" ratio="15"/>
 <attribute name="VALUE" x="28.891" y="22.047" size="0.4064" layer="27" rot="R180"/>
 </element>

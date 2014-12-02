@@ -84,28 +84,9 @@ typedef struct {
 static float theta;
 static float Iq;
 static float Id;
+static float d_u;
+static float y;
 static float cableVelocity;
-
-static float u = 0;
-static float u1 = 0;
-static float u2 = 0;
-static float u3 = 0;
-static float y = 0;
-static float y1 = 0;
-static float y2 = 0;
-static float y3 = 0;
-static float dummy_u = 0;
-
-static float a1 = -.2944;
-static float a2 = -.05211;
-static float a3 = .06287;
-static float a4 = 0;
-static float a5 = 0;
-static float b1 = -2.649;
-static float b2 = 1.381;
-static float b3 = .9905;
-static float b4 = 0;
-static float b5 = 0;
 
 static uint8_t flag = 0;
 static int32_t rotorOffset2;
@@ -115,6 +96,42 @@ static int32_t indexCount = 0;
 static int32_t lastIndexCount = 0;
 static int32_t runningPositionCount = 0;
 static int32_t lastRunningPostionCount = 0;
+
+/**
+ * @brief Linear Quadradic State Estimation
+ *
+ * All the state esimates in the Gaussian Estimator are visible here.
+ */
+static float u = 0;
+static float Ts = .0003333;
+
+static float x_hat[3][1] = {
+	{0},
+	{0},
+	{0},
+};
+
+static float x_dummy[3][1] = {
+	{0},
+	{0},
+	{0},
+};
+
+static float K_reg[3][3] = {
+	{-0.4915, 0.7935, 0.2959},
+	{-0.1285, 0.3307, -0.8863},
+	{-0.0087, 0.0893, 0.4552},
+};
+
+static float L[3][1] = {
+	{-1.8747},
+	{-4.6113},
+	{4.1045},
+};
+
+static float K[1][3] = {
+	{-0.0088, -0.4743, -1.1845}
+};
 
 void SpaceVectorModulation(TimesOut sv);
 InvClarkOut InverseClarke(InvParkOut pP);
@@ -248,13 +265,18 @@ int32_t GetCableVelocity(void)
 
 void PMSM_Update(void)
 {
-	y3 = y2;
-	y2 = y1;
-	y1 = y;
 
 	y = theta - ((float) (int32_t) runningPositionCount * 0.0030679616); //Scaling it back into radians.
-	u = b1 * y + b2 * y1 + b3 * y2 + b4 * y3 - a1 * u - a2 * u1 - a3 * u2 - a4 * u3;
 
+	x_dummy[0][0] = (x_hat[0][0] * K_reg[0][0]) + (x_hat[1][0] * K_reg[0][1]) + (x_hat[2][0] * K_reg[0][2]) + (L[0][0] * y);
+	x_dummy[1][0] = (x_hat[1][0] * K_reg[1][0]) + (x_hat[1][0] * K_reg[1][1]) + (x_hat[2][0] * K_reg[1][2]) + (L[1][0] * y);
+	x_dummy[2][0] = (x_hat[2][0] * K_reg[2][0]) + (x_hat[1][0] * K_reg[2][1]) + (x_hat[2][0] * K_reg[2][2]) + (L[2][0] * y);
+
+	x_hat[0][0] = x_dummy[0][0];
+	x_hat[1][0] = x_dummy[1][0];
+	x_hat[2][0] = x_dummy[2][0];
+
+	u = -1 * ((K[0][0] * x_hat[0][0]) + (K[0][1] * x_hat[1][0]) + (K[0][2] * x_hat[2][0]));
 
 	//SATURATION HERE...  IF YOU REALLY NEED MORE JUICE...  UP THIS TO 1 and -1
 	if (u > .7) {
@@ -263,23 +285,19 @@ void PMSM_Update(void)
 		u = -.7;
 	}
 
-	u3 = u2;
-	u2 = u1;
-	u1 = u;
-
 	if (u > 0) {
 		//Commutation phase offset
 		indexCount += 512 - rotorOffset; //Phase offset of 90 degrees.
-		dummy_u = u;
+		d_u = u;
 	} else {
 		indexCount += -512 - rotorOffset; //Phase offset of 90 degrees.
-		dummy_u = -u;
+		d_u = -u;
 	}
 
 	indexCount = (-indexCount + 2048) % 2048;
 
 
-	SpaceVectorModulation(SVPWMTimeCalc(InversePark(dummy_u, 0, indexCount)));
+	SpaceVectorModulation(SVPWMTimeCalc(InversePark(d_u, 0, indexCount)));
 }
 
 /****************************   Private Stuff   *******************************/

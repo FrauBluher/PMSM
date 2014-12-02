@@ -2616,10 +2616,7 @@ design rules under a new name.</description>
 <via x="25.46" y="25.38" extent="1-16" drill="0.4" shape="square" alwaysstop="yes"/>
 <wire x1="25.46" y1="25.38" x2="25.46" y2="27.6162" width="0.254" layer="1"/>
 <wire x1="25.46" y1="27.6162" x2="25.465" y2="27.6212" width="0.254" layer="1"/>
-<wire x1="12.5" y1="15.5" x2="13.4" y2="16.4" width="0.254" layer="16"/>
-<wire x1="13.4" y1="16.4" x2="14.76" y2="16.4" width="0.254" layer="16"/>
 <wire x1="14.76" y1="16.4" x2="23.72" y2="25.36" width="0.254" layer="16"/>
-<wire x1="12.5" y1="10.1" x2="12.5" y2="15.5" width="0.254" layer="16"/>
 <wire x1="12.5" y1="10.1" x2="11.8" y2="9.4" width="0.254" layer="16"/>
 <wire x1="11.39" y1="3.2" x2="11.54" y2="3.35" width="0.254" layer="16"/>
 <wire x1="11.8" y1="9.4" x2="10.65" y2="9.4" width="0.254" layer="16"/>
@@ -2628,6 +2625,8 @@ design rules under a new name.</description>
 <wire x1="9.7" y1="3.35" x2="9.95" y2="3.1" width="0.254" layer="16"/>
 <wire x1="9.95" y1="3.1" x2="11.29" y2="3.1" width="0.254" layer="16"/>
 <wire x1="11.29" y1="3.1" x2="11.54" y2="3.35" width="0.254" layer="16"/>
+<wire x1="12.5" y1="10.1" x2="12.5" y2="14.14" width="0.2032" layer="16"/>
+<wire x1="12.5" y1="14.14" x2="14.76" y2="16.4" width="0.2032" layer="16"/>
 </signal>
 <signal name="CANRX">
 <contactref element="U2" pad="4"/>
@@ -2642,10 +2641,7 @@ design rules under a new name.</description>
 <wire x1="29.75" y1="25.25" x2="29.28" y2="25.72" width="0.254" layer="1"/>
 <wire x1="29.28" y1="25.72" x2="29.28" y2="27.6162" width="0.254" layer="1"/>
 <wire x1="29.28" y1="27.6162" x2="29.275" y2="27.6212" width="0.254" layer="1"/>
-<wire x1="13.1" y1="15.3" x2="13.6" y2="15.8" width="0.254" layer="16"/>
-<wire x1="13.6" y1="15.8" x2="15.32" y2="15.8" width="0.254" layer="16"/>
 <wire x1="15.32" y1="15.8" x2="23.94" y2="24.42" width="0.254" layer="16"/>
-<wire x1="13.1" y1="9.5" x2="13.1" y2="15.3" width="0.254" layer="16"/>
 <wire x1="13.1" y1="9.5" x2="12.4" y2="8.8" width="0.254" layer="16"/>
 <wire x1="11.51" y1="4.4" x2="11.54" y2="4.43" width="0.254" layer="16"/>
 <wire x1="11.51" y1="4.4" x2="10.9" y2="4.4" width="0.254" layer="16"/>
@@ -2653,6 +2649,8 @@ design rules under a new name.</description>
 <wire x1="10.35" y1="4.95" x2="10.35" y2="7.9" width="0.254" layer="16"/>
 <wire x1="10.35" y1="7.9" x2="11.25" y2="8.8" width="0.254" layer="16"/>
 <wire x1="11.25" y1="8.8" x2="12.4" y2="8.8" width="0.254" layer="16"/>
+<wire x1="13.1" y1="9.5" x2="13.1" y2="13.58" width="0.2032" layer="16"/>
+<wire x1="13.1" y1="13.58" x2="15.32" y2="15.8" width="0.2032" layer="16"/>
 </signal>
 <signal name="CAN_H">
 <contactref element="R17" pad="2"/>
@@ -3378,13 +3376,14 @@ design rules under a new name.</description>
 <wire x1="36.25" y1="15.55" x2="36.1" y2="15.7" width="0.2032" layer="1"/>
 <wire x1="36.1" y1="15.7" x2="36.1" y2="16.75" width="0.2032" layer="1"/>
 <via x="36.1" y="16.75" extent="1-16" drill="0.4" shape="square" alwaysstop="yes"/>
-<wire x1="36.1" y1="16.75" x2="34.4" y2="15.05" width="0.2032" layer="16"/>
-<wire x1="34.4" y1="15.05" x2="31.95" y2="15.05" width="0.2032" layer="16"/>
-<wire x1="31.95" y1="15.05" x2="27.9" y2="19.1" width="0.2032" layer="16"/>
-<wire x1="27.9" y1="19.1" x2="27.9" y2="22.15" width="0.2032" layer="16"/>
-<wire x1="27.9" y1="22.15" x2="28.2" y2="22.45" width="0.2032" layer="16"/>
-<wire x1="28.2" y1="22.45" x2="28.75" y2="22.45" width="0.2032" layer="16"/>
 <wire x1="28.775" y1="22.45" x2="28.75" y2="22.45" width="0.2032" layer="1"/>
+<wire x1="28.75" y1="22.45" x2="28.75" y2="22.25" width="0.254" layer="16"/>
+<wire x1="28.75" y1="22.25" x2="29.7" y2="21.3" width="0.254" layer="16"/>
+<wire x1="29.7" y1="21.3" x2="29.7" y2="20.3" width="0.254" layer="16"/>
+<wire x1="29.7" y1="20.3" x2="32" y2="18" width="0.254" layer="16"/>
+<wire x1="32" y1="18" x2="35.45" y2="18" width="0.254" layer="16"/>
+<wire x1="35.45" y1="18" x2="36.1" y2="17.35" width="0.254" layer="16"/>
+<wire x1="36.1" y1="17.35" x2="36.1" y2="16.75" width="0.254" layer="16"/>
 </signal>
 <signal name="N$24">
 <contactref element="IC1" pad="2"/>
@@ -3394,12 +3393,10 @@ design rules under a new name.</description>
 <wire x1="35.3" y1="15.05" x2="34.6" y2="15.75" width="0.2032" layer="1"/>
 <wire x1="34.6" y1="15.75" x2="34.6" y2="16.9" width="0.2032" layer="1"/>
 <via x="34.6" y="16.9" extent="1-16" drill="0.4" shape="square" alwaysstop="yes"/>
-<wire x1="34.6" y1="16.9" x2="32.8" y2="16.9" width="0.2032" layer="16"/>
-<wire x1="32.8" y1="16.9" x2="30.3" y2="19.4" width="0.2032" layer="16"/>
-<wire x1="30.3" y1="19.4" x2="30.3" y2="20.15" width="0.2032" layer="16"/>
-<wire x1="30.3" y1="20.15" x2="29.8" y2="20.65" width="0.2032" layer="16"/>
-<wire x1="29.8" y1="20.65" x2="28.75" y2="20.65" width="0.2032" layer="16"/>
 <wire x1="28.775" y1="20.65" x2="28.75" y2="20.65" width="0.2032" layer="1"/>
+<wire x1="28.75" y1="20.65" x2="28.75" y2="19.75" width="0.254" layer="16"/>
+<wire x1="28.75" y1="19.75" x2="31.6" y2="16.9" width="0.254" layer="16"/>
+<wire x1="31.6" y1="16.9" x2="34.6" y2="16.9" width="0.254" layer="16"/>
 </signal>
 <signal name="N$4">
 <contactref element="IC1" pad="44"/>
@@ -4405,8 +4402,8 @@ design rules under a new name.</description>
 <approved hash="5,16,f40dd54b9093098c"/>
 <approved hash="5,16,6010f6bfa7203a9e"/>
 <approved hash="19,1,f09494ca98c4fc9a"/>
-<approved hash="19,1,65ba4f02bf71df92"/>
 <approved hash="19,1,0bc47eeeec366ee2"/>
+<approved hash="19,1,65ba4f02bf71df92"/>
 <approved hash="19,1,1fd1c9510adbde69"/>
 <approved hash="19,1,0a68ad74a2bbf5ac"/>
 <approved hash="19,1,fc7b26826f024c48"/>
@@ -4416,10 +4413,10 @@ design rules under a new name.</description>
 <approved hash="19,1,4b62fad35d54caa1"/>
 <approved hash="19,1,306ba3b2b2ddcf3f"/>
 <approved hash="19,1,481db482d4d5cd59"/>
-<approved hash="19,1,c4e0f408f80fc8e7"/>
-<approved hash="19,1,9194292305cef15e"/>
 <approved hash="19,1,1ef75ce89ceedef1"/>
 <approved hash="19,1,af2d58542e7794ec"/>
+<approved hash="19,1,c4e0f408f80fc8e7"/>
+<approved hash="19,1,9194292305cef15e"/>
 <approved hash="19,1,858848c044afbe3f"/>
 <approved hash="19,1,06fa1500fbf315ba"/>
 <approved hash="19,1,92c6ddf51df752c4"/>

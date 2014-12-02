@@ -96,23 +96,17 @@ int main(void)
 		}
 		if (events & EVENT_UPDATE_SPEED) {
 #ifndef CHARACTERIZE
-
 #ifndef LQG_NOISE
-
 #ifndef SINE
 			SpeedControlStep(200);
 #endif
-
 #endif
-
 #else
 			CharacterizeStep();
 #endif
-
 #ifdef LQG_NOISE
 			NoiseInputStep();
 #endif
-
 #ifndef CHARACTERIZE
 #ifdef SINE
 			SetAirGapFluxLinkage(0);
@@ -125,7 +119,6 @@ int main(void)
 		}
 
 		if (events & EVENT_UART_DATA_READY) {
-			//Build and check sentence here! Woot woooooot.
 			events &= ~EVENT_UART_DATA_READY;
 		}
 
@@ -169,8 +162,8 @@ int main(void)
 		}
 
 		if (events & EVENT_ADC_DATA) {
-			//			size = sprintf((char *) out, "%i, %i\r\n", ADCBuff.Adc1Data[0], ADCBuff.Adc1Data[1]);
-			//			DMA0_UART2_Transfer(size, out);
+			size = sprintf((char *) out, "%i, %i\r\n", ADCBuff.Adc1Data[0], ADCBuff.Adc1Data[1]);
+			DMA0_UART2_Transfer(size, out);
 			events &= ~EVENT_ADC_DATA;
 		}
 	}
@@ -183,14 +176,13 @@ void EventChecker(void)
 	//this will be called approximately every second and will block for 50uS
 	//Pushing the DRV to its max SPI Fcy should bring this number down a little.
 	if (faultPrescalar > 1000) {
-		DRV8301_UpdateStatus();
+		//DRV8301_UpdateStatus();
 		faultPrescalar = 0;
 	} else {
 		faultPrescalar++;
 	}
 
 	if (uartBuffer.dataSize) {
-
 		events |= EVENT_UART_DATA_READY;
 	}
 
@@ -202,7 +194,7 @@ void EventChecker(void)
 		//The first bit of SPI is nonsense from the DRV due to it starting up
 		//that needs to be handled in the event handler which will process this
 		//event.
-		events |= EVENT_SPI_RX;
+		//events |= EVENT_SPI_RX;
 	}
 
 #endif
