@@ -44,37 +44,59 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <string.h>
-#include "BasicMotorControl.h"
+#include "PMSM_Velocity.h"
 #include "PMSMBoard.h"
 #include "DMA_Transfer.h"
-#include "PMSM.h"
 #include <uart.h>
 #include <xc.h>
 #include <dsp.h>
 #include <math.h>
 #include <qei32.h>
 
+#if defined VELOCITY
 
-#ifndef CHARACTERIZE
-#ifndef LQG_NOISE
-#ifndef SINE
+#include "TrigData.h"
 
-/**
- * @brief Converts control input into hall scaling.
- * @param speed radians per second to convert.
- * 
- * Takes a control input and scales it into hall counts.
- */
-float Counts2RadSec(int16_t speed);
+#define SQRT_3_2 0.86602540378
+#define SQRT_3 1.732050807568877
+#define SPOOL_SCALING_FACTOR 565.486683301
+#define PULSES_PER_REVOLUTION 223232
 
+typedef struct {
+	float Vr1;
+	float Vr2;
+	float Vr3;
+} InvClarkOut;
+
+typedef struct {
+	float Va;
+	float Vb;
+} InvParkOut;
+
+typedef struct {
+	uint8_t sector;
+	uint16_t T0;
+	uint16_t Ta;
+	uint16_t Tb;
+	float Va;
+	float Vb;
+} TimesOut;
+
+static float speed;
+static float u = 0;
+static float d_u = 0;
+static float y = 0;
+
+static int32_t indexCount = 0;
+static int32_t runningPositionCount = 0;
+static int32_t runningPosition2 = 0;
+int32_t intermediatePosition;
 
 /**
  * @brief Linear Quadradic State Estimation
  *
  * All the state esimates in the Gaussian Estimator are visible here.
  */
-static float u = 0;
-static float Ts = .0003333;
 
 static float x_hat[3][1] = {
 	{0},
@@ -89,19 +111,19 @@ static float x_dummy[3][1] = {
 };
 
 static float K_reg[3][3] = {
-	{0.7639, -0.358, -0.5243},
-	{0.2752, -0.1471, -0.55},
-	{-0.2592, 0.4365, 0.6546},
+	{0.574814093101266, 0.070664372633882, -0.105344349214271},
+	{0.308089137336297, -0.593241451822785, -0.234100902061752},
+	{-0.263929752213625, 0.666342910498965, 0.038507896962862}
 };
 
 static float L[3][1] = {
-	{.0002849},
-	{-.00008373},
-	{-.001217},
+	{0.003362260852022},
+	{0.000052004816562},
+	{0.000148610137435}
 };
 
 static float K[1][3] = {
-	{-0.4137, -0.6805, 0.744}
+	{-0.364711537429540, -0.280489224857517, -0.116867380021493}
 };
 
 /**
@@ -109,9 +131,70 @@ static float K[1][3] = {
  */
 void TrapUpdate(uint16_t torque, uint16_t direction);
 
+void SpaceVectorModulation(TimesOut sv);
+InvClarkOut InverseClarke(InvParkOut pP);
+InvParkOut InversePark(float Vd, float Vq, int16_t position);
+TimesOut SVPWMTimeCalc(InvParkOut pP);
 
 /**                          Public Functions                                **/
 
+/**
+ * @brief PMSM initialization call. Aligns rotor and sets QEI offset.
+ * @param *information a pointer to the MotorInfo struct that will be updated.
+ * @return Returns 1 if successful, returns 0 otherwise.
+ */
+uint8_t PMSM_Init(MotorInfo *information)
+{
+	static uint32_t theta1;
+
+	uint32_t i;
+	uint32_t j;
+	qeiCounter w;
+
+	w.l = 0;
+	theta1 = 0;
+
+	for (i = 0; i < 2048; i++) {
+		SpaceVectorModulation(SVPWMTimeCalc(InversePark(0.4, 0, theta1)));
+		for (j = 0; j < 400; j++) {
+			__builtin_nop();
+		}
+		theta1 -= 1;
+	}
+
+	SpaceVectorModulation(SVPWMTimeCalc(InversePark(0.8, 0, 0)));
+	while (j < 800000) {
+		Nop();
+		j++;
+	}
+
+	Write32bitQEI1IndexCounter(&w);
+	Write32bitQEI1PositionCounter(&w);
+
+	SpaceVectorModulation(SVPWMTimeCalc(InversePark(0, 0, 0)));
+
+	return(0);
+}
+
+/**
+ * @brief Calculates last known cable length and returns it.
+ * @return Cable length in mm.
+ */
+int32_t GetCableLength(void)
+{
+	return(runningPositionCount / PULSES_PER_REVOLUTION);
+}
+
+/**
+ * @brief Sets the commanded position of the motor.
+ * @param pos The position of the rotor in radians.
+ *
+ * This method sets the angular position of the controller.
+ */
+void SetVelocity(float velocity)
+{
+	speed = velocity;
+}
 
 /**
  * @brief Call this to update the controller at a rate of 3kHz.
@@ -120,22 +203,25 @@ void TrapUpdate(uint16_t torque, uint16_t direction);
  * It is required that the LQG controller which was characterized at a sample rate of n Hz is
  * run every n Hz with this function call.
  */
-void SpeedControlStep(float speed)
+void PMSM_Update_Velocity(void)
 {
-	uint16_t size = 0;
-	static uint8_t out[56];
-	qeiCounter w;
-	w.l = 0;
-	int16_t indexCount = 0;
+	indexCount = Read32bitQEI1PositionCounter();
+	int32_t delta;
+	intermediatePosition = (runningPositionCount + indexCount);
 
-	indexCount = (int) Read32bitQEI1IndexCounter();
-	Write32bitQEI1IndexCounter(&w);
+	delta = intermediatePosition - runningPosition2;
 
-	float theta_dot = Counts2RadSec(indexCount) - speed;
 
-	x_dummy[0][0] = (x_hat[0][0] * K_reg[0][0]) + (x_hat[1][0] * K_reg[0][1]) + (x_hat[2][0] * K_reg[0][2]) + (L[0][0] * theta_dot);
-	x_dummy[1][0] = (x_hat[1][0] * K_reg[1][0]) + (x_hat[1][0] * K_reg[1][1]) + (x_hat[2][0] * K_reg[1][2]) + (L[1][0] * theta_dot);
-	x_dummy[2][0] = (x_hat[2][0] * K_reg[2][0]) + (x_hat[1][0] * K_reg[2][1]) + (x_hat[2][0] * K_reg[2][2]) + (L[2][0] * theta_dot);
+	y = speed - (((float) (int32_t) (delta) * 0.0030679616) * 3000);
+
+	runningPosition2 = intermediatePosition;
+
+	x_dummy[0][0] = (x_hat[0][0] * K_reg[0][0]) + (x_hat[1][0] * K_reg[0][1])
+		+ (x_hat[2][0] * K_reg[0][2]) + (L[0][0] * y);
+	x_dummy[1][0] = (x_hat[1][0] * K_reg[1][0]) + (x_hat[1][0] * K_reg[1][1])
+		+ (x_hat[2][0] * K_reg[1][2]) + (L[1][0] * y);
+	x_dummy[2][0] = (x_hat[2][0] * K_reg[2][0]) + (x_hat[1][0] * K_reg[2][1])
+		+ (x_hat[2][0] * K_reg[2][2]) + (L[2][0] * y);
 
 	x_hat[0][0] = x_dummy[0][0];
 	x_hat[1][0] = x_dummy[1][0];
@@ -143,27 +229,107 @@ void SpeedControlStep(float speed)
 
 	u = -1 * ((K[0][0] * x_hat[0][0]) + (K[0][1] * x_hat[1][0]) + (K[0][2] * x_hat[2][0]));
 
-	if (u < 0) {
-		TrapUpdate((uint16_t) (-1 * u * PTPER), CCW);
-	} else if (u >= 0) {
-		TrapUpdate((uint16_t) (u * PTPER), CW);
+	//SATURATION HERE...  IF YOU REALLY NEED MORE JUICE...  UP THIS TO 1 and -1
+	if (u > .8) {
+		u = .8;
+	} else if (u < -.8) {
+		u = -.8;
 	}
 
-	size = sprintf((char *) out, "%i,%u\r\n", indexCount, (uint16_t) (x_hat[2][0] * 10000));
-	DMA0_UART2_Transfer(size, out);
+	if (u > 0) {
+		//Commutation phase offset
+		indexCount += 512; // - rotorOffset; //Phase offset of 90 degrees.
+		d_u = u;
+	} else {
+		indexCount += -512; // - rotorOffset; //Phase offset of 90 degrees.
+		d_u = -u;
+	}
 
-	LED4 ^= 1;
+	indexCount = (-indexCount + 2048) % 2048;
+	SpaceVectorModulation(SVPWMTimeCalc(InversePark(d_u, 0, indexCount)));
 }
 
-float Counts2RadSec(int16_t speed)
+/****************************   Private Stuff   *******************************/
+
+void SpaceVectorModulation(TimesOut sv)
 {
-	return(((speed / (512.0)) * 2 * PI) / Ts);
+	switch (sv.sector) {
+	case 1:
+		GH_A_DC = ((uint16_t) PHASE1 * (.5 - .375 * sv.Vb - .649519 * sv.Va)) - 10;
+		GH_B_DC = ((uint16_t) PHASE1 * (.5 + .375 * sv.Vb - .216506 * sv.Va)) - 10;
+		GH_C_DC = ((uint16_t) PHASE1 * (.5 - .375 * sv.Vb + .216506 * sv.Va)) - 10;
+		break;
+	case 2:
+		GH_A_DC = ((uint16_t) PHASE1 * (.5 - .433013 * sv.Va)) - 10;
+		GH_B_DC = ((uint16_t) PHASE1 * (.5 + .75 * sv.Vb)) - 10;
+		GH_C_DC = ((uint16_t) PHASE1 * (.5 + .433013 * sv.Va)) - 10;
+		break;
+	case 3:
+		GH_A_DC = ((uint16_t) PHASE1 * (.5 - 0.375 * sv.Vb + .216506 * sv.Va)) - 10;
+		GH_B_DC = ((uint16_t) PHASE1 * (.5 + 0.375 * sv.Vb + .216506 * sv.Va)) - 10;
+		GH_C_DC = ((uint16_t) PHASE1 * (.5 - 0.375 * sv.Vb + .649519 * sv.Va)) - 10;
+		break;
+	default:
+		break;
+	}
+}
+
+InvClarkOut InverseClarke(InvParkOut pP)
+{
+	InvClarkOut returnVal;
+	returnVal.Vr1 = pP.Vb;
+	returnVal.Vr2 = -.5 * pP.Vb + SQRT_3_2 * pP.Va;
+	returnVal.Vr3 = -.5 * pP.Vb - SQRT_3_2 * pP.Va;
+	return(returnVal);
+}
+
+InvParkOut InversePark(float Vq, float Vd, int16_t position1)
+{
+	static int position;
+	position = position1;
+	static int16_t cos_position;
+	InvParkOut returnVal;
+
+	float cosine;
+	float sine;
+
+	if (position1 <= 0) {
+		position = 2048 + (position1 % 2048);
+		cos_position = (2048 + ((position1 + 512) % 2048)) % 2048;
+	} else {
+		position = position1 % 2048;
+		cos_position = (position1 + 512) % 2048;
+	}
+
+	cosine = TRIG_DATA[cos_position];
+	sine = TRIG_DATA[position];
+
+	returnVal.Va = Vd * cosine - Vq * sine;
+	returnVal.Vb = Vd * sine + Vq * cosine;
+	return(returnVal);
+}
+
+TimesOut SVPWMTimeCalc(InvParkOut pP)
+{
+	static uint8_t out[56];
+	static uint8_t size;
+
+	TimesOut t;
+	t.sector = ((uint8_t) (.0029296875 * (indexCount) + 6)) % 3 + 1;
+
+	size = sprintf((char *) out, "%u\r\n", t.sector);
+	DMA0_UART2_Transfer(size, out);
+
+	t.Va = pP.Va;
+	t.Vb = pP.Vb;
+
+	return(t);
 }
 
 /**
  * This function should exclusively be called by the change notify interrupt to
  * ensure that all hall events have been recorded and that the time between events
- * is appropriately read.
+ * is appropriately read.  When using QEI and FOC, this routine is not used.
  *
  * The only other conceivable time that this would be called is if the motor is currently
  * not spinning.
@@ -318,10 +484,25 @@ void __attribute__((__interrupt__, no_auto_psv)) _CNInterrupt(void)
 	IFS1bits.CNIF = 0; // Clear CN interrupt
 }
 
+static int32_t lastCheck;
+static int32_t currentCheck;
+
 void __attribute__((__interrupt__, no_auto_psv)) _QEI1Interrupt(void)
 {
+	currentCheck = Read32bitQEI1PositionCounter();
+	runningPositionCount += currentCheck;
+
+	qeiCounter w;
+
+	if (currentCheck > 0) {
+		w.l = currentCheck - 2048;
+	} else {
+		w.l = currentCheck + 2048;
+	}
+
+	Write32bitQEI1PositionCounter(&w);
+	lastCheck = currentCheck;
+
 	IFS3bits.QEI1IF = 0; /* Clear QEI interrupt flag */
 }
-#endif
-#endif
 #endif

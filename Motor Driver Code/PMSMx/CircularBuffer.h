@@ -44,12 +44,12 @@
  * don't care about and shouldn't touch.
  */
 typedef struct {
-	uint16_t readIndex;    //!< Holds the index of the tail of the list. Always points to valid data when empty is false.
-	uint16_t writeIndex;   //!< Holds the index of the head of the list. Always points to empty space except when buffer is full.
-	uint16_t staticSize;   //!< Stores the static size of the buffer. The actual number of data bytes stored can be retrieved by CB_LENGTH() or CB_GetLength().
-	uint16_t dataSize;     //!< The actual number of unread bytes in the buffer.
-	uint8_t overflowCount; //!< Tracks how many bytes have been attempted to be written while the buffer was full.
-	uint8_t *data;         //!< A pointer to the actual data managed by this buffer.
+    uint16_t readIndex; //!< Holds the index of the tail of the list. Always points to valid data when empty is false.
+    uint16_t writeIndex; //!< Holds the index of the head of the list. Always points to empty space except when buffer is full.
+    uint16_t staticSize; //!< Stores the static size of the buffer. The actual number of data bytes stored can be retrieved by CB_LENGTH() or CB_GetLength().
+    uint16_t dataSize; //!< The actual number of unread bytes in the buffer.
+    uint8_t overflowCount; //!< Tracks how many bytes have been attempted to be written while the buffer was full.
+    uint8_t *data; //!< A pointer to the actual data managed by this buffer.
 } CircularBuffer;
 
 /**
@@ -216,7 +216,7 @@ int CB_PeekMany(const CircularBuffer *b, void *outData, uint16_t size);
  * @param b A pointer to the circularbuffer structure.
  * @param size The number of elements to be removed from the buffer.
  */
-int CB_Remove(CircularBuffer *b, uint16_t size); 
+int CB_Remove(CircularBuffer *b, uint16_t size);
 
 
 #endif /* CIRCULAR_BUFFER_H */

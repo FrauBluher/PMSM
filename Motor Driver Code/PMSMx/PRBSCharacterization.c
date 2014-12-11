@@ -271,7 +271,6 @@ void __attribute__((__interrupt__, no_auto_psv)) _CNInterrupt(void)
 }
 
 void __attribute__((__interrupt__, no_auto_psv)) _QEI1Interrupt(void)
-
 {
 	IFS3bits.QEI1IF = 0; /* Clear QEI interrupt flag */
 }

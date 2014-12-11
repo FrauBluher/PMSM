@@ -19,26 +19,22 @@
 #include "CircularBuffer.h"
 #include "DRV8301.h"
 #include "DMA_Transfer.h"
-#include "PMSM.h"
-#include <dsp.h>
-#include <uart.h>
 
-#ifndef CHARACTERIZE
-#ifndef LQG_NOISE
-#include "BasicMotorControl.h"
-#endif
-#else
-
-#ifndef SINE
-#include "PRBSCharacterization.h"
-#else
+#if defined (CHARACTERIZE_POSITION) || defined (CHARACTERIZE_VELOCITY)
 #include "PMSM_Characterize.h"
-#endif
+
+#else
+
+#ifdef VELOCITY
+#include "PMSM_Velocity.h"
 #endif
 
-#ifdef LQG_NOISE
-#include "LQG_NoiseCharacterization.h"
+#ifdef POSITION
+#include "PMSM_Position.h"
 #endif
+
+#endif
+
 
 CircularBuffer uartBuffer;
 uint8_t uartBuf[64];
@@ -53,6 +49,7 @@ ADCBuffer ADCBuff;
 
 uint16_t events = 0;
 uint16_t faultPrescalar = 0;
+uint16_t faultPrescalar1 = 0;
 uint16_t commutationPrescalar = 0;
 uint16_t torque;
 
@@ -82,37 +79,29 @@ int main(void)
 	CB_Init(&uartBuffer, uartBuf, 32);
 	CB_Init(&spiBuffer, (uint8_t *) spiBuf, 128);
 
-	SetPosition(-100);
-
 	LED1 = 1;
 	LED2 = 1;
 	LED3 = 1;
 	LED4 = 1;
 
+#ifdef POSITION
+	SetPosition(1000);
+#endif
+
+#ifdef VELOCITY
+	SetVelocity(500);
+#endif
+
 	while (1) {
-		if (events & EVENT_QEI_RQ) {
-			QEIPositionUpdate();
-			events &= ~EVENT_QEI_RQ;
-		}
 		if (events & EVENT_UPDATE_SPEED) {
-#ifndef CHARACTERIZE
-#ifndef LQG_NOISE
-#ifndef SINE
-			SpeedControlStep(200);
-#endif
-#endif
-#else
+#if defined (CHARACTERIZE_POSITION) || defined (CHARACTERIZE_VELOCITY)
 			CharacterizeStep();
+#else
+#ifdef VELOCITY
+			PMSM_Update_Velocity();
 #endif
-#ifdef LQG_NOISE
-			NoiseInputStep();
-#endif
-#ifndef CHARACTERIZE
-#ifdef SINE
-			SetAirGapFluxLinkage(0);
-			SetTorque(.1);
-			PMSM_Update();
-			LED4 ^= 1;
+#ifdef POSITION
+			PMSM_Update_Position();
 #endif
 #endif
 			events &= ~EVENT_UPDATE_SPEED;
@@ -171,12 +160,13 @@ int main(void)
 
 void EventChecker(void)
 {
-#ifndef CHARACTERIZE
+#if defined (CHARACTERIZE_POSITION) || defined (CHARACTERIZE_VELOCITY)
+#else
 	//Until I can make a nice non-blocking way of checking the drv for faults
 	//this will be called approximately every second and will block for 50uS
 	//Pushing the DRV to its max SPI Fcy should bring this number down a little.
-	if (faultPrescalar > 1000) {
-		//DRV8301_UpdateStatus();
+	if (faultPrescalar > 15000) {
+		DRV8301_UpdateStatus();
 		faultPrescalar = 0;
 	} else {
 		faultPrescalar++;
@@ -204,10 +194,8 @@ void EventChecker(void)
 		//		ADCBuff.newData = 0;
 		//		events |= EVENT_ADC_DATA;
 	}
-
-	events |= EVENT_QEI_RQ;
 #endif
-	if (commutationPrescalar > 4) {
+	if (commutationPrescalar > 3) {
 		events |= EVENT_UPDATE_SPEED;
 		commutationPrescalar = 0;
 	} else {

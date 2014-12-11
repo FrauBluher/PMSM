@@ -3,17 +3,18 @@
 #include "Uart2.h"
 #include "pps.h"
 #include "DRV8301.h"
-#include "PMSM.h"
 #include "PMSMBoard.h"
 
-#ifndef CHARACTERIZE
-#include "BasicMotorControl.h"
+#if defined (CHARACTERIZE_POSITION) || defined (CHARACTERIZE_VELOCITY)
+#include "PMSM_Characterize.h"
 #else
 
-#ifndef SINE
-#include "PRBSCharacterization.h"
-#else
-#include "PMSM_Characterize.h"
+#ifdef POSITION
+#include "PMSM_Position.h"
+#endif
+
+#ifdef VELOCITY
+#include "PMSM_Velocity.h"
 #endif
 
 #endif
@@ -27,15 +28,6 @@ _FOSCSEL(FNOSC_FRC & IESO_OFF);
 _FOSC(FCKSM_CSECMD & OSCIOFNC_OFF & POSCMD_NONE);
 _FWDT(FWDTEN_OFF);
 _FICD(ICS_PGD1 & JTAGEN_OFF);
-
-#define INTERRUPT_PROTECT(x) { \
-char saved_ipl; \
-\
-SET_AND_SAVE_CPU_IPL(saved_ipl,7); \
-x; \
-RESTORE_CPU_IPL(saved_ipl); } (void) 0;
-
-//TODO: Disable 32 bit timer when using QEI...
 
 static MotorInfo motorInformation;
 static DRV8301_Info motorDriverInfo;
@@ -90,8 +82,6 @@ void InitBoard(ADCBuffer *ADBuff, CircularBuffer *cB, CircularBuffer *spi_cB, vo
 		PMSM_Init(&motorInformation);
 		EventCheckInit(eventCallback);
 		TimersInit();
-		//putsUART2((unsigned int *) "Initialization Complete.\r\n");
-
 
 		//		if (!(initInfo.ClockInited & initInfo.EventCheckInited
 		//			& initInfo.MotorInited & initInfo.PinInited
@@ -126,217 +116,198 @@ void UART2Init(void)
 
 void MotorInit()
 {
-
-	if (1) { //!(initInfo.UARTInited & 0x01)) {!(initInfo.MotorInited & 0x02)) {
 #ifdef SINE
-	//TODO: DETERMINE A GOOD SWITCHING FREQUENCY...  DOES A LOW FREQUENCY REALLY JUST KILL THE MOTOR?
-
-		/* Set PWM Periods on PHASEx Registers */
-		PHASE1 = 400;
-		PHASE2 = 400;
-		PHASE3 = 400;
-		/* Set Duty Cycles */
-		PDC1 = 0;
-		PDC2 = 0;
-		PDC3 = 0;
-		/* Set Dead Time Values */
-		/* DTRx Registers are ignored in this mode */
-		DTR1 = DTR2 = DTR3 = 0;
-		ALTDTR1 = ALTDTR2 = ALTDTR3 = 0;
-		/* Set PWM Mode to Complementary */
-		IOCON1 = IOCON2 = IOCON3 = 0xC000;
-		/* Set Independent Time Bases, Center-Aligned mode and
-		Independent Duty Cycles */
-		PWMCON1 = PWMCON2 = PWMCON3 = 0x0204;
-		/* Configure Faults */
-		FCLCON1 = FCLCON2 = FCLCON3 = 0x0003;
-		/* 1:1 Prescaler */
-		PTCON2 = 0x0000;
+	/* Set PWM Periods on PHASEx Registers */
+	PHASE1 = 400;
+	PHASE2 = 400;
+	PHASE3 = 400;
+	/* Set Duty Cycles */
+	PDC1 = 0;
+	PDC2 = 0;
+	PDC3 = 0;
+	/* Set Dead Time Values */
+	/* DTRx Registers are ignored in this mode */
+	DTR1 = DTR2 = DTR3 = 20;
+	ALTDTR1 = ALTDTR2 = ALTDTR3 = 40;
+	/* Set PWM Mode to Complementary */
+	IOCON1 = IOCON2 = IOCON3 = 0xC000;
+	/* Set Independent Time Bases, Center-Aligned mode and
+	Independent Duty Cycles */
+	PWMCON1 = PWMCON2 = PWMCON3 = 0x0204;
+	/* Configure Faults */
+	FCLCON1 = FCLCON2 = FCLCON3 = 0x0003;
+	/* 1:1 Prescaler */
+	PTCON2 = 0x0000;
 
 
-		//ADC trigger stuff.
-		TRGCON1bits.TRGDIV = 0;
-		TRGCON1bits.TRGSTRT = 0b111111;
-		TRIG1 = PHASE1 - 1;
+	//ADC trigger stuff.
+	TRGCON1bits.TRGDIV = 0;
+	TRGCON1bits.TRGSTRT = 0b111111;
+	TRIG1 = PHASE1 - 1;
 
 
-		/* Enable PWM Module */
-		PTCON = 0x8000;
+	/* Enable PWM Module */
+	PTCON = 0x8000;
 #else
-		/* Set PWM Period on Primary Time Base */
-		PTPER = 400;
-		/* Set Phase Shift */
-		PHASE1 = 0;
-		SPHASE1 = 0;
-		PHASE2 = 0;
-		SPHASE2 = 0;
-		PHASE3 = 0;
-		SPHASE3 = 0;
-		/* Set Duty Cycles */
-		PDC1 = 0;
-		SDC1 = 0;
-		PDC2 = 0;
-		SDC2 = 0;
-		PDC3 = 0;
-		SDC3 = 0;
-		/* Set Dead Time Values */
-		DTR1 = DTR2 = DTR3 = 0;
-		ALTDTR1 = ALTDTR2 = ALTDTR3 = 0;
-		/* Set PWM Mode to Independent */
-		IOCON1 = IOCON2 = IOCON3 = 0xCC00;
-		//Set unused PWM outputs as GPIO driven
-		IOCON4 = 0;
-		/* Set Primary Time Base, Edge-Aligned Mode and Independent Duty Cycles */
-		PWMCON1 = PWMCON2 = PWMCON3 = 0x0000;
-		/* Configure Faults */
-		FCLCON1 = FCLCON2 = FCLCON3 = 0x0003;
-		/* 1:1 Prescaler */
-		PTCON2 = 0x0000;
-		/* Enable PWM Module */
-		PTCON = 0x8000;
+	/* Set PWM Period on Primary Time Base */
+	PTPER = 400;
+	/* Set Phase Shift */
+	PHASE1 = 0;
+	SPHASE1 = 0;
+	PHASE2 = 0;
+	SPHASE2 = 0;
+	PHASE3 = 0;
+	SPHASE3 = 0;
+	/* Set Duty Cycles */
+	PDC1 = 0;
+	SDC1 = 0;
+	PDC2 = 0;
+	SDC2 = 0;
+	PDC3 = 0;
+	SDC3 = 0;
+	/* Set Dead Time Values */
+	DTR1 = DTR2 = DTR3 = 0;
+	ALTDTR1 = ALTDTR2 = ALTDTR3 = 0;
+	/* Set PWM Mode to Independent */
+	IOCON1 = IOCON2 = IOCON3 = 0xCC00;
+	//Set unused PWM outputs as GPIO driven
+	IOCON4 = 0;
+	/* Set Primary Time Base, Edge-Aligned Mode and Independent Duty Cycles */
+	PWMCON1 = PWMCON2 = PWMCON3 = 0x0000;
+	/* Configure Faults */
+	FCLCON1 = FCLCON2 = FCLCON3 = 0x0003;
+	/* 1:1 Prescaler */
+	PTCON2 = 0x0000;
+	/* Enable PWM Module */
+	PTCON = 0x8000;
 
 #endif
-		EN_GATE = 1;
-		DC_CAL = 0;
+	EN_GATE = 1;
+	DC_CAL = 0;
 
-		initInfo.MotorInited = 1;
-	} else {
-		while (1);
-	}
+	initInfo.MotorInited = 1;
 }
 
 void ClockInit(void)
 {
-	if (1) { //!(initInfo.UARTInited & 0x01)) {!(initInfo.ClockInited & 0x04)) {
-		// 140.03 MHz VCO  -- 70 MIPS
-		PLLFBD = 74;
-		CLKDIVbits.PLLPRE = 0;
-		CLKDIVbits.PLLPOST = 0;
+	// 140.03 MHz VCO  -- 70 MIPS
+	PLLFBD = 74;
+	CLKDIVbits.PLLPRE = 0;
+	CLKDIVbits.PLLPOST = 0;
 
-		// Initiate Clock Switch to FRC oscillator with PLL (NOSC=0b001)
-		__builtin_write_OSCCONH(0x01);
+	// Initiate Clock Switch to FRC oscillator with PLL (NOSC=0b001)
+	__builtin_write_OSCCONH(0x01);
 
-		__builtin_write_OSCCONL(OSCCON | 0x01);
+	__builtin_write_OSCCONL(OSCCON | 0x01);
 
-		// Wait for Clock switch to occur
-		while (OSCCONbits.COSC != 0b001);
+	// Wait for Clock switch to occur
+	while (OSCCONbits.COSC != 0b001);
 
-		// Wait for PLL to lock
-		while (OSCCONbits.LOCK != 1);
+	// Wait for PLL to lock
+	while (OSCCONbits.LOCK != 1);
 
-		initInfo.ClockInited = 1;
-	} else {
-		while (1);
-	}
+	initInfo.ClockInited = 1;
 }
 
 void PinInit(void)
 {
-	if (1) { //!(initInfo.UARTInited & 0x01)) {!(initInfo.PinInited & 0x08)) {
-		// 0 - Output, 1 - Input
-		TRIS_EN_GATE = 0;
-		TRIS_DC_CAL = 0;
-		TRIS_CS = 0;
+	TRISDbits.TRISD7 = 1; //QEI_A
+	TRISDbits.TRISD6 = 1; //QEI_B
+	TRISDbits.TRISD5 = 1; //QEI_C
 
-		TRIS_HALL1 = 1;
-		TRIS_HALL2 = 1;
-		TRIS_HALL3 = 1;
+	// 0 - Output, 1 - Input
+	TRIS_EN_GATE = 0;
+	TRIS_DC_CAL = 0;
+	TRIS_CS = 0;
 
-		//Ensuring that SPI remapped pins' tristates are set correctly.
-		TRISEbits.TRISE7 = 1; //MISO
-		TRISGbits.TRISG6 = 0; //MOSI
-		TRISGbits.TRISG8 = 0; //SCLK
+	TRIS_HALL1 = 1;
+	TRIS_HALL2 = 1;
+	TRIS_HALL3 = 1;
 
-		CNPDEbits.CNPDE7 = 1;
+	//Ensuring that SPI remapped pins' tristates are set correctly.
+	TRISEbits.TRISE7 = 1; //MISO
+	TRISGbits.TRISG6 = 0; //MOSI
+	TRISGbits.TRISG8 = 0; //SCLK
 
-		TRIS_LED1 = 0;
-		TRIS_LED2 = 0;
-		TRIS_LED3 = 0;
-		TRIS_LED4 = 0;
+	CNPDEbits.CNPDE7 = 1;
 
-		//Right now no analog peripherals are being used, so we let digital
-		//peripherals take over.
-		ANSELB = 0;
-		ANSELC = 0;
-		ANSELD = 0;
-		ANSELE = 0;
-		ANSELG = 0;
+	TRIS_LED1 = 0;
+	TRIS_LED2 = 0;
+	TRIS_LED3 = 0;
+	TRIS_LED4 = 0;
 
-		TRISDbits.TRISD4 = 0;
+	//Right now no analog peripherals are being used, so we let digital
+	//peripherals take over.
+	ANSELB = 0;
+	ANSELC = 0;
+	ANSELD = 0;
+	ANSELE = 0;
+	ANSELG = 0;
 
-		//Unlock PPS Registers
-		__builtin_write_OSCCONL(OSCCON & ~(1 << 6));
+	TRISDbits.TRISD4 = 0;
 
-		OUT_PIN_PPS_RP68 = OUT_FN_PPS_U2TX; //U2Tx
-		IN_FN_PPS_U2RX = IN_PIN_PPS_RP67; //U2Rx
-		OUT_PIN_PPS_RP118 = OUT_FN_PPS_SDO1; //SDO
-		OUT_PIN_PPS_RP120 = OUT_FN_PPS_SCK1; //SCLK
-		IN_FN_PPS_SDI1 = IN_PIN_PPS_RP87; //SDI
+	//Unlock PPS Registers
+	__builtin_write_OSCCONL(OSCCON & ~(1 << 6));
 
-		IN_FN_PPS_QEI1 = IN_PIN_PPS_RP71; //QEI Index
-		IN_FN_PPS_QEB1 = IN_PIN_PPS_RP70; //QEI B
-		IN_FN_PPS_QEA1 = IN_PIN_PPS_RP69; //QEI A
+	OUT_PIN_PPS_RP68 = OUT_FN_PPS_U2TX; //U2Tx
+	IN_FN_PPS_U2RX = IN_PIN_PPS_RP67; //U2Rx
+	OUT_PIN_PPS_RP118 = OUT_FN_PPS_SDO1; //SDO
+	OUT_PIN_PPS_RP120 = OUT_FN_PPS_SCK1; //SCLK
+	IN_FN_PPS_SDI1 = IN_PIN_PPS_RP87; //SDI
 
-		//Lock PPS Registers
-		__builtin_write_OSCCONL(OSCCON | (1 << 6));
+	IN_FN_PPS_QEI1 = IN_PIN_PPS_RP71; //QEI Index
+	IN_FN_PPS_QEB1 = IN_PIN_PPS_RP70; //QEI B
+	IN_FN_PPS_QEA1 = IN_PIN_PPS_RP69; //QEI A
 
-		TRIS_LED1 = 0;
-		TRIS_LED2 = 0;
-		TRIS_LED3 = 0;
-		TRIS_LED4 = 0;
+	//Lock PPS Registers
+	__builtin_write_OSCCONL(OSCCON | (1 << 6));
 
-		initInfo.PinInited = 1;
-	} else {
-		while (1);
-	}
+	TRIS_LED1 = 0;
+	TRIS_LED2 = 0;
+	TRIS_LED3 = 0;
+	TRIS_LED4 = 0;
+
+	initInfo.PinInited = 1;
 }
 
 void TimersInit(void)
 {
-	if (1) { //!(initInfo.UARTInited & 0x01)) {!(initInfo.TimersInited & 0x10)) {
-		//		T3CONbits.TON = 0; // Stop any 16-bit Timer3 operation
-		//		T2CONbits.TON = 0; // Stop any 16/32-bit Timer3 operation
-		//		T2CONbits.T32 = 1; // Enable 32-bit Timer mode
-		//		T2CONbits.TCS = 0; // Select internal instruction cycle clock
-		//		T2CONbits.TGATE = 0; // Disable Gated Timer mode
-		//		T2CONbits.TCKPS = 0b01; // Select 1:8 Prescaler
-		//		TMR3 = 0x00; // Clear 32-bit Timer (msw)
-		//		TMR2 = 0x00; // Clear 32-bit Timer (lsw)
-		//		PR3 = 0xFFFF; // Load 32-bit period value (msw)
-		//		PR2 = 0xFFFF; // Load 32-bit period value (lsw)
-		//		IPC2bits.T3IP = 0x03; // Set Timer3 Interrupt Priority Level
-		//		IFS0bits.T3IF = 0; // Clear Timer3 Interrupt Flag
-		//		IEC0bits.T3IE = 1; // Enable Timer3 interrupt
-		//		T2CONbits.TON = 1; // Start 32-bit Timer
+	//		T3CONbits.TON = 0; // Stop any 16-bit Timer3 operation
+	//		T2CONbits.TON = 0; // Stop any 16/32-bit Timer3 operation
+	//		T2CONbits.T32 = 1; // Enable 32-bit Timer mode
+	//		T2CONbits.TCS = 0; // Select internal instruction cycle clock
+	//		T2CONbits.TGATE = 0; // Disable Gated Timer mode
+	//		T2CONbits.TCKPS = 0b01; // Select 1:8 Prescaler
+	//		TMR3 = 0x00; // Clear 32-bit Timer (msw)
+	//		TMR2 = 0x00; // Clear 32-bit Timer (lsw)
+	//		PR3 = 0xFFFF; // Load 32-bit period value (msw)
+	//		PR2 = 0xFFFF; // Load 32-bit period value (lsw)
+	//		IPC2bits.T3IP = 0x03; // Set Timer3 Interrupt Priority Level
+	//		IFS0bits.T3IF = 0; // Clear Timer3 Interrupt Flag
+	//		IEC0bits.T3IE = 1; // Enable Timer3 interrupt
+	//		T2CONbits.TON = 1; // Start 32-bit Timer
 
-		//Timer 5 for ADC Triggering if not using the PWM compare ADC trigger.
-		//		TMR5 = 0x0000;
-		//		T5CONbits.TCKPS = 3;
-		//		PR5 = 68; // Trigger ADC1at a rate of 4kHz
-		//		IFS1bits.T5IF = 0; // Clear Timer5 interrupt
-		//		IEC1bits.T5IE = 0; // Disable Timer5 interrupt
-		//		T5CONbits.TON = 1; // Start Timer5
-		//IPC7bits.T5IP = 2;
+	//Timer 5 for ADC Triggering if not using the PWM compare ADC trigger.
+	//		TMR5 = 0x0000;
+	//		T5CONbits.TCKPS = 3;
+	//		PR5 = 68; // Trigger ADC1at a rate of 4kHz
+	//		IFS1bits.T5IF = 0; // Clear Timer5 interrupt
+	//		IEC1bits.T5IE = 0; // Disable Timer5 interrupt
+	//		T5CONbits.TON = 1; // Start Timer5
+	//IPC7bits.T5IP = 2;
 
-		T7CONbits.TON = 0;
-		T7CONbits.TCS = 0;
-		T7CONbits.TGATE = 0;
-		T7CONbits.TCKPS = 0b0; // Select 1:1 Prescaler
-		TMR7 = 0x00;
-#ifdef CHARACTERIZE
-		PR7 = 4662; //91 = 15015 Hz
-#else
-		PR7 = 4662; //91 = 15015 Hz
-#endif
-		IPC12bits.T7IP = 0x01;
-		IFS3bits.T7IF = 0;
-		IEC3bits.T7IE = 1;
-		T7CONbits.TON = 1;
+	T7CONbits.TON = 0;
+	T7CONbits.TCS = 0;
+	T7CONbits.TGATE = 0;
+	T7CONbits.TCKPS = 0b0; // Select 1:1 Prescaler
+	TMR7 = 0x00;
+	PR7 = 4662; // 15015 Hz
+	IPC12bits.T7IP = 0x01;
+	IFS3bits.T7IF = 0;
+	IEC3bits.T7IE = 1;
+	T7CONbits.TON = 1;
 
-		initInfo.TimersInited = 1;
-	} else {
-		while (1);
-	}
+	initInfo.TimersInited = 1;
 }
 
 void CNInit(void)
@@ -353,13 +324,12 @@ void CNInit(void)
 void QEIInit(void)
 {
 #ifdef SINE
-	/* Configure QEICON, QEIIOC and QEISTAT register */
 	Open32bitQEI1(QEI_COUNTER_QEI_MODE &
 		QEI_GATE_DISABLE &
 		QEI_COUNT_POSITIVE &
 		QEI_INPUT_PRESCALE_1 &
 		QEI_INDEX_MATCH_NO_EFFECT &
-		QEI_POS_COUNT_INIT_EVERY_INDEX &
+		QEI_POS_COUNT_INIT_No_EFFECT &
 		QEI_IDLE_CON &
 		QEI_COUNTER_ENABLE,
 
@@ -373,13 +343,15 @@ void QEIInit(void)
 		QEI_DIG_FLTR_DISABLE &
 		QEI_POS_COUNT_TRIG_DISABLE,
 
-		QEI_INDEX_INTERRUPT_ENABLE &
+		QEI_INDEX_INTERRUPT_DISABLE &
 		QEI_HOME_INTERRUPT_DISABLE &
 		QEI_VELO_OVERFLOW_INTERRUPT_DISABLE &
-		QEI_POS_INIT_INTERRUPT_ENABLE &
+		QEI_POS_INIT_INTERRUPT_DISABLE &
 		QEI_POS_OVERFLOW_INTERRUPT_DISABLE &
-		QEI_POS_LESS_EQU_INTERRUPT_DISABLE &
-		QEI_POS_GREAT_EQU_INTERRUPT_DISABLE);
+		QEI_POS_LESS_EQU_INTERRUPT_ENABLE &
+		QEI_POS_GREAT_EQU_INTERRUPT_ENABLE);
+
+	ConfigInt32bitQEI1(QEI_INT_PRI_4 & QEI_INT_ENABLE);
 #else
 	/* Configure QEICON, QEIIOC and QEISTAT register */
 	Open32bitQEI1(QEI_COUNTER_QEI_MODE &
@@ -408,15 +380,15 @@ void QEIInit(void)
 		QEI_POS_OVERFLOW_INTERRUPT_ENABLE &
 		QEI_POS_LESS_EQU_INTERRUPT_DISABLE &
 		QEI_POS_GREAT_EQU_INTERRUPT_DISABLE);
-#endif
 
 	ConfigInt32bitQEI1(QEI_INT_PRI_4 & QEI_INT_DISABLE);
-	/*
-		READING VELOCITY CAN BE ACHIEVED THROUGH THE FOLLOWING METHODS...
-	 *
-		Position_Counter = Read32bitQEI1PositionCounter();
-		Velocity = Read32bitQEI1VelocityCounter();
-	 */
+#endif
+
+	QEI1GECL = 2047;
+	QEI1GECH = 0;
+
+	QEI1LECL = 0b1111100000000001;
+	QEI1LECH = 0b1111111111111111;
 
 }
 
@@ -469,13 +441,9 @@ void ADCInit(void)
 
 void EventCheckInit(void *eventCallback)
 {
-	if (1) { //!(initInfo.UARTInited & 0x01)) {!(initInfo.EventCheckInited & 0x20)) {
-		eventCallbackFcn = eventCallback;
+	eventCallbackFcn = eventCallback;
 
-		initInfo.EventCheckInited = 1;
-	} else {
-		while (1);
-	}
+	initInfo.EventCheckInited = 1;
 }
 
 void __attribute__((__interrupt__, no_auto_psv)) _T7Interrupt(void)

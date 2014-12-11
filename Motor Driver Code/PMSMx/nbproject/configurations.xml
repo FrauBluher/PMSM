@@ -4,19 +4,18 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
-      <itemPath>PMSM.h</itemPath>
+      <logicalFolder name="f1" displayName="Characterization\" projectFiles="true">
+        <itemPath>PMSM_Characterize.h</itemPath>
+        <itemPath>../../SystemID Matlab Support/PRBSData.h</itemPath>
+        <itemPath>TrigData.h</itemPath>
+      </logicalFolder>
       <itemPath>SPIdsPIC.h</itemPath>
       <itemPath>DRV8301.h</itemPath>
       <itemPath>PMSMBoard.h</itemPath>
-      <itemPath>BasicMotorControl.h</itemPath>
       <itemPath>CircularBuffer.h</itemPath>
       <itemPath>DMA_Transfer.h</itemPath>
-      <itemPath>PRBSCharacterization.h</itemPath>
-      <itemPath>../../SystemID Matlab Support/PRBSData.h</itemPath>
-      <itemPath>LQG_NoiseCharacterization.h</itemPath>
-      <itemPath>cordic.h</itemPath>
-      <itemPath>TrigData.h</itemPath>
-      <itemPath>PMSM_Characterize.h</itemPath>
+      <itemPath>PMSM_Position.h</itemPath>
+      <itemPath>PMSM_Velocity.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -26,21 +25,18 @@
                    displayName="Source Files"
                    projectFiles="true">
       <logicalFolder name="f1" displayName="Characterization" projectFiles="true">
-        <itemPath>LQG_NoiseCharacterization.c</itemPath>
         <itemPath>PMSM_Characterize.c</itemPath>
-        <itemPath>PRBSCharacterization.c</itemPath>
       </logicalFolder>
       <itemPath>main.c</itemPath>
       <itemPath>Makefile</itemPath>
       <itemPath>SPIdsPIC.c</itemPath>
-      <itemPath>PMSM.c</itemPath>
       <itemPath>DRV8301.c</itemPath>
       <itemPath>PMSMBoard.c</itemPath>
-      <itemPath>BasicMotorControl.c</itemPath>
       <itemPath>CircularBuffer.c</itemPath>
       <itemPath>DMA_Transfer.c</itemPath>
-      <itemPath>cordic.c</itemPath>
       <itemPath>traps.c</itemPath>
+      <itemPath>PMSM_Velocity.c</itemPath>
+      <itemPath>PMSM_Position.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -87,30 +83,6 @@
         <makeCustomizationEnableLongLines>false</makeCustomizationEnableLongLines>
         <makeCustomizationNormalizeHexFile>false</makeCustomizationNormalizeHexFile>
       </makeCustomizationType>
-      <item path="BasicMotorControl.c" ex="false" overriding="false">
-        <C30>
-        </C30>
-        <C30-AR>
-        </C30-AR>
-        <C30-AS>
-        </C30-AS>
-        <C30-LD>
-        </C30-LD>
-        <C30Global>
-        </C30Global>
-      </item>
-      <item path="BasicMotorControl.h" ex="false" overriding="false">
-        <C30>
-        </C30>
-        <C30-AR>
-        </C30-AR>
-        <C30-AS>
-        </C30-AS>
-        <C30-LD>
-        </C30-LD>
-        <C30Global>
-        </C30Global>
-      </item>
       <C30>
         <property key="code-model" value="large-code"/>
         <property key="const-model" value="default"/>
@@ -296,6 +268,7 @@
         <property key="UART 3" value="true"/>
         <property key="UART 4" value="true"/>
         <property key="USB" value="true"/>
+        <property key="firmware.download.all" value="false"/>
         <property key="hwtoolclock.frcindebug" value="false"/>
         <property key="memories.aux" value="false"/>
         <property key="memories.bootflash" value="false"/>
@@ -324,6 +297,18 @@
         <property key="programoptions.uselvpprogramming" value="false"/>
         <property key="voltagevalue" value="3.375"/>
       </PICkit3PlatformTool>
+      <item path="PMSM_Velocity.h" ex="false" overriding="false">
+        <C30>
+        </C30>
+        <C30-AR>
+        </C30-AR>
+        <C30-AS>
+        </C30-AS>
+        <C30-LD>
+        </C30-LD>
+        <C30Global>
+        </C30Global>
+      </item>
       <item path="traps.c" ex="true" overriding="false">
         <C30>
         </C30>

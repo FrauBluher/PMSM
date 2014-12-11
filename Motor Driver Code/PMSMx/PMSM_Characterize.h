@@ -35,8 +35,11 @@
 
 #ifndef PMSM_CHARACTERIZE_H
 #define PMSM_CHARACTERIZE_H
+
+#include "PMSMBoard.h"
+
 #ifdef SINE
-#ifdef CHARACTERIZE
+#if defined (CHARACTERIZE_POSITION) || defined (CHARACTERIZE_VELOCITY)
 
 #include <stdint.h>
 
@@ -80,6 +83,25 @@ typedef struct {
  */
 uint8_t PMSM_Init(MotorInfo *information);
 
+#ifdef CHARACTERIZE_POSITION
+/**
+* @brief Sets the commanded position of the motor.
+* @param pos The position of the rotor in radians.
+*
+* This method sets the angular position of the controller.
+*/
+void SetPosition(float pos);
+#endif
+#ifdef CHARACTERIZE_VELOCITY
+/**
+* @brief Sets the commanded velocity of the motor.
+* @param pos The velocity of the rotor in radians/second.
+*
+* This method sets the angular velocity of the controller.
+*/
+void SetVelocity(float pos);
+#endif
+
 /**
  * @brief calculates PMSM vectors and updates the init'd MotorInfo struct with duty values.
  *
@@ -87,45 +109,6 @@ uint8_t PMSM_Init(MotorInfo *information);
  * Call only once after all three are updated, not after setting each individual parameter.
  */
 void CharacterizeStep(void);
-
-/**
- * @brief Sets the commanded position of the motor.
- * @param pos The position of the rotor in radians from 0 - 2pi / n-poles.
- * 
- * This will set the position of the rotor to the commanded angle divided by the number
- * of poles in the motor divided by three.  If the motor has six poles, it will take two
- * commanded rotations from zero to 2*pi radians to complete one full rotation of the rotor.
- * The passed value will be updated at 100Hz.
- */
-void SetPosition(float pos);
-
-/**
- * @brief Sets the commanded torque of the motor.
- * @param power Percentage of torque requested from 0 - 100%.
- * 
- * Scales the pulse-width-modulation duty cycles output from the PMSM algorithm
- * by zero to 100% of generated.  Torque is continuous throughout the rotation of
- * the motor.
- * The passed value will be updated at 100Hz.
- */
-void SetTorque(uint8_t power);
-
-/**
- * @brief Sets the air gap flux linkage value.
- * @param Id Air gap flux linkage timing advance.  ~0 to -2.5.
- * 
- * Field weakening changes the air gap flux linkage, this can cunteract BEMF and allow
- * a motor to spin faster than its rated speed.  Make sure you know what you are doing
- * with this value or you can demagnetize your motor magnets, melt windings, or rip your
- * motor apart.
- *
- * Suggested reading for air-gap flux linkage control:
- * http://ww1.microchip.com/downloads/en/AppNotes/01078B.pdf
- *
- * The passed value will be updated at 100Hz.
- */
-void SetAirGapFluxLinkage(float id);
-
 
 #endif    /*PMSM_CHARACTERIZE_H  */
 #endif

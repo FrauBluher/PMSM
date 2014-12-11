@@ -37,21 +37,24 @@
  * found in the same repository that this code was found in.
  */
 
+#include "PMSMBoard.h"
 
+#if defined (CHARACTERIZE_POSITION) || defined (CHARACTERIZE_VELOCITY)
+//Something here
+#else
+#if defined POSITION
 #include <xc.h>
 #include <math.h>
 #include <stdlib.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <string.h>
-#include "PMSM.h"
-#include "PMSMBoard.h"
+#include "PMSM_Position.h"
 #include "DMA_Transfer.h"
 #include "cordic.h"
 #include <qei32.h>
 #include <uart.h>
 
-#ifndef CHARACTERIZE
 #include "TrigData.h"
 
 #define SQRT_3_2 0.86602540378
@@ -60,6 +63,9 @@
 #define PULSES_PER_REVOLUTION 223232
 
 #define TRANS QEI1STATbits.IDXIRQ
+#define POS QEI1STATbits.PCHEQIRQ
+#define NEG QEI1STATbits.PCLEQIRQ
+#define ZERO QEI1STATbits.POSOVIRQ
 
 typedef struct {
 	float Vr1;
@@ -82,18 +88,12 @@ typedef struct {
 } TimesOut;
 
 static float theta;
-static float Iq;
-static float Id;
 static float d_u;
 static float y;
 static float cableVelocity;
-
-static uint8_t flag = 0;
-static int32_t rotorOffset2;
-static int32_t rotorOffset;
+static float u = 0;
 
 static int32_t indexCount = 0;
-static int32_t lastIndexCount = 0;
 static int32_t runningPositionCount = 0;
 static int32_t lastRunningPostionCount = 0;
 
@@ -102,8 +102,6 @@ static int32_t lastRunningPostionCount = 0;
  *
  * All the state esimates in the Gaussian Estimator are visible here.
  */
-static float u = 0;
-static float Ts = .0003333;
 
 static float x_hat[3][1] = {
 	{0},
@@ -118,19 +116,20 @@ static float x_dummy[3][1] = {
 };
 
 static float K_reg[3][3] = {
-	{-0.4915, 0.7935, 0.2959},
-	{-0.1285, 0.3307, -0.8863},
-	{-0.0087, 0.0893, 0.4552},
+	{0.156777775816548, 0.147508105419972, -0.442551063971774},
+	{1.001719221949396, -0.011682685756188, -0.409391646462891},
+	{0.011475190215306, 0.997687141370211, -0.317501056271297}
 };
 
 static float L[3][1] = {
-	{-1.8747},
-	{-4.6113},
-	{4.1045},
+	{1.262202786887033},
+	{1.339981601858880},
+	{1.166491355877717}
+
 };
 
 static float K[1][3] = {
-	{-0.0088, -0.4743, -1.1845}
+	{-0.844493135120769, -0.230932253514129, 0.299183789152351}
 };
 
 void SpaceVectorModulation(TimesOut sv);
@@ -145,65 +144,32 @@ TimesOut SVPWMTimeCalc(InvParkOut pP);
  */
 uint8_t PMSM_Init(MotorInfo *information)
 {
-	static uint16_t size;
 	static uint32_t theta1;
-	static uint8_t out[56];
-
 	uint32_t i;
 	uint32_t j;
 	qeiCounter w;
-	w.l = 0;
 
+	w.l = 0;
 	theta1 = 0;
-	for (i = 0; i < 3096; i++) {
+
+	for (i = 0; i < 2048; i++) {
 		SpaceVectorModulation(SVPWMTimeCalc(InversePark(0.4, 0, theta1)));
-		for (j = 0; j < 800; j++) {
-			Nop();
+		for (j = 0; j < 400; j++) {
+			__builtin_nop();
 		}
 		theta1 -= 1;
 	}
 
 	SpaceVectorModulation(SVPWMTimeCalc(InversePark(0.8, 0, 0)));
-	for (i = 0; i < 40000; i++) {
+	while (j < 800000) {
 		Nop();
+		j++;
 	}
 
-	rotorOffset = Read32bitQEI1PositionCounter();
+	Write32bitQEI1IndexCounter(&w);
+	Write32bitQEI1PositionCounter(&w);
 
-	if (rotorOffset < 0) {
-		rotorOffset = 2048 + rotorOffset;
-	}
-
-
-	/**********************************************************************/
-	/**********************************************************************/
-	/**********************************************************************/
-
-	theta1 = 0;
-
-	for (i = 0; i < 3096; i++) {
-		SpaceVectorModulation(SVPWMTimeCalc(InversePark(0.4, 0, theta1)));
-		for (j = 0; j < 800; j++) {
-			Nop();
-		}
-		theta1 += 1;
-	}
-
-	SpaceVectorModulation(SVPWMTimeCalc(InversePark(0.8, 0, 0)));
-	for (i = 0; i < 40000; i++) {
-		Nop();
-	}
-
-	rotorOffset2 = Read32bitQEI1PositionCounter();
-
-	if (rotorOffset2 < 0) {
-		rotorOffset2 = 2048 + rotorOffset2;
-	}
-
-	rotorOffset = (rotorOffset + rotorOffset2) / 2;
-
-	size = sprintf((char *) out, "Rotor Offset: %li\r\n", rotorOffset);
-	DMA0_UART2_Transfer(size, (uint8_t *) out);
+	SpaceVectorModulation(SVPWMTimeCalc(InversePark(0, 0, 0)));
 
 	return(0);
 }
@@ -214,24 +180,6 @@ uint8_t PMSM_Init(MotorInfo *information)
 void SetPosition(float pos)
 {
 	theta = pos;
-}
-
-/**
- * @brief Sets the commanded torque of the motor.
- * @param power Percentage of torque requested from 0 - 100%.
- */
-void SetTorque(uint8_t power)
-{
-	Iq = power;
-}
-
-/**
- * @brief Sets the air gap flux linkage value.
- * @param Id Air gap flux linkage timing advance.  ~0 to -2.5.
- */
-void SetAirGapFluxLinkage(float id)
-{
-	Id = id;
 }
 
 /**
@@ -263,10 +211,13 @@ int32_t GetCableVelocity(void)
 	return((int32_t) cableVelocity);
 }
 
-void PMSM_Update(void)
+void PMSM_Update_Position(void)
 {
+	indexCount = Read32bitQEI1PositionCounter();
+	int32_t intermediatePosition;
+	intermediatePosition = (runningPositionCount + indexCount);
 
-	y = theta - ((float) (int32_t) runningPositionCount * 0.0030679616); //Scaling it back into radians.
+	y = theta - ((float) (int32_t) (intermediatePosition) * 0.0030679616); //Scaling it back into radians.
 
 	x_dummy[0][0] = (x_hat[0][0] * K_reg[0][0]) + (x_hat[1][0] * K_reg[0][1]) + (x_hat[2][0] * K_reg[0][2]) + (L[0][0] * y);
 	x_dummy[1][0] = (x_hat[1][0] * K_reg[1][0]) + (x_hat[1][0] * K_reg[1][1]) + (x_hat[2][0] * K_reg[1][2]) + (L[1][0] * y);
@@ -287,15 +238,14 @@ void PMSM_Update(void)
 
 	if (u > 0) {
 		//Commutation phase offset
-		indexCount += 512 - rotorOffset; //Phase offset of 90 degrees.
+		indexCount += 512; // - rotorOffset; //Phase offset of 90 degrees.
 		d_u = u;
 	} else {
-		indexCount += -512 - rotorOffset; //Phase offset of 90 degrees.
+		indexCount += -512; // - rotorOffset; //Phase offset of 90 degrees.
 		d_u = -u;
 	}
 
 	indexCount = (-indexCount + 2048) % 2048;
-
 
 	SpaceVectorModulation(SVPWMTimeCalc(InversePark(d_u, 0, indexCount)));
 }
@@ -306,19 +256,19 @@ void SpaceVectorModulation(TimesOut sv)
 {
 	switch (sv.sector) {
 	case 1:
-		GH_A_DC = (uint16_t) PHASE1 * (.5 - .375 * sv.Vb - .649519 * sv.Va);
-		GH_B_DC = (uint16_t) PHASE1 * (.5 + .375 * sv.Vb - .216506 * sv.Va);
-		GH_C_DC = (uint16_t) PHASE1 * (.5 - .375 * sv.Vb + .216506 * sv.Va);
+		GH_A_DC = ((uint16_t) PHASE1 * (.5 - .375 * sv.Vb - .649519 * sv.Va)) - 10;
+		GH_B_DC = ((uint16_t) PHASE1 * (.5 + .375 * sv.Vb - .216506 * sv.Va)) - 10;
+		GH_C_DC = ((uint16_t) PHASE1 * (.5 - .375 * sv.Vb + .216506 * sv.Va)) - 10;
 		break;
 	case 2:
-		GH_A_DC = (uint16_t) PHASE1 * (.5 - .433013 * sv.Va);
-		GH_B_DC = (uint16_t) PHASE1 * (.5 + .75 * sv.Vb);
-		GH_C_DC = (uint16_t) PHASE1 * (.5 + .433013 * sv.Va);
+		GH_A_DC = ((uint16_t) PHASE1 * (.5 - .433013 * sv.Va)) - 10;
+		GH_B_DC = ((uint16_t) PHASE1 * (.5 + .75 * sv.Vb)) - 10;
+		GH_C_DC = ((uint16_t) PHASE1 * (.5 + .433013 * sv.Va)) - 10;
 		break;
 	case 3:
-		GH_A_DC = (uint16_t) PHASE1 * (.5 - 0.375 * sv.Vb + .216506 * sv.Va);
-		GH_B_DC = (uint16_t) PHASE1 * (.5 + 0.375 * sv.Vb + .216506 * sv.Va);
-		GH_C_DC = (uint16_t) PHASE1 * (.5 - 0.375 * sv.Vb + .649519 * sv.Va);
+		GH_A_DC = ((uint16_t) PHASE1 * (.5 - 0.375 * sv.Vb + .216506 * sv.Va)) - 10;
+		GH_B_DC = ((uint16_t) PHASE1 * (.5 + 0.375 * sv.Vb + .216506 * sv.Va)) - 10;
+		GH_C_DC = ((uint16_t) PHASE1 * (.5 - 0.375 * sv.Vb + .649519 * sv.Va)) - 10;
 		break;
 	default:
 		break;
@@ -340,8 +290,6 @@ InvParkOut InversePark(float Vq, float Vd, int16_t position1)
 	position = position1;
 	static int16_t cos_position;
 	InvParkOut returnVal;
-	static uint16_t size;
-	static uint8_t out[56];
 
 	float cosine;
 	float sine;
@@ -365,7 +313,7 @@ InvParkOut InversePark(float Vq, float Vd, int16_t position1)
 TimesOut SVPWMTimeCalc(InvParkOut pP)
 {
 	TimesOut t;
-	t.sector = ((uint8_t) ((.0029296875 * theta) + 6)) % 3 + 1;
+	t.sector = ((uint8_t) ((.0029296875 * indexCount) + 6)) % 3 + 1;
 
 	t.Va = pP.Va;
 	t.Vb = pP.Vb;
@@ -373,52 +321,30 @@ TimesOut SVPWMTimeCalc(InvParkOut pP)
 	return(t);
 }
 
+static int32_t lastCheck;
+static int32_t currentCheck;
+
 void __attribute__((__interrupt__, no_auto_psv)) _QEI1Interrupt(void)
 {
-	int i;
-	flag = 1;
+	currentCheck = Read32bitQEI1PositionCounter();
+	runningPositionCount += currentCheck;
+
+	POS = 0;
+	NEG = 0;
+	ZERO = 0;
+
+	qeiCounter w;
+
+	if (currentCheck > 0) {
+		w.l = currentCheck - 2048;
+	} else {
+		w.l = currentCheck + 2048;
+	}
+
+	Write32bitQEI1PositionCounter(&w);
+	lastCheck = currentCheck;
 
 	IFS3bits.QEI1IF = 0; /* Clear QEI interrupt flag */
 }
-
-void QEIPositionUpdate(void)
-{
-	indexCount = Read32bitQEI1PositionCounter();
-
-	if (!flag) {
-		lastIndexCount = indexCount;
-		flag = 1;
-	}
-
-	if (lastIndexCount != indexCount) {
-		if (lastIndexCount > 0) {
-			if (indexCount > 0) {
-				if ((lastIndexCount > indexCount) && TRANS) {
-					runningPositionCount += (2048 - lastIndexCount) + indexCount;
-				} else if ((lastIndexCount > indexCount) && !TRANS) {
-					runningPositionCount -= lastIndexCount - indexCount;
-				} else if ((lastIndexCount < indexCount) && !TRANS) {
-					runningPositionCount += indexCount - lastIndexCount;
-				}
-			} else {
-				runningPositionCount += indexCount - lastIndexCount;
-			}
-		} else {
-			if (indexCount < 0) {
-				if ((lastIndexCount < indexCount) && TRANS) {
-					runningPositionCount += -(2048 + lastIndexCount) + indexCount;
-				} else if ((lastIndexCount < indexCount) && !TRANS) {
-					runningPositionCount += -(lastIndexCount - indexCount);
-				} else if ((lastIndexCount > indexCount) && !TRANS) {
-					runningPositionCount += indexCount - lastIndexCount;
-				}
-			} else {
-				runningPositionCount -= indexCount - lastIndexCount;
-			}
-		}
-	}
-	QEI1STATbits.IDXIRQ = 0;
-
-	lastIndexCount = indexCount;
-}
+#endif
 #endif

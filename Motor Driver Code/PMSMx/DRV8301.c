@@ -52,7 +52,7 @@ uint8_t DRV8301_Init(DRV8301_Info *drv8301Info)
 	drv8301Info->controlRegister1.PWM_MODE = PWM_MODE_SIX_CHAN;
 	drv8301Info->controlRegister1.GATE_RESET = GATE_RESET_OFF;
 	drv8301Info->controlRegister1.OC_MODE = GD_OC_MODE_RPRT;
-	drv8301Info->controlRegister1.OC_ADJ_SET = OC_ADJ_SET_1_491V;
+	drv8301Info->controlRegister1.OC_ADJ_SET = OC_ADJ_SET_0_097V;
 
 	drv8301Info->controlRegister2.DC_CAL_CH1 = DC_CAL_CH1_OFF;
 	drv8301Info->controlRegister2.DC_CAL_CH2 = DC_CAL_CH2_OFF;

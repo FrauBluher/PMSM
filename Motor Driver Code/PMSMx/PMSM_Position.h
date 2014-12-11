@@ -37,26 +37,14 @@
  * found in the same repository that this code was found in.
  */
 
-#ifndef PMSM_H
-#define PMSM_H
+#ifndef PMSM_POSITION_H
+#define PMSM_POSITION_H
+#ifdef POSITION
 
-#ifndef CHARACTERIZE
+#ifndef CHARACTERIZE_POSITION
+#ifndef CHARACTERIZE_VELOCITY
 
 #include <stdint.h>
-
-#if defined(__dsPIC33FJ128MC802__)
-#define FCY 40000000
-#warning The 33F PMSM implementation is unsupported at this time.
-#endif
-#if defined(__dsPIC33EP256MC506__)
-#define FCY 70000000
-#endif
-
-#define MOTOR_PWM_FREQ 20000
-
-//Provided for implementation.  Use floats.
-#define RADTODEG(x) ((x) * 57.29578)
-#define DEGTORAD(x) ((x) * 0.0174532925))
 
 /**
  * @brief A structure which holds information about the motor, and driver.
@@ -81,42 +69,12 @@ typedef struct {
 uint8_t PMSM_Init(MotorInfo *information);
 
 /**
- * @brief Updates the motor commutation and position control.  Call at 3kHz.
- *
- */
-void PMSM_Update(void);
-
-/**
  * @brief Sets the commanded position of the motor.
  * @param pos The position of the rotor in radians.
- * 
+ *
  * This method sets the angular position of the controller.
  */
 void SetPosition(float pos);
-
-/**
- * @brief Sets the commanded torque of the motor.
- * @param power Percentage of torque requested from 0 - 100%.
- * 
- * Scales the sinusoidal modulation index.  This method isn't used when LQG control is
- * enabled, but is included for future impedance controller integration.
- */
-void SetTorque(uint8_t power);
-
-/**
- * @brief Sets the air gap flux linkage value.
- * @param Id Air gap flux linkage timing advance.  ~0 to -2.5.
- * 
- * Field weakening changes the air gap flux linkage, this can cunteract BEMF and allow
- * a motor to spin faster than its rated speed.  Make sure you know what you are doing
- * with this value or you can demagnetize your motor magnets, melt windings, or rip your
- * motor apart.
- *
- * Suggested reading for air-gap flux linkage control:
- * http://ww1.microchip.com/downloads/en/AppNotes/01078B.pdf
- *
- */
-void SetAirGapFluxLinkage(float id);
 
 /**
  * @brief Returns last known cable velocity in mm/s.
@@ -131,14 +89,14 @@ int32_t GetCableVelocity(void);
 int32_t GetCableLength(void);
 
 /**
- * @brief Exposes the QEI software errata workaround to a faster event loop.
- * 
- * Run this method fastest in the event loop and prescale accordingly to run
- * PMSM_Update at a rate of 3kHz.
+ * @brief Call this to update the controller at a rate of 3kHz.
+ *
+ * It is required that the LQG controller which was characterized at a sample rate of n Hz is
+ * run every n Hz with this function call.
  */
+void PMSM_Update_Position(void);
 
-void QEIPositionUpdate(void);
-
-
-#endif    /*PMSM_H  */
+#endif    /*PMSM_POSITION_H  */
+#endif
+#endif
 #endif
