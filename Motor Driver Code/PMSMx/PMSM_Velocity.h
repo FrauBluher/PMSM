@@ -40,8 +40,14 @@
  *
  */
 
-#ifndef BASICMOTORCONTROL_H
-#define	BASICMOTORCONTROL_H
+#ifndef PMSM_VELOCITY_H
+#define	PMSM_VELOCITY_H
+
+#include "PMSMBoard.h"
+
+#ifdef VELOCITY
+
+#include <stdint.h>
 
 typedef struct {
     uint16_t hallCount;
@@ -50,19 +56,57 @@ typedef struct {
     uint16_t lastHallState;
 } BasicMotorControlInfo;
 
+/**
+ * @brief A structure which holds information about the motor, and driver.
+ *
+ * A variable of type MotorInfo must be declared in a scope that allows its address to
+ * be passed to PMSM_Init.
+ */
+typedef struct {
+    double t1;
+    double t2;
+    double t3;
+    uint8_t newData;
+} MotorInfo;
+
 enum {
     CW,
     CCW
 };
 
+/**
+ * @brief PMSM initialization call. Sets up hardware and timers.
+ * @param *information a pointer to the MotorInfo struct that will be updated.
+ * @return Returns 1 if successful, returns 0 otherwise.
+ *
+ * This needs to be called after all other hardware peripherals have been initialized.
+ * It is up to you to set newData to zero, it is set to one every time a new position is commanded.
+ * Setting newData to zero isn't required and newData itself is provided only for implementation purposes.
+ *
+ * PMSM_Init uses Timer2 and sets up the processor.
+ */
+uint8_t PMSM_Init(MotorInfo *information);
+
+/**
+ * @brief Calculates last known cable length and returns it.
+ * @return Cable length in mm.
+ */
+int32_t GetCableLength(void);
+
+/**
+ * @brief Sets the commanded position of the motor.
+ * @param pos The position of the rotor in radians.
+ *
+ * This method sets the angular position of the controller.
+ */
+void SetVelocity(float velocity);
 
 /**
  * @brief Call this to update the controller at a rate of 3kHz.
- * @param speed Speed to set controller to follow.
  * 
  * It is required that the LQG controller which was characterized at a sample rate of n Hz is
  * run every n Hz with this function call.
  */
-void SpeedControlStep(float speed);
-#endif	/* BASICMOTORCONTROL_H */
-
+void PMSM_Update_Velocity(void);
+#endif
+#endif	/* PMSM_VELOCITY_H */

@@ -37,15 +37,19 @@
  * found in the same repository that this code was found in.
  */
 
+#include "PMSMBoard.h"
 
+#if defined (CHARACTERIZE_POSITION) || defined (CHARACTERIZE_VELOCITY)
+//Something here
+#else
+#if defined POSITION
 #include <xc.h>
 #include <math.h>
 #include <stdlib.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <string.h>
-#include "PMSM.h"
-#include "PMSMBoard.h"
+#include "PMSM_Position.h"
 #include "DMA_Transfer.h"
 #include "cordic.h"
 #include <qei32.h>
@@ -67,6 +71,9 @@
 #define PULSES_PER_REVOLUTION 223232
 
 #define TRANS QEI1STATbits.IDXIRQ
+#define POS QEI1STATbits.PCHEQIRQ
+#define NEG QEI1STATbits.PCLEQIRQ
+#define ZERO QEI1STATbits.POSOVIRQ
 
 typedef struct {
 	float Vr1;
@@ -89,39 +96,49 @@ typedef struct {
 } TimesOut;
 
 static float theta;
-static float Iq;
-static float Id;
+static float d_u;
+static float y;
 static float cableVelocity;
-
 static float u = 0;
-static float u1 = 0;
-static float u2 = 0;
-static float u3 = 0;
-static float y = 0;
-static float y1 = 0;
-static float y2 = 0;
-static float y3 = 0;
-static float dummy_u = 0;
-
-static float a1 = -.2944;
-static float a2 = -.05211;
-static float a3 = .06287;
-static float a4 = 0;
-static float a5 = 0;
-static float b1 = -2.649;
-static float b2 = 1.381;
-static float b3 = .9905;
-static float b4 = 0;
-static float b5 = 0;
-
-static uint8_t flag = 0;
-static int32_t rotorOffset2;
-static int32_t rotorOffset;
 
 static int32_t indexCount = 0;
-static int32_t lastIndexCount = 0;
 static int32_t runningPositionCount = 0;
 static int32_t lastRunningPostionCount = 0;
+
+/**
+ * @brief Linear Quadradic State Estimation
+ *
+ * All the state esimates in the Gaussian Estimator are visible here.
+ */
+
+static float x_hat[3][1] = {
+	{0},
+	{0},
+	{0},
+};
+
+static float x_dummy[3][1] = {
+	{0},
+	{0},
+	{0},
+};
+
+static float K_reg[3][3] = {
+	{0.156777775816548, 0.147508105419972, -0.442551063971774},
+	{1.001719221949396, -0.011682685756188, -0.409391646462891},
+	{0.011475190215306, 0.997687141370211, -0.317501056271297}
+};
+
+static float L[3][1] = {
+	{1.262202786887033},
+	{1.339981601858880},
+	{1.166491355877717}
+
+};
+
+static float K[1][3] = {
+	{-0.844493135120769, -0.230932253514129, 0.299183789152351}
+};
 
 void SpaceVectorModulation(TimesOut sv);
 InvClarkOut InverseClarke(InvParkOut pP);
@@ -135,66 +152,32 @@ TimesOut SVPWMTimeCalc(InvParkOut pP);
  */
 uint8_t PMSM_Init(MotorInfo *information)
 {
-	static uint16_t size;
 	static uint32_t theta1;
-	static uint8_t out[56];
-
 	uint32_t i;
-	uint16_t j;
+	uint32_t j;
 	qeiCounter w;
-	w.l = 0;
 
+	w.l = 0;
 	theta1 = 0;
-	for (i = 0; i < 3096; i++) {
-		SpaceVectorModulation(SVPWMTimeCalc(InversePark(0.1, 0, theta1)));
-		for (j = 0; j < 800; j++) {
-			Nop();
+
+	for (i = 0; i < 2048; i++) {
+		SpaceVectorModulation(SVPWMTimeCalc(InversePark(0.4, 0, theta1)));
+		for (j = 0; j < 400; j++) {
+			__builtin_nop();
 		}
 		theta1 -= 1;
 	}
 
-	SpaceVectorModulation(SVPWMTimeCalc(InversePark(0.2, 0, 0)));
-	for (i = 0; i < 80000; i++) {
+	SpaceVectorModulation(SVPWMTimeCalc(InversePark(0.8, 0, 0)));
+	while (j < 800000) {
 		Nop();
+		j++;
 	}
 
-	rotorOffset = Read32bitQEI1PositionCounter();
+	Write32bitQEI1IndexCounter(&w);
+	Write32bitQEI1PositionCounter(&w);
 
-	if (rotorOffset < 0) {
-		rotorOffset = 2048 + rotorOffset;
-	}
-
-
-	/**********************************************************************/
-	/**********************************************************************/
-	/**********************************************************************/
-
-	theta1 = 0;
-
-	for (i = 0; i < 3096; i++) {
-		SpaceVectorModulation(SVPWMTimeCalc(InversePark(0.1, 0, theta1)));
-		for (j = 0; j < 800; j++) {
-			Nop();
-		}
-		theta1 += 1;
-	}
-
-	SpaceVectorModulation(SVPWMTimeCalc(InversePark(0.2, 0, 0)));
-	for (i = 0; i < 80000; i++) {
-		Nop();
-	}
-
-	rotorOffset2 = Read32bitQEI1PositionCounter();
-
-	if (rotorOffset2 < 0) {
-		rotorOffset2 = 2048 + rotorOffset2;
-	}
-
-	rotorOffset = (rotorOffset + rotorOffset2) / 2;
-//	rotorOffset = 1450;
-
-	size = sprintf((char *) out, "Rotor Offset: %li\r\n", rotorOffset);
-	DMA0_UART2_Transfer(size, (uint8_t *) out);
+	SpaceVectorModulation(SVPWMTimeCalc(InversePark(0, 0, 0)));
 
 	return(0);
 }
@@ -205,24 +188,6 @@ uint8_t PMSM_Init(MotorInfo *information)
 void SetPosition(float pos)
 {
 	theta = pos;
-}
-
-/**
- * @brief Sets the commanded torque of the motor.
- * @param power Percentage of torque requested from 0 - 100%.
- */
-void SetTorque(uint8_t power)
-{
-	Iq = power;
-}
-
-/**
- * @brief Sets the air gap flux linkage value.
- * @param Id Air gap flux linkage timing advance.  ~0 to -2.5.
- */
-void SetAirGapFluxLinkage(float id)
-{
-	Id = id;
 }
 
 /**
@@ -255,15 +220,23 @@ int32_t GetCableVelocity(void)
 	return((int32_t) cableVelocity);
 }
 
-void PMSM_Update(void)
+void PMSM_Update_Position(void)
 {
-	y3 = y2;
-	y2 = y1;
-	y1 = y;
+	indexCount = Read32bitQEI1PositionCounter();
+	int32_t intermediatePosition;
+	intermediatePosition = (runningPositionCount + indexCount);
 
-	y = theta - ((float) (int32_t) runningPositionCount * 0.0030679616); //Scaling it back into radians.
-	u = b1 * y + b2 * y1 + b3 * y2 + b4 * y3 - a1 * u - a2 * u1 - a3 * u2 - a4 * u3;
+	y = theta - ((float) (int32_t) (intermediatePosition) * 0.0030679616); //Scaling it back into radians.
 
+	x_dummy[0][0] = (x_hat[0][0] * K_reg[0][0]) + (x_hat[1][0] * K_reg[0][1]) + (x_hat[2][0] * K_reg[0][2]) + (L[0][0] * y);
+	x_dummy[1][0] = (x_hat[1][0] * K_reg[1][0]) + (x_hat[1][0] * K_reg[1][1]) + (x_hat[2][0] * K_reg[1][2]) + (L[1][0] * y);
+	x_dummy[2][0] = (x_hat[2][0] * K_reg[2][0]) + (x_hat[1][0] * K_reg[2][1]) + (x_hat[2][0] * K_reg[2][2]) + (L[2][0] * y);
+
+	x_hat[0][0] = x_dummy[0][0];
+	x_hat[1][0] = x_dummy[1][0];
+	x_hat[2][0] = x_dummy[2][0];
+
+	u = -1 * ((K[0][0] * x_hat[0][0]) + (K[0][1] * x_hat[1][0]) + (K[0][2] * x_hat[2][0]));
 
 	//SATURATION HERE...  IF YOU REALLY NEED MORE JUICE...  UP THIS TO 1 and -1
 	if (u > .7) {
@@ -272,22 +245,18 @@ void PMSM_Update(void)
 		u = -.7;
 	}
 
-	u3 = u2;
-	u2 = u1;
-	u1 = u;
-
 	if (u > 0) {
 		//Commutation phase offset
-		indexCount += 512 - rotorOffset; //Phase offset of 90 degrees.
-		dummy_u = u;
+		indexCount += 512; // - rotorOffset; //Phase offset of 90 degrees.
+		d_u = u;
 	} else {
-		indexCount += -512 - rotorOffset; //Phase offset of 90 degrees.
-		dummy_u = -u;
+		indexCount += -512; // - rotorOffset; //Phase offset of 90 degrees.
+		d_u = -u;
 	}
 
 	indexCount = (-indexCount + 2048) % 2048;
 
-	SpaceVectorModulation(SVPWMTimeCalc(InversePark(dummy_u, 0, indexCount)));
+	SpaceVectorModulation(SVPWMTimeCalc(InversePark(d_u, 0, indexCount)));
 }
 
 /****************************   Private Stuff   *******************************/
@@ -296,19 +265,19 @@ void SpaceVectorModulation(TimesOut sv)
 {
 	switch (sv.sector) {
 	case 1:
-		GH_A_DC = (uint16_t) PHASE1 * (.5 - .375 * sv.Vb - .649519 * sv.Va);
-		GH_B_DC = (uint16_t) PHASE1 * (.5 + .375 * sv.Vb - .216506 * sv.Va);
-		GH_C_DC = (uint16_t) PHASE1 * (.5 - .375 * sv.Vb + .216506 * sv.Va);
+		GH_A_DC = ((uint16_t) PHASE1 * (.5 - .375 * sv.Vb - .649519 * sv.Va)) - 10;
+		GH_B_DC = ((uint16_t) PHASE1 * (.5 + .375 * sv.Vb - .216506 * sv.Va)) - 10;
+		GH_C_DC = ((uint16_t) PHASE1 * (.5 - .375 * sv.Vb + .216506 * sv.Va)) - 10;
 		break;
 	case 2:
-		GH_A_DC = (uint16_t) PHASE1 * (.5 - .433013 * sv.Va);
-		GH_B_DC = (uint16_t) PHASE1 * (.5 + .75 * sv.Vb);
-		GH_C_DC = (uint16_t) PHASE1 * (.5 + .433013 * sv.Va);
+		GH_A_DC = ((uint16_t) PHASE1 * (.5 - .433013 * sv.Va)) - 10;
+		GH_B_DC = ((uint16_t) PHASE1 * (.5 + .75 * sv.Vb)) - 10;
+		GH_C_DC = ((uint16_t) PHASE1 * (.5 + .433013 * sv.Va)) - 10;
 		break;
 	case 3:
-		GH_A_DC = (uint16_t) PHASE1 * (.5 - 0.375 * sv.Vb + .216506 * sv.Va);
-		GH_B_DC = (uint16_t) PHASE1 * (.5 + 0.375 * sv.Vb + .216506 * sv.Va);
-		GH_C_DC = (uint16_t) PHASE1 * (.5 - 0.375 * sv.Vb + .649519 * sv.Va);
+		GH_A_DC = ((uint16_t) PHASE1 * (.5 - 0.375 * sv.Vb + .216506 * sv.Va)) - 10;
+		GH_B_DC = ((uint16_t) PHASE1 * (.5 + 0.375 * sv.Vb + .216506 * sv.Va)) - 10;
+		GH_C_DC = ((uint16_t) PHASE1 * (.5 - 0.375 * sv.Vb + .649519 * sv.Va)) - 10;
 		break;
 	default:
 		break;
@@ -330,8 +299,6 @@ InvParkOut InversePark(float Vq, float Vd, int16_t position1)
 	position = position1;
 	static int16_t cos_position;
 	InvParkOut returnVal;
-	static uint16_t size;
-	static uint8_t out[56];
 
 	float cosine;
 	float sine;
@@ -355,7 +322,7 @@ InvParkOut InversePark(float Vq, float Vd, int16_t position1)
 TimesOut SVPWMTimeCalc(InvParkOut pP)
 {
 	TimesOut t;
-	t.sector = ((uint8_t) ((.0029296875 * theta) + 6)) % 3 + 1;
+	t.sector = ((uint8_t) ((.0029296875 * indexCount) + 6)) % 3 + 1;
 
 	t.Va = pP.Va;
 	t.Vb = pP.Vb;
@@ -363,53 +330,30 @@ TimesOut SVPWMTimeCalc(InvParkOut pP)
 	return(t);
 }
 
+static int32_t lastCheck;
+static int32_t currentCheck;
+
 void __attribute__((__interrupt__, no_auto_psv)) _QEI1Interrupt(void)
 {
-	int i;
-	flag = 1;
+	currentCheck = Read32bitQEI1PositionCounter();
+	runningPositionCount += currentCheck;
+
+	POS = 0;
+	NEG = 0;
+	ZERO = 0;
+
+	qeiCounter w;
+
+	if (currentCheck > 0) {
+		w.l = currentCheck - 2048;
+	} else {
+		w.l = currentCheck + 2048;
+	}
+
+	Write32bitQEI1PositionCounter(&w);
+	lastCheck = currentCheck;
 
 	IFS3bits.QEI1IF = 0; /* Clear QEI interrupt flag */
 }
-
-void QEIPositionUpdate(void)
-{
-	indexCount = Read32bitQEI1PositionCounter();
-
-	if (!flag) {
-		lastIndexCount = indexCount;
-		flag = 1;
-	}
-
-	if (lastIndexCount != indexCount) {
-		if (lastIndexCount > 0) {
-			if (indexCount > 0) {
-				if ((lastIndexCount > indexCount) && TRANS) {
-					runningPositionCount += (2048 - lastIndexCount) + indexCount;
-				} else if ((lastIndexCount > indexCount) && !TRANS) {
-					runningPositionCount -= lastIndexCount - indexCount;
-				} else if ((lastIndexCount < indexCount) && !TRANS) {
-					runningPositionCount += indexCount - lastIndexCount;
-				}
-			} else {
-				runningPositionCount += indexCount - lastIndexCount;
-			}
-		} else {
-			if (indexCount < 0) {
-				if ((lastIndexCount < indexCount) && TRANS) {
-					runningPositionCount += -(2048 + lastIndexCount) + indexCount;
-				} else if ((lastIndexCount < indexCount) && !TRANS) {
-					runningPositionCount += -(lastIndexCount - indexCount);
-				} else if ((lastIndexCount > indexCount) && !TRANS) {
-					runningPositionCount += indexCount - lastIndexCount;
-				}
-			} else {
-				runningPositionCount -= indexCount - lastIndexCount;
-			}
-		}
-	}
-	QEI1STATbits.IDXIRQ = 0;
-
-	lastIndexCount = indexCount;
-}
 #endif
-
+#endif

@@ -201,8 +201,8 @@ tapr.org/ohl.html</text>
 <text x="19.45" y="17.95" size="0.8128" layer="25">MOSI</text>
 <text x="19.45" y="16.75" size="0.8128" layer="25">MISO</text>
 <text x="19.45" y="14.95" size="0.8128" layer="25">SCLK</text>
-<text x="22.6" y="23.1" size="0.8128" layer="25" rot="R180">*FAULT</text>
-<text x="22.6" y="24.3" size="0.8128" layer="25" rot="R180">*OCTW</text>
+<text x="33" y="21.1" size="0.8128" layer="25" rot="R180">FAULT</text>
+<text x="33.1" y="22.85" size="0.8128" layer="25" rot="R180">OCTW</text>
 </plain>
 <libraries>
 <library name="ASL">
@@ -1688,16 +1688,16 @@ design rules under a new name.</description>
 <attribute name="NAME" x="9.4495" y="13.858" size="0.8128" layer="25" ratio="15" rot="R90"/>
 </element>
 <element name="R19" library="ASL" package="0805" value="1.5k" x="5.995" y="14.85" smashed="yes" rot="R270"/>
-<element name="C27" library="ASL" package="CPOL-RADIAL-1000UF-25V" value="470 uF - UVR1H471MHD" x="58.00339375" y="42.41674375" smashed="yes" rot="R270">
-<attribute name="NAME" x="61.37625625" y="46.88939375" size="0.8128" layer="25"/>
+<element name="C27" library="ASL" package="CPOL-RADIAL-1000UF-25V" value="470 uF - UVR1H471MHD" x="58.50339375" y="42.46674375" smashed="yes" rot="R270">
+<attribute name="NAME" x="61.87625625" y="46.93939375" size="0.8128" layer="25"/>
 </element>
-<element name="C28" library="ASL" package="0805" value="10nF" x="53.355" y="52.95" smashed="yes" rot="R90">
-<attribute name="NAME" x="52.858" y="50.6905" size="0.8128" layer="25" ratio="15"/>
-<attribute name="VALUE" x="54.752" y="51.934" size="0.4064" layer="27" rot="R90"/>
+<element name="C28" library="ASL" package="0805" value="10nF" x="44.605" y="32.55" smashed="yes" rot="R90">
+<attribute name="NAME" x="43.8095" y="31.308" size="0.8128" layer="25" ratio="15" rot="R90"/>
+<attribute name="VALUE" x="46.002" y="31.534" size="0.4064" layer="27" rot="R90"/>
 </element>
-<element name="R20" library="ASL" package="0805" value="3.3" x="55.655" y="52.35" smashed="yes" rot="R90">
-<attribute name="NAME" x="55.7895" y="48.858" size="0.8128" layer="25" ratio="15" rot="R90"/>
-<attribute name="VALUE" x="57.052" y="51.334" size="0.4064" layer="27" rot="R90"/>
+<element name="R20" library="ASL" package="0805" value="3.3" x="46.105" y="32.55" smashed="yes" rot="R90">
+<attribute name="NAME" x="45.508" y="30.2605" size="0.8128" layer="25" ratio="15"/>
+<attribute name="VALUE" x="47.502" y="31.534" size="0.4064" layer="27" rot="R90"/>
 </element>
 <element name="C3" library="ASL" package="0805" value=".1 uF 100V" x="43.4" y="2" smashed="yes" rot="R270">
 <attribute name="NAME" x="41.238" y="2.5055" size="0.8128" layer="25" ratio="15"/>
@@ -1733,7 +1733,7 @@ design rules under a new name.</description>
 <attribute name="VALUE" x="33.126" y="20.652" size="0.4064" layer="27" rot="R180"/>
 </element>
 <element name="U$14" library="OpenPMSM" package="55932-0310" value="MICROCLASP3" x="27.5" y="36.85" smashed="yes"/>
-<element name="U$16" library="OpenPMSM" package="0039288040" value="MINIFITJR4PIN" x="68.825" y="43.05" smashed="yes"/>
+<element name="U$16" library="OpenPMSM" package="0039288040" value="MINIFITJR4PIN" x="69.375" y="43.05" smashed="yes"/>
 <element name="U$17" library="OpenPMSM" package="0039288060" value="MINIFITJR6PIN" x="65.85" y="23.2" smashed="yes"/>
 <element name="U$18" library="OpenPMSM" package="55932-0210" value="MICROCLASP2" x="28.9" y="44.75" smashed="yes" rot="R180"/>
 <element name="U$19" library="OpenPMSM" package="55932-0310" value="MICROCLASP3" x="16.75" y="36.8" smashed="yes"/>
@@ -1744,7 +1744,7 @@ design rules under a new name.</description>
 <attribute name="VALUE" x="11.972" y="35.634" size="0.4064" layer="27" rot="R90"/>
 </element>
 <element name="R14" library="ASL" package="0805" value="" x="27.875" y="22.45" smashed="yes" rot="R180">
-<attribute name="NAME" x="29.6005" y="23.462" size="0.8128" layer="25" ratio="15" rot="R270"/>
+<attribute name="NAME" x="25.388" y="23.3505" size="0.8128" layer="25" ratio="15"/>
 <attribute name="VALUE" x="28.891" y="23.847" size="0.4064" layer="27" rot="R180"/>
 </element>
 <element name="R15" library="ASL" package="0805" value="" x="27.875" y="20.65" smashed="yes" rot="R180">
@@ -1763,24 +1763,24 @@ design rules under a new name.</description>
 </element>
 <element name="U$21" library="OpenPMSM" package="FOUR-WALL-2500-LP-STH" value="3M10PIN2500" x="5.05" y="29.725" smashed="yes" rot="R90"/>
 <element name="U7" library="SensorCape" package="RKG41" value="TPS84250_RKG_41" x="34.325" y="44.35" smashed="yes"/>
-<element name="C40" library="SensorCape" package="1210" value="22uF" x="33.075" y="26" smashed="yes">
-<attribute name="NAME" x="34.775" y="28" size="0.8128" layer="25"/>
-<attribute name="VALUE" x="32.175" y="25.3" size="0.4064" layer="27"/>
+<element name="C40" library="SensorCape" package="1210" value="22uF" x="33.075" y="25.75" smashed="yes">
+<attribute name="NAME" x="33.65" y="24.725" size="0.8128" layer="25" rot="R90"/>
+<attribute name="VALUE" x="32.175" y="25.05" size="0.4064" layer="27"/>
 </element>
 <element name="C41" library="SensorCape" package="1210" value="2.2uF 100V" x="50.725" y="39.75" smashed="yes" rot="R270">
 <attribute name="NAME" x="49.15" y="39.525" size="0.8128" layer="25" rot="R90"/>
 <attribute name="VALUE" x="50.025" y="40.65" size="0.4064" layer="27" rot="R270"/>
 </element>
-<element name="C42" library="SensorCape" package="CPOL-RADIAL-100UF-25V" value="27uF 100V" x="47.2" y="53.825" smashed="yes" rot="R90">
-<attribute name="VALUE" x="42.628" y="51.92" size="0.8128" layer="27" rot="R90"/>
-<attribute name="NAME" x="48.801" y="54.957" size="0.8128" layer="25" ratio="15" rot="R270"/>
+<element name="C42" library="SensorCape" package="CPOL-RADIAL-100UF-25V" value="27uF 100V" x="50.3" y="34.025" smashed="yes" rot="R270">
+<attribute name="VALUE" x="54.872" y="35.93" size="0.8128" layer="27" rot="R270"/>
+<attribute name="NAME" x="48.699" y="32.893" size="0.8128" layer="25" ratio="15" rot="R90"/>
 </element>
 <element name="C43" library="SensorCape" package="1210" value="2.2uF 100V" x="45.075" y="36.6" smashed="yes" rot="R270">
 <attribute name="NAME" x="46.625" y="37.55" size="0.8128" layer="25" rot="R270"/>
 <attribute name="VALUE" x="44.375" y="37.5" size="0.4064" layer="27" rot="R270"/>
 </element>
 <element name="C45" library="SensorCape" package="1210" value="22uF" x="33.075" y="31.75" smashed="yes">
-<attribute name="NAME" x="36.475" y="29.45" size="0.8128" layer="25" rot="R90"/>
+<attribute name="NAME" x="33.675" y="30.75" size="0.8128" layer="25" rot="R90"/>
 <attribute name="VALUE" x="32.175" y="31.05" size="0.4064" layer="27"/>
 </element>
 <element name="C47" library="SensorCape" package="0805" value="10nF" x="44.725" y="46.45" smashed="yes" rot="R90">
@@ -1807,9 +1807,9 @@ design rules under a new name.</description>
 <attribute name="NAME" x="52.1" y="47.675" size="0.8128" layer="25" rot="R270"/>
 <attribute name="VALUE" x="51.425" y="43.65" size="0.4064" layer="27" rot="R90"/>
 </element>
-<element name="C6" library="SensorCape" package="1210" value="22uF" x="33.075" y="28.9" smashed="yes">
-<attribute name="NAME" x="35.575" y="29.55" size="0.8128" layer="25" rot="R270"/>
-<attribute name="VALUE" x="32.175" y="28.2" size="0.4064" layer="27"/>
+<element name="C6" library="SensorCape" package="1210" value="22uF" x="33.075" y="28.75" smashed="yes">
+<attribute name="NAME" x="32.825" y="29.35" size="0.8128" layer="25" rot="R270"/>
+<attribute name="VALUE" x="32.175" y="28.05" size="0.4064" layer="27"/>
 </element>
 <element name="J1" library="ASL" package="1X02_LOCK" value="" x="46.225" y="43.05" smashed="yes" rot="R270">
 <attribute name="NAME" x="48.0538" y="44.3962" size="1.27" layer="25" ratio="10" rot="R270"/>
@@ -1937,13 +1937,34 @@ design rules under a new name.</description>
 <attribute name="NAME" x="8.3745" y="2.488" size="0.8128" layer="25" ratio="15" rot="R90"/>
 <attribute name="VALUE" x="9.347" y="4.984" size="0.4064" layer="27" rot="R90"/>
 </element>
-<element name="U$1" library="OpenPMSM" package="MUA08A" value="LP2989-5V0" x="39.5" y="23.85" rot="R180"/>
-<element name="U$22" library="OpenPMSM" package="MUA08A" value="LP2989-3V3" x="39.5" y="29.6" rot="R180"/>
-<element name="C32" library="SensorCape" package="0805" value=".01uF Polypropelene/NPO" x="49.45" y="27.45"/>
-<element name="C33" library="SensorCape" package="0805" value="10uF" x="40.85" y="31.95" rot="R180"/>
-<element name="C34" library="SensorCape" package="0805" value="2.2uF" x="38.2" y="27.15"/>
-<element name="C35" library="SensorCape" package="0805" value=".01uF Polypropelene/NPO" x="42.6" y="27.15" rot="R180"/>
-<element name="C36" library="SensorCape" package="0805" value="10uF" x="38.2" y="31.95"/>
+<element name="U$1" library="OpenPMSM" package="MUA08A" value="LP2989-5V0" x="39.5" y="23.25" smashed="yes" rot="R180">
+<attribute name="NAME" x="39.5298" y="25.175" size="0.8128" layer="25" ratio="6" rot="SR0"/>
+<attribute name="VALUE" x="42.9544" y="21.345" size="1.27" layer="27" ratio="6" rot="SR180"/>
+</element>
+<element name="U$22" library="OpenPMSM" package="MUA08A" value="LP2989-3V3" x="39.5" y="29.6" smashed="yes" rot="R180">
+<attribute name="NAME" x="39.5298" y="26.675" size="0.8128" layer="25" ratio="6" rot="SR0"/>
+<attribute name="VALUE" x="42.9544" y="27.695" size="1.27" layer="27" ratio="6" rot="SR180"/>
+</element>
+<element name="C32" library="SensorCape" package="0805" value=".01uF Polypropelene/NPO" x="43.4" y="23.2" smashed="yes" rot="R270">
+<attribute name="NAME" x="44.2255" y="23.962" size="0.8128" layer="25" ratio="15" rot="R270"/>
+<attribute name="VALUE" x="42.003" y="24.216" size="0.4064" layer="27" rot="R270"/>
+</element>
+<element name="C33" library="SensorCape" package="0805" value="10uF" x="38.2" y="25.7" smashed="yes">
+<attribute name="NAME" x="36.5245" y="24.338" size="0.8128" layer="25" ratio="15" rot="R90"/>
+<attribute name="VALUE" x="37.184" y="24.303" size="0.4064" layer="27"/>
+</element>
+<element name="C34" library="SensorCape" package="0805" value="2.2uF" x="38.2" y="27.15" smashed="yes">
+<attribute name="NAME" x="36.4745" y="26.538" size="0.8128" layer="25" ratio="15" rot="R90"/>
+<attribute name="VALUE" x="37.184" y="25.753" size="0.4064" layer="27"/>
+</element>
+<element name="C35" library="SensorCape" package="0805" value=".01uF Polypropelene/NPO" x="43.25" y="29.6" smashed="yes" rot="R270">
+<attribute name="NAME" x="45.0245" y="28.288" size="0.8128" layer="25" ratio="15" rot="R90"/>
+<attribute name="VALUE" x="41.853" y="30.616" size="0.4064" layer="27" rot="R270"/>
+</element>
+<element name="C36" library="SensorCape" package="0805" value="10uF" x="38.2" y="31.95" smashed="yes">
+<attribute name="NAME" x="36.5745" y="30.938" size="0.8128" layer="25" ratio="15" rot="R90"/>
+<attribute name="VALUE" x="37.184" y="30.553" size="0.4064" layer="27"/>
+</element>
 </elements>
 <signals>
 <signal name="N$2">
@@ -2312,7 +2333,7 @@ design rules under a new name.</description>
 <contactref element="U$5" pad="P$7"/>
 <contactref element="U$5" pad="P$5"/>
 <contactref element="U$5" pad="P$9"/>
-<via x="55.6" y="53.5" extent="1-16" drill="0.4" shape="square" alwaysstop="yes"/>
+<via x="46.1" y="33.45" extent="1-16" drill="0.4" shape="square" alwaysstop="yes"/>
 <polygon width="0.2032" layer="2" isolate="0.254" thermals="no" rank="2">
 <vertex x="43" y="48"/>
 <vertex x="43" y="17"/>
@@ -2325,7 +2346,7 @@ design rules under a new name.</description>
 <contactref element="C14" pad="1"/>
 <via x="43.4" y="2.9" extent="1-16" drill="0.4" shape="square" alwaysstop="yes"/>
 <via x="43.4" y="3.7" extent="1-16" drill="0.4" shape="square" alwaysstop="yes"/>
-<wire x1="55.6" y1="53.5" x2="55.655" y2="53.25" width="0.2032" layer="1"/>
+<wire x1="46.1" y1="33.45" x2="46.105" y2="33.45" width="0.2032" layer="1"/>
 <via x="44.6" y="2.9" extent="1-16" drill="0.4" shape="square" alwaysstop="yes"/>
 <via x="7.75" y="13.95" extent="1-16" drill="0.4" shape="octagon"/>
 <wire x1="7.75" y1="13.95" x2="7.6" y2="13.95" width="0.2032" layer="2"/>
@@ -2346,8 +2367,6 @@ design rules under a new name.</description>
 <wire x1="56.9" y1="33.55" x2="56.9" y2="33.67" width="0.2032" layer="1"/>
 <wire x1="65.6" y1="33.55" x2="65.6" y2="33.67" width="0.2032" layer="1"/>
 <wire x1="74.8" y1="33.67" x2="74.8" y2="33.55" width="0.2032" layer="1"/>
-<wire x1="47.2" y1="55.095" x2="55.6" y2="53.5" width="0" layer="19" extent="1-1"/>
-<wire x1="48.075" y1="47.2" x2="47.2" y2="55.095" width="0" layer="19" extent="1-1"/>
 </signal>
 <signal name="GH_A">
 <contactref element="IC1" pad="43"/>
@@ -2696,7 +2715,7 @@ design rules under a new name.</description>
 <signal name="N$6">
 <contactref element="C28" pad="1"/>
 <contactref element="R20" pad="1"/>
-<wire x1="53.355" y1="52.05" x2="55.655" y2="51.45" width="0.2032" layer="1"/>
+<wire x1="44.605" y1="31.65" x2="46.105" y2="31.65" width="0.2032" layer="1"/>
 </signal>
 <signal name="N$61">
 </signal>
@@ -3276,11 +3295,10 @@ design rules under a new name.</description>
 <contactref element="C35" pad="1"/>
 <contactref element="C36" pad="2"/>
 <contactref element="U$22" pad="3"/>
-<wire x1="41.6844" y1="29.9302" x2="40.3698" y2="29.9302" width="0.4064" layer="1"/>
-<wire x1="40.3698" y1="29.9302" x2="40.35" y2="29.95" width="0.4064" layer="1"/>
-<wire x1="47.2" y1="52.555" x2="53.355" y2="53.85" width="0" layer="19" extent="1-1"/>
-<wire x1="44.725" y1="47.35" x2="47.2" y2="52.555" width="0" layer="19" extent="1-1"/>
-<wire x1="41.6844" y1="24.1802" x2="43.5" y2="27.15" width="0" layer="19" extent="1-1"/>
+<wire x1="41.6844" y1="23.5802" x2="42.8802" y2="23.5802" width="0.4064" layer="1"/>
+<wire x1="42.8802" y1="23.5802" x2="43.4" y2="24.1" width="0.4064" layer="1"/>
+<wire x1="41.6844" y1="29.9302" x2="42.6802" y2="29.9302" width="0.4064" layer="1"/>
+<wire x1="42.6802" y1="29.9302" x2="43.25" y2="30.5" width="0.4064" layer="1"/>
 </signal>
 <signal name="PWM1L">
 <contactref element="IC1" pad="14"/>
@@ -3463,13 +3481,19 @@ design rules under a new name.</description>
 <contactref element="U$1" pad="4"/>
 <contactref element="U$1" pad="8"/>
 <wire x1="37.5254" y1="33.8598" x2="37.5" y2="33.8598" width="0.8128" layer="1"/>
-<wire x1="34.675" y1="31.75" x2="34.675" y2="28.9" width="0.6096" layer="1"/>
-<wire x1="34.675" y1="26" x2="34.675" y2="28.9" width="0.6096" layer="1"/>
+<wire x1="34.675" y1="31.75" x2="34.675" y2="28.75" width="0.6096" layer="1"/>
+<wire x1="34.675" y1="25.75" x2="34.675" y2="26.5" width="0.6096" layer="1"/>
+<wire x1="34.675" y1="26.5" x2="34.675" y2="28.75" width="0.6096" layer="1"/>
 <wire x1="36.8754" y1="33.5954" x2="36.611" y2="33.8598" width="0.6096" layer="1"/>
 <wire x1="34.675" y1="31.75" x2="34.675" y2="33.7348" width="0.6096" layer="1"/>
 <wire x1="34.675" y1="33.7348" x2="34.8" y2="33.8598" width="0.6096" layer="1"/>
-<wire x1="37.3156" y1="22.8848" x2="41.6844" y2="24.8152" width="0" layer="19" extent="1-1"/>
-<wire x1="34.675" y1="26" x2="37.3156" y2="22.8848" width="0" layer="19" extent="1-1"/>
+<wire x1="37.3156" y1="22.2848" x2="35.9652" y2="22.2848" width="0.4064" layer="1"/>
+<wire x1="35.9652" y1="22.2848" x2="34.65" y2="23.6" width="0.4064" layer="1"/>
+<wire x1="34.65" y1="23.6" x2="34.65" y2="26.475" width="0.4064" layer="1"/>
+<wire x1="34.65" y1="26.475" x2="34.675" y2="26.5" width="0.4064" layer="1"/>
+<wire x1="41.6844" y1="24.2152" x2="40.4652" y2="24.2152" width="0.4064" layer="1"/>
+<wire x1="40.4652" y1="24.2152" x2="38.5348" y2="22.2848" width="0.4064" layer="1"/>
+<wire x1="37.3156" y1="22.2848" x2="38.5348" y2="22.2848" width="0.4064" layer="1"/>
 </signal>
 <signal name="VCC5V0">
 <contactref element="JP1" pad="5"/>
@@ -3490,12 +3514,14 @@ design rules under a new name.</description>
 <contactref element="U$22" pad="8"/>
 <wire x1="37.3156" y1="28.6348" x2="37.3156" y2="27.1656" width="0.4064" layer="1"/>
 <wire x1="37.3156" y1="27.1656" x2="37.3" y2="27.15" width="0.4064" layer="1"/>
-<wire x1="37.3156" y1="28.6348" x2="41.6844" y2="30.5652" width="0" layer="19" extent="1-1"/>
-<wire x1="37.3156" y1="24.8152" x2="37.3156" y2="27.1656" width="0" layer="19" extent="1-1"/>
-<wire x1="37.3156" y1="24.1802" x2="37.3156" y2="24.8152" width="0" layer="19" extent="1-1"/>
-<wire x1="31.915" y1="1.33" x2="37.3156" y2="24.1802" width="0" layer="19" extent="1-1"/>
-<wire x1="41.6844" y1="30.5652" x2="41.6844" y2="31.8844" width="0.4064" layer="1"/>
-<wire x1="41.6844" y1="31.8844" x2="41.75" y2="31.95" width="0.4064" layer="1"/>
+<via x="37.3" y="27.15" extent="1-16" drill="0.4" shape="square"/>
+<via x="41.6" y="31.7" extent="1-16" drill="0.4" shape="square"/>
+<wire x1="41.6844" y1="30.5652" x2="41.6844" y2="31.6156" width="0.4064" layer="1"/>
+<wire x1="41.6844" y1="31.6156" x2="41.6" y2="31.7" width="0.4064" layer="1"/>
+<wire x1="37.3156" y1="23.5802" x2="37.3156" y2="24.2152" width="0.4064" layer="1"/>
+<wire x1="37.3156" y1="24.2152" x2="37.3156" y2="25.6844" width="0.4064" layer="1"/>
+<wire x1="37.3156" y1="25.6844" x2="37.3" y2="25.7" width="0.4064" layer="1"/>
+<wire x1="37.3" y1="25.7" x2="37.3" y2="27.15" width="0.4064" layer="1"/>
 </signal>
 <signal name="LED4">
 <contactref element="RN1" pad="P$1"/>
@@ -4030,13 +4056,14 @@ design rules under a new name.</description>
 <signal name="N$14">
 <contactref element="U$1" pad="1"/>
 <contactref element="C32" pad="2"/>
-<wire x1="41.6844" y1="22.8848" x2="50.35" y2="27.45" width="0" layer="19" extent="1-1"/>
+<wire x1="41.6844" y1="22.2848" x2="43.3848" y2="22.2848" width="0.4064" layer="1"/>
+<wire x1="43.3848" y1="22.2848" x2="43.4" y2="22.3" width="0.4064" layer="1"/>
 </signal>
 <signal name="N$5">
 <contactref element="C35" pad="2"/>
 <contactref element="U$22" pad="1"/>
-<wire x1="41.6844" y1="28.6348" x2="41.6844" y2="27.1656" width="0.4064" layer="1"/>
-<wire x1="41.6844" y1="27.1656" x2="41.7" y2="27.15" width="0.4064" layer="1"/>
+<wire x1="41.6844" y1="28.6348" x2="43.1848" y2="28.6348" width="0.4064" layer="1"/>
+<wire x1="43.1848" y1="28.6348" x2="43.25" y2="28.7" width="0.4064" layer="1"/>
 </signal>
 </signals>
 <errors>

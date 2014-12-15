@@ -14,18 +14,19 @@
 #include "DMA_Transfer.h"
 
 /**
- * For LQG Chacterization with sinusoidal commutation:
- * #define SINE
- * #define QEI
- * #define CHARACTERIZE
- * 
- * For LQG sinusoidal Position Control
- * #define #SINE
- * #define #QEI
+ * For Position Control:
+ * #define POSITION
+ *
+ * For Velocity Control:
+ * #define VELOCITY
  */
-//#define CHARACTERIZE
+
+#define POSITION
+//#define VELOCITY
+//#define CHARACTERIZE_POSITION
+//#define CHARACTERIZE_VELOCITY
+
 #define QEI
-//#define LQG_NOISE
 #define SINE
 
 #ifdef __33EP256MU806_H
