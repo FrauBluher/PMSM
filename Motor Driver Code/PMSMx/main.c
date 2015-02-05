@@ -93,7 +93,7 @@ main (void)
   CB_Init (&spiBuffer, (uint8_t *) spiBuf, 128);
 
   LED1 = 1;
-  LED2 = 1;
+  LED2 = 0;
   LED3 = 1;
   LED4 = 1;
 
@@ -127,6 +127,7 @@ main (void)
       if (events & EVENT_CAN)
         {
           can_process ();
+          LED2 = !LED2;
 
           if (txreq_bitarray & 0b00000001 && !C1TR01CONbits.TXREQ0)
             {
@@ -307,3 +308,55 @@ ADC_LPF (void)
 
   return ((uint16_t) rk1);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+ * File:   PMSMx.c
+ * Author: Pavlo Milo Manovi
+ *
+ *
+ * If being used with the CAN enabled PMSM Board obtained at either pavlo.me or off of
+ * http://github.com/FrauBluher/ as of v 1.6 the following pins are reserved on the
+ * dsPIC33EP256MC506:
+ *
+ * THIS NEEDS TO BE UPDATED FOR v1.9
+ */
+
+//#include <string.h>
+//#include <stdlib.h>
+//#include <string.h>
+//#include <stdio.h>
+//#include <stdint.h>
+//#include "PMSMBoard.h"
+//#include "CircularBuffer.h"
+//#include "DRV8301.h"
+//#include "DMA_Transfer.h"
+//
+//#include "../CAN Testing/canFiles/motor_can.h"
+//#include "../CAN Testing/canFiles/init_motor_control.h"
+//#if defined (CHARACTERIZE_POSITION) || defined (CHARACTERIZE_VELOCITY)
+//#include "PMSM_Characterize.h"
+//
+//#else
+//
+//#ifdef VELOCITY
+//#include "PMSM_Velocity.h"
+//#endif
+//
+//#ifdef POSITION
+//#include "PMSM_Position.h"
+//#endif
+//
+//#endif
