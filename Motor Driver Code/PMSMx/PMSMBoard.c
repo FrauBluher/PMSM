@@ -50,15 +50,22 @@ void InitBoard(ADCBuffer *ADBuff, CircularBuffer *cB, CircularBuffer *spi_cB, vo
 	if (!initInfo.initReg) {
 
 		uint32_t i;
+                /*Enable interrupts*/
+                INTCON2bits.GIE = 1; //disabled by the bootloader, so we must absolutely enable this!!!
 
 		ClockInit();
 		UART2Init();
 
 		PinInit();
+//                LED1 = 1;
+//                LED2 = 1;
+//                LED3 = 0;
+//                LED4 = 1;
+//                while(1);
 		MotorInit();
 
 		for (i = 0; i < 750000; i++) {
-			Nop(); //Let the DRV catch it's breath...
+			Nop(); //Let the DRV catch its breath...
 		}
 
 		SPI1_Init();
