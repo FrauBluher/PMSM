@@ -117,7 +117,7 @@ main (void)
           PMSM_Update_Velocity ();
 #endif
 #ifdef POSITION
-          SetPosition ((float) Target_position);
+          SetPosition ((float) Target_Position);
           PMSM_Update_Position ();
 #endif
 #endif
