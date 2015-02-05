@@ -4,7 +4,7 @@
 #ifndef MOTOR_OBJDICT_H
 #define MOTOR_OBJDICT_H
 
-#include "../canFestival/include/data.h"
+#include "data.h"
 
 /* Prototypes of function provided by object dictionnary */
 UNS32 Motor_Board_valueRangeTest (UNS8 typeValue, void * value);
@@ -17,13 +17,13 @@ extern UNS32 Strain_Gauge2;		/* Mapped at index 0x2002, subindex 0x00*/
 extern UNS32 Strain_Gauge3;		/* Mapped at index 0x2003, subindex 0x00*/
 extern UNS32 Strain_Gauge4;		/* Mapped at index 0x2004, subindex 0x00*/
 extern UNS32 Target_Tension;		/* Mapped at index 0x3000, subindex 0x00*/
-extern REAL32 Actual_Position;		/* Mapped at index 0x3001, subindex 0x00*/
-extern REAL32 Actual_Velocity;		/* Mapped at index 0x3002, subindex 0x00*/
+extern UNS32 Actual_Position;		/* Mapped at index 0x3001, subindex 0x00*/
+extern UNS32 Actual_Velocity;		/* Mapped at index 0x3002, subindex 0x00*/
+extern UNS32 Target_Position;		/* Mapped at index 0x3003, subindex 0x00*/
 extern UNS8 Voltage_24V;		/* Mapped at index 0x4000, subindex 0x00*/
 extern INTEGER32 Position_actual_value;		/* Mapped at index 0x6064, subindex 0x00*/
 extern INTEGER32 Velocity_actual_value;		/* Mapped at index 0x606C, subindex 0x00*/
 extern INTEGER16 Current_actual_value;		/* Mapped at index 0x6078, subindex 0x00*/
-extern INTEGER32 Target_position;		/* Mapped at index 0x607A, subindex 0x00*/
 extern INTEGER32 Target_velocity;		/* Mapped at index 0x60FF, subindex 0x00*/
 extern UNS16 Motor_data_Continous_current_limit;		/* Mapped at index 0x6410, subindex 0x01 */
 extern UNS16 Motor_data_Output_current_limit;		/* Mapped at index 0x6410, subindex 0x02 */

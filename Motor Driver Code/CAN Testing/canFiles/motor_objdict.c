@@ -11,13 +11,13 @@ UNS32 Strain_Gauge2 = 0x0;		/* Mapped at index 0x2002, subindex 0x00 */
 UNS32 Strain_Gauge3 = 0x0;		/* Mapped at index 0x2003, subindex 0x00 */
 UNS32 Strain_Gauge4 = 0x0;		/* Mapped at index 0x2004, subindex 0x00 */
 UNS32 Target_Tension = 0x0;		/* Mapped at index 0x3000, subindex 0x00 */
-REAL32 Actual_Position = 0.000000;		/* Mapped at index 0x3001, subindex 0x00 */
-REAL32 Actual_Velocity = 0.000000;		/* Mapped at index 0x3002, subindex 0x00 */
+UNS32 Actual_Position = 0x0;		/* Mapped at index 0x3001, subindex 0x00 */
+UNS32 Actual_Velocity = 0x0;		/* Mapped at index 0x3002, subindex 0x00 */
+UNS32 Target_Position = 0x0;		/* Mapped at index 0x3003, subindex 0x00 */
 UNS8 Voltage_24V = 0x0;		/* Mapped at index 0x4000, subindex 0x00 */
 INTEGER32 Position_actual_value = 0x0;		/* Mapped at index 0x6064, subindex 0x00 */
 INTEGER32 Velocity_actual_value = 0x0;		/* Mapped at index 0x606C, subindex 0x00 */
 INTEGER16 Current_actual_value = 0x0;		/* Mapped at index 0x6078, subindex 0x00 */
-INTEGER32 Target_position = 0x0;		/* Mapped at index 0x607A, subindex 0x00 */
 INTEGER32 Target_velocity = 0x0;		/* Mapped at index 0x60FF, subindex 0x00 */
 UNS16 Motor_data_Continous_current_limit = 0x0;		/* Mapped at index 0x6410, subindex 0x01 */
 UNS16 Motor_data_Output_current_limit = 0x0;		/* Mapped at index 0x6410, subindex 0x02 */
@@ -270,7 +270,7 @@ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
                     UNS8 Motor_Board_highestSubIndex_obj1602 = 2; /* number of subindex - 1*/
                     UNS32 Motor_Board_obj1602[] = 
                     {
-                      0x607A0020,	/* 1618608160 */
+                      0x0,	/* 0 */
                       0x60FF0020	/* 1627324448 */
                     };
                     subindex Motor_Board_Index1602[] = 
@@ -535,13 +535,19 @@ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 /* index 0x3001 :   Mapped variable Actual_Position */
                     subindex Motor_Board_Index3001[] = 
                      {
-                       { RW, real32, sizeof (REAL32), (void*)&Actual_Position }
+                       { RW, uint32, sizeof (UNS32), (void*)&Actual_Position }
                      };
 
 /* index 0x3002 :   Mapped variable Actual_Velocity */
                     subindex Motor_Board_Index3002[] = 
                      {
-                       { RW, real32, sizeof (REAL32), (void*)&Actual_Velocity }
+                       { RW, uint32, sizeof (UNS32), (void*)&Actual_Velocity }
+                     };
+
+/* index 0x3003 :   Mapped variable Target_Position */
+                    subindex Motor_Board_Index3003[] = 
+                     {
+                       { RW, uint32, sizeof (UNS32), (void*)&Target_Position }
                      };
 
 /* index 0x4000 :   Mapped variable Voltage_24V */
@@ -566,12 +572,6 @@ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
                     subindex Motor_Board_Index6078[] = 
                      {
                        { RO, int16, sizeof (INTEGER16), (void*)&Current_actual_value }
-                     };
-
-/* index 0x607A :   Mapped variable Target position */
-                    subindex Motor_Board_Index607A[] = 
-                     {
-                       { RW, int32, sizeof (INTEGER32), (void*)&Target_position }
                      };
 
 /* index 0x60FF :   Mapped variable Target velocity */
@@ -633,11 +633,11 @@ const indextable Motor_Board_objdict[] =
   { (subindex*)Motor_Board_Index3000,sizeof(Motor_Board_Index3000)/sizeof(Motor_Board_Index3000[0]), 0x3000},
   { (subindex*)Motor_Board_Index3001,sizeof(Motor_Board_Index3001)/sizeof(Motor_Board_Index3001[0]), 0x3001},
   { (subindex*)Motor_Board_Index3002,sizeof(Motor_Board_Index3002)/sizeof(Motor_Board_Index3002[0]), 0x3002},
+  { (subindex*)Motor_Board_Index3003,sizeof(Motor_Board_Index3003)/sizeof(Motor_Board_Index3003[0]), 0x3003},
   { (subindex*)Motor_Board_Index4000,sizeof(Motor_Board_Index4000)/sizeof(Motor_Board_Index4000[0]), 0x4000},
   { (subindex*)Motor_Board_Index6064,sizeof(Motor_Board_Index6064)/sizeof(Motor_Board_Index6064[0]), 0x6064},
   { (subindex*)Motor_Board_Index606C,sizeof(Motor_Board_Index606C)/sizeof(Motor_Board_Index606C[0]), 0x606C},
   { (subindex*)Motor_Board_Index6078,sizeof(Motor_Board_Index6078)/sizeof(Motor_Board_Index6078[0]), 0x6078},
-  { (subindex*)Motor_Board_Index607A,sizeof(Motor_Board_Index607A)/sizeof(Motor_Board_Index607A[0]), 0x607A},
   { (subindex*)Motor_Board_Index60FF,sizeof(Motor_Board_Index60FF)/sizeof(Motor_Board_Index60FF[0]), 0x60FF},
   { (subindex*)Motor_Board_Index6410,sizeof(Motor_Board_Index6410)/sizeof(Motor_Board_Index6410[0]), 0x6410},
   { (subindex*)Motor_Board_Index6502,sizeof(Motor_Board_Index6502)/sizeof(Motor_Board_Index6502[0]), 0x6502},
@@ -677,11 +677,11 @@ const indextable * Motor_Board_scanIndexOD (UNS16 wIndex, UNS32 * errorCode, ODC
 		case 0x3000: i = 26;break;
 		case 0x3001: i = 27;break;
 		case 0x3002: i = 28;break;
-		case 0x4000: i = 29;break;
-		case 0x6064: i = 30;break;
-		case 0x606C: i = 31;break;
-		case 0x6078: i = 32;break;
-		case 0x607A: i = 33;break;
+		case 0x3003: i = 29;break;
+		case 0x4000: i = 30;break;
+		case 0x6064: i = 31;break;
+		case 0x606C: i = 32;break;
+		case 0x6078: i = 33;break;
 		case 0x60FF: i = 34;break;
 		case 0x6410: i = 35;break;
 		case 0x6502: i = 36;break;
