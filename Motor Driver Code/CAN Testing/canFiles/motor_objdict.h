@@ -4,7 +4,7 @@
 #ifndef MOTOR_OBJDICT_H
 #define MOTOR_OBJDICT_H
 
-#include "data.h"
+#include "../canFestival/include/data.h"
 
 /* Prototypes of function provided by object dictionnary */
 UNS32 Motor_Board_valueRangeTest (UNS8 typeValue, void * value);
