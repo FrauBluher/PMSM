@@ -79,6 +79,22 @@ main (void)
   static uint16_t size;
   static uint8_t out[56];
 
+  /*Enable interrupts*/
+  INTCON2bits.GIE = 1; //disabled by the bootloader, so we must absolutely enable this!!!
+  PTCONbits.PTEN = 1;
+  PMCONbits.PMPEN = 1;
+  SPI1STATbits.SPIEN = 1;
+    SPI2STATbits.SPIEN = 1;
+    SPI3STATbits.SPIEN = 1;
+    SPI4STATbits.SPIEN = 1;
+    I2C1CONbits.I2CEN = 1;
+    I2C2CONbits.I2CEN = 1;
+    U1STAbits.UTXEN = 1;
+    U2STAbits.UTXEN = 1;
+    U3STAbits.UTXEN = 1;
+    U4STAbits.UTXEN = 1;
+    U1CONbits.USBEN = 1;
+
   for (torque = 0; torque < 65533; torque++)
     {
       Nop ();
@@ -99,7 +115,7 @@ main (void)
 
 #ifdef POSITION
   /* This is used for testing */
-  //  	SetPosition(1000);
+    	SetPosition(300);
 #endif
 
 #ifdef VELOCITY
@@ -117,7 +133,7 @@ main (void)
           PMSM_Update_Velocity ();
 #endif
 #ifdef POSITION
-          SetPosition ((float) Target_Position);
+//          SetPosition ((float) Target_Position);
           PMSM_Update_Position ();
 #endif
 #endif

@@ -24,10 +24,10 @@
 #include <uart.h>
 #include <qei32.h>
 
-//_FOSCSEL(FNOSC_FRC & IESO_OFF);
-//_FOSC(FCKSM_CSECMD & OSCIOFNC_OFF & POSCMD_NONE);
-//_FWDT(FWDTEN_OFF);
-//_FICD(ICS_PGD1 & JTAGEN_OFF);
+_FOSCSEL(FNOSC_FRC & IESO_OFF);
+_FOSC(FCKSM_CSECMD & OSCIOFNC_OFF & POSCMD_NONE);
+_FWDT(FWDTEN_OFF);
+_FICD(ICS_PGD1 & JTAGEN_OFF);
 
 static MotorInfo motorInformation;
 static DRV8301_Info motorDriverInfo;
@@ -50,9 +50,7 @@ void InitBoard(ADCBuffer *ADBuff, CircularBuffer *cB, CircularBuffer *spi_cB, vo
 	if (!initInfo.initReg) {
 
 		uint32_t i;
-                /*Enable interrupts*/
-                INTCON2bits.GIE = 1; //disabled by the bootloader, so we must absolutely enable this!!!
-
+                
 		ClockInit();
 		UART2Init();
 

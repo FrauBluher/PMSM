@@ -267,17 +267,15 @@ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
                      };
 
 /* index 0x1602 :   Receive PDO 3 Mapping. */
-                    UNS8 Motor_Board_highestSubIndex_obj1602 = 2; /* number of subindex - 1*/
+                    UNS8 Motor_Board_highestSubIndex_obj1602 = 1; /* number of subindex - 1*/
                     UNS32 Motor_Board_obj1602[] = 
                     {
-                      0x0,	/* 0 */
-                      0x60FF0020	/* 1627324448 */
+                      0x30030020	/* 805503008 */
                     };
                     subindex Motor_Board_Index1602[] = 
                      {
                        { RW, uint8, sizeof (UNS8), (void*)&Motor_Board_highestSubIndex_obj1602 },
-                       { RW, uint32, sizeof (UNS32), (void*)&Motor_Board_obj1602[0] },
-                       { RW, uint32, sizeof (UNS32), (void*)&Motor_Board_obj1602[1] }
+                       { RW, uint32, sizeof (UNS32), (void*)&Motor_Board_obj1602[0] }
                      };
 
 /* index 0x1603 :   Receive PDO 4 Mapping. */
