@@ -182,7 +182,6 @@ void MotorInit()
 	PTCON = 0x8000;
 
 #endif
-	EN_GATE = 1;
 	DC_CAL = 0;
 
 	initInfo.MotorInited = 1;

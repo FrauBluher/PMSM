@@ -41,6 +41,7 @@
 
 static uint8_t initGuardDRV8301 = 0;
 static DRV8301_Info *passedInfoStruct;
+uint32_t i;
 
 /**
  * @brief Allows for you to turn the half bridges to high-impedance mode.
@@ -59,6 +60,12 @@ uint8_t DRV8301_Init(DRV8301_Info *drv8301Info)
 	drv8301Info->controlRegister2.GAIN = GAIN_20V;
 	drv8301Info->controlRegister2.OC_TOFF = OC_TOFF_CBC;
 	drv8301Info->controlRegister2.OCTW_SET = OCTW_SET_OCTW;
+
+	LATGbits.LATG7 = 1;
+	for (i = 0; i < 750000; i++) {
+		Nop(); //Let the DRV catch it's breath...
+	}
+
 
 	SPI1_WriteToReg(CONTROL_REGISTER1_ADDR,
 		drv8301Info->controlRegister1.wholeRegister);
