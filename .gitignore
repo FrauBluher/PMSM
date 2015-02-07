@@ -1,0 +1,10 @@
+#
+*.map
+*.hex
+*.elf
+*.o
+*.ko
+*.obj
+*.lib
+*.a
+*.out
