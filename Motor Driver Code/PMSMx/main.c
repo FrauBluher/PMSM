@@ -79,6 +79,9 @@ main (void)
   static uint16_t size;
   static uint8_t out[56];
 
+  uint32_t count = 0;
+  float incPos = 0;
+
   /*Enable interrupts*/
   INTCON2bits.GIE = 1; //disabled by the bootloader, so we must absolutely enable this!!!
   PTCONbits.PTEN = 1;
@@ -115,11 +118,11 @@ main (void)
 
 #ifdef POSITION
   /* This is used for testing */
-    	SetPosition(300);
+    	SetPosition(incPos);
 #endif
 
 #ifdef VELOCITY
-  SetVelocity (500);
+  SetVelocity (600);
 #endif
 
   while (1)
@@ -133,6 +136,13 @@ main (void)
           PMSM_Update_Velocity ();
 #endif
 #ifdef POSITION
+//	  if(count > 14000){
+//		  incPos -= 100;
+//		  SetPosition(incPos);
+//		  count = 0;
+////		  LED3 = !LED3;
+//	  }
+//	  count++;
 //          SetPosition ((float) Target_Position);
           PMSM_Update_Position ();
 #endif
@@ -143,7 +153,7 @@ main (void)
       if (events & EVENT_CAN)
         {
           can_process ();
-          LED2 = !LED2;
+//          LED2 = !LED2;
 
           if (txreq_bitarray & 0b00000001 && !C1TR01CONbits.TXREQ0)
             {
