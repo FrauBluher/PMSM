@@ -22,7 +22,7 @@
 
 #include "../CAN Testing/canFiles/motor_can.h"
 #include "../CAN Testing/canFiles/init_motor_control.h"
-#if defined (CHARACTERIZE_POSITION) || defined (CHARACTERIZE_VELOCITY)
+#if defined (CHARACTERIZE_POSITION) || defined (CHARACTERIZE_VELOCITY) || defined (CHARACTERIZE_IMPEDANCE)
 #include "PMSM_Characterize.h"
 
 #else
@@ -111,11 +111,11 @@ main(void)
 
 	while (1) {
 		if (events & EVENT_UPDATE_SPEED) {
-#if defined (CHARACTERIZE_POSITION) || defined (CHARACTERIZE_VELOCITY)
+#if defined (CHARACTERIZE_POSITION) || defined (CHARACTERIZE_VELOCITY) || defined (CHARACTERIZE_IMPEDANCE)
 			CharacterizeStep();
 #else
 #ifdef VELOCITY
-//			SetVelocity((float)Target_Velocity);
+			//			SetVelocity((float)Target_Velocity);
 			PMSM_Update_Velocity();
 #endif
 #ifdef POSITION
@@ -126,7 +126,7 @@ main(void)
 			//	  }
 			//	  count++;
 			SetPosition(200);
-//			SetPosition((float) Target_Position);
+			//			SetPosition((float) Target_Position);
 			PMSM_Update_Position();
 #endif
 #endif
@@ -166,8 +166,8 @@ main(void)
 				txreq_bitarray = txreq_bitarray & 0b10111111;
 			}
 
-			Actual_Position = (uint32_t)GetCableLength();
-			Actual_Velocity = (uint32_t)GetCableVelocity();
+			//Actual_Position = (uint32_t) GetCableLength();
+			//Actual_Velocity = (uint32_t) GetCableVelocity();
 
 			can_time_dispatch();
 			events &= ~EVENT_CAN;
@@ -291,55 +291,3 @@ ADC_LPF(void)
 
 	return((uint16_t) rk1);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
- * File:   PMSMx.c
- * Author: Pavlo Milo Manovi
- *
- *
- * If being used with the CAN enabled PMSM Board obtained at either pavlo.me or off of
- * http://github.com/FrauBluher/ as of v 1.6 the following pins are reserved on the
- * dsPIC33EP256MC506:
- *
- * THIS NEEDS TO BE UPDATED FOR v1.9
- */
-
-//#include <string.h>
-//#include <stdlib.h>
-//#include <string.h>
-//#include <stdio.h>
-//#include <stdint.h>
-//#include "PMSMBoard.h"
-//#include "CircularBuffer.h"
-//#include "DRV8301.h"
-//#include "DMA_Transfer.h"
-//
-//#include "../CAN Testing/canFiles/motor_can.h"
-//#include "../CAN Testing/canFiles/init_motor_control.h"
-//#if defined (CHARACTERIZE_POSITION) || defined (CHARACTERIZE_VELOCITY)
-//#include "PMSM_Characterize.h"
-//
-//#else
-//
-//#ifdef VELOCITY
-//#include "PMSM_Velocity.h"
-//#endif
-//
-//#ifdef POSITION
-//#include "PMSM_Position.h"
-//#endif
-//
-//#endif

@@ -19,12 +19,17 @@
  *
  * For Velocity Control:
  * #define VELOCITY
+ *
+ * For Impedance Control:
+ * #define IMPEDANCE
  */
 
-#define POSITION
+//#define IMPEDENCE
+//#define POSITION
 //#define VELOCITY
 //#define CHARACTERIZE_POSITION
 //#define CHARACTERIZE_VELOCITY
+#define CHARACTERIZE_IMPEDANCE
 
 #define QEI
 #define SINE

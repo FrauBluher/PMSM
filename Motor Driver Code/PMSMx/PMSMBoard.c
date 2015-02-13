@@ -5,7 +5,7 @@
 #include "DRV8301.h"
 #include "PMSMBoard.h"
 
-#if defined (CHARACTERIZE_POSITION) || defined (CHARACTERIZE_VELOCITY)
+#if defined (CHARACTERIZE_POSITION) || defined (CHARACTERIZE_VELOCITY) || defined (CHARACTERIZE_IMPEDANCE)
 #include "PMSM_Characterize.h"
 #else
 
