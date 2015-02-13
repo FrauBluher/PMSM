@@ -64,7 +64,7 @@
 #define SQRT_3 1.732050807568877
 //#define SPOOL_SCALING_FACTOR 565.486683301
 #define TWO_PI 6.283185307
-#define SPOOL_RADIUS_MM 30
+#define SPOOL_RADIUS_MM 15
 #define LOOP_TIME_S 0.000333
 #define SPOOL_CIRCUMFERENCE_MM (TWO_PI*SPOOL_RADIUS_MM)
 #define	SPOOL_SCALING_FACTOR (SPOOL_CIRCUMFERENCE_MM)/LOOP_TIME_S //used full pi instead of 3.14
@@ -226,6 +226,7 @@ void PMSM_Update_Position(void)
 	int32_t intermediatePosition;
 	intermediatePosition = (runningPositionCount + indexCount);
 
+//	theta = desired_torque-measured_torque +((float) (int32_t) (intermediatePosition) * 0.0030679616);
 	y = theta - ((float) (int32_t) (intermediatePosition) * 0.0030679616); //Scaling it back into radians.
 
 	x_dummy[0][0] = (x_hat[0][0] * K_reg[0][0]) + (x_hat[1][0] * K_reg[0][1]) + (x_hat[2][0] * K_reg[0][2]) + (L[0][0] * y);
@@ -336,6 +337,7 @@ static int32_t currentCheck;
 void __attribute__((__interrupt__, no_auto_psv)) _QEI1Interrupt(void)
 {
 	currentCheck = Read32bitQEI1PositionCounter();
+	lastRunningPostionCount = runningPositionCount;
 	runningPositionCount += currentCheck;
 
 	POS = 0;
