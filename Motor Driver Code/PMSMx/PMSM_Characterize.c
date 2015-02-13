@@ -33,7 +33,9 @@
  *
  */
 
-#if defined (CHARACTERIZE_POSITION) || defined (CHARACTERIZE_VELOCITY)
+#include "PMSMBoard.h"
+
+#if defined (CHARACTERIZE_POSITION) || defined (CHARACTERIZE_VELOCITY) || defined (CHARACTERIZE_IMPEDANCE)
 
 #include <xc.h>
 #include <math.h>
@@ -42,7 +44,6 @@
 #include <stdio.h>
 #include <string.h>
 #include "PMSM_Characterize.h"
-#include "PMSMBoard.h"
 #include "DMA_Transfer.h"
 #include "cordic.h"
 #include <qei32.h>
@@ -586,6 +587,49 @@ void CharacterizeStep(void)
 	}
 
 #endif
+}
+#endif
+
+#ifdef CHARACTERIZE_IMPEDANCE
+
+void CharacterizeStep(void)
+{
+	if (counter2 < 1) {
+		indexCount = Read32bitQEI1PositionCounter();
+		int32_t intermediatePosition;
+		intermediatePosition = (runningPositionCount + indexCount);
+
+		if (GetState(counter)) {
+			//Commutation phase offset
+			indexCount += 512; //Phase offset of 90 degrees.
+
+			indexCount = (-indexCount + 2048) % 2048;
+
+			theta = indexCount;
+
+			SpaceVectorModulation(SVPWMTimeCalc(InversePark(0.5, 0, theta)));
+			//SEND OUT STUFF TO CAN HERE u = .5
+		} else {
+			//Commutation phase offset
+			indexCount += -512; //Phase offset of -90 degrees.
+
+			indexCount = (-indexCount + 2048) % 2048;
+
+			theta = indexCount;
+
+			SpaceVectorModulation(SVPWMTimeCalc(InversePark(0.5, 0, theta)));
+			//SEND OUT STUFF TO CAN HERE u = -.5
+		}
+
+
+		counter++;
+		if (counter == 65535) {
+			counter = 0;
+			counter2++;
+		}
+	} else {
+		SpaceVectorModulation(SVPWMTimeCalc(InversePark(0, 0, theta)));
+	}
 }
 #endif
 

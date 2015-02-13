@@ -39,7 +39,7 @@
 #include "PMSMBoard.h"
 
 #ifdef SINE
-#if defined (CHARACTERIZE_POSITION) || defined (CHARACTERIZE_VELOCITY)
+#if defined (CHARACTERIZE_POSITION) || defined (CHARACTERIZE_VELOCITY) || defined (CHARACTERIZE_IMPEDANCE)
 
 #include <stdint.h>
 
@@ -83,7 +83,7 @@ typedef struct {
  */
 uint8_t PMSM_Init(MotorInfo *information);
 
-#ifdef CHARACTERIZE_POSITION
+#if defined (CHARACTERIZE_POSITION) || defined (CHARACTERIZE_IMPEDANCE)
 /**
 * @brief Sets the commanded position of the motor.
 * @param pos The position of the rotor in radians.
