@@ -80,6 +80,7 @@ main(void)
 
 	uint32_t count = 0;
 	float incPos = 0;
+	uint8_t i = 1;
 
 	/*Enable interrupts*/
 	INTCON2bits.GIE = 1; //disabled by the bootloader, so we must absolutely enable this!!!
@@ -119,13 +120,19 @@ main(void)
 			PMSM_Update_Velocity();
 #endif
 #ifdef POSITION
-			//	  if(count > 14000){
-			//		  incPos += 100;
-			//		  SetPosition(incPos);
-			//		  count = 0;
-			//	  }
-			//	  count++;
-			SetPosition(200);
+			if (count > 5000) {
+				if (i) {
+					SetPosition(2000);
+					i = 0;
+				} else {
+					incPos = 0;
+					SetPosition(-2000);
+					i = 1;
+				}
+				count = 0;
+			}
+			count++;
+//			SetPosition(200);
 			//			SetPosition((float) Target_Position);
 			PMSM_Update_Position();
 #endif
@@ -268,7 +275,8 @@ EventChecker(void)
 		//		events |= EVENT_ADC_DATA;
 	}
 #endif
-	if (commutationPrescalar > 3) {
+	// Running at ~930Hz
+	if (commutationPrescalar > 15) {
 		events |= EVENT_UPDATE_SPEED;
 		commutationPrescalar = 0;
 	} else {

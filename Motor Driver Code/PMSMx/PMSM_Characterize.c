@@ -50,6 +50,7 @@
 #include <uart.h>
 #include "TrigData.h"
 #include "PRBSData.h"
+#include "../CAN Testing/canFiles/motor_can.h"
 
 #define TRANS QEI1STATbits.IDXIRQ
 
@@ -594,7 +595,7 @@ void CharacterizeStep(void)
 
 void CharacterizeStep(void)
 {
-	if (counter2 < 1) {
+	if (counter2 < 4) {
 		indexCount = Read32bitQEI1PositionCounter();
 		int32_t intermediatePosition;
 		intermediatePosition = (runningPositionCount + indexCount);
@@ -608,7 +609,9 @@ void CharacterizeStep(void)
 			theta = indexCount;
 
 			SpaceVectorModulation(SVPWMTimeCalc(InversePark(0.5, 0, theta)));
-			//SEND OUT STUFF TO CAN HERE u = .5
+
+			Commanded_Current = 5;
+			Actual_Position = runningPositionCount;
 		} else {
 			//Commutation phase offset
 			indexCount += -512; //Phase offset of -90 degrees.
@@ -618,7 +621,9 @@ void CharacterizeStep(void)
 			theta = indexCount;
 
 			SpaceVectorModulation(SVPWMTimeCalc(InversePark(0.5, 0, theta)));
-			//SEND OUT STUFF TO CAN HERE u = -.5
+
+			Commanded_Current = -5;
+			Actual_Position = runningPositionCount;
 		}
 
 

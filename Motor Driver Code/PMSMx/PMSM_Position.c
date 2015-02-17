@@ -239,12 +239,16 @@ void PMSM_Update_Position(void)
 
 	u = -1 * ((K[0][0] * x_hat[0][0]) + (K[0][1] * x_hat[1][0]) + (K[0][2] * x_hat[2][0]));
 
+
 	//SATURATION HERE...  IF YOU REALLY NEED MORE JUICE...  UP THIS TO 1 and -1
 	if (u > .7) {
 		u = .7;
 	} else if (u < -.7) {
 		u = -.7;
 	}
+
+	Actual_Position = runningPositionCount;
+	Commanded_Current = (int32_t)(u*100);
 
 	if (u > 0) {
 		//Commutation phase offset
