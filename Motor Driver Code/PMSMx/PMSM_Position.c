@@ -247,7 +247,8 @@ void PMSM_Update_Position(void)
 		u = -.7;
 	}
 
-	Actual_Position = runningPositionCount;
+//	Actual_Position = (int32_t)(((TWO_PI*1000)*runningPositionCount)/PULSES_PER_REVOLUTION);
+	Actual_Position =(int32_t)((float)runningPositionCount * 0.02814643647496589);
 	Commanded_Current = (int32_t)(u*100);
 
 	if (u > 0) {

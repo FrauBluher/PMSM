@@ -120,20 +120,23 @@ main(void)
 			PMSM_Update_Velocity();
 #endif
 #ifdef POSITION
-			if (count > 5000) {
-				if (i) {
-					SetPosition(2000);
-					i = 0;
-				} else {
-					incPos = 0;
-					SetPosition(-2000);
-					i = 1;
-				}
-				count = 0;
-			}
-			count++;
-//			SetPosition(200);
-			//			SetPosition((float) Target_Position);
+			//			if (count > 6000) {
+			//				if (i) {
+			//					SetPosition(2000);
+			//					i = 0;
+			//				} else {
+			//					incPos = 0;
+			//					SetPosition(0);
+			//					i = 1;
+			//				}
+			//				count = 0;
+			//			}
+			//			count++;
+			//			SetPosition(200);
+
+			// We are sending commands in milli-radians for motor output (after gearbox)
+			// Controller accepts radians for internal motor
+			SetPosition(((float)Target_Position)*109./1000.);
 			PMSM_Update_Position();
 #endif
 #endif

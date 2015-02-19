@@ -13,8 +13,8 @@ UNS32 Strain_Gauge4 = 0x0;		/* Mapped at index 0x2004, subindex 0x00 */
 UNS32 Target_Tension = 0x0;		/* Mapped at index 0x3000, subindex 0x00 */
 INTEGER32 Actual_Position = 0x0;		/* Mapped at index 0x3001, subindex 0x00 */
 INTEGER32 Actual_Velocity = 0x0;		/* Mapped at index 0x3002, subindex 0x00 */
-UNS32 Target_Position = 0x0;		/* Mapped at index 0x3003, subindex 0x00 */
-UNS32 Target_Velocity = 0x0;		/* Mapped at index 0x3004, subindex 0x00 */
+INTEGER32 Target_Position = 0x0;		/* Mapped at index 0x3003, subindex 0x00 */
+INTEGER32 Target_Velocity = 0x0;		/* Mapped at index 0x3004, subindex 0x00 */
 INTEGER32 Commanded_Current = 0x0;		/* Mapped at index 0x3005, subindex 0x00 */
 UNS8 Voltage_24V = 0x0;		/* Mapped at index 0x4000, subindex 0x00 */
 
@@ -531,13 +531,13 @@ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 /* index 0x3003 :   Mapped variable Target_Position */
                     subindex Motor_Board_Index3003[] = 
                      {
-                       { RW, uint32, sizeof (UNS32), (void*)&Target_Position }
+                       { RW, int32, sizeof (INTEGER32), (void*)&Target_Position }
                      };
 
 /* index 0x3004 :   Mapped variable Target_Velocity */
                     subindex Motor_Board_Index3004[] = 
                      {
-                       { RW, uint32, sizeof (UNS32), (void*)&Target_Velocity }
+                       { RW, int32, sizeof (INTEGER32), (void*)&Target_Velocity }
                      };
 
 /* index 0x3005 :   Mapped variable Commanded_Current */

@@ -19,8 +19,8 @@ extern UNS32 Strain_Gauge4;		/* Mapped at index 0x2004, subindex 0x00*/
 extern UNS32 Target_Tension;		/* Mapped at index 0x3000, subindex 0x00*/
 extern INTEGER32 Actual_Position;		/* Mapped at index 0x3001, subindex 0x00*/
 extern INTEGER32 Actual_Velocity;		/* Mapped at index 0x3002, subindex 0x00*/
-extern UNS32 Target_Position;		/* Mapped at index 0x3003, subindex 0x00*/
-extern UNS32 Target_Velocity;		/* Mapped at index 0x3004, subindex 0x00*/
+extern INTEGER32 Target_Position;		/* Mapped at index 0x3003, subindex 0x00*/
+extern INTEGER32 Target_Velocity;		/* Mapped at index 0x3004, subindex 0x00*/
 extern INTEGER32 Commanded_Current;		/* Mapped at index 0x3005, subindex 0x00*/
 extern UNS8 Voltage_24V;		/* Mapped at index 0x4000, subindex 0x00*/
 
