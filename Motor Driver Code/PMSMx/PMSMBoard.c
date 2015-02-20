@@ -123,17 +123,17 @@ void MotorInit()
 {
 #ifdef SINE
 	/* Set PWM Periods on PHASEx Registers */
-	PHASE1 = 400;
-	PHASE2 = 400;
-	PHASE3 = 400;
+	PHASE1 = 1000;
+	PHASE2 = 1000;
+	PHASE3 = 1000;
 	/* Set Duty Cycles */
 	PDC1 = 0;
 	PDC2 = 0;
 	PDC3 = 0;
 	/* Set Dead Time Values */
 	/* DTRx Registers are ignored in this mode */
-	DTR1 = DTR2 = DTR3 = 20;
-	ALTDTR1 = ALTDTR2 = ALTDTR3 = 40;
+	DTR1 = DTR2 = DTR3 = 50;
+	ALTDTR1 = ALTDTR2 = ALTDTR3 = 200;
 	/* Set PWM Mode to Complementary */
 	IOCON1 = IOCON2 = IOCON3 = 0xC000;
 	/* Set Independent Time Bases, Center-Aligned mode and

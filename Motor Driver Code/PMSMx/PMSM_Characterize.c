@@ -593,47 +593,76 @@ void CharacterizeStep(void)
 
 #ifdef CHARACTERIZE_IMPEDANCE
 
+uint8_t goTherePlease = 1;
+uint32_t wowMuchCycle = 0;
+
 void CharacterizeStep(void)
 {
-	if (counter2 < 4) {
+	int32_t intermediatePosition;
+
+	if (goTherePlease) {
 		indexCount = Read32bitQEI1PositionCounter();
-		int32_t intermediatePosition;
 		intermediatePosition = (runningPositionCount + indexCount);
 
-		if (GetState(counter)) {
-			//Commutation phase offset
-			indexCount += 512; //Phase offset of 90 degrees.
+		indexCount += 512; //Phase offset of 90 degrees.
 
-			indexCount = (-indexCount + 2048) % 2048;
+		indexCount = (-indexCount + 2048) % 2048;
 
-			theta = indexCount;
+		theta = indexCount;
 
-			SpaceVectorModulation(SVPWMTimeCalc(InversePark(0.5, 0, theta)));
+		SpaceVectorModulation(SVPWMTimeCalc(InversePark(0.8, 0, theta)));
 
-			Commanded_Current = 5;
-			Actual_Position = runningPositionCount;
-		} else {
-			//Commutation phase offset
-			indexCount += -512; //Phase offset of -90 degrees.
+		Commanded_Current = 80;
+		Actual_Position = runningPositionCount;
 
-			indexCount = (-indexCount + 2048) % 2048;
-
-			theta = indexCount;
-
-			SpaceVectorModulation(SVPWMTimeCalc(InversePark(0.5, 0, theta)));
-
-			Commanded_Current = -5;
-			Actual_Position = runningPositionCount;
+		wowMuchCycle++;
+		if (wowMuchCycle > 2300) {
+			goTherePlease = 0;
 		}
 
-
-		counter++;
-		if (counter == 65535) {
-			counter = 0;
-			counter2++;
-		}
 	} else {
-		SpaceVectorModulation(SVPWMTimeCalc(InversePark(0, 0, theta)));
+		if (counter2 < 4) {
+			indexCount = Read32bitQEI1PositionCounter();
+			intermediatePosition = (runningPositionCount + indexCount);
+
+			if (!GetState(counter)) {
+				//Commutation phase offset
+				indexCount += 512; //Phase offset of 90 degrees.
+
+				indexCount = (-indexCount + 2048) % 2048;
+
+				theta = indexCount;
+
+				SpaceVectorModulation(SVPWMTimeCalc(InversePark(0.65, 0, theta)));
+
+				Commanded_Current = 65;
+				Actual_Position = runningPositionCount;
+			} else {
+				//Commutation phase offset
+				indexCount += -512; //Phase offset of -90 degrees.
+
+				indexCount = (-indexCount + 2048) % 2048;
+
+				theta = indexCount;
+
+				SpaceVectorModulation(SVPWMTimeCalc(InversePark(0.65, 0, theta)));
+
+				Commanded_Current = -65;
+				Actual_Position = runningPositionCount;
+			}
+
+
+			counter++;
+			if (counter == 65535) {
+				counter = 0;
+				counter2++;
+			}
+		} else {
+			indexCount = Read32bitQEI1PositionCounter();
+			intermediatePosition = (runningPositionCount + indexCount);
+			SpaceVectorModulation(SVPWMTimeCalc(InversePark(0, 0, theta)));
+			Actual_Position = runningPositionCount;
+		}
 	}
 }
 #endif
@@ -720,19 +749,19 @@ void SpaceVectorModulation(TimesOut sv)
 {
 	switch (sv.sector) {
 	case 1:
-		GH_A_DC = ((uint16_t) PHASE1 * (.5 - .375 * sv.Vb - .649519 * sv.Va)) - 10;
-		GH_B_DC = ((uint16_t) PHASE1 * (.5 + .375 * sv.Vb - .216506 * sv.Va)) - 10;
-		GH_C_DC = ((uint16_t) PHASE1 * (.5 - .375 * sv.Vb + .216506 * sv.Va)) - 10;
+		GH_A_DC = ((uint16_t) PHASE1 * (.5 - .375 * sv.Vb - .649519 * sv.Va)) - 25;
+		GH_B_DC = ((uint16_t) PHASE1 * (.5 + .375 * sv.Vb - .216506 * sv.Va)) - 25;
+		GH_C_DC = ((uint16_t) PHASE1 * (.5 - .375 * sv.Vb + .216506 * sv.Va)) - 25;
 		break;
 	case 2:
-		GH_A_DC = ((uint16_t) PHASE1 * (.5 - .433013 * sv.Va)) - 10;
-		GH_B_DC = ((uint16_t) PHASE1 * (.5 + .75 * sv.Vb)) - 10;
-		GH_C_DC = ((uint16_t) PHASE1 * (.5 + .433013 * sv.Va)) - 10;
+		GH_A_DC = ((uint16_t) PHASE1 * (.5 - .433013 * sv.Va)) - 25;
+		GH_B_DC = ((uint16_t) PHASE1 * (.5 + .75 * sv.Vb)) - 25;
+		GH_C_DC = ((uint16_t) PHASE1 * (.5 + .433013 * sv.Va)) - 25;
 		break;
 	case 3:
-		GH_A_DC = ((uint16_t) PHASE1 * (.5 - 0.375 * sv.Vb + .216506 * sv.Va)) - 10;
-		GH_B_DC = ((uint16_t) PHASE1 * (.5 + 0.375 * sv.Vb + .216506 * sv.Va)) - 10;
-		GH_C_DC = ((uint16_t) PHASE1 * (.5 - 0.375 * sv.Vb + .649519 * sv.Va)) - 10;
+		GH_A_DC = ((uint16_t) PHASE1 * (.5 - 0.375 * sv.Vb + .216506 * sv.Va)) - 25;
+		GH_B_DC = ((uint16_t) PHASE1 * (.5 + 0.375 * sv.Vb + .216506 * sv.Va)) - 25;
+		GH_C_DC = ((uint16_t) PHASE1 * (.5 - 0.375 * sv.Vb + .649519 * sv.Va)) - 25;
 		break;
 	default:
 		break;
