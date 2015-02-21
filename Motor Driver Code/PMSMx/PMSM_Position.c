@@ -124,20 +124,20 @@ static float x_dummy[3][1] = {
 };
 
 static float K_reg[3][3] = {
-	{0.156777775816548, 0.147508105419972, -0.442551063971774},
-	{1.001719221949396, -0.011682685756188, -0.409391646462891},
-	{0.011475190215306, 0.997687141370211, -0.317501056271297}
+	{-0.001276161721724, 0.001273649200445, -0.053496017362690},
+	{-1.000015208390172, 0.000015178447725, -0.112988534190221},
+	{-0.000059546327602, 1.000059429092135, 0.274855464288709}
 };
 
 static float L[3][1] = {
-	{1.262202786887033},
-	{1.339981601858880},
-	{1.166491355877717}
+	{-0.212939517806250},
+	{-0.226154458214357},
+	{0.796313475328708}
 
 };
 
 static float K[1][3] = {
-	{-0.844493135120769, -0.230932253514129, 0.299183789152351}
+	{0.714903064754225, -0.713495555712055, -0.714347595108297}
 };
 
 void SpaceVectorModulation(TimesOut sv);
@@ -226,7 +226,7 @@ void PMSM_Update_Position(void)
 	int32_t intermediatePosition;
 	intermediatePosition = (runningPositionCount + indexCount);
 
-//	theta = desired_torque-measured_torque +((float) (int32_t) (intermediatePosition) * 0.0030679616);
+	//	theta = desired_torque-measured_torque +((float) (int32_t) (intermediatePosition) * 0.0030679616);
 	y = theta - ((float) (int32_t) (intermediatePosition) * 0.0030679616); //Scaling it back into radians.
 
 	x_dummy[0][0] = (x_hat[0][0] * K_reg[0][0]) + (x_hat[1][0] * K_reg[0][1]) + (x_hat[2][0] * K_reg[0][2]) + (L[0][0] * y);
@@ -247,9 +247,9 @@ void PMSM_Update_Position(void)
 		u = -.8;
 	}
 
-//	Actual_Position = (int32_t)(((TWO_PI*1000)*runningPositionCount)/PULSES_PER_REVOLUTION);
-	Actual_Position =(int32_t)((float)runningPositionCount * 0.02814643647496589);
-	Commanded_Current = (int32_t)(u*100);
+	//	Actual_Position = (int32_t)(((TWO_PI*1000)*runningPositionCount)/PULSES_PER_REVOLUTION);
+	Actual_Position = (int32_t) ((float) runningPositionCount * 0.02814643647496589);
+	Commanded_Current = (int32_t) (u * 100);
 
 	if (u > 0) {
 		//Commutation phase offset
