@@ -227,17 +227,17 @@ void PMSM_Update_Position(void)
 	intermediatePosition = (runningPositionCount + indexCount);
 
 	//	theta = desired_torque-measured_torque +((float) (int32_t) (intermediatePosition) * 0.0030679616);
-	y = theta - ((float) (int32_t) (intermediatePosition) * 0.0030679616); //Scaling it back into radians.
+	u = theta - 10 * ((float) (int32_t) (intermediatePosition) * 0.0030679616); //Scaling it back into radians.
 
-	x_dummy[0][0] = (x_hat[0][0] * K_reg[0][0]) + (x_hat[1][0] * K_reg[0][1]) + (x_hat[2][0] * K_reg[0][2]) + (L[0][0] * y);
-	x_dummy[1][0] = (x_hat[1][0] * K_reg[1][0]) + (x_hat[1][0] * K_reg[1][1]) + (x_hat[2][0] * K_reg[1][2]) + (L[1][0] * y);
-	x_dummy[2][0] = (x_hat[2][0] * K_reg[2][0]) + (x_hat[1][0] * K_reg[2][1]) + (x_hat[2][0] * K_reg[2][2]) + (L[2][0] * y);
-
-	x_hat[0][0] = x_dummy[0][0];
-	x_hat[1][0] = x_dummy[1][0];
-	x_hat[2][0] = x_dummy[2][0];
-
-	u = -1 * ((K[0][0] * x_hat[0][0]) + (K[0][1] * x_hat[1][0]) + (K[0][2] * x_hat[2][0]));
+//	x_dummy[0][0] = (x_hat[0][0] * K_reg[0][0]) + (x_hat[1][0] * K_reg[0][1]) + (x_hat[2][0] * K_reg[0][2]) + (L[0][0] * y);
+//	x_dummy[1][0] = (x_hat[1][0] * K_reg[1][0]) + (x_hat[1][0] * K_reg[1][1]) + (x_hat[2][0] * K_reg[1][2]) + (L[1][0] * y);
+//	x_dummy[2][0] = (x_hat[2][0] * K_reg[2][0]) + (x_hat[1][0] * K_reg[2][1]) + (x_hat[2][0] * K_reg[2][2]) + (L[2][0] * y);
+//
+//	x_hat[0][0] = x_dummy[0][0];
+//	x_hat[1][0] = x_dummy[1][0];
+//	x_hat[2][0] = x_dummy[2][0];
+//
+//	u = -1 * ((K[0][0] * x_hat[0][0]) + (K[0][1] * x_hat[1][0]) + (K[0][2] * x_hat[2][0]));
 
 
 	//SATURATION HERE...  IF YOU REALLY NEED MORE JUICE...  UP THIS TO 1 and -1
