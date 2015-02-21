@@ -298,7 +298,7 @@ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
                     UNS8 Motor_Board_obj1800_Transmission_Type = 0xFF;	/* 255 */
                     UNS16 Motor_Board_obj1800_Inhibit_Time = 0x0;	/* 0 */
                     UNS8 Motor_Board_obj1800_Compatibility_Entry = 0x0;	/* 0 */
-                    UNS16 Motor_Board_obj1800_Event_Timer = 0xA;	/* 10 */
+                    UNS16 Motor_Board_obj1800_Event_Timer = 0x1;	/* 1 */
                     UNS8 Motor_Board_obj1800_SYNC_start_value = 0x0;	/* 0 */
                     ODCallback_t Motor_Board_Index1800_callbacks[] = 
                      {
