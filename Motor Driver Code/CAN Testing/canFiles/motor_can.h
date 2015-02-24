@@ -9,6 +9,7 @@
 #define	MOTOR_CAN_H
 
 #include "motor_can_state.h"
+//TODO: Make configuration ifdef build options
 #include "motor_objdict.h"
 #ifdef	__cplusplus
 extern "C" {
