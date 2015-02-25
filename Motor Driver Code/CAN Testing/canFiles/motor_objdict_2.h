@@ -38,8 +38,8 @@ extern INTEGER32 motor2_state_Current_Torque;		/* Mapped at index 0x2021, subind
 extern INTEGER32 motor2_state_Current_Motor_Voltage;		/* Mapped at index 0x2021, subindex 0x04 */
 extern INTEGER32 motor2_state_Current_Motor_Current;		/* Mapped at index 0x2021, subindex 0x05 */
 extern UNS8 motor2_state_Undefined;		/* Mapped at index 0x2021, subindex 0x06 */
-extern UNS8 motor2_state_Undefined;		/* Mapped at index 0x2021, subindex 0x07 */
-extern UNS8 motor2_state_Undefined;		/* Mapped at index 0x2021, subindex 0x08 */
+extern UNS8 motor2_state_Undefined1;		/* Mapped at index 0x2021, subindex 0x07 */
+extern UNS8 motor2_state_Undefined2;		/* Mapped at index 0x2021, subindex 0x08 */
 extern INTEGER32 motor2_postition_control_Commanded_Position;		/* Mapped at index 0x2022, subindex 0x01 */
 extern UNS16 motor2_postition_control_P_Gain;		/* Mapped at index 0x2022, subindex 0x02 */
 extern UNS16 motor2_postition_control_I_Gain;		/* Mapped at index 0x2022, subindex 0x03 */
@@ -79,7 +79,7 @@ extern INTEGER32 motor2_impedance_control_Tension_Offset;		/* Mapped at index 0x
 extern UNS16 motor2_impedance_control_Velocity_Gain;		/* Mapped at index 0x2025, subindex 0x07 */
 extern UNS16 motor2_impedance_control_Length_Gain;		/* Mapped at index 0x2025, subindex 0x08 */
 extern UNS8 motor2_impedance_control_Undefined;		/* Mapped at index 0x2025, subindex 0x09 */
-extern UNS8 motor2_impedance_control_Undefined;		/* Mapped at index 0x2025, subindex 0x0A */
-extern UNS8 motor2_impedance_control_Undefined;		/* Mapped at index 0x2025, subindex 0x0B */
+extern UNS8 motor2_impedance_control_Undefined1;		/* Mapped at index 0x2025, subindex 0x0A */
+extern UNS8 motor2_impedance_control_Undefined2;		/* Mapped at index 0x2025, subindex 0x0B */
 
 #endif // MOTOR_OBJDICT_2_H

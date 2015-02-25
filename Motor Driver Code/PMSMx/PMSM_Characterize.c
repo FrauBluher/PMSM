@@ -612,8 +612,8 @@ void CharacterizeStep(void)
 
 		SpaceVectorModulation(SVPWMTimeCalc(InversePark(0.8, 0, theta)));
 
-		Commanded_Current = 80;
-		Actual_Position = runningPositionCount;
+//		Commanded_Current = 80;
+		CO(state_Current_Postition) = runningPositionCount;
 
 		wowMuchCycle++;
 		if (wowMuchCycle > 2300) {
@@ -635,8 +635,8 @@ void CharacterizeStep(void)
 
 				SpaceVectorModulation(SVPWMTimeCalc(InversePark(0.65, 0, theta)));
 
-				Commanded_Current = 65;
-				Actual_Position = runningPositionCount;
+//				Commanded_Current = 65;
+				CO(state_Current_Postition) = runningPositionCount;
 			} else {
 				//Commutation phase offset
 				indexCount += -512; //Phase offset of -90 degrees.
@@ -647,8 +647,8 @@ void CharacterizeStep(void)
 
 				SpaceVectorModulation(SVPWMTimeCalc(InversePark(0.65, 0, theta)));
 
-				Commanded_Current = -65;
-				Actual_Position = runningPositionCount;
+//				Commanded_Current = -65;
+				CO(state_Current_Postition) = runningPositionCount;
 			}
 
 
@@ -661,7 +661,7 @@ void CharacterizeStep(void)
 			indexCount = Read32bitQEI1PositionCounter();
 			intermediatePosition = (runningPositionCount + indexCount);
 			SpaceVectorModulation(SVPWMTimeCalc(InversePark(0, 0, theta)));
-			Actual_Position = runningPositionCount;
+			CO(state_Current_Postition) = runningPositionCount;
 		}
 	}
 }

@@ -32,8 +32,8 @@ INTEGER32 motor72_state_Current_Torque = 0x0;		/* Mapped at index 0x2021, subind
 INTEGER32 motor72_state_Current_Motor_Voltage = 0x0;		/* Mapped at index 0x2021, subindex 0x04 */
 INTEGER32 motor72_state_Current_Motor_Current = 0x0;		/* Mapped at index 0x2021, subindex 0x05 */
 UNS8 motor72_state_Undefined = 0x0;		/* Mapped at index 0x2021, subindex 0x06 */
-UNS8 motor72_state_Undefined = 0x0;		/* Mapped at index 0x2021, subindex 0x07 */
-UNS8 motor72_state_Undefined = 0x0;		/* Mapped at index 0x2021, subindex 0x08 */
+UNS8 motor72_state_Undefined1 = 0x0;		/* Mapped at index 0x2021, subindex 0x07 */
+UNS8 motor72_state_Undefined2 = 0x0;		/* Mapped at index 0x2021, subindex 0x08 */
 INTEGER32 motor72_postition_control_Commanded_Position = 0x0;		/* Mapped at index 0x2022, subindex 0x01 */
 UNS16 motor72_postition_control_P_Gain = 0x0;		/* Mapped at index 0x2022, subindex 0x02 */
 UNS16 motor72_postition_control_I_Gain = 0x0;		/* Mapped at index 0x2022, subindex 0x03 */
@@ -71,10 +71,10 @@ UNS8 motor72_impedance_control_Length_Offset = 0x0;		/* Mapped at index 0x2025, 
 UNS8 motor72_impedance_control_Velocity_Offset = 0x0;		/* Mapped at index 0x2025, subindex 0x05 */
 UNS8 motor72_impedance_control_Tension_Offset = 0x0;		/* Mapped at index 0x2025, subindex 0x06 */
 UNS8 motor72_impedance_control_Velocity_Gain = 0x0;		/* Mapped at index 0x2025, subindex 0x07 */
-UNS8 motor72_impedance_control_ = 0x0;		/* Mapped at index 0x2025, subindex 0x08 */
+UNS8 motor72_impedance_control_Length_Gain = 0x0;		/* Mapped at index 0x2025, subindex 0x08 */
 UNS8 motor72_impedance_control_Undefined = 0x0;		/* Mapped at index 0x2025, subindex 0x09 */
-UNS8 motor72_impedance_control_Undefined = 0x0;		/* Mapped at index 0x2025, subindex 0x0A */
-UNS8 motor72_impedance_control_Undefined = 0x0;		/* Mapped at index 0x2025, subindex 0x0B */
+UNS8 motor72_impedance_control_Undefined1 = 0x0;		/* Mapped at index 0x2025, subindex 0x0A */
+UNS8 motor72_impedance_control_Undefined2 = 0x0;		/* Mapped at index 0x2025, subindex 0x0B */
 
 /**************************************************************************/
 /* Declaration of value range types                                       */
@@ -661,8 +661,8 @@ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
                        { RW, int32, sizeof (INTEGER32), (void*)&motor72_state_Current_Motor_Voltage },
                        { RW, int32, sizeof (INTEGER32), (void*)&motor72_state_Current_Motor_Current },
                        { RW, uint8, sizeof (UNS8), (void*)&motor72_state_Undefined },
-                       { RW, uint8, sizeof (UNS8), (void*)&motor72_state_Undefined },
-                       { RW, uint8, sizeof (UNS8), (void*)&motor72_state_Undefined }
+                       { RW, uint8, sizeof (UNS8), (void*)&motor72_state_Undefined1 },
+                       { RW, uint8, sizeof (UNS8), (void*)&motor72_state_Undefined2 }
                      };
 
 /* index 0x2022 :   Mapped variable motor72_postition_control */
@@ -728,10 +728,10 @@ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
                        { RW, uint8, sizeof (UNS8), (void*)&motor72_impedance_control_Velocity_Offset },
                        { RW, uint8, sizeof (UNS8), (void*)&motor72_impedance_control_Tension_Offset },
                        { RW, uint8, sizeof (UNS8), (void*)&motor72_impedance_control_Velocity_Gain },
-                       { RW, uint8, sizeof (UNS8), (void*)&motor72_impedance_control_ },
+                       { RW, uint8, sizeof (UNS8), (void*)&motor72_impedance_control_Length_Gain },
                        { RW, uint8, sizeof (UNS8), (void*)&motor72_impedance_control_Undefined },
-                       { RW, uint8, sizeof (UNS8), (void*)&motor72_impedance_control_Undefined },
-                       { RW, uint8, sizeof (UNS8), (void*)&motor72_impedance_control_Undefined }
+                       { RW, uint8, sizeof (UNS8), (void*)&motor72_impedance_control_Undefined1 },
+                       { RW, uint8, sizeof (UNS8), (void*)&motor72_impedance_control_Undefined2 }
                      };
 
 /**************************************************************************/
