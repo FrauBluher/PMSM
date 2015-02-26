@@ -34,16 +34,16 @@ INTEGER32 motor2_state_Current_Motor_Current = 0x0;		/* Mapped at index 0x2021, 
 UNS8 motor2_state_Undefined = 0x0;		/* Mapped at index 0x2021, subindex 0x06 */
 UNS8 motor2_state_Undefined1 = 0x0;		/* Mapped at index 0x2021, subindex 0x07 */
 UNS8 motor2_state_Undefined2 = 0x0;		/* Mapped at index 0x2021, subindex 0x08 */
-INTEGER32 motor2_postition_control_Commanded_Position = 0x0;		/* Mapped at index 0x2022, subindex 0x01 */
-UNS16 motor2_postition_control_P_Gain = 0x0;		/* Mapped at index 0x2022, subindex 0x02 */
-UNS16 motor2_postition_control_I_Gain = 0x0;		/* Mapped at index 0x2022, subindex 0x03 */
-UNS16 motor2_postition_control_D_Gain = 0x0;		/* Mapped at index 0x2022, subindex 0x04 */
-REAL32 motor2_postition_control_SS_Gain_1st_Order = 0.000000;		/* Mapped at index 0x2022, subindex 0x05 */
-REAL32 motor2_postition_control_SS_Gain_2nd_Order = 0.000000;		/* Mapped at index 0x2022, subindex 0x06 */
-REAL32 motor2_postition_control_SS_Gain_3rd_Order = 0.000000;		/* Mapped at index 0x2022, subindex 0x07 */
-REAL32 motor2_postition_control_O_Gain_1st_Order = 0.000000;		/* Mapped at index 0x2022, subindex 0x08 */
-REAL32 motor2_postition_control_O_Gain_2nd_Order = 0.000000;		/* Mapped at index 0x2022, subindex 0x09 */
-REAL32 motor2_postition_control_O_Gain_3rd_Order = 0.000000;		/* Mapped at index 0x2022, subindex 0x0A */
+INTEGER32 motor2_position_control_Commanded_Position = 0x0;		/* Mapped at index 0x2022, subindex 0x01 */
+UNS16 motor2_position_control_P_Gain = 0x0;		/* Mapped at index 0x2022, subindex 0x02 */
+UNS16 motor2_position_control_I_Gain = 0x0;		/* Mapped at index 0x2022, subindex 0x03 */
+UNS16 motor2_position_control_D_Gain = 0x0;		/* Mapped at index 0x2022, subindex 0x04 */
+REAL32 motor2_position_control_SS_Gain_1st_Order = 0.000000;		/* Mapped at index 0x2022, subindex 0x05 */
+REAL32 motor2_position_control_SS_Gain_2nd_Order = 0.000000;		/* Mapped at index 0x2022, subindex 0x06 */
+REAL32 motor2_position_control_SS_Gain_3rd_Order = 0.000000;		/* Mapped at index 0x2022, subindex 0x07 */
+REAL32 motor2_position_control_O_Gain_1st_Order = 0.000000;		/* Mapped at index 0x2022, subindex 0x08 */
+REAL32 motor2_position_control_O_Gain_2nd_Order = 0.000000;		/* Mapped at index 0x2022, subindex 0x09 */
+REAL32 motor2_position_control_O_Gain_3rd_Order = 0.000000;		/* Mapped at index 0x2022, subindex 0x0A */
 INTEGER32 motor2_velocity_control_Commanded_Velocity = 0x0;		/* Mapped at index 0x2023, subindex 0x01 */
 UNS16 motor2_velocity_control_P_Gain = 0x0;		/* Mapped at index 0x2023, subindex 0x02 */
 UNS16 motor2_velocity_control_I_Gain = 0x0;		/* Mapped at index 0x2023, subindex 0x03 */
@@ -163,7 +163,7 @@ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
                     UNS32 Motor_Board_obj1016[]={0};
 
 /* index 0x1017 :   Producer Heartbeat Time. */
-                    UNS16 Motor_Board_obj1017 = 0xA;	/* 10 */
+                    UNS16 Motor_Board_obj1017 = 0x1F4;	/* 500 */
                     ODCallback_t Motor_Board_Index1017_callbacks[] = 
                      {
                        NULL,
@@ -663,21 +663,21 @@ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
                        { RW, uint8, sizeof (UNS8), (void*)&motor2_state_Undefined2 }
                      };
 
-/* index 0x2022 :   Mapped variable motor2_postition_control */
+/* index 0x2022 :   Mapped variable motor2_position_control */
                     UNS8 Motor_Board_highestSubIndex_obj2022 = 10; /* number of subindex - 1*/
                     subindex Motor_Board_Index2022[] = 
                      {
                        { RO, uint8, sizeof (UNS8), (void*)&Motor_Board_highestSubIndex_obj2022 },
-                       { RW, int32, sizeof (INTEGER32), (void*)&motor2_postition_control_Commanded_Position },
-                       { RW, uint16, sizeof (UNS16), (void*)&motor2_postition_control_P_Gain },
-                       { RW, uint16, sizeof (UNS16), (void*)&motor2_postition_control_I_Gain },
-                       { RW, uint16, sizeof (UNS16), (void*)&motor2_postition_control_D_Gain },
-                       { RW, real32, sizeof (REAL32), (void*)&motor2_postition_control_SS_Gain_1st_Order },
-                       { RW, real32, sizeof (REAL32), (void*)&motor2_postition_control_SS_Gain_2nd_Order },
-                       { RW, real32, sizeof (REAL32), (void*)&motor2_postition_control_SS_Gain_3rd_Order },
-                       { RW, real32, sizeof (REAL32), (void*)&motor2_postition_control_O_Gain_1st_Order },
-                       { RW, real32, sizeof (REAL32), (void*)&motor2_postition_control_O_Gain_2nd_Order },
-                       { RW, real32, sizeof (REAL32), (void*)&motor2_postition_control_O_Gain_3rd_Order }
+                       { RW, int32, sizeof (INTEGER32), (void*)&motor2_position_control_Commanded_Position },
+                       { RW, uint16, sizeof (UNS16), (void*)&motor2_position_control_P_Gain },
+                       { RW, uint16, sizeof (UNS16), (void*)&motor2_position_control_I_Gain },
+                       { RW, uint16, sizeof (UNS16), (void*)&motor2_position_control_D_Gain },
+                       { RW, real32, sizeof (REAL32), (void*)&motor2_position_control_SS_Gain_1st_Order },
+                       { RW, real32, sizeof (REAL32), (void*)&motor2_position_control_SS_Gain_2nd_Order },
+                       { RW, real32, sizeof (REAL32), (void*)&motor2_position_control_SS_Gain_3rd_Order },
+                       { RW, real32, sizeof (REAL32), (void*)&motor2_position_control_O_Gain_1st_Order },
+                       { RW, real32, sizeof (REAL32), (void*)&motor2_position_control_O_Gain_2nd_Order },
+                       { RW, real32, sizeof (REAL32), (void*)&motor2_position_control_O_Gain_3rd_Order }
                      };
 
 /* index 0x2023 :   Mapped variable motor2_velocity_control */
