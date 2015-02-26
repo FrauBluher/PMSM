@@ -12,7 +12,11 @@
 #include "can_dspic33e_motor.h"
 
 #include "motor_can.h"
+#ifdef CONF72
+#include "motor_objdict_72.h"
+#else
 #include "motor_objdict_2.h"
+#endif
 #include "../../PMSMx/PMSMBoard.h"
 #include "../../PMSMx/CircularBuffer.h"
 

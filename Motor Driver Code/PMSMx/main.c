@@ -136,7 +136,7 @@ main(void)
 
 			// We are sending commands in milli-radians for motor output (after gearbox)
 			// Controller accepts radians for internal motor
-			SetPosition((float)motor2_postition_control_Commanded_Position);
+			SetPosition(((float)CO(position_control_Commanded_Position))*109./1000.);
 			PMSM_Update_Position();
 #endif
 #endif

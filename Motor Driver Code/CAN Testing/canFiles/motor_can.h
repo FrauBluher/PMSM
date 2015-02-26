@@ -9,7 +9,13 @@
 #define	MOTOR_CAN_H
 
 #include "motor_can_state.h"
+#ifdef CONF72
+#include "motor_objdict_72.h"
+#define CO(_X) motor72_ ## _X
+#else
 #include "motor_objdict_2.h"
+#define CO(_X) motor2_ ## _X
+#endif
 #ifdef	__cplusplus
 extern "C" {
 #endif
