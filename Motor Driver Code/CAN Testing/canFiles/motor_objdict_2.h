@@ -32,7 +32,7 @@ extern UNS8 motor2_configuration_Current_Control_Type;		/* Mapped at index 0x202
 extern UNS32 motor2_configuration_Main_Loop_Update_Frequency;		/* Mapped at index 0x2020, subindex 0x02 */
 extern UNS32 motor2_configuration_PWM_Frequency;		/* Mapped at index 0x2020, subindex 0x03 */
 extern UNS32 motor2_configuration_Gear_Ratio_1000;		/* Mapped at index 0x2020, subindex 0x04 */
-extern INTEGER32 motor2_state_Current_Postition;		/* Mapped at index 0x2021, subindex 0x01 */
+extern INTEGER32 motor2_state_Current_Position;		/* Mapped at index 0x2021, subindex 0x01 */
 extern INTEGER32 motor2_state_Current_Velocity;		/* Mapped at index 0x2021, subindex 0x02 */
 extern INTEGER32 motor2_state_Current_Torque;		/* Mapped at index 0x2021, subindex 0x03 */
 extern INTEGER32 motor2_state_Current_Motor_Voltage;		/* Mapped at index 0x2021, subindex 0x04 */
