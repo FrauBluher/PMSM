@@ -417,7 +417,7 @@ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 /* index 0x1800 :   Transmit PDO 1 Parameter. */
                     UNS8 Motor_Board_highestSubIndex_obj1800 = 6; /* number of subindex - 1*/
-                    UNS32 Motor_Board_obj1800_COB_ID_used_by_PDO = 0x201;	/* 513 */
+                    UNS32 Motor_Board_obj1800_COB_ID_used_by_PDO = 0x280;	/* 640 */
                     UNS8 Motor_Board_obj1800_Transmission_Type = 0xFF;	/* 255 */
                     UNS16 Motor_Board_obj1800_Inhibit_Time = 0x0;	/* 0 */
                     UNS8 Motor_Board_obj1800_Compatibility_Entry = 0x0;	/* 0 */
@@ -446,7 +446,7 @@ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 /* index 0x1801 :   Transmit PDO 2 Parameter. */
                     UNS8 Motor_Board_highestSubIndex_obj1801 = 6; /* number of subindex - 1*/
-                    UNS32 Motor_Board_obj1801_COB_ID_used_by_PDO = 0x202;	/* 514 */
+                    UNS32 Motor_Board_obj1801_COB_ID_used_by_PDO = 0x281;	/* 641 */
                     UNS8 Motor_Board_obj1801_Transmission_Type = 0xFF;	/* 255 */
                     UNS16 Motor_Board_obj1801_Inhibit_Time = 0x0;	/* 0 */
                     UNS8 Motor_Board_obj1801_Compatibility_Entry = 0x0;	/* 0 */
@@ -475,7 +475,7 @@ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 /* index 0x1802 :   Transmit PDO 3 Parameter. */
                     UNS8 Motor_Board_highestSubIndex_obj1802 = 6; /* number of subindex - 1*/
-                    UNS32 Motor_Board_obj1802_COB_ID_used_by_PDO = 0x203;	/* 515 */
+                    UNS32 Motor_Board_obj1802_COB_ID_used_by_PDO = 0x282;	/* 642 */
                     UNS8 Motor_Board_obj1802_Transmission_Type = 0xFF;	/* 255 */
                     UNS16 Motor_Board_obj1802_Inhibit_Time = 0x0;	/* 0 */
                     UNS8 Motor_Board_obj1802_Compatibility_Entry = 0x0;	/* 0 */
@@ -504,7 +504,7 @@ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 /* index 0x1803 :   Transmit PDO 4 Parameter. */
                     UNS8 Motor_Board_highestSubIndex_obj1803 = 6; /* number of subindex - 1*/
-                    UNS32 Motor_Board_obj1803_COB_ID_used_by_PDO = 0x204;	/* 516 */
+                    UNS32 Motor_Board_obj1803_COB_ID_used_by_PDO = 0x283;	/* 643 */
                     UNS8 Motor_Board_obj1803_Transmission_Type = 0xFF;	/* 255 */
                     UNS16 Motor_Board_obj1803_Inhibit_Time = 0x0;	/* 0 */
                     UNS8 Motor_Board_obj1803_Compatibility_Entry = 0x0;	/* 0 */
