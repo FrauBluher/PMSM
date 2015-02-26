@@ -9,7 +9,7 @@
 #define	MOTOR_CAN_H
 
 #include "motor_can_state.h"
-#include "motor_objdict.h"
+#include "motor_objdict_2.h"
 #ifdef	__cplusplus
 extern "C" {
 #endif

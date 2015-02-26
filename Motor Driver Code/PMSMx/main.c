@@ -90,9 +90,9 @@ main(void)
 	}
 	InitBoard(&ADCBuff, &uartBuffer, &spiBuffer, EventChecker);
 
-//	if (can_motor_init()) {
-//		while (1);
-//	}
+	if (can_motor_init()) {
+		while (1);
+	}
 	CB_Init(&uartBuffer, uartBuf, 32);
 	CB_Init(&spiBuffer, (uint8_t *) spiBuf, 128);
 
@@ -136,7 +136,7 @@ main(void)
 
 			// We are sending commands in milli-radians for motor output (after gearbox)
 			// Controller accepts radians for internal motor
-			SetPosition(500);
+			SetPosition((float)motor2_postition_control_Commanded_Position);
 			PMSM_Update_Position();
 #endif
 #endif

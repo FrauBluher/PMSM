@@ -248,8 +248,7 @@ void PMSM_Update_Position(void)
 	}
 
 	//	Actual_Position = (int32_t)(((TWO_PI*1000)*runningPositionCount)/PULSES_PER_REVOLUTION);
-	Actual_Position = (int32_t) ((float) runningPositionCount * 0.02814643647496589);
-	Commanded_Current = (int32_t) (u * 100);
+	motor2_state_Current_Position = (int32_t) ((float) runningPositionCount * 0.02814643647496589);
 
 	if (u > 0) {
 		//Commutation phase offset
