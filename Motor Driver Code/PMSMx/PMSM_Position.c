@@ -103,6 +103,7 @@ static float u = 0;
 
 static int32_t indexCount = 0;
 static int32_t runningPositionCount = 0;
+static int32_t intermediatePosition = 0;
 static int32_t lastRunningPostionCount = 0;
 
 /**
@@ -222,10 +223,6 @@ int32_t GetCableVelocity(void)
 
 void PMSM_Update_Position(void)
 {
-	indexCount = Read32bitQEI1PositionCounter();
-	int32_t intermediatePosition;
-	intermediatePosition = (runningPositionCount + indexCount);
-
 	//	theta = desired_torque-measured_torque +((float) (int32_t) (intermediatePosition) * 0.0030679616);
 	y = theta - ((float) (int32_t) (intermediatePosition) * 0.0030679616); //Scaling it back into radians.
 
@@ -258,6 +255,12 @@ void PMSM_Update_Position(void)
 		indexCount += -512; // - rotorOffset; //Phase offset of 90 degrees.
 		d_u = -u;
 	}
+}
+
+void PMSM_Update_Commutation(void)
+{
+	indexCount = Read32bitQEI1PositionCounter();
+	intermediatePosition = (runningPositionCount + indexCount);
 
 	indexCount = (-indexCount + 2048) % 2048;
 

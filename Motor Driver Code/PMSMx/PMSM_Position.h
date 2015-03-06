@@ -89,12 +89,19 @@ int32_t GetCableVelocity(void);
 int32_t GetCableLength(void);
 
 /**
- * @brief Call this to update the controller at a rate of 3kHz.
+ * @brief Call this to update the controller at a rate of 1kHz.
  *
  * It is required that the LQG controller which was characterized at a sample rate of n Hz is
  * run every n Hz with this function call.
  */
 void PMSM_Update_Position(void);
+
+/**
+ * @brief Call this to update the commuatation of the motor as fast as possible
+ *
+ * This should run at around 10-15 kHz.
+ */
+void PMSM_Update_Commutation(void);
 
 #endif    /*PMSM_POSITION_H  */
 #endif
