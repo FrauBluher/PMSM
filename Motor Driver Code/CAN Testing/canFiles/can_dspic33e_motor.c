@@ -336,6 +336,7 @@ OUTPUT	1 if  hardware -> CAN frame
 	// word0 = 1;
 	// word1 = eid17_6;
 	// } else {
+        
 	sid10_0 = (m->cob_id & 0x7FF);
 	// }
 	word0 |= (sid10_0 << 2);
