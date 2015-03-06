@@ -53,6 +53,7 @@ uint16_t events = 0;
 uint16_t faultPrescalar = 0;
 uint16_t faultPrescalar1 = 0;
 uint16_t commutationPrescalar = 0;
+uint16_t controllerPrescalar = 0;
 uint16_t torque;
 
 uint16_t canPrescaler = 0;
@@ -64,9 +65,10 @@ enum {
 	EVENT_CAN = 0x02,
 	EVENT_SPI_RX = 0x04,
 	EVENT_REPORT_FAULT = 0x08,
-	EVENT_UPDATE_SPEED = 0x10,
+	EVENT_UPDATE_CONTROLLER = 0x10,
 	EVENT_ADC_DATA = 0x20,
-	EVENT_QEI_RQ = 0x40
+	EVENT_QEI_RQ = 0x40,
+	EVENT_UPDATE_COMMUTATION = 0x80
 };
 
 void EventChecker(void);
@@ -107,40 +109,31 @@ main(void)
 #endif
 
 #ifdef VELOCITY
-	SetVelocity(600);
+	SetVelocity(0);
 #endif
 
 	while (1) {
-		if (events & EVENT_UPDATE_SPEED) {
+		if (events & EVENT_UPDATE_CONTROLLER) {
 #if defined (CHARACTERIZE_POSITION) || defined (CHARACTERIZE_VELOCITY) || defined (CHARACTERIZE_IMPEDANCE)
 			CharacterizeStep();
 #else
 #ifdef VELOCITY
-			//			SetVelocity((float)Target_Velocity);
 			PMSM_Update_Velocity();
 #endif
 #ifdef POSITION
-			//			if (count > 6000) {
-			//				if (i) {
-			//					SetPosition(2000);
-			//					i = 0;
-			//				} else {
-			//					incPos = 0;
-			//					SetPosition(0);
-			//					i = 1;
-			//				}
-			//				count = 0;
-			//			}
-			//			count++;
-			//			SetPosition(200);
-
 			// We are sending commands in milli-radians for motor output (after gearbox)
 			// Controller accepts radians for internal motor
-			SetPosition(((float)CO(position_control_Commanded_Position))*109./1000.);
+			SetPosition(((float) CO(position_control_Commanded_Position))*109. / 1000.);
 			PMSM_Update_Position();
 #endif
 #endif
-			events &= ~EVENT_UPDATE_SPEED;
+			events &= ~EVENT_UPDATE_CONTROLLER;
+		}
+
+		if (events & EVENT_UPDATE_COMMUTATION) {
+
+			PMSM_Update_Commutation();
+			events &= ~EVENT_UPDATE_COMMUTATION;
 		}
 
 		if (events & EVENT_CAN) {
@@ -187,10 +180,6 @@ main(void)
 			events &= ~EVENT_UART_DATA_READY;
 		}
 
-		//		if (events & EVENT_CAN_RX) {
-		//			events &= ~EVENT_CAN_RX;
-		//		}
-
 		if (events & EVENT_SPI_RX) {
 			static uint8_t message[32];
 			uint16_t size;
@@ -215,10 +204,6 @@ main(void)
 
 			CB_Init(&spiBuffer, &spiBuf, 64);
 
-			//			size = sprintf((char *) out, "0x%X, 0x%X, 0x%X, 0x%X\r\n",
-			//				((message[0] << 8) | message[1]), ((message[2] << 8) | message[3]),
-			//				((message[4] << 8) | message[5]), ((message[6] << 8) | message[7]));
-			//			DMA0_UART2_Transfer(size, out);
 			events &= ~EVENT_SPI_RX;
 		}
 
@@ -227,8 +212,8 @@ main(void)
 		}
 
 		if (events & EVENT_ADC_DATA) {
-			//			size = sprintf((char *) out, "%i, %i\r\n", ADCBuff.Adc1Data[0], ADCBuff.Adc1Data[1]);
-			//			DMA0_UART2_Transfer(size, out);
+			//size = sprintf((char *) out, "%i, %i\r\n", ADCBuff.Adc1Data[0], ADCBuff.Adc1Data[1]);
+			//DMA0_UART2_Transfer(size, out);
 			events &= ~EVENT_ADC_DATA;
 		}
 	}
@@ -253,10 +238,6 @@ EventChecker(void)
 		events |= EVENT_UART_DATA_READY;
 	}
 
-	//	if (canBuffer.dataSize) {
-	//		events |= EVENT_CAN_RX;
-	//	}
-
 	if (spiBuffer.dataSize > 6) {
 		//The first bit of SPI is nonsense from the DRV due to it starting up
 		//that needs to be handled in the event handler which will process this
@@ -274,13 +255,24 @@ EventChecker(void)
 
 #ifdef SINE
 	if (ADCBuff.newData) {
-		//		ADCBuff.newData = 0;
-		//		events |= EVENT_ADC_DATA;
+		//ADCBuff.newData = 0;
+		//events |= EVENT_ADC_DATA;
 	}
 #endif
+	if (commutationPrescalar > 1) {
+
+	}
+
 	// Running at ~930Hz
-	if (commutationPrescalar > 15) {
-		events |= EVENT_UPDATE_SPEED;
+	if (controllerPrescalar > 15) {
+		events |= EVENT_UPDATE_CONTROLLER;
+		controllerPrescalar = 0;
+	} else {
+		controllerPrescalar++;
+	}
+
+	if (commutationPrescalar > 1) {
+		events |= EVENT_UPDATE_COMMUTATION;
 		commutationPrescalar = 0;
 	} else {
 		commutationPrescalar++;
