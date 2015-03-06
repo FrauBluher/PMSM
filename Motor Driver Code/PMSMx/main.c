@@ -78,12 +78,13 @@ main(void)
 	static uint16_t size;
 	static uint8_t out[56];
 
-	uint32_t count = 0;
+	int32_t lastCommand = 0;
 	float incPos = 0;
 	uint8_t i = 1;
 
 	/*Enable interrupts*/
 	INTCON2bits.GIE = 1; //disabled by the bootloader, so we must absolutely enable this!!!
+        asm("CLRWDT"); //clear watchdog timer
 
 	for (torque = 0; torque < 65533; torque++) {
 		Nop();
@@ -119,24 +120,13 @@ main(void)
 			//			SetVelocity((float)Target_Velocity);
 			PMSM_Update_Velocity();
 #endif
-#ifdef POSITION
-			//			if (count > 6000) {
-			//				if (i) {
-			//					SetPosition(2000);
-			//					i = 0;
-			//				} else {
-			//					incPos = 0;
-			//					SetPosition(0);
-			//					i = 1;
-			//				}
-			//				count = 0;
-			//			}
-			//			count++;
-			//			SetPosition(200);
-
+#ifdef POSITION 
 			// We are sending commands in milli-radians for motor output (after gearbox)
 			// Controller accepts radians for internal motor
-			SetPosition(((float)CO(position_control_Commanded_Position))*109./1000.);
+                        if(CO(position_control_Commanded_Position) != lastCommand){
+                            SetPosition(((float)CO(position_control_Commanded_Position))*109./1000.);
+                            lastCommand = CO(position_control_Commanded_Position);
+                        }
 			PMSM_Update_Position();
 #endif
 #endif
@@ -264,7 +254,7 @@ EventChecker(void)
 		//events |= EVENT_SPI_RX;
 	}
 
-	if (canPrescaler > 2) {
+	if (canPrescaler > 1) {
 		events |= EVENT_CAN;
 		canPrescaler = 0;
 	} else {
@@ -278,8 +268,8 @@ EventChecker(void)
 		//		events |= EVENT_ADC_DATA;
 	}
 #endif
-	// Running at ~930Hz
-	if (commutationPrescalar > 15) {
+	// Running at ~1.9kHz
+	if (commutationPrescalar > 7) {
 		events |= EVENT_UPDATE_SPEED;
 		commutationPrescalar = 0;
 	} else {

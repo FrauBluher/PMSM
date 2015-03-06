@@ -54,7 +54,11 @@ return_value_t can_motor_init()
 	//reset callback
 	Motor_Board_Data.NMT_Slave_Node_Reset_Callback = can_reset;
 
-	setNodeId(&Motor_Board_Data, 0x02);
+#ifdef CONF72
+	setNodeId(&Motor_Board_Data, 0x72);
+#else
+        setNodeId(&Motor_Board_Data, 0x02);
+#endif
 	can_state.is_master = 0;
 	setState(&Motor_Board_Data, Initialisation); // Init the state
 

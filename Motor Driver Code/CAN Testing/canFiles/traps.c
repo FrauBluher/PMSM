@@ -150,6 +150,8 @@ LED4 = 0;
         while(1);
 }
 
-
-
+void __attribute__ ((interrupt, auto_psv)) _DefaultInterrupt(void)
+{
+    while(1);
+}
 

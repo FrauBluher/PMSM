@@ -241,10 +241,10 @@ void PMSM_Update_Position(void)
 
 
 	//SATURATION HERE...  IF YOU REALLY NEED MORE JUICE...  UP THIS TO 1 and -1
-	if (u > .8) {
-		u = .8;
-	} else if (u < -.8) {
-		u = -.8;
+	if (u > .7) {
+		u = .7;
+	} else if (u < -.7) {
+		u = -.7;
 	}
 
 	//	Actual_Position = (int32_t)(((TWO_PI*1000)*runningPositionCount)/PULSES_PER_REVOLUTION);
