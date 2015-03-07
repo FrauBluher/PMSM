@@ -68,7 +68,7 @@ enum {
 	EVENT_UPDATE_CONTROLLER = 0x10,
 	EVENT_ADC_DATA = 0x20,
 	EVENT_QEI_RQ = 0x40,
-	EVENT_UPDATE_COMMUTATION = 0x80
+	EVENT_UPDATE_SPEED = 0x80
 };
 
 void EventChecker(void);
@@ -114,7 +114,7 @@ main(void)
 #endif
 
 	while (1) {
-		if (events & EVENT_UPDATE_CONTROLLER) {
+		if (events & EVENT_UPDATE_SPEED) {
 #if defined (CHARACTERIZE_POSITION) || defined (CHARACTERIZE_VELOCITY) || defined (CHARACTERIZE_IMPEDANCE)
 			CharacterizeStep();
 #else
@@ -128,13 +128,7 @@ main(void)
 			PMSM_Update_Position();
 #endif
 #endif
-			events &= ~EVENT_UPDATE_CONTROLLER;
-		}
-
-		if (events & EVENT_UPDATE_COMMUTATION) {
-
-			PMSM_Update_Commutation();
-			events &= ~EVENT_UPDATE_COMMUTATION;
+			events &= ~EVENT_UPDATE_SPEED;
 		}
 
 		if (events & EVENT_CAN) {
