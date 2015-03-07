@@ -36,8 +36,8 @@ extern INTEGER32 motor2_state_Current_Position;		/* Mapped at index 0x2021, subi
 extern INTEGER32 motor2_state_Current_Velocity;		/* Mapped at index 0x2021, subindex 0x02 */
 extern INTEGER32 motor2_state_Current_Torque;		/* Mapped at index 0x2021, subindex 0x03 */
 extern INTEGER32 motor2_state_Current_Motor_Voltage;		/* Mapped at index 0x2021, subindex 0x04 */
-extern INTEGER32 motor2_state_Current_Motor_Current;		/* Mapped at index 0x2021, subindex 0x05 */
-extern UNS8 motor2_state_Undefined;		/* Mapped at index 0x2021, subindex 0x06 */
+extern REAL32 motor2_state_Current_Motor_Current;		/* Mapped at index 0x2021, subindex 0x05 */
+extern REAL32 motor2_state_Current_Motor_Noise;		/* Mapped at index 0x2021, subindex 0x06 */
 extern UNS8 motor2_state_Undefined1;		/* Mapped at index 0x2021, subindex 0x07 */
 extern UNS8 motor2_state_Undefined2;		/* Mapped at index 0x2021, subindex 0x08 */
 extern INTEGER32 motor2_position_control_Commanded_Position;		/* Mapped at index 0x2022, subindex 0x01 */
