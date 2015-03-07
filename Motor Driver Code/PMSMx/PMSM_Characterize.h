@@ -85,20 +85,20 @@ uint8_t PMSM_Init(MotorInfo *information);
 
 #if defined (CHARACTERIZE_POSITION) || defined (CHARACTERIZE_IMPEDANCE)
 /**
-* @brief Sets the commanded position of the motor.
-* @param pos The position of the rotor in radians.
-*
-* This method sets the angular position of the controller.
-*/
+ * @brief Sets the commanded position of the motor.
+ * @param pos The position of the rotor in radians.
+ *
+ * This method sets the angular position of the controller.
+ */
 void SetPosition(float pos);
 #endif
 #ifdef CHARACTERIZE_VELOCITY
 /**
-* @brief Sets the commanded velocity of the motor.
-* @param pos The velocity of the rotor in radians/second.
-*
-* This method sets the angular velocity of the controller.
-*/
+ * @brief Sets the commanded velocity of the motor.
+ * @param pos The velocity of the rotor in radians/second.
+ *
+ * This method sets the angular velocity of the controller.
+ */
 void SetVelocity(float pos);
 #endif
 
@@ -109,6 +109,8 @@ void SetVelocity(float pos);
  * Call only once after all three are updated, not after setting each individual parameter.
  */
 void CharacterizeStep(void);
+
+void PMSM_Update_Commutation();
 
 #endif    /*PMSM_CHARACTERIZE_H  */
 #endif

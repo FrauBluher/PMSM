@@ -264,6 +264,24 @@ void PMSM_Update_Position(void)
 	SpaceVectorModulation(SVPWMTimeCalc(InversePark(d_u, 0, indexCount)));
 }
 
+void PMSM_Update_Commutation(void) {
+	indexCount = Read32bitQEI1PositionCounter();
+	int32_t intermediatePosition;
+	intermediatePosition = (runningPositionCount + indexCount);
+
+	if (u > 0) {
+		//Commutation phase offset
+		indexCount += 512; // - rotorOffset; //Phase offset of 90 degrees.
+		d_u = u;
+	} else {
+		indexCount += -512; // - rotorOffset; //Phase offset of 90 degrees.
+		d_u = -u;
+	}
+
+	indexCount = (-indexCount + 2048) % 2048;
+	SpaceVectorModulation(SVPWMTimeCalc(InversePark(d_u, 0, indexCount)));
+}
+
 /****************************   Private Stuff   *******************************/
 
 void SpaceVectorModulation(TimesOut sv)

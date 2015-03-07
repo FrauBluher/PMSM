@@ -96,6 +96,8 @@ int32_t GetCableLength(void);
  */
 void PMSM_Update_Position(void);
 
+void PMSM_Update_Commutation(void);
+
 #endif    /*PMSM_POSITION_H  */
 #endif
 #endif
