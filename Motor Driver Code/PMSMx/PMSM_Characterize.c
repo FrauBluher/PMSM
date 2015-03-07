@@ -105,6 +105,39 @@ void SpaceVectorModulation(TimesOut sv);
 InvClarkOut InverseClarke(InvParkOut pP);
 InvParkOut InversePark(float Vd, float Vq, int16_t position);
 
+
+#ifdef CHARACTERIZE_IMPEDANCE
+
+static float x_hat[3][1] = {
+	{0},
+	{0},
+	{0},
+};
+
+static float x_dummy[3][1] = {
+	{0},
+	{0},
+	{0},
+};
+
+static float K_reg[3][3] = {
+	{0.167525299197710, 0.853873229166799, -0.054110207360082},
+	{-0.557698239898382, 0.248028266562591, 0.116156944634215},
+	{0.235670999753073, 0.436664074501789, -0.649680555994633}
+
+};
+
+static float L[3][1] = {
+	{ -0.011927622324162},
+	{0.464575420462811},
+	{0.330672683026544}
+};
+
+static float K[1][3] = {
+	{0.310247462375861, -0.093017922302088, -0.789859907625239}
+};
+#endif
+
 #ifdef CHARACTERIZE_POSITION
 #ifdef SINE
 
@@ -596,6 +629,79 @@ void CharacterizeStep(void)
 uint8_t goTherePlease = 1;
 uint32_t wowMuchCycle = 0;
 
+#define CLOSED_LOOP
+
+#ifdef CLOSED_LOOP
+
+void CharacterizeStep(void)
+{
+	indexCount = Read32bitQEI1PositionCounter();
+	int32_t intermediatePosition;
+	intermediatePosition = (runningPositionCount + indexCount);
+
+	//	theta = desired_torque-measured_torque +((float) (int32_t) (intermediatePosition) * 0.0030679616);
+	y = theta - ((float) (int32_t) (intermediatePosition) * 0.0030679616); //Scaling it back into radians.
+
+	x_dummy[0][0] = (x_hat[0][0] * K_reg[0][0]) + (x_hat[1][0] * K_reg[0][1]) + (x_hat[2][0] * K_reg[0][2]) + (L[0][0] * y);
+	x_dummy[1][0] = (x_hat[1][0] * K_reg[1][0]) + (x_hat[1][0] * K_reg[1][1]) + (x_hat[2][0] * K_reg[1][2]) + (L[1][0] * y);
+	x_dummy[2][0] = (x_hat[2][0] * K_reg[2][0]) + (x_hat[1][0] * K_reg[2][1]) + (x_hat[2][0] * K_reg[2][2]) + (L[2][0] * y);
+
+	x_hat[0][0] = x_dummy[0][0];
+	x_hat[1][0] = x_dummy[1][0];
+	x_hat[2][0] = x_dummy[2][0];
+
+	u = -1 * ((K[0][0] * x_hat[0][0]) + (K[0][1] * x_hat[1][0]) + (K[0][2] * x_hat[2][0]));
+
+
+
+	//SATURATION HERE...  IF YOU REALLY NEED MORE JUICE...  UP THIS TO 1 and -1
+	if (u > .7) {
+		u = .7;
+	} else if (u < -.7) {
+		u = -.7;
+	}
+
+	if (u > 0) {
+		//Commutation phase offset
+		indexCount += 512; // - rotorOffset; //Phase offset of 90 degrees.
+		d_u = u;
+	} else {
+		indexCount += -512; // - rotorOffset; //Phase offset of 90 degrees.
+		d_u = -u;
+	}
+
+	indexCount = (-indexCount + 2048) % 2048;
+
+	static float rando = 0;
+	rando = RandomInput();
+
+	d_u = d_u + rando;
+
+	SpaceVectorModulation(SVPWMTimeCalc(InversePark(d_u, 0, indexCount)));
+
+}
+
+void PMSM_Update_Commutation(void)
+{
+	indexCount = Read32bitQEI1PositionCounter();
+	int32_t intermediatePosition;
+	intermediatePosition = (runningPositionCount + indexCount);
+
+	if (u > 0) {
+		//Commutation phase offset
+		indexCount += 512; // - rotorOffset; //Phase offset of 90 degrees.
+		d_u = u;
+	} else {
+		indexCount += -512; // - rotorOffset; //Phase offset of 90 degrees.
+		d_u = -u;
+	}
+
+	indexCount = (-indexCount + 2048) % 2048;
+	SpaceVectorModulation(SVPWMTimeCalc(InversePark(d_u, 0, indexCount)));
+}
+
+#else
+
 void CharacterizeStep(void)
 {
 	int32_t intermediatePosition;
@@ -665,6 +771,7 @@ void CharacterizeStep(void)
 		}
 	}
 }
+#end
 #endif
 
 /**
@@ -672,7 +779,7 @@ void CharacterizeStep(void)
  * @param *information a pointer to the MotorInfo struct that will be updated.
  * @return Returns 1 if successful, returns 0 otherwise.
  */
-uint8_t PMSM_Init(MotorInfo *information)
+uint8_t PMSM_Init(MotorInfo * information)
 {
 	static uint32_t theta1;
 	uint32_t i;
@@ -835,4 +942,5 @@ void __attribute__((__interrupt__, no_auto_psv)) _QEI1Interrupt(void)
 
 	IFS3bits.QEI1IF = 0; /* Clear QEI interrupt flag */
 }
+#endif
 #endif

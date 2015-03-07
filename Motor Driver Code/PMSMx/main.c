@@ -53,7 +53,7 @@ uint16_t events = 0;
 uint16_t faultPrescalar = 0;
 uint16_t faultPrescalar1 = 0;
 uint16_t commutationPrescalar = 0;
-uint16_t controllerPrescalar = 0;
+uint16_t tempPrescalar = 0;
 uint16_t torque;
 
 uint16_t canPrescaler = 0;
@@ -86,7 +86,7 @@ main(void)
 
 	/*Enable interrupts*/
 	INTCON2bits.GIE = 1; //disabled by the bootloader, so we must absolutely enable this!!!
-        asm("CLRWDT"); //clear watchdog timer
+	asm("CLRWDT"); //clear watchdog timer
 
 	for (torque = 0; torque < 65533; torque++) {
 		Nop();
@@ -118,16 +118,13 @@ main(void)
 #if defined (CHARACTERIZE_POSITION) || defined (CHARACTERIZE_VELOCITY) || defined (CHARACTERIZE_IMPEDANCE)
 			CharacterizeStep();
 #else
-#ifdef VELOCITY
-			PMSM_Update_Velocity();
-#endif
 #ifdef POSITION 
 			// We are sending commands in milli-radians for motor output (after gearbox)
 			// Controller accepts radians for internal motor
-                        if(CO(position_control_Commanded_Position) != lastCommand){
-                            SetPosition(((float)CO(position_control_Commanded_Position))*109./1000.);
-                            lastCommand = CO(position_control_Commanded_Position);
-                        }
+			if (CO(position_control_Commanded_Position) != lastCommand) {
+				SetPosition(((float) CO(position_control_Commanded_Position))*109. / 1000.);
+				lastCommand = CO(position_control_Commanded_Position);
+			}
 			PMSM_Update_Position();
 #endif
 #endif
@@ -214,12 +211,6 @@ main(void)
 		if (events & EVENT_REPORT_FAULT) {
 			events &= ~EVENT_REPORT_FAULT;
 		}
-
-		if (events & EVENT_ADC_DATA) {
-			//size = sprintf((char *) out, "%i, %i\r\n", ADCBuff.Adc1Data[0], ADCBuff.Adc1Data[1]);
-			//DMA0_UART2_Transfer(size, out);
-			events &= ~EVENT_ADC_DATA;
-		}
 	}
 }
 
@@ -228,54 +219,30 @@ EventChecker(void)
 {
 #if defined (CHARACTERIZE_POSITION) || defined (CHARACTERIZE_VELOCITY)
 #else
-	//Until I can make a nice non-blocking way of checking the drv for faults
-	//this will be called approximately every second and will block for 50uS
-	//Pushing the DRV to its max SPI Fcy should bring this number down a little.
-	if (faultPrescalar > 15000) {
-		DRV8301_UpdateStatus();
-		faultPrescalar = 0;
-	} else {
-		faultPrescalar++;
-	}
-
 	if (uartBuffer.dataSize) {
 		events |= EVENT_UART_DATA_READY;
 	}
 
-	if (spiBuffer.dataSize > 6) {
-		//The first bit of SPI is nonsense from the DRV due to it starting up
-		//that needs to be handled in the event handler which will process this
-		//event.
-		//events |= EVENT_SPI_RX;
-	}
-
-	if (canPrescaler > 1) {
+	if (canPrescaler > 14) {
 		events |= EVENT_CAN;
 		canPrescaler = 0;
 	} else {
 		canPrescaler++;
 	}
 #endif
-
-#ifdef SINE
-	if (ADCBuff.newData) {
-		//ADCBuff.newData = 0;
-		//events |= EVENT_ADC_DATA;
-	}
-#endif
-	// Running at ~930Hz
-	if (controllerPrescalar > 15) {
-		events |= EVENT_UPDATE_CONTROLLER;
-		controllerPrescalar = 0;
-	} else {
-		controllerPrescalar++;
-	}
-
-	if (commutationPrescalar > 1) {
-		events |= EVENT_UPDATE_COMMUTATION;
+	// Running at ~1.9kHz
+	if (commutationPrescalar > 7) {
+		events |= EVENT_UPDATE_SPEED;
 		commutationPrescalar = 0;
 	} else {
 		commutationPrescalar++;
+	}
+
+	if (tempPrescalar > 1) {
+		PMSM_Update_Commutation();
+		tempPrescalar = 0;
+	} else {
+		tempPrescalar++;
 	}
 }
 
