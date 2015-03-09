@@ -640,7 +640,7 @@ void CharacterizeStep(void)
 	intermediatePosition = (runningPositionCount + indexCount);
 
 	//	theta = desired_torque-measured_torque +((float) (int32_t) (intermediatePosition) * 0.0030679616);
-	y = theta - ((float) (int32_t) (intermediatePosition) * 0.0030679616); //Scaling it back into radians.
+	y = 545 - ((float) (int32_t) (intermediatePosition) * 0.0030679616); //Scaling it back into radians.
 
 	x_dummy[0][0] = (x_hat[0][0] * K_reg[0][0]) + (x_hat[1][0] * K_reg[0][1]) + (x_hat[2][0] * K_reg[0][2]) + (L[0][0] * y);
 	x_dummy[1][0] = (x_hat[1][0] * K_reg[1][0]) + (x_hat[1][0] * K_reg[1][1]) + (x_hat[2][0] * K_reg[1][2]) + (L[1][0] * y);
@@ -677,6 +677,9 @@ void CharacterizeStep(void)
 
 	d_u = d_u + rando;
 
+        CO(position_control_SS_Gain_1st_Order) = d_u;
+        CO(position_control_SS_Gain_2nd_Order) = rando;
+        CO(state_Current_Position) = intermediatePosition;
 	SpaceVectorModulation(SVPWMTimeCalc(InversePark(d_u, 0, indexCount)));
 
 }
@@ -846,7 +849,7 @@ float RandomInput(void)
 	//e = e/1.2;
 
 	//LPF
-	rk1 = .1 * e + .9 * rk2;
+	rk1 = .2 * e + .8 * rk2;
 	rk2 = rk1;
 
 	return(rk1);

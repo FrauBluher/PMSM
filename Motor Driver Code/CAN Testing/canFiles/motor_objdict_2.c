@@ -448,7 +448,7 @@ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
                     UNS8 Motor_Board_obj1801_Transmission_Type = 0xFF;	/* 255 */
                     UNS16 Motor_Board_obj1801_Inhibit_Time = 0x0;	/* 0 */
                     UNS8 Motor_Board_obj1801_Compatibility_Entry = 0x0;	/* 0 */
-                    UNS16 Motor_Board_obj1801_Event_Timer = 0x0;	/* 0 */
+                    UNS16 Motor_Board_obj1801_Event_Timer = 0x1;	/* 1 */
                     UNS8 Motor_Board_obj1801_SYNC_start_value = 0x0;	/* 0 */
                     ODCallback_t Motor_Board_Index1801_callbacks[] = 
                      {
@@ -533,8 +533,8 @@ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
                     UNS8 Motor_Board_highestSubIndex_obj1A00 = 2; /* number of subindex - 1*/
                     UNS32 Motor_Board_obj1A00[] = 
                     {
-                      0x20210520,	/* 539034912 */
-                      0x20210620	/* 539035168 */
+                      0x20210120,	/* 539033888 */
+                      0x20210220	/* 539034144 */
                     };
                     subindex Motor_Board_Index1A00[] = 
                      {
@@ -544,15 +544,17 @@ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
                      };
 
 /* index 0x1A01 :   Transmit PDO 2 Mapping. */
-                    UNS8 Motor_Board_highestSubIndex_obj1A01 = 1; /* number of subindex - 1*/
+                    UNS8 Motor_Board_highestSubIndex_obj1A01 = 2; /* number of subindex - 1*/
                     UNS32 Motor_Board_obj1A01[] = 
                     {
-                      0x20210120	/* 539033888 */
+                      0x20220520,	/* 539100448 */
+                      0x20220620	/* 539100704 */
                     };
                     subindex Motor_Board_Index1A01[] = 
                      {
                        { RW, uint8, sizeof (UNS8), (void*)&Motor_Board_highestSubIndex_obj1A01 },
-                       { RW, uint32, sizeof (UNS32), (void*)&Motor_Board_obj1A01[0] }
+                       { RW, uint32, sizeof (UNS32), (void*)&Motor_Board_obj1A01[0] },
+                       { RW, uint32, sizeof (UNS32), (void*)&Motor_Board_obj1A01[1] }
                      };
 
 /* index 0x1A02 :   Transmit PDO 3 Mapping. */
