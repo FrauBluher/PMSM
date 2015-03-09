@@ -257,16 +257,6 @@ void PMSM_Update_Position(void)
 	}
 }
 
-void PMSM_Update_Commutation(void)
-{
-	indexCount = Read32bitQEI1PositionCounter();
-	intermediatePosition = (runningPositionCount + indexCount);
-
-	indexCount = (-indexCount + 2048) % 2048;
-
-	SpaceVectorModulation(SVPWMTimeCalc(InversePark(d_u, 0, indexCount)));
-}
-
 void PMSM_Update_Commutation(void) {
 	indexCount = Read32bitQEI1PositionCounter();
 	int32_t intermediatePosition;

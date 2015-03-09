@@ -30,8 +30,8 @@ INTEGER32 motor2_state_Current_Position = 0x0;		/* Mapped at index 0x2021, subin
 INTEGER32 motor2_state_Current_Velocity = 0x0;		/* Mapped at index 0x2021, subindex 0x02 */
 INTEGER32 motor2_state_Current_Torque = 0x0;		/* Mapped at index 0x2021, subindex 0x03 */
 INTEGER32 motor2_state_Current_Motor_Voltage = 0x0;		/* Mapped at index 0x2021, subindex 0x04 */
-REAL32 motor2_state_Current_Motor_Current = 0.000000;		/* Mapped at index 0x2021, subindex 0x05 */
-REAL32 motor2_state_Current_Motor_Noise = 0.000000;		/* Mapped at index 0x2021, subindex 0x06 */
+INTEGER32 motor2_state_Current_Motor_Current = 0x0;		/* Mapped at index 0x2021, subindex 0x05 */
+UNS8 motor2_state_Undefined = 0x0;		/* Mapped at index 0x2021, subindex 0x06 */
 UNS8 motor2_state_Undefined1 = 0x0;		/* Mapped at index 0x2021, subindex 0x07 */
 UNS8 motor2_state_Undefined2 = 0x0;		/* Mapped at index 0x2021, subindex 0x08 */
 INTEGER32 motor2_position_control_Commanded_Position = 0x0;		/* Mapped at index 0x2022, subindex 0x01 */
@@ -419,7 +419,7 @@ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
                     UNS8 Motor_Board_obj1800_Transmission_Type = 0xFF;	/* 255 */
                     UNS16 Motor_Board_obj1800_Inhibit_Time = 0x0;	/* 0 */
                     UNS8 Motor_Board_obj1800_Compatibility_Entry = 0x0;	/* 0 */
-                    UNS16 Motor_Board_obj1800_Event_Timer = 0x1;	/* 1 */
+                    UNS16 Motor_Board_obj1800_Event_Timer = 0x2;	/* 2 */
                     UNS8 Motor_Board_obj1800_SYNC_start_value = 0x0;	/* 0 */
                     ODCallback_t Motor_Board_Index1800_callbacks[] = 
                      {
@@ -448,7 +448,7 @@ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
                     UNS8 Motor_Board_obj1801_Transmission_Type = 0xFF;	/* 255 */
                     UNS16 Motor_Board_obj1801_Inhibit_Time = 0x0;	/* 0 */
                     UNS8 Motor_Board_obj1801_Compatibility_Entry = 0x0;	/* 0 */
-                    UNS16 Motor_Board_obj1801_Event_Timer = 0x1;	/* 1 */
+                    UNS16 Motor_Board_obj1801_Event_Timer = 0x0;	/* 0 */
                     UNS8 Motor_Board_obj1801_SYNC_start_value = 0x0;	/* 0 */
                     ODCallback_t Motor_Board_Index1801_callbacks[] = 
                      {
@@ -530,31 +530,27 @@ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
                      };
 
 /* index 0x1A00 :   Transmit PDO 1 Mapping. */
-                    UNS8 Motor_Board_highestSubIndex_obj1A00 = 2; /* number of subindex - 1*/
+                    UNS8 Motor_Board_highestSubIndex_obj1A00 = 1; /* number of subindex - 1*/
                     UNS32 Motor_Board_obj1A00[] = 
                     {
-                      0x20210120,	/* 539033888 */
-                      0x20210220	/* 539034144 */
+                      0x20210120	/* 539033888 */
                     };
                     subindex Motor_Board_Index1A00[] = 
                      {
                        { RW, uint8, sizeof (UNS8), (void*)&Motor_Board_highestSubIndex_obj1A00 },
-                       { RW, uint32, sizeof (UNS32), (void*)&Motor_Board_obj1A00[0] },
-                       { RW, uint32, sizeof (UNS32), (void*)&Motor_Board_obj1A00[1] }
+                       { RW, uint32, sizeof (UNS32), (void*)&Motor_Board_obj1A00[0] }
                      };
 
 /* index 0x1A01 :   Transmit PDO 2 Mapping. */
-                    UNS8 Motor_Board_highestSubIndex_obj1A01 = 2; /* number of subindex - 1*/
+                    UNS8 Motor_Board_highestSubIndex_obj1A01 = 1; /* number of subindex - 1*/
                     UNS32 Motor_Board_obj1A01[] = 
                     {
-                      0x20220520,	/* 539100448 */
-                      0x20220620	/* 539100704 */
+                      0x20210320	/* 539034400 */
                     };
                     subindex Motor_Board_Index1A01[] = 
                      {
                        { RW, uint8, sizeof (UNS8), (void*)&Motor_Board_highestSubIndex_obj1A01 },
-                       { RW, uint32, sizeof (UNS32), (void*)&Motor_Board_obj1A01[0] },
-                       { RW, uint32, sizeof (UNS32), (void*)&Motor_Board_obj1A01[1] }
+                       { RW, uint32, sizeof (UNS32), (void*)&Motor_Board_obj1A01[0] }
                      };
 
 /* index 0x1A02 :   Transmit PDO 3 Mapping. */
@@ -645,8 +641,8 @@ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
                        { RW, int32, sizeof (INTEGER32), (void*)&motor2_state_Current_Velocity },
                        { RW, int32, sizeof (INTEGER32), (void*)&motor2_state_Current_Torque },
                        { RW, int32, sizeof (INTEGER32), (void*)&motor2_state_Current_Motor_Voltage },
-                       { RW, real32, sizeof (REAL32), (void*)&motor2_state_Current_Motor_Current },
-                       { RW, real32, sizeof (REAL32), (void*)&motor2_state_Current_Motor_Noise },
+                       { RW, int32, sizeof (INTEGER32), (void*)&motor2_state_Current_Motor_Current },
+                       { RW, uint8, sizeof (UNS8), (void*)&motor2_state_Undefined },
                        { RW, uint8, sizeof (UNS8), (void*)&motor2_state_Undefined1 },
                        { RW, uint8, sizeof (UNS8), (void*)&motor2_state_Undefined2 }
                      };
