@@ -675,7 +675,7 @@ void CharacterizeStep(void)
 	static float rando = 0;
 	rando = RandomInput();
 
-	d_u = d_u + rando;
+//	d_u = d_u + rando;
 
         CO(position_control_SS_Gain_1st_Order) = d_u;
         CO(position_control_SS_Gain_2nd_Order) = rando;

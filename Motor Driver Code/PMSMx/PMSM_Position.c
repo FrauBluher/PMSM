@@ -164,23 +164,30 @@ uint8_t PMSM_Init(MotorInfo *information)
 	for (i = 0; i < 2048; i++) {
 		SpaceVectorModulation(SVPWMTimeCalc(InversePark(0.4, 0, theta1)));
 		for (j = 0; j < 400; j++) {
-			__builtin_nop();
+			Nop();
 		}
 		theta1 -= 1;
 	}
 
-	SpaceVectorModulation(SVPWMTimeCalc(InversePark(0.8, 0, 0)));
-	while (j < 800000) {
+	for (i = 2048; i > 1; i--) {
+		SpaceVectorModulation(SVPWMTimeCalc(InversePark(0.4, 0, theta1)));
+		for (j = 0; j < 400; j++) {
+			Nop();
+		}
+		theta1 -= 1;
+	}
+
+	SpaceVectorModulation(SVPWMTimeCalc(InversePark(0.7, 0, 0)));
+	while (j < 1400000) {
 		Nop();
 		j++;
 	}
 
 	Write32bitQEI1IndexCounter(&w);
 	Write32bitQEI1PositionCounter(&w);
+	runningPositionCount = 0;
 
 	SpaceVectorModulation(SVPWMTimeCalc(InversePark(0, 0, 0)));
-
-	return(0);
 }
 
 /**
@@ -223,18 +230,26 @@ int32_t GetCableVelocity(void)
 
 void PMSM_Update_Position(void)
 {
-	//	theta = desired_torque-measured_torque +((float) (int32_t) (intermediatePosition) * 0.0030679616);
+        // Added these two lines to make the new position controller work.
+        // Borrowed from PMSM_Characterize.c
+        indexCount = Read32bitQEI1PositionCounter();
+	int32_t intermediatePosition;
+
+	intermediatePosition = (runningPositionCount + indexCount);
+
 	y = theta - ((float) (int32_t) (intermediatePosition) * 0.0030679616); //Scaling it back into radians.
 
-	x_dummy[0][0] = (x_hat[0][0] * K_reg[0][0]) + (x_hat[1][0] * K_reg[0][1]) + (x_hat[2][0] * K_reg[0][2]) + (L[0][0] * y);
-	x_dummy[1][0] = (x_hat[1][0] * K_reg[1][0]) + (x_hat[1][0] * K_reg[1][1]) + (x_hat[2][0] * K_reg[1][2]) + (L[1][0] * y);
-	x_dummy[2][0] = (x_hat[2][0] * K_reg[2][0]) + (x_hat[1][0] * K_reg[2][1]) + (x_hat[2][0] * K_reg[2][2]) + (L[2][0] * y);
+//	x_dummy[0][0] = (x_hat[0][0] * K_reg[0][0]) + (x_hat[1][0] * K_reg[0][1]) + (x_hat[2][0] * K_reg[0][2]) + (L[0][0] * y);
+//	x_dummy[1][0] = (x_hat[1][0] * K_reg[1][0]) + (x_hat[1][0] * K_reg[1][1]) + (x_hat[2][0] * K_reg[1][2]) + (L[1][0] * y);
+//	x_dummy[2][0] = (x_hat[2][0] * K_reg[2][0]) + (x_hat[1][0] * K_reg[2][1]) + (x_hat[2][0] * K_reg[2][2]) + (L[2][0] * y);
+//
+//	x_hat[0][0] = x_dummy[0][0];
+//	x_hat[1][0] = x_dummy[1][0];
+//	x_hat[2][0] = x_dummy[2][0];
+//
+//	u = -1 * ((K[0][0] * x_hat[0][0]) + (K[0][1] * x_hat[1][0]) + (K[0][2] * x_hat[2][0]));
 
-	x_hat[0][0] = x_dummy[0][0];
-	x_hat[1][0] = x_dummy[1][0];
-	x_hat[2][0] = x_dummy[2][0];
-
-	u = -1 * ((K[0][0] * x_hat[0][0]) + (K[0][1] * x_hat[1][0]) + (K[0][2] * x_hat[2][0]));
+        u = y * 0.03;
 
 
 	//SATURATION HERE...  IF YOU REALLY NEED MORE JUICE...  UP THIS TO 1 and -1
@@ -254,6 +269,11 @@ void PMSM_Update_Position(void)
 		indexCount += -512; // - rotorOffset; //Phase offset of 90 degrees.
 		d_u = -u;
 	}
+
+        // Added these two lines to make the new position controller work.
+        // Borrowed from PMSM_Characterize.c
+        indexCount = (-indexCount + 2048) % 2048;
+	SpaceVectorModulation(SVPWMTimeCalc(InversePark(d_u, 0, indexCount)));
 }
 
 void PMSM_Update_Commutation(void)

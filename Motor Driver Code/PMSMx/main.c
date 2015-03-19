@@ -232,12 +232,12 @@ EventChecker(void)
 		commutationPrescalar++;
 	}
 
-	if (tempPrescalar > 1) {
-		PMSM_Update_Commutation();
-		tempPrescalar = 0;
-	} else {
-		tempPrescalar++;
-	}
+//	if (tempPrescalar > 1) {
+//		PMSM_Update_Commutation();
+//		tempPrescalar = 0;
+//	} else {
+//		tempPrescalar++;
+//	}
 }
 
 uint16_t
