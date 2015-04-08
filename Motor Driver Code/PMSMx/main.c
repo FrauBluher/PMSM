@@ -35,6 +35,10 @@
 #include "PMSM_Position.h"
 #endif
 
+#ifdef IMPEDANCE
+#include "PMSM_Impedance.h"
+#endif
+
 #endif
 
 
@@ -126,6 +130,10 @@ main(void)
 				lastCommand = CO(position_control_Commanded_Position);
 			}
 			PMSM_Update_Position();
+#else
+#ifdef IMPEDANCE
+                       SetTension(150);
+                       PMSM_Update_Tension();
 #endif
 #endif
 			events &= ~EVENT_UPDATE_SPEED;

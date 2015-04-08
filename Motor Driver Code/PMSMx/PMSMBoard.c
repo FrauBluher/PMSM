@@ -17,6 +17,10 @@
 #include "PMSM_Velocity.h"
 #endif
 
+#ifdef IMPEDANCE
+#include "PMSM_Impedance.h"
+#endif
+
 #endif
 
 #include "DMA_Transfer.h"

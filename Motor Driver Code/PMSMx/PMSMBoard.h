@@ -24,8 +24,8 @@
  * #define IMPEDANCE
  */
 
-//#define IMPEDENCE
-#define POSITION
+#define IMPEDANCE
+//#define POSITION
 //#define VELOCITY
 //#define CHARACTERIZE_POSITION
 //#define CHARACTERIZE_VELOCITY
