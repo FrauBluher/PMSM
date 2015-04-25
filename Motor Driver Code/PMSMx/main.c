@@ -95,6 +95,7 @@ main(void)
 	for (torque = 0; torque < 65533; torque++) {
 		Nop();
 	}
+
 	InitBoard(&ADCBuff, &uartBuffer, &spiBuffer, EventChecker);
 
 	if (can_motor_init()) {
@@ -116,26 +117,15 @@ main(void)
 #ifdef VELOCITY
 	SetVelocity(0);
 #endif
-
 	while (1) {
 		if (events & EVENT_UPDATE_SPEED) {
-#if defined (CHARACTERIZE_POSITION) || defined (CHARACTERIZE_VELOCITY) || defined (CHARACTERIZE_IMPEDANCE)
-			CharacterizeStep();
-#else
-#ifdef POSITION 
 			// We are sending commands in milli-radians for motor output (after gearbox)
 			// Controller accepts radians for internal motor
 			if (CO(position_control_Commanded_Position) != lastCommand) {
-				SetPosition(((float) CO(position_control_Commanded_Position))*109. / 1000.);
+				SetPosition(((float) CO(position_control_Commanded_Position)) * 109. / 1000.);
 				lastCommand = CO(position_control_Commanded_Position);
 			}
 			PMSM_Update_Position();
-#else
-#ifdef IMPEDANCE
-                       SetTension(150);
-                       PMSM_Update_Tension();
-#endif
-#endif
 			events &= ~EVENT_UPDATE_SPEED;
 		}
 
@@ -232,20 +222,9 @@ EventChecker(void)
 		canPrescaler++;
 	}
 #endif
-	// Running at ~1.9kHz
-	if (commutationPrescalar > 7) {
-		events |= EVENT_UPDATE_SPEED;
-		commutationPrescalar = 0;
-	} else {
-		commutationPrescalar++;
-	}
 
-//	if (tempPrescalar > 1) {
-//		PMSM_Update_Commutation();
-//		tempPrescalar = 0;
-//	} else {
-//		tempPrescalar++;
-//	}
+	events |= EVENT_UPDATE_SPEED;
+
 }
 
 uint16_t

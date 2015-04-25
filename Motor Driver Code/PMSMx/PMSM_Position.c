@@ -54,11 +54,13 @@
 #include "cordic.h"
 #include <qei32.h>
 #include <uart.h>
+#include "FixedPointSVM/FOC_FixedPoint.h"
 
 #include "../CAN Testing/canFiles/motor_can.h"
 
 #ifndef CHARACTERIZE
 #include "TrigData.h"
+#include "FixedPointSVM/FOC_FromScratch.h"
 
 #define SQRT_3_2 0.86602540378
 #define SQRT_3 1.732050807568877
@@ -153,32 +155,18 @@ TimesOut SVPWMTimeCalc(InvParkOut pP);
  */
 uint8_t PMSM_Init(MotorInfo *information)
 {
-	static uint32_t theta1;
-	uint32_t i;
+	FOC_Init();
+
+	static int32_t theta1;
+	int32_t i;
 	uint32_t j;
 	qeiCounter w;
 
 	w.l = 0;
 	theta1 = 0;
 
-	for (i = 0; i < 2048; i++) {
-		SpaceVectorModulation(SVPWMTimeCalc(InversePark(0.4, 0, theta1)));
-		for (j = 0; j < 400; j++) {
-			Nop();
-		}
-		theta1 -= 1;
-	}
-
-	for (i = 2048; i > 1; i--) {
-		SpaceVectorModulation(SVPWMTimeCalc(InversePark(0.4, 0, theta1)));
-		for (j = 0; j < 400; j++) {
-			Nop();
-		}
-		theta1 -= 1;
-	}
-
-	SpaceVectorModulation(SVPWMTimeCalc(InversePark(0.7, 0, 0)));
-	while (j < 1400000) {
+	FOC_Update_Commutation(.5 * 32767, 0);
+	while (j < 1500000) {
 		Nop();
 		j++;
 	}
@@ -187,7 +175,7 @@ uint8_t PMSM_Init(MotorInfo *information)
 	Write32bitQEI1PositionCounter(&w);
 	runningPositionCount = 0;
 
-	SpaceVectorModulation(SVPWMTimeCalc(InversePark(0, 0, 0)));
+	FOC_Update_Commutation(0, 0);
 }
 
 /**
@@ -195,6 +183,7 @@ uint8_t PMSM_Init(MotorInfo *information)
  */
 void SetPosition(float pos)
 {
+
 	theta = pos;
 }
 
@@ -204,6 +193,7 @@ void SetPosition(float pos)
  */
 int32_t GetCableLength(void)
 {
+
 	return((runningPositionCount / PULSES_PER_REVOLUTION) *
 		SPOOL_CIRCUMFERENCE_MM);
 }
@@ -230,14 +220,9 @@ int32_t GetCableVelocity(void)
 
 void PMSM_Update_Position(void)
 {
-        // Added these two lines to make the new position controller work.
-        // Borrowed from PMSM_Characterize.c
-        indexCount = Read32bitQEI1PositionCounter();
-	int32_t intermediatePosition;
+	indexCount = Read32bitQEI1PositionCounter();
 
-	intermediatePosition = (runningPositionCount + indexCount);
-
-	y = theta - ((float) (int32_t) (intermediatePosition) * 0.0030679616); //Scaling it back into radians.
+	y = theta - ((float) (int32_t) (indexCount) * 0.0030679616); //Scaling it back into radians.
 
 //	x_dummy[0][0] = (x_hat[0][0] * K_reg[0][0]) + (x_hat[1][0] * K_reg[0][1]) + (x_hat[2][0] * K_reg[0][2]) + (L[0][0] * y);
 //	x_dummy[1][0] = (x_hat[1][0] * K_reg[1][0]) + (x_hat[1][0] * K_reg[1][1]) + (x_hat[2][0] * K_reg[1][2]) + (L[1][0] * y);
@@ -249,121 +234,25 @@ void PMSM_Update_Position(void)
 //
 //	u = -1 * ((K[0][0] * x_hat[0][0]) + (K[0][1] * x_hat[1][0]) + (K[0][2] * x_hat[2][0]));
 
-        u = y * 0.03;
-
+	u = y * 0.03;
 
 	//SATURATION HERE...  IF YOU REALLY NEED MORE JUICE...  UP THIS TO 1 and -1
-	if (u > .7) {
-		u = .7;
-	} else if (u < -.7) {
-		u = -.7;
+	if (u > 1) {
+		u = 1;
+	} else if (u < -1) {
+		u = -1;
 	}
 
-	CO(state_Current_Position) = (int32_t) ((float) runningPositionCount * 0.02814643647496589);
+	CO(state_Current_Position) = (int32_t) ((float) intermediatePosition * 0.02814643647496589);
 
 	if (u > 0) {
 		//Commutation phase offset
-		indexCount += 512; // - rotorOffset; //Phase offset of 90 degrees.
-		d_u = u;
+		FOC_Update_Commutation((int16_t) (u * 32767), indexCount + 512);//(int16_t) (d_u * 32767), indexCount);
+	} else if (u < 0) {
+		FOC_Update_Commutation((int16_t) (-u * 32767), indexCount - 512);//(int16_t) (d_u * 32767), indexCount);
 	} else {
-		indexCount += -512; // - rotorOffset; //Phase offset of 90 degrees.
-		d_u = -u;
+		FOC_Update_Commutation((int16_t) (0 * 32767), indexCount);//(int16_t) (d_u * 32767), indexCount);
 	}
-
-        // Added these two lines to make the new position controller work.
-        // Borrowed from PMSM_Characterize.c
-        indexCount = (-indexCount + 2048) % 2048;
-	SpaceVectorModulation(SVPWMTimeCalc(InversePark(d_u, 0, indexCount)));
-}
-
-void PMSM_Update_Commutation(void)
-{
-	indexCount = Read32bitQEI1PositionCounter();
-	int32_t intermediatePosition;
-	intermediatePosition = (runningPositionCount + indexCount);
-
-	if (u > 0) {
-		//Commutation phase offset
-		indexCount += 512; // - rotorOffset; //Phase offset of 90 degrees.
-		d_u = u;
-	} else {
-		indexCount += -512; // - rotorOffset; //Phase offset of 90 degrees.
-		d_u = -u;
-	}
-
-	indexCount = (-indexCount + 2048) % 2048;
-	SpaceVectorModulation(SVPWMTimeCalc(InversePark(d_u, 0, indexCount)));
-}
-
-/****************************   Private Stuff   *******************************/
-
-void SpaceVectorModulation(TimesOut sv)
-{
-	switch (sv.sector) {
-	case 1:
-		GH_A_DC = ((uint16_t) PHASE1 * (.5 - .375 * sv.Vb - .649519 * sv.Va)) - 25;
-		GH_B_DC = ((uint16_t) PHASE1 * (.5 + .375 * sv.Vb - .216506 * sv.Va)) - 25;
-		GH_C_DC = ((uint16_t) PHASE1 * (.5 - .375 * sv.Vb + .216506 * sv.Va)) - 25;
-		break;
-	case 2:
-		GH_A_DC = ((uint16_t) PHASE1 * (.5 - .433013 * sv.Va)) - 25;
-		GH_B_DC = ((uint16_t) PHASE1 * (.5 + .75 * sv.Vb)) - 25;
-		GH_C_DC = ((uint16_t) PHASE1 * (.5 + .433013 * sv.Va)) - 25;
-		break;
-	case 3:
-		GH_A_DC = ((uint16_t) PHASE1 * (.5 - 0.375 * sv.Vb + .216506 * sv.Va)) - 25;
-		GH_B_DC = ((uint16_t) PHASE1 * (.5 + 0.375 * sv.Vb + .216506 * sv.Va)) - 25;
-		GH_C_DC = ((uint16_t) PHASE1 * (.5 - 0.375 * sv.Vb + .649519 * sv.Va)) - 25;
-		break;
-	default:
-		break;
-	}
-}
-
-InvClarkOut InverseClarke(InvParkOut pP)
-{
-	InvClarkOut returnVal;
-	returnVal.Vr1 = pP.Vb;
-	returnVal.Vr2 = -.5 * pP.Vb + SQRT_3_2 * pP.Va;
-	returnVal.Vr3 = -.5 * pP.Vb - SQRT_3_2 * pP.Va;
-	return(returnVal);
-}
-
-InvParkOut InversePark(float Vq, float Vd, int16_t position1)
-{
-	static int position;
-	position = position1;
-	static int16_t cos_position;
-	InvParkOut returnVal;
-
-	float cosine;
-	float sine;
-
-	if (position1 <= 0) {
-		position = 2048 + (position1 % 2048);
-		cos_position = (2048 + ((position1 + 512) % 2048)) % 2048;
-	} else {
-		position = position1 % 2048;
-		cos_position = (position1 + 512) % 2048;
-	}
-
-	cosine = TRIG_DATA[cos_position];
-	sine = TRIG_DATA[position];
-
-	returnVal.Va = Vd * cosine - Vq * sine;
-	returnVal.Vb = Vd * sine + Vq * cosine;
-	return(returnVal);
-}
-
-TimesOut SVPWMTimeCalc(InvParkOut pP)
-{
-	TimesOut t;
-	t.sector = ((uint8_t) ((.0029296875 * indexCount) + 6)) % 3 + 1;
-
-	t.Va = pP.Va;
-	t.Vb = pP.Vb;
-
-	return(t);
 }
 
 static int32_t lastCheck;
@@ -371,25 +260,6 @@ static int32_t currentCheck;
 
 void __attribute__((__interrupt__, no_auto_psv)) _QEI1Interrupt(void)
 {
-	currentCheck = Read32bitQEI1PositionCounter();
-	lastRunningPostionCount = runningPositionCount;
-	runningPositionCount += currentCheck;
-
-	POS = 0;
-	NEG = 0;
-	ZERO = 0;
-
-	qeiCounter w;
-
-	if (currentCheck > 0) {
-		w.l = currentCheck - 2048;
-	} else {
-		w.l = currentCheck + 2048;
-	}
-
-	Write32bitQEI1PositionCounter(&w);
-	lastCheck = currentCheck;
-
 	IFS3bits.QEI1IF = 0; /* Clear QEI interrupt flag */
 }
 #endif

@@ -28,10 +28,10 @@
 #include <uart.h>
 #include <qei32.h>
 
-//_FOSCSEL(FNOSC_FRC & IESO_OFF);
-//_FOSC(FCKSM_CSECMD & OSCIOFNC_OFF & POSCMD_NONE);
-//_FWDT(FWDTEN_OFF);
-//_FICD(ICS_PGD1 & JTAGEN_OFF);
+_FOSCSEL(FNOSC_FRC & IESO_OFF);
+_FOSC(FCKSM_CSECMD & OSCIOFNC_OFF & POSCMD_NONE);
+_FWDT(FWDTEN_OFF);
+_FICD(ICS_PGD1 & JTAGEN_OFF);
 
 static MotorInfo motorInformation;
 static DRV8301_Info motorDriverInfo;
@@ -54,16 +54,12 @@ void InitBoard(ADCBuffer *ADBuff, CircularBuffer *cB, CircularBuffer *spi_cB, vo
 	if (!initInfo.initReg) {
 
 		uint32_t i;
-                
+
 		ClockInit();
 		UART2Init();
 
 		PinInit();
-//                LED1 = 1;
-//                LED2 = 1;
-//                LED3 = 0;
-//                LED4 = 1;
-//                while(1);
+
 		MotorInit();
 
 		for (i = 0; i < 750000; i++) {
@@ -127,9 +123,9 @@ void MotorInit()
 {
 #ifdef SINE
 	/* Set PWM Periods on PHASEx Registers */
-	PHASE1 = 1000;
-	PHASE2 = 1000;
-	PHASE3 = 1000;
+	PHASE1 = 1300;
+	PHASE2 = 1300;
+	PHASE3 = 1300;
 	/* Set Duty Cycles */
 	PDC1 = 0;
 	PDC2 = 0;
@@ -287,30 +283,6 @@ void PinInit(void)
 
 void TimersInit(void)
 {
-	//		T3CONbits.TON = 0; // Stop any 16-bit Timer3 operation
-	//		T2CONbits.TON = 0; // Stop any 16/32-bit Timer3 operation
-	//		T2CONbits.T32 = 1; // Enable 32-bit Timer mode
-	//		T2CONbits.TCS = 0; // Select internal instruction cycle clock
-	//		T2CONbits.TGATE = 0; // Disable Gated Timer mode
-	//		T2CONbits.TCKPS = 0b01; // Select 1:8 Prescaler
-	//		TMR3 = 0x00; // Clear 32-bit Timer (msw)
-	//		TMR2 = 0x00; // Clear 32-bit Timer (lsw)
-	//		PR3 = 0xFFFF; // Load 32-bit period value (msw)
-	//		PR2 = 0xFFFF; // Load 32-bit period value (lsw)
-	//		IPC2bits.T3IP = 0x03; // Set Timer3 Interrupt Priority Level
-	//		IFS0bits.T3IF = 0; // Clear Timer3 Interrupt Flag
-	//		IEC0bits.T3IE = 1; // Enable Timer3 interrupt
-	//		T2CONbits.TON = 1; // Start 32-bit Timer
-
-	//Timer 5 for ADC Triggering if not using the PWM compare ADC trigger.
-	//		TMR5 = 0x0000;
-	//		T5CONbits.TCKPS = 3;
-	//		PR5 = 68; // Trigger ADC1at a rate of 4kHz
-	//		IFS1bits.T5IF = 0; // Clear Timer5 interrupt
-	//		IEC1bits.T5IE = 0; // Disable Timer5 interrupt
-	//		T5CONbits.TON = 1; // Start Timer5
-	//IPC7bits.T5IP = 2;
-
 	T7CONbits.TON = 0;
 	T7CONbits.TCS = 0;
 	T7CONbits.TGATE = 0;
@@ -363,10 +335,10 @@ void QEIInit(void)
 		QEI_VELO_OVERFLOW_INTERRUPT_DISABLE &
 		QEI_POS_INIT_INTERRUPT_DISABLE &
 		QEI_POS_OVERFLOW_INTERRUPT_DISABLE &
-		QEI_POS_LESS_EQU_INTERRUPT_ENABLE &
-		QEI_POS_GREAT_EQU_INTERRUPT_ENABLE);
+		QEI_POS_LESS_EQU_INTERRUPT_DISABLE &
+		QEI_POS_GREAT_EQU_INTERRUPT_DISABLE);
 
-	ConfigInt32bitQEI1(QEI_INT_PRI_4 & QEI_INT_ENABLE);
+	ConfigInt32bitQEI1(QEI_INT_PRI_4 & QEI_INT_DISABLE);
 #else
 	/* Configure QEICON, QEIIOC and QEISTAT register */
 	Open32bitQEI1(QEI_COUNTER_QEI_MODE &
@@ -398,13 +370,6 @@ void QEIInit(void)
 
 	ConfigInt32bitQEI1(QEI_INT_PRI_4 & QEI_INT_DISABLE);
 #endif
-
-	QEI1GECL = 2047;
-	QEI1GECH = 0;
-
-	QEI1LECL = 0b1111100000000001;
-	QEI1LECH = 0b1111111111111111;
-
 }
 
 void ADCInit(void)
@@ -466,9 +431,3 @@ void __attribute__((__interrupt__, no_auto_psv)) _T7Interrupt(void)
 	eventCallbackFcn();
 	IFS3bits.T7IF = 0; // Clear Timer1 Interrupt Flag
 }
-
-//void __attribute__((__interrupt__, no_auto_psv)) _T3Interrupt(void)
-//{
-//	/* Interrupt Service Routine code goes here */
-//	IFS0bits.T3IF = 0; //Clear Timer3 interrupt flag
-//}
