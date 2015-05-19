@@ -97,7 +97,7 @@ typedef struct {
 	float Vb;
 } TimesOut;
 
-static float theta;
+static volatile float theta;
 static float d_u;
 static float y;
 static float cableVelocity;
@@ -183,8 +183,9 @@ uint8_t PMSM_Init(MotorInfo *information)
  */
 void SetPosition(float pos)
 {
-
+    if (pos != theta) {
 	theta = pos;
+    }
 }
 
 /**
@@ -237,13 +238,13 @@ void PMSM_Update_Position(void)
 	u = y * 0.03;
 
 	//SATURATION HERE...  IF YOU REALLY NEED MORE JUICE...  UP THIS TO 1 and -1
-	if (u > 1) {
-		u = 1;
-	} else if (u < -1) {
-		u = -1;
+	if (u > 0.7) {
+		u = 0.7;
+	} else if (u < -0.7) {
+		u = -0.7;
 	}
 
-	CO(state_Current_Position) = (int32_t) ((float) intermediatePosition * 0.02814643647496589);
+//	CO(state_Current_Position) = (int32_t) ((float) indexCount * 0.02814643647496589);
 
 	if (u > 0) {
 		//Commutation phase offset

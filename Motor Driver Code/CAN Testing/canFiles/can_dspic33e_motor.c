@@ -33,6 +33,8 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 #include "../../PMSMx/PMSMBoard.h"
 
+volatile uint8_t can_flag;
+
 ///////////////////////////////////////////////////////////////////////////////
 ////////////////////// USER FUNCTIONS Replace when this is a library //////////
 
@@ -181,15 +183,12 @@ void Ecan1WriteRxAcptMask(int16_t m, int32_t identifier, uint16_t mide, uint16_t
 //internal RX buffer for CAN messages
 
 
-__eds__ static unsigned int ecan1RXMsgBuf[8][8] __attribute__((eds,space(dma),aligned(8 * 16)));
-__eds__ static unsigned int ecan1TXMsgBuf[8][8] __attribute__((eds,space(dma),aligned(8 * 16)));
-//#define CAN_RX_BUF_SIZE 1
-//static volatile Message rxbuffer[CAN_RX_BUF_SIZE]; //this is an internal buffer for received messages
-//static volatile uint8_t rxbuffer_start;
-//static volatile uint8_t rxbuffer_stop;
+__eds__ volatile unsigned int ecan1RXMsgBuf[8][8] __attribute__((eds,space(dma),aligned(8 * 16)));
+__eds__ volatile unsigned int ecan1TXMsgBuf[8][8] __attribute__((eds,space(dma),aligned(8 * 16)));
+
 #define CAN_RX_BUFF_SIZE 16*sizeof(Message)
-uint8_t can_rx_buffer_array[CAN_RX_BUFF_SIZE];
-CircularBuffer can_rx_circ_buff;
+volatile uint8_t can_rx_buffer_array[CAN_RX_BUFF_SIZE];
+volatile CircularBuffer can_rx_circ_buff;
 uint8_t txreq_bitarray = 0;
 
 unsigned char canMotorInit(unsigned int bitrate)
@@ -310,7 +309,7 @@ OUTPUT	1 if successful
 	if (CB_Init(&can_rx_circ_buff, can_rx_buffer_array, CAN_RX_BUFF_SIZE) != true) {
 		return 0;
 	}
-
+        
 	return 1;
 }
 
@@ -346,16 +345,6 @@ OUTPUT	1 if  hardware -> CAN frame
 		word0 |= 0x2;
 		word2 |= 0x0200;
 	}
-	//TODO: use multiple transmit buffers
-	//	while (C1TR01CONbits.TXREQ1 == 1);
-	//	ecan1TXMsgBuf[1][0] = word0;
-	//	ecan1TXMsgBuf[1][1] = word1;
-	//	ecan1TXMsgBuf[1][2] = ((word2 & 0xFFF0) + m->len);
-	//	ecan1TXMsgBuf[1][3] = (((uint16_t) m->data[1]) << 8) | (m->data[0]&0xFF);
-	//	ecan1TXMsgBuf[1][4] = (((uint16_t) m->data[3]) << 8) | (m->data[2]&0xFF);
-	//	ecan1TXMsgBuf[1][5] = (((uint16_t) m->data[5]) << 8) | (m->data[4]&0xFF);
-	//	ecan1TXMsgBuf[1][6] = (((uint16_t) m->data[7]) << 8) | (m->data[6]&0xFF);
-	//	C1TR01CONbits.TXREQ1 = 1;
 
 	switch (bufferSwitch) {
 	case 0:
@@ -461,21 +450,7 @@ OUTPUT	1 if  hardware -> CAN frame
 		//	    C1TR67CONbits.TXREQ6 = 1;
 		bufferSwitch = 0;
 		break;
-		//	case 7:
-		//		ecan1TXMsgBuf[7][0] = word0;
-		//		ecan1TXMsgBuf[7][1] = word1;
-		//		ecan1TXMsgBuf[7][2] = ((word2 & 0xFFF0) + m->len);
-		//		ecan1TXMsgBuf[7][3] = (((uint16_t) m->data[1]) << 8) | (m->data[0]&0xFF);
-		//		ecan1TXMsgBuf[7][4] = (((uint16_t) m->data[3]) << 8) | (m->data[2]&0xFF);
-		//		ecan1TXMsgBuf[7][5] = (((uint16_t) m->data[5]) << 8) | (m->data[4]&0xFF);
-		//		ecan1TXMsgBuf[7][6] = (((uint16_t) m->data[7]) << 8) | (m->data[6]&0xFF);
-		//		txreq_bitarray = txreq_bitarray | 0b10000000;
-		//
-		//		//	    C1TR67CONbits.TXEN7 = 1;
-		//		//	    C1TR67CONbits.TXREQ7 = 1;
-		//		bufferSwitch = 0;
-		//		break;
-	default:
+        default:
 		bufferSwitch = 0;
 		break;
 	}
@@ -490,21 +465,16 @@ INPUT	Message *m pointer to received CAN message
 OUTPUT	1 if a message received
  ******************************************************************************/
 {
+    DisableIntCAN1;
+    int ret_1 = CB_ReadMany(&can_rx_circ_buff, m, sizeof(Message));
+    EnableIntCAN1;
 
-	//get the first message in the queue (if any)
-	if (CB_ReadMany(&can_rx_circ_buff, m, sizeof(Message)) == true) {
-		return 1;
-	} else {
-		return 0;
-	}
-	//    if(rxbuffer_start!=rxbuffer_stop){
-	//        res = &rxbuffer[rxbuffer_start++];
-	//        if(rxbuffer_start>CAN_RX_BUF_SIZE){
-	//            rxbuffer_start = 0;
-	//        }
-	//    }
-	//    return res;
-
+    //get the first message in the queue (if any)
+    if (ret_1 == SUCCESS) {
+            return 1;
+    } else {
+            return 0;
+    }
 }
 
 /***************************************************************************/
@@ -517,7 +487,7 @@ void __attribute__((interrupt, no_auto_psv)) _C1Interrupt(void)
 {
 	// while(1);
 	// Give us a CAN message struct to populate and use
-	Message m;
+	volatile Message m;
 	uint8_t ide = 0;
 	uint8_t srr = 0;
 	uint32_t id = 0;
@@ -540,7 +510,7 @@ void __attribute__((interrupt, no_auto_psv)) _C1Interrupt(void)
 		//        if(rxbuffer_stop>CAN_RX_BUF_SIZE){
 		//            rxbuffer_stop = 0;
 		//        }
-		LED1 ^= 1;
+//		LED1 ^= 1;
 		m.cob_id = 0xFFFF;
 		m.rtr = 1;
 		m.len = 255;
@@ -557,7 +527,7 @@ void __attribute__((interrupt, no_auto_psv)) _C1Interrupt(void)
 			C1RXFUL1 &= ~(1 << buffer);
 		}
 
-		//  Move the message from the DMA buffer to a data structure and then push it into our circular buffer.
+                //  Move the message from the DMA buffer to a data structure and then push it into our circular buffer.
 
 		// Read the first word to see the message type
 		ide = ecan_msg_buf_ptr[0] & 0x0001;
@@ -592,10 +562,10 @@ void __attribute__((interrupt, no_auto_psv)) _C1Interrupt(void)
 			m.data[5] = (uint8_t) ((ecan_msg_buf_ptr[5] & 0xFF00) >> 8);
 			m.data[6] = (uint8_t) (ecan_msg_buf_ptr[6]&0xFF);
 			m.data[7] = (uint8_t) ((ecan_msg_buf_ptr[6] & 0xFF00) >> 8);
-		}
 
-		//copy message to circular buffer
-		CB_WriteMany(&can_rx_circ_buff, &m, sizeof(Message), 1);
+                        //copy message to circular buffer
+                        CB_WriteMany(&can_rx_circ_buff, &m, sizeof(Message), 1);
+		}
 
 		// Be sure to clear the interrupt flag.
 		C1RXFUL1 = 0;

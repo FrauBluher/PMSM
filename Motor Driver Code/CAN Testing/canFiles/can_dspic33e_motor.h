@@ -34,6 +34,8 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 // Canfestivals includes
 #include "../canFestival/include/can.h"
 
+extern volatile uint8_t can_flag;
+
 /************************* To be called by user app ***************************/
 
 unsigned char canInit(unsigned int bitrate);
