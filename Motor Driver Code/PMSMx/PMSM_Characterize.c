@@ -33,7 +33,9 @@
  *
  */
 
-#if defined (CHARACTERIZE_POSITION) || defined (CHARACTERIZE_VELOCITY)
+#include "PMSMBoard.h"
+
+#if defined (CHARACTERIZE_POSITION) || defined (CHARACTERIZE_VELOCITY) || defined (CHARACTERIZE_IMPEDANCE)
 
 #include <xc.h>
 #include <math.h>
@@ -42,13 +44,13 @@
 #include <stdio.h>
 #include <string.h>
 #include "PMSM_Characterize.h"
-#include "PMSMBoard.h"
 #include "DMA_Transfer.h"
 #include "cordic.h"
 #include <qei32.h>
 #include <uart.h>
 #include "TrigData.h"
 #include "PRBSData.h"
+#include "../CAN Testing/canFiles/motor_can.h"
 
 #define TRANS QEI1STATbits.IDXIRQ
 
@@ -102,6 +104,39 @@ TimesOut SVPWMTimeCalc(InvParkOut pP);
 void SpaceVectorModulation(TimesOut sv);
 InvClarkOut InverseClarke(InvParkOut pP);
 InvParkOut InversePark(float Vd, float Vq, int16_t position);
+
+
+#ifdef CHARACTERIZE_IMPEDANCE
+
+static float x_hat[3][1] = {
+	{0},
+	{0},
+	{0},
+};
+
+static float x_dummy[3][1] = {
+	{0},
+	{0},
+	{0},
+};
+
+static float K_reg[3][3] = {
+	{0.167525299197710, 0.853873229166799, -0.054110207360082},
+	{-0.557698239898382, 0.248028266562591, 0.116156944634215},
+	{0.235670999753073, 0.436664074501789, -0.649680555994633}
+
+};
+
+static float L[3][1] = {
+	{ -0.011927622324162},
+	{0.464575420462811},
+	{0.330672683026544}
+};
+
+static float K[1][3] = {
+	{0.310247462375861, -0.093017922302088, -0.789859907625239}
+};
+#endif
 
 #ifdef CHARACTERIZE_POSITION
 #ifdef SINE
@@ -347,19 +382,19 @@ void SpaceVectorModulation(TimesOut sv)
 {
 	switch (sv.sector) {
 	case 1:
-		GH_A_DC = ((uint16_t) PHASE1 * (.5 - .375 * sv.Vb - .649519 * sv.Va)) - 10;
-		GH_B_DC = ((uint16_t) PHASE1 * (.5 + .375 * sv.Vb - .216506 * sv.Va)) - 10;
-		GH_C_DC = ((uint16_t) PHASE1 * (.5 - .375 * sv.Vb + .216506 * sv.Va)) - 10;
+		GH_A_DC = ((uint16_t) PHASE1 * (.5 - .375 * sv.Vb - .649519 * sv.Va)) - 50;
+		GH_B_DC = ((uint16_t) PHASE1 * (.5 + .375 * sv.Vb - .216506 * sv.Va)) - 50;
+		GH_C_DC = ((uint16_t) PHASE1 * (.5 - .375 * sv.Vb + .216506 * sv.Va)) - 50;
 		break;
 	case 2:
-		GH_A_DC = ((uint16_t) PHASE1 * (.5 - .433013 * sv.Va)) - 10;
-		GH_B_DC = ((uint16_t) PHASE1 * (.5 + .75 * sv.Vb)) - 10;
-		GH_C_DC = ((uint16_t) PHASE1 * (.5 + .433013 * sv.Va)) - 10;
+		GH_A_DC = ((uint16_t) PHASE1 * (.5 - .433013 * sv.Va)) - 50;
+		GH_B_DC = ((uint16_t) PHASE1 * (.5 + .75 * sv.Vb)) - 50;
+		GH_C_DC = ((uint16_t) PHASE1 * (.5 + .433013 * sv.Va)) - 50;
 		break;
 	case 3:
-		GH_A_DC = ((uint16_t) PHASE1 * (.5 - 0.375 * sv.Vb + .216506 * sv.Va)) - 10;
-		GH_B_DC = ((uint16_t) PHASE1 * (.5 + 0.375 * sv.Vb + .216506 * sv.Va)) - 10;
-		GH_C_DC = ((uint16_t) PHASE1 * (.5 - 0.375 * sv.Vb + .649519 * sv.Va)) - 10;
+		GH_A_DC = ((uint16_t) PHASE1 * (.5 - 0.375 * sv.Vb + .216506 * sv.Va)) - 50;
+		GH_B_DC = ((uint16_t) PHASE1 * (.5 + 0.375 * sv.Vb + .216506 * sv.Va)) - 50;
+		GH_C_DC = ((uint16_t) PHASE1 * (.5 - 0.375 * sv.Vb + .649519 * sv.Va)) - 50;
 		break;
 	default:
 		break;
@@ -589,12 +624,165 @@ void CharacterizeStep(void)
 }
 #endif
 
+#ifdef CHARACTERIZE_IMPEDANCE
+
+uint8_t goTherePlease = 1;
+uint32_t wowMuchCycle = 0;
+
+#define CLOSED_LOOP
+
+#ifdef CLOSED_LOOP
+
+void CharacterizeStep(void)
+{
+	indexCount = Read32bitQEI1PositionCounter();
+	int32_t intermediatePosition;
+	intermediatePosition = (runningPositionCount + indexCount);
+
+	//	theta = desired_torque-measured_torque +((float) (int32_t) (intermediatePosition) * 0.0030679616);
+	y = 545 - ((float) (int32_t) (intermediatePosition) * 0.0030679616); //Scaling it back into radians.
+
+	x_dummy[0][0] = (x_hat[0][0] * K_reg[0][0]) + (x_hat[1][0] * K_reg[0][1]) + (x_hat[2][0] * K_reg[0][2]) + (L[0][0] * y);
+	x_dummy[1][0] = (x_hat[1][0] * K_reg[1][0]) + (x_hat[1][0] * K_reg[1][1]) + (x_hat[2][0] * K_reg[1][2]) + (L[1][0] * y);
+	x_dummy[2][0] = (x_hat[2][0] * K_reg[2][0]) + (x_hat[1][0] * K_reg[2][1]) + (x_hat[2][0] * K_reg[2][2]) + (L[2][0] * y);
+
+	x_hat[0][0] = x_dummy[0][0];
+	x_hat[1][0] = x_dummy[1][0];
+	x_hat[2][0] = x_dummy[2][0];
+
+	u = -1 * ((K[0][0] * x_hat[0][0]) + (K[0][1] * x_hat[1][0]) + (K[0][2] * x_hat[2][0]));
+
+
+
+	//SATURATION HERE...  IF YOU REALLY NEED MORE JUICE...  UP THIS TO 1 and -1
+	if (u > .7) {
+		u = .7;
+	} else if (u < -.7) {
+		u = -.7;
+	}
+
+	if (u > 0) {
+		//Commutation phase offset
+		indexCount += 512; // - rotorOffset; //Phase offset of 90 degrees.
+		d_u = u;
+	} else {
+		indexCount += -512; // - rotorOffset; //Phase offset of 90 degrees.
+		d_u = -u;
+	}
+
+	indexCount = (-indexCount + 2048) % 2048;
+
+	static float rando = 0;
+	rando = RandomInput();
+
+//	d_u = d_u + rando;
+
+        CO(position_control_SS_Gain_1st_Order) = d_u;
+        CO(position_control_SS_Gain_2nd_Order) = rando;
+        CO(state_Current_Position) = intermediatePosition;
+	SpaceVectorModulation(SVPWMTimeCalc(InversePark(d_u, 0, indexCount)));
+
+}
+
+void PMSM_Update_Commutation(void)
+{
+	indexCount = Read32bitQEI1PositionCounter();
+	int32_t intermediatePosition;
+	intermediatePosition = (runningPositionCount + indexCount);
+
+	if (u > 0) {
+		//Commutation phase offset
+		indexCount += 512; // - rotorOffset; //Phase offset of 90 degrees.
+		d_u = u;
+	} else {
+		indexCount += -512; // - rotorOffset; //Phase offset of 90 degrees.
+		d_u = -u;
+	}
+
+	indexCount = (-indexCount + 2048) % 2048;
+	SpaceVectorModulation(SVPWMTimeCalc(InversePark(d_u, 0, indexCount)));
+}
+
+#else
+
+void CharacterizeStep(void)
+{
+	int32_t intermediatePosition;
+
+	if (goTherePlease) {
+		indexCount = Read32bitQEI1PositionCounter();
+		intermediatePosition = (runningPositionCount + indexCount);
+
+		indexCount += 512; //Phase offset of 90 degrees.
+
+		indexCount = (-indexCount + 2048) % 2048;
+
+		theta = indexCount;
+
+		SpaceVectorModulation(SVPWMTimeCalc(InversePark(0.8, 0, theta)));
+
+		Commanded_Current = 80;
+		Actual_Position = runningPositionCount;
+
+		wowMuchCycle++;
+		if (wowMuchCycle > 2300) {
+			goTherePlease = 0;
+		}
+
+	} else {
+		if (counter2 < 4) {
+			indexCount = Read32bitQEI1PositionCounter();
+			intermediatePosition = (runningPositionCount + indexCount);
+
+			if (!GetState(counter)) {
+				//Commutation phase offset
+				indexCount += 512; //Phase offset of 90 degrees.
+
+				indexCount = (-indexCount + 2048) % 2048;
+
+				theta = indexCount;
+
+				SpaceVectorModulation(SVPWMTimeCalc(InversePark(0.65, 0, theta)));
+
+				Commanded_Current = 65;
+				Actual_Position = runningPositionCount;
+			} else {
+				//Commutation phase offset
+				indexCount += -512; //Phase offset of -90 degrees.
+
+				indexCount = (-indexCount + 2048) % 2048;
+
+				theta = indexCount;
+
+				SpaceVectorModulation(SVPWMTimeCalc(InversePark(0.65, 0, theta)));
+
+				Commanded_Current = -65;
+				Actual_Position = runningPositionCount;
+			}
+
+
+			counter++;
+			if (counter == 65535) {
+				counter = 0;
+				counter2++;
+			}
+		} else {
+			indexCount = Read32bitQEI1PositionCounter();
+			intermediatePosition = (runningPositionCount + indexCount);
+			SpaceVectorModulation(SVPWMTimeCalc(InversePark(0, 0, theta)));
+			Actual_Position = runningPositionCount;
+		}
+	}
+}
+#end
+#endif
+
 /**
  * @brief PMSM initialization call. Aligns rotor and sets QEI offset.
  * @param *information a pointer to the MotorInfo struct that will be updated.
  * @return Returns 1 if successful, returns 0 otherwise.
  */
-uint8_t PMSM_Init(MotorInfo *information)
+uint8_t PMSM_Init(MotorInfo * information)
 {
 	static uint32_t theta1;
 	uint32_t i;
@@ -661,7 +849,7 @@ float RandomInput(void)
 	//e = e/1.2;
 
 	//LPF
-	rk1 = .1 * e + .9 * rk2;
+	rk1 = .2 * e + .8 * rk2;
 	rk2 = rk1;
 
 	return(rk1);
@@ -671,19 +859,19 @@ void SpaceVectorModulation(TimesOut sv)
 {
 	switch (sv.sector) {
 	case 1:
-		GH_A_DC = ((uint16_t) PHASE1 * (.5 - .375 * sv.Vb - .649519 * sv.Va)) - 10;
-		GH_B_DC = ((uint16_t) PHASE1 * (.5 + .375 * sv.Vb - .216506 * sv.Va)) - 10;
-		GH_C_DC = ((uint16_t) PHASE1 * (.5 - .375 * sv.Vb + .216506 * sv.Va)) - 10;
+		GH_A_DC = ((uint16_t) PHASE1 * (.5 - .375 * sv.Vb - .649519 * sv.Va)) - 25;
+		GH_B_DC = ((uint16_t) PHASE1 * (.5 + .375 * sv.Vb - .216506 * sv.Va)) - 25;
+		GH_C_DC = ((uint16_t) PHASE1 * (.5 - .375 * sv.Vb + .216506 * sv.Va)) - 25;
 		break;
 	case 2:
-		GH_A_DC = ((uint16_t) PHASE1 * (.5 - .433013 * sv.Va)) - 10;
-		GH_B_DC = ((uint16_t) PHASE1 * (.5 + .75 * sv.Vb)) - 10;
-		GH_C_DC = ((uint16_t) PHASE1 * (.5 + .433013 * sv.Va)) - 10;
+		GH_A_DC = ((uint16_t) PHASE1 * (.5 - .433013 * sv.Va)) - 25;
+		GH_B_DC = ((uint16_t) PHASE1 * (.5 + .75 * sv.Vb)) - 25;
+		GH_C_DC = ((uint16_t) PHASE1 * (.5 + .433013 * sv.Va)) - 25;
 		break;
 	case 3:
-		GH_A_DC = ((uint16_t) PHASE1 * (.5 - 0.375 * sv.Vb + .216506 * sv.Va)) - 10;
-		GH_B_DC = ((uint16_t) PHASE1 * (.5 + 0.375 * sv.Vb + .216506 * sv.Va)) - 10;
-		GH_C_DC = ((uint16_t) PHASE1 * (.5 - 0.375 * sv.Vb + .649519 * sv.Va)) - 10;
+		GH_A_DC = ((uint16_t) PHASE1 * (.5 - 0.375 * sv.Vb + .216506 * sv.Va)) - 25;
+		GH_B_DC = ((uint16_t) PHASE1 * (.5 + 0.375 * sv.Vb + .216506 * sv.Va)) - 25;
+		GH_C_DC = ((uint16_t) PHASE1 * (.5 - 0.375 * sv.Vb + .649519 * sv.Va)) - 25;
 		break;
 	default:
 		break;
@@ -757,4 +945,5 @@ void __attribute__((__interrupt__, no_auto_psv)) _QEI1Interrupt(void)
 
 	IFS3bits.QEI1IF = 0; /* Clear QEI interrupt flag */
 }
+#endif
 #endif

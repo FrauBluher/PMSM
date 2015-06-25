@@ -42,7 +42,7 @@
 #if defined (CHARACTERIZE_POSITION) || defined (CHARACTERIZE_VELOCITY)
 //Something here
 #else
-#if defined POSITION
+#if defined IMPEDANCE
 #include <xc.h>
 #include <math.h>
 #include <stdlib.h>
@@ -54,13 +54,11 @@
 #include "cordic.h"
 #include <qei32.h>
 #include <uart.h>
-#include "FixedPointSVM/FOC_FixedPoint.h"
 
 #include "../CAN Testing/canFiles/motor_can.h"
 
 #ifndef CHARACTERIZE
 #include "TrigData.h"
-#include "FixedPointSVM/FOC_FromScratch.h"
 
 #define SQRT_3_2 0.86602540378
 #define SQRT_3 1.732050807568877
@@ -97,7 +95,7 @@ typedef struct {
 	float Vb;
 } TimesOut;
 
-static volatile float theta;
+static float theta;
 static float d_u;
 static float y;
 static float cableVelocity;
@@ -155,18 +153,32 @@ TimesOut SVPWMTimeCalc(InvParkOut pP);
  */
 uint8_t PMSM_Init(MotorInfo *information)
 {
-	FOC_Init();
-
-	static int32_t theta1;
-	int32_t i;
+	static uint32_t theta1;
+	uint32_t i;
 	uint32_t j;
 	qeiCounter w;
 
 	w.l = 0;
 	theta1 = 0;
 
-	FOC_Update_Commutation(.5 * 32767, 0);
-	while (j < 1500000) {
+	for (i = 0; i < 2048; i++) {
+		SpaceVectorModulation(SVPWMTimeCalc(InversePark(0.4, 0, theta1)));
+		for (j = 0; j < 400; j++) {
+			Nop();
+		}
+		theta1 -= 1;
+	}
+
+	for (i = 2048; i > 1; i--) {
+		SpaceVectorModulation(SVPWMTimeCalc(InversePark(0.4, 0, theta1)));
+		for (j = 0; j < 400; j++) {
+			Nop();
+		}
+		theta1 -= 1;
+	}
+
+	SpaceVectorModulation(SVPWMTimeCalc(InversePark(0.7, 0, 0)));
+	while (j < 1400000) {
 		Nop();
 		j++;
 	}
@@ -175,17 +187,15 @@ uint8_t PMSM_Init(MotorInfo *information)
 	Write32bitQEI1PositionCounter(&w);
 	runningPositionCount = 0;
 
-	FOC_Update_Commutation(0, 0);
+	SpaceVectorModulation(SVPWMTimeCalc(InversePark(0, 0, 0)));
 }
 
 /**
  * @brief Sets the commanded position of the motor.
  */
-void SetPosition(float pos)
+void SetTension(float tension)
 {
-    if (pos != theta) {
-	theta = pos;
-    }
+	theta = tension;
 }
 
 /**
@@ -194,7 +204,6 @@ void SetPosition(float pos)
  */
 int32_t GetCableLength(void)
 {
-
 	return((runningPositionCount / PULSES_PER_REVOLUTION) *
 		SPOOL_CIRCUMFERENCE_MM);
 }
@@ -219,41 +228,143 @@ int32_t GetCableVelocity(void)
 	return((int32_t) cableVelocity);
 }
 
-void PMSM_Update_Position(void)
+void PMSM_Update_Tension(void)
 {
-	indexCount = Read32bitQEI1PositionCounter();
+        indexCount = Read32bitQEI1PositionCounter();
+	int32_t intermediatePosition;
 
-	y = theta - ((float) (int32_t) (indexCount) * 0.0030679616); //Scaling it back into radians.
+	intermediatePosition = (runningPositionCount + indexCount);
 
-//	x_dummy[0][0] = (x_hat[0][0] * K_reg[0][0]) + (x_hat[1][0] * K_reg[0][1]) + (x_hat[2][0] * K_reg[0][2]) + (L[0][0] * y);
-//	x_dummy[1][0] = (x_hat[1][0] * K_reg[1][0]) + (x_hat[1][0] * K_reg[1][1]) + (x_hat[2][0] * K_reg[1][2]) + (L[1][0] * y);
-//	x_dummy[2][0] = (x_hat[2][0] * K_reg[2][0]) + (x_hat[1][0] * K_reg[2][1]) + (x_hat[2][0] * K_reg[2][2]) + (L[2][0] * y);
-//
-//	x_hat[0][0] = x_dummy[0][0];
-//	x_hat[1][0] = x_dummy[1][0];
-//	x_hat[2][0] = x_dummy[2][0];
-//
-//	u = -1 * ((K[0][0] * x_hat[0][0]) + (K[0][1] * x_hat[1][0]) + (K[0][2] * x_hat[2][0]));
+//	y = theta - ((float) (int32_t) (intermediatePosition) * 0.0030679616); //Scaling it back into radians.
 
-	u = y * 0.03;
+//	INTEGER16 To = 1;	// Tension Offset
+	float K = 0.01;	// Length Gain Value
+	float B = 0.001;	// Velocity Gain Value
+	float lo = 0;	// Length Offset
+	float vo = 0;	// Velocity Offset
+
+        float length = GetCableLength();
+        float velocity = GetCableVelocity();
+
+        theta = theta / 1000.00;
+
+	u = (theta + K*(length - lo) + B*(velocity - vo));
+
+//        u = y * 0.03;
+
 
 	//SATURATION HERE...  IF YOU REALLY NEED MORE JUICE...  UP THIS TO 1 and -1
-	if (u > 0.7) {
-		u = 0.7;
-	} else if (u < -0.7) {
-		u = -0.7;
+	if (u > .7) {
+		u = .7;
+	} else if (u < -.7) {
+		u = -.7;
 	}
 
-//	CO(state_Current_Position) = (int32_t) ((float) indexCount * 0.02814643647496589);
+	CO(state_Current_Position) = (int32_t) ((float) runningPositionCount * 0.02814643647496589);
 
 	if (u > 0) {
 		//Commutation phase offset
-		FOC_Update_Commutation((int16_t) (u * 32767), indexCount + 512);//(int16_t) (d_u * 32767), indexCount);
-	} else if (u < 0) {
-		FOC_Update_Commutation((int16_t) (-u * 32767), indexCount - 512);//(int16_t) (d_u * 32767), indexCount);
+		indexCount += 512; // - rotorOffset; //Phase offset of 90 degrees.
+		d_u = u;
 	} else {
-		FOC_Update_Commutation((int16_t) (0 * 32767), indexCount);//(int16_t) (d_u * 32767), indexCount);
+		indexCount += -512; // - rotorOffset; //Phase offset of 90 degrees.
+		d_u = -u;
 	}
+
+        // Added these two lines to make the new position controller work.
+        // Borrowed from PMSM_Characterize.c
+        indexCount = (-indexCount + 2048) % 2048;
+	SpaceVectorModulation(SVPWMTimeCalc(InversePark(d_u, 0, indexCount)));
+}
+
+void PMSM_Update_Commutation(void)
+{
+	indexCount = Read32bitQEI1PositionCounter();
+	int32_t intermediatePosition;
+	intermediatePosition = (runningPositionCount + indexCount);
+
+	if (u > 0) {
+		//Commutation phase offset
+		indexCount += 512; // - rotorOffset; //Phase offset of 90 degrees.
+		d_u = u;
+	} else {
+		indexCount += -512; // - rotorOffset; //Phase offset of 90 degrees.
+		d_u = -u;
+	}
+
+	indexCount = (-indexCount + 2048) % 2048;
+	SpaceVectorModulation(SVPWMTimeCalc(InversePark(d_u, 0, indexCount)));
+}
+
+/****************************   Private Stuff   *******************************/
+
+void SpaceVectorModulation(TimesOut sv)
+{
+	switch (sv.sector) {
+	case 1:
+		GH_A_DC = ((uint16_t) PHASE1 * (.5 - .375 * sv.Vb - .649519 * sv.Va)) - 25;
+		GH_B_DC = ((uint16_t) PHASE1 * (.5 + .375 * sv.Vb - .216506 * sv.Va)) - 25;
+		GH_C_DC = ((uint16_t) PHASE1 * (.5 - .375 * sv.Vb + .216506 * sv.Va)) - 25;
+		break;
+	case 2:
+		GH_A_DC = ((uint16_t) PHASE1 * (.5 - .433013 * sv.Va)) - 25;
+		GH_B_DC = ((uint16_t) PHASE1 * (.5 + .75 * sv.Vb)) - 25;
+		GH_C_DC = ((uint16_t) PHASE1 * (.5 + .433013 * sv.Va)) - 25;
+		break;
+	case 3:
+		GH_A_DC = ((uint16_t) PHASE1 * (.5 - 0.375 * sv.Vb + .216506 * sv.Va)) - 25;
+		GH_B_DC = ((uint16_t) PHASE1 * (.5 + 0.375 * sv.Vb + .216506 * sv.Va)) - 25;
+		GH_C_DC = ((uint16_t) PHASE1 * (.5 - 0.375 * sv.Vb + .649519 * sv.Va)) - 25;
+		break;
+	default:
+		break;
+	}
+}
+
+InvClarkOut InverseClarke(InvParkOut pP)
+{
+	InvClarkOut returnVal;
+	returnVal.Vr1 = pP.Vb;
+	returnVal.Vr2 = -.5 * pP.Vb + SQRT_3_2 * pP.Va;
+	returnVal.Vr3 = -.5 * pP.Vb - SQRT_3_2 * pP.Va;
+	return(returnVal);
+}
+
+InvParkOut InversePark(float Vq, float Vd, int16_t position1)
+{
+	static int position;
+	position = position1;
+	static int16_t cos_position;
+	InvParkOut returnVal;
+
+	float cosine;
+	float sine;
+
+	if (position1 <= 0) {
+		position = 2048 + (position1 % 2048);
+		cos_position = (2048 + ((position1 + 512) % 2048)) % 2048;
+	} else {
+		position = position1 % 2048;
+		cos_position = (position1 + 512) % 2048;
+	}
+
+	cosine = TRIG_DATA[cos_position];
+	sine = TRIG_DATA[position];
+
+	returnVal.Va = Vd * cosine - Vq * sine;
+	returnVal.Vb = Vd * sine + Vq * cosine;
+	return(returnVal);
+}
+
+TimesOut SVPWMTimeCalc(InvParkOut pP)
+{
+	TimesOut t;
+	t.sector = ((uint8_t) ((.0029296875 * indexCount) + 6)) % 3 + 1;
+
+	t.Va = pP.Va;
+	t.Vb = pP.Vb;
+
+	return(t);
 }
 
 static int32_t lastCheck;
@@ -261,6 +372,25 @@ static int32_t currentCheck;
 
 void __attribute__((__interrupt__, no_auto_psv)) _QEI1Interrupt(void)
 {
+	currentCheck = Read32bitQEI1PositionCounter();
+	lastRunningPostionCount = runningPositionCount;
+	runningPositionCount += currentCheck;
+
+	POS = 0;
+	NEG = 0;
+	ZERO = 0;
+
+	qeiCounter w;
+
+	if (currentCheck > 0) {
+		w.l = currentCheck - 2048;
+	} else {
+		w.l = currentCheck + 2048;
+	}
+
+	Write32bitQEI1PositionCounter(&w);
+	lastCheck = currentCheck;
+
 	IFS3bits.QEI1IF = 0; /* Clear QEI interrupt flag */
 }
 #endif

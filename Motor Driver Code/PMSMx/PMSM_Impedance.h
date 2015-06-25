@@ -37,9 +37,9 @@
  * found in the same repository that this code was found in.
  */
 
-#ifndef PMSM_POSITION_H
-#define PMSM_POSITION_H
-#ifdef POSITION
+#ifndef PMSM_IMPEDANCE_H
+#define PMSM_IMPEDANCE_H
+#ifdef IMPEDANCE
 
 #ifndef CHARACTERIZE_POSITION
 #ifndef CHARACTERIZE_VELOCITY

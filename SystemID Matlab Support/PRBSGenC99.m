@@ -62,7 +62,7 @@ post = [ ...
 seqLength = 2^16;
 assert(mod((seqLength / 8), 2) == 0, 'seqLength must completely fit in a uint8t');
 
-prbs = idinput(seqLength, 'RBS', [0 .001], [0 1]);
+prbs = idinput(seqLength, 'RBS', [0 .005], [0 1]);
 
 headerOutput = fopen('PRBSData.h', 'w');
 

@@ -34,6 +34,12 @@
 #include <stdint.h>
 #include <stdbool.h>
 
+enum {
+    SIZE_ERROR = -1,        // Return value for an error when used with an output that is normally >= 0.
+    STANDARD_ERROR = 0, // Return value for an error. Semanticaly a little more clear than `false`
+    SUCCESS = 1          // Return value for a successful function call.
+};
+
 /**
  * @brief A structure which holds information about the circular buffer.
  *

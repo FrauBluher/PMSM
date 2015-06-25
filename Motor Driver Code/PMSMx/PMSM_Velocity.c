@@ -59,7 +59,12 @@
 
 #define SQRT_3_2 0.86602540378
 #define SQRT_3 1.732050807568877
-#define SPOOL_SCALING_FACTOR 565.486683301
+//#define SPOOL_SCALING_FACTOR 565.486683301
+#define TWO_PI 6.283185307
+#define SPOOL_RADIUS_MM 15
+#define LOOP_TIME_S 0.000333
+#define SPOOL_CIRCUMFERENCE_MM (TWO_PI*SPOOL_RADIUS_MM)
+#define	SPOOL_SCALING_FACTOR (SPOOL_CIRCUMFERENCE_MM)/LOOP_TIME_S //used full pi instead of 3.14
 #define PULSES_PER_REVOLUTION 223232
 
 typedef struct {
@@ -87,9 +92,12 @@ static float u = 0;
 static float d_u = 0;
 static float y = 0;
 
+static float cableVelocity;
+
 static int32_t indexCount = 0;
 static int32_t runningPositionCount = 0;
 static int32_t runningPosition2 = 0;
+static int32_t lastRunningPostionCount = 0;
 int32_t intermediatePosition;
 
 /**
@@ -182,7 +190,28 @@ uint8_t PMSM_Init(MotorInfo *information)
  */
 int32_t GetCableLength(void)
 {
-	return(runningPositionCount / PULSES_PER_REVOLUTION);
+	return((runningPositionCount / PULSES_PER_REVOLUTION) *
+		SPOOL_CIRCUMFERENCE_MM);
+}
+
+/**
+ * @brief Returns last known cable velocity in mm/s.
+ * @return Cable velocity in mm/S.
+ */
+int32_t GetCableVelocity(void)
+{
+	/**
+	 * Cable Velocity: ((2 * Pi * Radius of Spool) * Delta_Rotations) / Ts_Period
+	 * Radius of Spool: 30 mm
+	 * Ts_Period: 333 uS
+	 * Delta_Rotations: runningCount - lastCount
+	 *
+	 * All of these values combine to make SPOOL_SCALING_FACTOR
+	 */
+	cableVelocity = ((runningPositionCount - lastRunningPostionCount) /
+		PULSES_PER_REVOLUTION) * SPOOL_SCALING_FACTOR;
+
+	return((int32_t) cableVelocity);
 }
 
 /**
@@ -490,6 +519,7 @@ static int32_t currentCheck;
 void __attribute__((__interrupt__, no_auto_psv)) _QEI1Interrupt(void)
 {
 	currentCheck = Read32bitQEI1PositionCounter();
+	lastRunningPostionCount = runningPositionCount;
 	runningPositionCount += currentCheck;
 
 	qeiCounter w;

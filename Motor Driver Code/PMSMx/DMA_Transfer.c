@@ -104,26 +104,26 @@ void DMA3_SPI_Enable_RX(CircularBuffer *cB)
 	DMA3CONbits.CHEN = 1; // Enable DMA Channel
 }
 
-void DMA4_CAN_Transfer(uint16_t size, uint16_t *SendBuffer)
-{
-	//Will implement later, waiting for the CAN protocol to be defined.
-	DMA4CONbits.AMODE = 2; // Continuous mode, single buffer
-	DMA4CONbits.MODE = 0; // Peripheral Indirect Addressing
-	DMA4PAD = (volatile uint16_t) & C1RXD; // Point to ECAN1 RX register
-	DMA4STAL = __builtin_dmaoffset(Ecan1Rx);
-	DMA4STAH = 0x0000;
-	DMA4CNT = 7; // 8 DMA request (1 buffer, each with 8 words)
-	DMA4REQ = 0x22; // Select ECAN1 RX as DMA Request source
-
-	IFS2bits.DMA4IF = 0; // Clear DMA interrupt
-	IEC2bits.DMA4IE = 1; // Enable DMA Channel 0 interrupt
-	DMA4CONbits.CHEN = 1; // Enable DMA Channel 0
-}
-
-void DMA5_CAN_Enable_RX(CircularBuffer *cB)
-{
-	can_CB_Point = cB;
-}
+//void DMA4_CAN_Transfer(uint16_t size, uint16_t *SendBuffer)
+//{
+//	//Will implement later, waiting for the CAN protocol to be defined.
+//	DMA4CONbits.AMODE = 2; // Continuous mode, single buffer
+//	DMA4CONbits.MODE = 0; // Peripheral Indirect Addressing
+//	DMA4PAD = (volatile uint16_t) & C1RXD; // Point to ECAN1 RX register
+//	DMA4STAL = __builtin_dmaoffset(Ecan1Rx);
+//	DMA4STAH = 0x0000;
+//	DMA4CNT = 7; // 8 DMA request (1 buffer, each with 8 words)
+//	DMA4REQ = 0x22; // Select ECAN1 RX as DMA Request source
+//
+//	IFS2bits.DMA4IF = 0; // Clear DMA interrupt
+//	IEC2bits.DMA4IE = 1; // Enable DMA Channel 0 interrupt
+//	DMA4CONbits.CHEN = 1; // Enable DMA Channel 0
+//}
+//
+//void DMA5_CAN_Enable_RX(CircularBuffer *cB)
+//{
+//	can_CB_Point = cB;
+//}
 
 void DMA6_ADC_Enable(ADCBuffer *ADCBuff)
 {
@@ -171,26 +171,26 @@ void __attribute__((__interrupt__, no_auto_psv)) _DMA3Interrupt(void)
 	IFS2bits.DMA3IF = 0;
 }
 
-void __attribute__((__interrupt__, no_auto_psv)) _DMA4Interrupt(void)
-{
-	/*
-	 * Process data that gets received using this not in the interrupt, but in
-	 * the main loop to make sure that the order of processing doesn't mess up
-	 * the operation of the motor driver.  The processing of the received DMA
-	 * data should follow as below.
-	 *
-	 * ProcessData(Ecan1Rx[C1VECbits.ICODE]); // Process received buffer;
-	 */
-
-	IFS2bits.DMA4IF = 0;
-}
-
-void __attribute__((__interrupt__, no_auto_psv)) _DMA5Interrupt(void)
-{
-	//Think about a global interrupt disable here as CB is non reentrant...
-	CB_WriteByte(can_CB_Point, C1RXD);
-	IFS3bits.DMA5IF = 0;
-}
+//void __attribute__((__interrupt__, no_auto_psv)) _DMA4Interrupt(void)
+//{
+//	/*
+//	 * Process data that gets received using this not in the interrupt, but in
+//	 * the main loop to make sure that the order of processing doesn't mess up
+//	 * the operation of the motor driver.  The processing of the received DMA
+//	 * data should follow as below.
+//	 *
+//	 * ProcessData(Ecan1Rx[C1VECbits.ICODE]); // Process received buffer;
+//	 */
+//
+//	IFS2bits.DMA4IF = 0;
+//}
+//
+//void __attribute__((__interrupt__, no_auto_psv)) _DMA5Interrupt(void)
+//{
+//	//Think about a global interrupt disable here as CB is non reentrant...
+//	CB_WriteByte(can_CB_Point, C1RXD);
+//	IFS3bits.DMA5IF = 0;
+//}
 
 void __attribute__((__interrupt__, no_auto_psv)) _DMA6Interrupt(void)
 {
