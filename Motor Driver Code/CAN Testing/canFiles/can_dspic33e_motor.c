@@ -33,8 +33,6 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 #include "../../PMSMx/PMSMBoard.h"
 
-volatile uint8_t can_flag;
-
 ///////////////////////////////////////////////////////////////////////////////
 ////////////////////// USER FUNCTIONS Replace when this is a library //////////
 

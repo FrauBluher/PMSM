@@ -75,6 +75,16 @@ UNS8 motor72_impedance_control_Length_Gain = 0x0;		/* Mapped at index 0x2025, su
 UNS8 motor72_impedance_control_Undefined = 0x0;		/* Mapped at index 0x2025, subindex 0x09 */
 UNS8 motor72_impedance_control_Undefined1 = 0x0;		/* Mapped at index 0x2025, subindex 0x0A */
 UNS8 motor72_impedance_control_Undefined2 = 0x0;		/* Mapped at index 0x2025, subindex 0x0B */
+UNS32 power73_adc_state_mV_5V5_out = 0x0;		/* Mapped at index 0x2030, subindex 0x01 */
+UNS32 power73_adc_state_mA_5V5_out = 0x0;		/* Mapped at index 0x2030, subindex 0x02 */
+UNS32 power73_adc_state_mW_5V5_out = 0x0;		/* Mapped at index 0x2030, subindex 0x03 */
+UNS32 power73_adc_state_mV_main_battery = 0x0;		/* Mapped at index 0x2030, subindex 0x04 */
+UNS32 power73_adc_state_mV_vbackup_battery = 0x0;		/* Mapped at index 0x2030, subindex 0x05 */
+INTEGER32 power73_adc_state_mA_motor_current = 0x0;		/* Mapped at index 0x2030, subindex 0x06 */
+UNS32 power73_adc_state_mV_motor_voltage = 0x0;		/* Mapped at index 0x2030, subindex 0x07 */
+INTEGER32 power73_adc_state_mW_motor_power = 0x0;		/* Mapped at index 0x2030, subindex 0x08 */
+INTEGER8 power73_adc_state_C_temp = 0x0;		/* Mapped at index 0x2030, subindex 0x09 */
+UNS8 power73_24V_on = 0x0;		/* Mapped at index 0x2033, subindex 0x00 */
 
 /**************************************************************************/
 /* Declaration of value range types                                       */
@@ -317,7 +327,7 @@ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 /* index 0x1402 :   Receive PDO 3 Parameter. */
                     UNS8 Motor_Board_highestSubIndex_obj1402 = 6; /* number of subindex - 1*/
-                    UNS32 Motor_Board_obj1402_COB_ID_used_by_PDO = 0x0;	/* 0 */
+                    UNS32 Motor_Board_obj1402_COB_ID_used_by_PDO = 0x3F4;	/* 1012 */
                     UNS8 Motor_Board_obj1402_Transmission_Type = 0xFF;	/* 255 */
                     UNS16 Motor_Board_obj1402_Inhibit_Time = 0x0;	/* 0 */
                     UNS8 Motor_Board_obj1402_Compatibility_Entry = 0x0;	/* 0 */
@@ -380,23 +390,20 @@ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
                      };
 
 /* index 0x1602 :   Receive PDO 3 Mapping. */
-                    UNS8 Motor_Board_highestSubIndex_obj1602 = 2; /* number of subindex - 1*/
+                    UNS8 Motor_Board_highestSubIndex_obj1602 = 1; /* number of subindex - 1*/
                     UNS32 Motor_Board_obj1602[] = 
                     {
-                      0x0,	/* 0 */
-                      0x0	/* 0 */
+                      0x20330008	/* 540213256 */
                     };
                     ODCallback_t Motor_Board_Index1602_callbacks[] = 
                      {
-                       NULL,
                        NULL,
                        NULL,
                      };
                     subindex Motor_Board_Index1602[] = 
                      {
                        { RW, uint8, sizeof (UNS8), (void*)&Motor_Board_highestSubIndex_obj1602 },
-                       { RW, uint32, sizeof (UNS32), (void*)&Motor_Board_obj1602[0] },
-                       { RW, uint32, sizeof (UNS32), (void*)&Motor_Board_obj1602[1] }
+                       { RW, uint32, sizeof (UNS32), (void*)&Motor_Board_obj1602[0] }
                      };
 
 /* index 0x1603 :   Receive PDO 4 Mapping. */
@@ -716,6 +723,28 @@ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
                        { RW, uint8, sizeof (UNS8), (void*)&motor72_impedance_control_Undefined2 }
                      };
 
+/* index 0x2030 :   Mapped variable power73_adc_state */
+                    UNS8 Motor_Board_highestSubIndex_obj2030 = 9; /* number of subindex - 1*/
+                    subindex Motor_Board_Index2030[] = 
+                     {
+                       { RO, uint8, sizeof (UNS8), (void*)&Motor_Board_highestSubIndex_obj2030 },
+                       { RW, uint32, sizeof (UNS32), (void*)&power73_adc_state_mV_5V5_out },
+                       { RW, uint32, sizeof (UNS32), (void*)&power73_adc_state_mA_5V5_out },
+                       { RW, uint32, sizeof (UNS32), (void*)&power73_adc_state_mW_5V5_out },
+                       { RW, uint32, sizeof (UNS32), (void*)&power73_adc_state_mV_main_battery },
+                       { RW, uint32, sizeof (UNS32), (void*)&power73_adc_state_mV_vbackup_battery },
+                       { RW, int32, sizeof (INTEGER32), (void*)&power73_adc_state_mA_motor_current },
+                       { RW, uint32, sizeof (UNS32), (void*)&power73_adc_state_mV_motor_voltage },
+                       { RW, int32, sizeof (INTEGER32), (void*)&power73_adc_state_mW_motor_power },
+                       { RW, int8, sizeof (INTEGER8), (void*)&power73_adc_state_C_temp }
+                     };
+
+/* index 0x2033 :   Mapped variable power73_24V_on */
+                    subindex Motor_Board_Index2033[] = 
+                     {
+                       { RW, uint8, sizeof (UNS8), (void*)&power73_24V_on }
+                     };
+
 /**************************************************************************/
 /* Declaration of pointed variables                                       */
 /**************************************************************************/
@@ -757,6 +786,8 @@ const indextable Motor_Board_objdict[] =
   { (subindex*)Motor_Board_Index2023,sizeof(Motor_Board_Index2023)/sizeof(Motor_Board_Index2023[0]), 0x2023},
   { (subindex*)Motor_Board_Index2024,sizeof(Motor_Board_Index2024)/sizeof(Motor_Board_Index2024[0]), 0x2024},
   { (subindex*)Motor_Board_Index2025,sizeof(Motor_Board_Index2025)/sizeof(Motor_Board_Index2025[0]), 0x2025},
+  { (subindex*)Motor_Board_Index2030,sizeof(Motor_Board_Index2030)/sizeof(Motor_Board_Index2030[0]), 0x2030},
+  { (subindex*)Motor_Board_Index2033,sizeof(Motor_Board_Index2033)/sizeof(Motor_Board_Index2033[0]), 0x2033},
 };
 
 const indextable * Motor_Board_scanIndexOD (UNS16 wIndex, UNS32 * errorCode, ODCallback_t **callbacks)
@@ -799,6 +830,8 @@ const indextable * Motor_Board_scanIndexOD (UNS16 wIndex, UNS32 * errorCode, ODC
 		case 0x2023: i = 32;break;
 		case 0x2024: i = 33;break;
 		case 0x2025: i = 34;break;
+		case 0x2030: i = 35;break;
+		case 0x2033: i = 36;break;
 		default:
 			*errorCode = OD_NO_SUCH_OBJECT;
 			return NULL;

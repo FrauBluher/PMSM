@@ -81,5 +81,15 @@ extern UNS8 motor72_impedance_control_Length_Gain;		/* Mapped at index 0x2025, s
 extern UNS8 motor72_impedance_control_Undefined;		/* Mapped at index 0x2025, subindex 0x09 */
 extern UNS8 motor72_impedance_control_Undefined1;		/* Mapped at index 0x2025, subindex 0x0A */
 extern UNS8 motor72_impedance_control_Undefined2;		/* Mapped at index 0x2025, subindex 0x0B */
+extern UNS32 power73_adc_state_mV_5V5_out;		/* Mapped at index 0x2030, subindex 0x01 */
+extern UNS32 power73_adc_state_mA_5V5_out;		/* Mapped at index 0x2030, subindex 0x02 */
+extern UNS32 power73_adc_state_mW_5V5_out;		/* Mapped at index 0x2030, subindex 0x03 */
+extern UNS32 power73_adc_state_mV_main_battery;		/* Mapped at index 0x2030, subindex 0x04 */
+extern UNS32 power73_adc_state_mV_vbackup_battery;		/* Mapped at index 0x2030, subindex 0x05 */
+extern INTEGER32 power73_adc_state_mA_motor_current;		/* Mapped at index 0x2030, subindex 0x06 */
+extern UNS32 power73_adc_state_mV_motor_voltage;		/* Mapped at index 0x2030, subindex 0x07 */
+extern INTEGER32 power73_adc_state_mW_motor_power;		/* Mapped at index 0x2030, subindex 0x08 */
+extern INTEGER8 power73_adc_state_C_temp;		/* Mapped at index 0x2030, subindex 0x09 */
+extern UNS8 power73_24V_on;		/* Mapped at index 0x2033, subindex 0x00*/
 
 #endif // MOTOR_OBJDICT_72_H

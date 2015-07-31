@@ -28,6 +28,13 @@
 #include <uart.h>
 #include <qei32.h>
 
+/*DO NOT USE CONFIGURATION MEMORY (it triggers code protection in the bootloader) */
+//_FGS(GWRP_OFF & GSS_OFF & GSSK_OFF); // Disable Code Protection
+_FOSCSEL(FNOSC_FRC & IESO_OFF);
+_FOSC(FCKSM_CSECMD & OSCIOFNC_OFF & POSCMD_NONE & IOL1WAY_OFF); //FUCK IOL1WAY!
+_FWDT(FWDTEN_OFF);
+_FICD(ICS_PGD1 & JTAGEN_OFF);// & RSTPRI_AF);
+
 //_FOSCSEL(FNOSC_FRC & IESO_OFF);
 //_FOSC(FCKSM_CSECMD & OSCIOFNC_OFF & POSCMD_NONE);
 //_FWDT(FWDTEN_OFF);
@@ -230,9 +237,9 @@ void PinInit(void)
 	TRIS_HALL3 = 1;
 
 	//Ensuring that SPI remapped pins' tristates are set correctly.
-	TRISEbits.TRISE7 = 1; //MISO
-	TRISGbits.TRISG6 = 0; //MOSI
-	TRISGbits.TRISG8 = 0; //SCLK
+//	TRISEbits.TRISE7 = 1; //MISO
+//	TRISGbits.TRISG6 = 0; //MOSI
+//	TRISGbits.TRISG8 = 0; //SCLK
 
 	CNPDEbits.CNPDE7 = 1;
 

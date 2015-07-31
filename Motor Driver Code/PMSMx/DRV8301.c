@@ -40,7 +40,7 @@
 #include "DRV8301.h"
 
 static uint8_t initGuardDRV8301 = 0;
-static DRV8301_Info *passedInfoStruct;
+DRV8301_Info *passedInfoStruct;
 
 /**
  * @brief Allows for you to turn the half bridges to high-impedance mode.

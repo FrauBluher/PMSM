@@ -81,5 +81,6 @@ extern UNS16 motor2_impedance_control_Length_Gain;		/* Mapped at index 0x2025, s
 extern UNS8 motor2_impedance_control_Undefined;		/* Mapped at index 0x2025, subindex 0x09 */
 extern UNS8 motor2_impedance_control_Undefined1;		/* Mapped at index 0x2025, subindex 0x0A */
 extern UNS8 motor2_impedance_control_Undefined2;		/* Mapped at index 0x2025, subindex 0x0B */
+extern UNS8 power3_24V_on;		/* Mapped at index 0x2033, subindex 0x00*/
 
 #endif // MOTOR_OBJDICT_2_H
