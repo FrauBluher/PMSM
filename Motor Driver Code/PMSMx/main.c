@@ -115,7 +115,7 @@ main(void) {
     SetVelocity(0);
 #endif
     while (1) {
-        if (power3_24V_on) {
+        if (COP(24V_on)) {
             if (events & EVENT_MOTOR_INIT) {
                 InitMotor(); // Motor init stuff here
                 events &= ~EVENT_MOTOR_INIT;
@@ -219,7 +219,7 @@ EventChecker(void) {
         canPrescaler++;
     }
 
-    if (power3_24V_on) {
+    if (COP(24V_on)) {
         if(motor_init_flag == 0) {
             events |= EVENT_MOTOR_INIT;
         }

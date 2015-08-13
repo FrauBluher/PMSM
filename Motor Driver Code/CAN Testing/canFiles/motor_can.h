@@ -12,9 +12,11 @@
 #ifdef CONF72
 #include "motor_objdict_72.h"
 #define CO(_X) motor72_ ## _X
+#define COP(_X) power73_ ##_X
 #else
 #include "motor_objdict_2.h"
 #define CO(_X) motor2_ ## _X
+#define COP(_X) power3_ ##_X
 #endif
 #ifdef	__cplusplus
 extern "C" {
