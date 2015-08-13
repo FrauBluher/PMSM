@@ -90,5 +90,7 @@ typedef struct {
 
 void InitBoard(ADCBuffer *ADBuff, CircularBuffer * cB, CircularBuffer * spi_cB, void *eventCallback);
 
+void InitMotor(void);
+
 #endif	/* PMSMBOARD_H */
 

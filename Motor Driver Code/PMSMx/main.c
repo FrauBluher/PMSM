@@ -64,12 +64,14 @@ uint16_t canPrescaler = 0;
 extern uint8_t txreq_bitarray;
 uint16_t controlPrescale = 0;
 
+uint8_t motor_init_flag = 0;
+
 enum {
     EVENT_UART_DATA_READY = 0x01,
     EVENT_CAN = 0x02,
     EVENT_SPI_RX = 0x04,
     EVENT_REPORT_FAULT = 0x08,
-    EVENT_UPDATE_CONTROLLER = 0x10,
+    EVENT_MOTOR_INIT = 0x10,
     EVENT_ADC_DATA = 0x20,
     EVENT_QEI_RQ = 0x40,
     EVENT_UPDATE_SPEED = 0x80
@@ -113,14 +115,21 @@ main(void) {
     SetVelocity(0);
 #endif
     while (1) {
-        if (events & EVENT_UPDATE_SPEED) {
-            PMSM_Update_Position();
-            events &= ~EVENT_UPDATE_SPEED;
+        if (power3_24V_on) {
+            if (events & EVENT_MOTOR_INIT) {
+                InitMotor(); // Motor init stuff here
+                events &= ~EVENT_MOTOR_INIT;
+                motor_init_flag = 1;
+            }
+            if (events & EVENT_UPDATE_SPEED) {
+                PMSM_Update_Position();
+                events &= ~EVENT_UPDATE_SPEED;
+            }
         }
 
         if (events & EVENT_CAN) {
             can_process();
-//            LED2 = !LED2;
+            //            LED2 = !LED2;
 
             if (txreq_bitarray & 0b00000001 && !C1TR01CONbits.TXREQ0) {
                 C1TR01CONbits.TXREQ0 = 1;
@@ -208,6 +217,14 @@ EventChecker(void) {
         canPrescaler = 0;
     } else {
         canPrescaler++;
+    }
+
+    if (power3_24V_on) {
+        if(motor_init_flag == 0) {
+            events |= EVENT_MOTOR_INIT;
+        }
+    } else {
+        motor_init_flag = 0;
     }
 #endif
 
