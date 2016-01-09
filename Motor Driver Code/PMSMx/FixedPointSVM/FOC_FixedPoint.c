@@ -19,7 +19,7 @@ void FOC_Update_Commutation(_Q15 torque, int32_t rotorPosition)
 	
 	FOC_FromScratch_step();
 
-	GH_A_DC = FOC_FromScratch_DW.DC1 - 25;
-	GH_B_DC = FOC_FromScratch_DW.DC2 - 25;
-	GH_C_DC = FOC_FromScratch_DW.DC3 - 25;
+	GH_A_DC = FOC_FromScratch_DW.DC1 - 30;//25;
+	GH_B_DC = FOC_FromScratch_DW.DC2 - 30;//25;
+	GH_C_DC = FOC_FromScratch_DW.DC3 - 30;//25;
 }

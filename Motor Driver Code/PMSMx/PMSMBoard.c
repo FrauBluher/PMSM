@@ -29,11 +29,13 @@
 #include <qei32.h>
 
 /*DO NOT USE CONFIGURATION MEMORY (it triggers code protection in the bootloader) */
-//_FGS(GWRP_OFF & GSS_OFF & GSSK_OFF); // Disable Code Protection
+#ifdef NO_BOOTLOADER
+_FGS(GWRP_OFF & GSS_OFF & GSSK_OFF); // Disable Code Protection
 _FOSCSEL(FNOSC_FRC & IESO_OFF);
 _FOSC(FCKSM_CSECMD & OSCIOFNC_OFF & POSCMD_NONE & IOL1WAY_OFF); //FUCK IOL1WAY!
 _FWDT(FWDTEN_OFF);
 _FICD(ICS_PGD1 & JTAGEN_OFF); // & RSTPRI_AF);
+#endif
 
 //_FOSCSEL(FNOSC_FRC & IESO_OFF);
 //_FOSC(FCKSM_CSECMD & OSCIOFNC_OFF & POSCMD_NONE);
@@ -72,13 +74,13 @@ void InitBoard(ADCBuffer *ADBuff, CircularBuffer *cB, CircularBuffer *spi_cB, vo
 //            Nop(); //Let the DRV catch its breath...
 //        }
 
-        SPI1_Init();
-        {
-            DMA2REQbits.FORCE = 1;
-            while (DMA2REQbits.FORCE == 1);
-            CS = 1;
-        }
-
+//        SPI1_Init();
+//        {
+//            DMA2REQbits.FORCE = 1;
+//            while (DMA2REQbits.FORCE == 1);
+//            CS = 1;
+//        }
+//
         DMA1_UART2_Enable_RX(cB);
         DMA3_SPI_Enable_RX(spi_cB);
         DMA6_ADC_Enable(ADBuff);
@@ -111,6 +113,13 @@ void InitMotor(void) {
     for (i = 0; i < 750000; i++) {
         Nop(); //Let the DRV catch its breath...
     }
+    
+    SPI1_Init();
+    {
+        DMA2REQbits.FORCE = 1;
+        while (DMA2REQbits.FORCE == 1);
+        CS = 1;
+    }
 
     DRV8301_Init(&motorDriverInfo);
 #ifndef SINE
@@ -120,6 +129,9 @@ void InitMotor(void) {
     QEIInit();
 #endif
     PMSM_Init(&motorInformation);
+    for (i = 0; i < 750000; i++) {
+        Nop(); //Let the DRV catch its breath...
+    }
 }
 
 void UART2Init(void) {

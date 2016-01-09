@@ -102,6 +102,7 @@ static float d_u;
 static float y;
 static float cableVelocity;
 static float u = 0;
+float uLimit = 0.7; //Gets reset in PMSM_Init())
 
 static int32_t indexCount = 0;
 static int32_t runningPositionCount = 0;
@@ -176,6 +177,7 @@ uint8_t PMSM_Init(MotorInfo *information)
 	runningPositionCount = 0;
 
 	FOC_Update_Commutation(0, 0);
+    uLimit = 0.8;
 }
 
 /**
@@ -238,10 +240,10 @@ void PMSM_Update_Position(void)
 	u = y * 0.03;
 
 	//SATURATION HERE...  IF YOU REALLY NEED MORE JUICE...  UP THIS TO 1 and -1
-	if (u > 1) {
-		u = 1;
-	} else if (u < -1) {
-		u = -1;
+	if (u > uLimit) {
+		u = uLimit;
+	} else if (u < -uLimit) {
+		u = -uLimit;
 	}
 
 //	CO(state_Current_Position) = (int32_t) ((float) indexCount * 0.02814643647496589);
@@ -254,6 +256,8 @@ void PMSM_Update_Position(void)
 	} else {
 		FOC_Update_Commutation((int16_t) (0 * 32767), indexCount);//(int16_t) (d_u * 32767), indexCount);
 	}
+    
+    CO(state_Current_Position) = (int32_t) (indexCount) * 0.0030679616;
 }
 
 static int32_t lastCheck;

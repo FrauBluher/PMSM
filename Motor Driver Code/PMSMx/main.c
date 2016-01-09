@@ -161,7 +161,6 @@ main(void) {
             }
 
             SetPosition(((float) CO(position_control_Commanded_Position)) * 109. / 1000.);
-            CO(state_Current_Position) = CO(position_control_Commanded_Position);
 
             can_time_dispatch();
             events &= ~EVENT_CAN;
