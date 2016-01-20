@@ -58,6 +58,8 @@ void ADCInit(void);
 
 void (*eventCallbackFcn)(void);
 
+timer_data timer_state;
+
 void InitBoard(ADCBuffer *ADBuff, CircularBuffer *cB, CircularBuffer *spi_cB, void *eventCallback) {
     if (!initInfo.initReg) {
 
@@ -320,10 +322,24 @@ void TimersInit(void) {
     T7CONbits.TCKPS = 0b0; // Select 1:1 Prescaler
     TMR7 = 0x00;
     PR7 = 4662; // 15015 Hz
-    IPC12bits.T7IP = 0x01;
+    IPC12bits.T7IP = 0x04;
     IFS3bits.T7IF = 0;
     IEC3bits.T7IE = 1;
     T7CONbits.TON = 1;
+    
+    /* Set timer 1 as main clock */
+    T1CONbits.TON = 0; 		// Disable Timer
+    T1CONbits.TCS = 0; 		// Select internal instruction cycle clock
+    T1CONbits.TGATE = 0; 	// Disable Gated Timer mode
+    T1CONbits.TCKPS = 1;        // prescaler: 1/8
+    PR1 = 8750; //8750*8=70000 = 1ms
+
+    TMR1 = 0x00; 			// Clear timer register
+    IPC0bits.T1IP = 0x01; 		// Set Timer1 Interrupt Priority Level to 6 = very high priority
+    IFS0bits.T1IF = 0; 		// Clear Timer1 Interrupt Flag
+    IEC0bits.T1IE = 1; 		// Enable Timer1 interrupt
+    T1CONbits.TON = 1; 		// Start Timer
+    timer_state.systime = 0;
 
     initInfo.TimersInited = 1;
 }
@@ -451,6 +467,12 @@ void EventCheckInit(void *eventCallback) {
     eventCallbackFcn = eventCallback;
 
     initInfo.EventCheckInited = 1;
+}
+
+void __attribute__((__interrupt__, no_auto_psv)) _T1Interrupt(void)
+{
+    ++timer_state.systime;
+    IFS0bits.T1IF = 0; // Clear Timer 1 Interrupt Flag
 }
 
 void __attribute__((__interrupt__, no_auto_psv)) _T7Interrupt(void) {

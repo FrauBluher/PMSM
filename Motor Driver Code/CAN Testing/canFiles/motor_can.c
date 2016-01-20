@@ -78,20 +78,20 @@ uint8_t can_process() {
 
     switch (getState(&Motor_Board_Data)) {
         case Initialisation:
-            LED2 = 0;
-            LED3 = 0;
+//            LED2 = 0;
+//            LED3 = 0;
             break;
         case Pre_operational:
-            LED2 = 1;
-            LED3 = 0;
+//            LED2 = 1;
+//            LED3 = 0;
             break;
         case Operational:
-            LED2 = 0;
-            LED3 = 1;
+//            LED2 = 0;
+//            LED3 = 1;
             break;
         default:
-            LED2 = 1;
-            LED3 = 1;
+//            LED2 = 1;
+//            LED3 = 1;
             break;
 
     };

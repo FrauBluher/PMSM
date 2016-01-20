@@ -40,7 +40,7 @@ extern INTEGER32 motor2_state_Current_Motor_Current;		/* Mapped at index 0x2021,
 extern UNS8 motor2_state_Undefined;		/* Mapped at index 0x2021, subindex 0x06 */
 extern UNS8 motor2_state_Undefined1;		/* Mapped at index 0x2021, subindex 0x07 */
 extern UNS8 motor2_state_Undefined2;		/* Mapped at index 0x2021, subindex 0x08 */
-extern INTEGER32 motor2_position_control_Commanded_Position;		/* Mapped at index 0x2022, subindex 0x01 */
+extern volatile INTEGER32 motor2_position_control_Commanded_Position;		/* Mapped at index 0x2022, subindex 0x01 */
 extern UNS16 motor2_position_control_P_Gain;		/* Mapped at index 0x2022, subindex 0x02 */
 extern UNS16 motor2_position_control_I_Gain;		/* Mapped at index 0x2022, subindex 0x03 */
 extern UNS16 motor2_position_control_D_Gain;		/* Mapped at index 0x2022, subindex 0x04 */

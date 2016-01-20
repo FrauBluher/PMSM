@@ -88,6 +88,12 @@ typedef struct {
     };
 } InitStatus;
 
+typedef struct {
+    uint8_t                 init_return;
+    unsigned int volatile   systime;        //updated by a timer
+    unsigned int            prev_systime;   //updated in main loop
+} timer_data;
+
 void InitBoard(ADCBuffer *ADBuff, CircularBuffer * cB, CircularBuffer * spi_cB, void *eventCallback);
 
 void InitMotor(void);

@@ -183,10 +183,10 @@ uint8_t PMSM_Init(MotorInfo *information)
 /**
  * @brief Sets the commanded position of the motor.
  */
-void SetPosition(float pos)
+void SetPosition(volatile float pos)
 {
     if (pos != theta) {
-	theta = pos;
+        theta = pos;
     }
 }
 

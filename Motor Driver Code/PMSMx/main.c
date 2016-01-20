@@ -63,8 +63,8 @@ uint16_t torque;
 uint16_t canPrescaler = 0;
 extern uint8_t txreq_bitarray;
 uint16_t controlPrescale = 0;
-
-uint8_t motor_init_flag = 0;
+extern timer_data timer_state;
+uint8_t volatile motor_init_flag = 0;
 
 enum {
     EVENT_UART_DATA_READY = 0x01,
@@ -103,8 +103,8 @@ main(void) {
 
     LED1 = 1;
     LED2 = 0;
-    LED3 = 1;
-    LED4 = 1;
+    LED3 = 0;
+    LED4 = 0;
 
 #ifdef POSITION
     /* This is used for testing */
@@ -115,21 +115,10 @@ main(void) {
     SetVelocity(0);
 #endif
     while (1) {
-        if (COP(24V_on)) {
-            if (events & EVENT_MOTOR_INIT) {
-                InitMotor(); // Motor init stuff here
-                events &= ~EVENT_MOTOR_INIT;
-                motor_init_flag = 1;
-            }
-            if (events & EVENT_UPDATE_SPEED) {
-                PMSM_Update_Position();
-                events &= ~EVENT_UPDATE_SPEED;
-            }
-        }
-
-        if (events & EVENT_CAN) {
+        if (timer_state.systime != timer_state.prev_systime) {
+            timer_state.prev_systime = timer_state.systime;
+            LED2 = 1;
             can_process();
-            //            LED2 = !LED2;
 
             if (txreq_bitarray & 0b00000001 && !C1TR01CONbits.TXREQ0) {
                 C1TR01CONbits.TXREQ0 = 1;
@@ -161,7 +150,14 @@ main(void) {
             }
 
             SetPosition(((float) CO(position_control_Commanded_Position)) * 109. / 1000.);
+            can_time_dispatch();
+            LED2 = 0;
 
+        }
+        
+        
+
+        if (events & EVENT_CAN) {
             can_time_dispatch();
             events &= ~EVENT_CAN;
         }
@@ -207,11 +203,12 @@ void
 EventChecker(void) {
 #if defined (CHARACTERIZE_POSITION) || defined (CHARACTERIZE_VELOCITY)
 #else
+    LED4 = 1;
     if (uartBuffer.dataSize) {
         events |= EVENT_UART_DATA_READY;
     }
 
-    if (canPrescaler > 10) {
+    if (canPrescaler > 1) {
         events |= EVENT_CAN;
         canPrescaler = 0;
     } else {
@@ -220,14 +217,18 @@ EventChecker(void) {
 
     if (COP(24V_on)) {
         if(motor_init_flag == 0) {
-            events |= EVENT_MOTOR_INIT;
+            InitMotor(); // Motor init stuff here
+            motor_init_flag = 1;
         }
+        PMSM_Update_Position();
     } else {
         motor_init_flag = 0;
     }
+    
 #endif
 
     events |= EVENT_UPDATE_SPEED;
+    LED4 = 0;
 
 }
 
