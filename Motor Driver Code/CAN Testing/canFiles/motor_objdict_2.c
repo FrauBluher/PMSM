@@ -75,7 +75,7 @@ UNS16 motor2_impedance_control_Length_Gain = 0x0;		/* Mapped at index 0x2025, su
 UNS8 motor2_impedance_control_Undefined = 0x0;		/* Mapped at index 0x2025, subindex 0x09 */
 UNS8 motor2_impedance_control_Undefined1 = 0x0;		/* Mapped at index 0x2025, subindex 0x0A */
 UNS8 motor2_impedance_control_Undefined2 = 0x0;		/* Mapped at index 0x2025, subindex 0x0B */
-UNS8 power3_24V_on = 0x0;		/* Mapped at index 0x2033, subindex 0x00 */
+volatile UNS8 power3_24V_on = 0x0;		/* Mapped at index 0x2033, subindex 0x00 */
 
 /**************************************************************************/
 /* Declaration of value range types                                       */

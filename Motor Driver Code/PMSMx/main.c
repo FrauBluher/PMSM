@@ -152,11 +152,12 @@ main(void) {
             SetPosition(((float) CO(position_control_Commanded_Position)) * 109. / 1000.);
             can_time_dispatch();
             LED2 = 0;
-
         }
         
+        //Hack! Not sure why, but the CAN interrupts become disabled.
+        //This manually checks the receive buffer
+        _C1Interrupt();
         
-
         if (events & EVENT_CAN) {
             can_time_dispatch();
             events &= ~EVENT_CAN;
