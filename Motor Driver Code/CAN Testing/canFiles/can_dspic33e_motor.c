@@ -302,7 +302,7 @@ OUTPUT	1 if successful
 	// Enable interrupts for ECAN1
 	ConfigIntCAN1(CAN_INVALID_MESSAGE_INT_DIS & CAN_WAKEUP_INT_DIS & CAN_ERR_INT_DIS &
 		CAN_FIFO_INT_DIS & CAN_RXBUF_OVERFLOW_INT_EN &
-		CAN_RXBUF_INT_EN & CAN_TXBUF_INT_DIS, CAN_INT_ENABLE & CAN_INT_PRI_5);
+		CAN_RXBUF_INT_EN & CAN_TXBUF_INT_DIS, CAN_INT_ENABLE & CAN_INT_PRI_6);
 
 	if (CB_Init(&can_rx_circ_buff, can_rx_buffer_array, CAN_RX_BUFF_SIZE) != true) {
 		return 0;
@@ -495,6 +495,7 @@ void __attribute__((interrupt, no_auto_psv)) _C1Interrupt(void)
 	static uint8_t packet_idx;
 	unsigned i;
 
+    LATDbits.LATD4 = 1;
 	if (C1INTFbits.TBIF) {
 		C1INTFbits.TBIF = 0; //message was transmitted, nothing to do, I guess
 	}
@@ -514,16 +515,16 @@ void __attribute__((interrupt, no_auto_psv)) _C1Interrupt(void)
 		m.len = 255;
 
 		// Obtain the buffer the message was stored into, checking that the value is valid to refer to a buffer
-		if (C1VECbits.ICODE < 8) {
+//		if (C1VECbits.ICODE < 8) {
 			buffer = C1VECbits.ICODE;
-		}
+//		}
 
 		ecan_msg_buf_ptr = (__eds__ uint16_t) ecan1RXMsgBuf[buffer];
 
 		// Clear the buffer full status bit so more messages can be received.
-		if (C1RXFUL1 & (1 << buffer)) {
-			C1RXFUL1 &= ~(1 << buffer);
-		}
+//		if (C1RXFUL1 & (1 << buffer)) {
+//			C1RXFUL1 &= ~(1 << buffer);
+//		}
 
                 //  Move the message from the DMA buffer to a data structure and then push it into our circular buffer.
 
@@ -566,8 +567,16 @@ void __attribute__((interrupt, no_auto_psv)) _C1Interrupt(void)
 		}
 
 		// Be sure to clear the interrupt flag.
-		C1RXFUL1 = 0;
+//		C1RXFUL1 = 0;
+        if (C1FIFObits.FNRB <= 15) {
+                    C1RXFUL1 = ~(1 << C1FIFObits.FNRB);
+		}
+                else{
+                    C1RXFUL2 = ~(1 << (C1FIFObits.FNRB-16));
+                }
 		C1INTFbits.RBIF = 0;
+        
+        
 	}
 
 	// Clear the general ECAN1 interrupt flag.
@@ -578,4 +587,5 @@ void __attribute__((interrupt, no_auto_psv)) _C1Interrupt(void)
 	CAN1ClearRXOVF1();
 	CAN1ClearRXOVF2();
 	IFS2bits.C1IF = 0;
+    LATDbits.LATD4 = 0;
 }

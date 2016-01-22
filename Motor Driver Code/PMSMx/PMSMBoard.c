@@ -66,7 +66,7 @@ void InitBoard(ADCBuffer *ADBuff, CircularBuffer *cB, CircularBuffer *spi_cB, vo
 //        uint32_t i;
 
         ClockInit();
-        UART2Init();
+        //UART2Init();
 
         PinInit();
 
@@ -284,12 +284,15 @@ void PinInit(void) {
     ANSELG = 0;
 
     TRISDbits.TRISD4 = 0;
+    TRISDbits.TRISD3 = 0;
 
     //Unlock PPS Registers
     __builtin_write_OSCCONL(OSCCON & ~(1 << 6));
 
-    OUT_PIN_PPS_RP68 = OUT_FN_PPS_U2TX; //U2Tx
-    IN_FN_PPS_U2RX = IN_PIN_PPS_RP67; //U2Rx
+    //OUT_PIN_PPS_RP68 = OUT_FN_PPS_U2TX; //U2Tx
+    OUT_PIN_PPS_RP68 = OUT_FN_PPS_NULL;
+    //IN_FN_PPS_U2RX = IN_PIN_PPS_RP67; //U2Rx
+    OUT_PIN_PPS_RP67 = OUT_FN_PPS_NULL;
     OUT_PIN_PPS_RP118 = OUT_FN_PPS_SDO1; //SDO
     OUT_PIN_PPS_RP120 = OUT_FN_PPS_SCK1; //SCLK
     IN_FN_PPS_SDI1 = IN_PIN_PPS_RP87; //SDI
@@ -321,7 +324,8 @@ void TimersInit(void) {
     T7CONbits.TGATE = 0;
     T7CONbits.TCKPS = 0b0; // Select 1:1 Prescaler
     TMR7 = 0x00;
-    PR7 = 4662; // 15015 Hz
+    //PR7 = 4662; // 15015 Hz
+    PR7 = 7000;//8750;//7000;
     IPC12bits.T7IP = 0x04;
     IFS3bits.T7IF = 0;
     IEC3bits.T7IE = 1;

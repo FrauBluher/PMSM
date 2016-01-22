@@ -75,6 +75,7 @@ uint8_t PMSM_Init(MotorInfo *information);
  * This method sets the angular position of the controller.
  */
 void SetPosition(float pos);
+void SetPositionInt(int32_t pos);
 
 /**
  * @brief Returns last known cable velocity in mm/s.

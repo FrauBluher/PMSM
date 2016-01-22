@@ -149,14 +149,18 @@ main(void) {
                 txreq_bitarray = txreq_bitarray & 0b10111111;
             }
 
-            SetPosition(((float) CO(position_control_Commanded_Position)) * 109. / 1000.);
-            can_time_dispatch();
+            //SetPosition(((float) CO(position_control_Commanded_Position)) * 109. / 1000.);
+            SetPositionInt(CO(position_control_Commanded_Position));
+            //can_time_dispatch();
             LED2 = 0;
         }
         
         //Hack! Not sure why, but the CAN interrupts become disabled.
         //This manually checks the receive buffer
-        _C1Interrupt();
+        //LATDbits.LATD4 = 1;
+        
+        //_C1Interrupt();
+        //LATDbits.LATD4 = 0;
         
         if (events & EVENT_CAN) {
             can_time_dispatch();

@@ -98,10 +98,11 @@ typedef struct {
 } TimesOut;
 
 static volatile float theta;
+static volatile int32_t theta_uint;
 static float d_u;
 static float y;
 static float cableVelocity;
-static float u = 0;
+//static float u = 0;
 float uLimit = 0.7; //Gets reset in PMSM_Init())
 
 static int32_t indexCount = 0;
@@ -190,6 +191,11 @@ void SetPosition(volatile float pos)
     }
 }
 
+inline void SetPositionInt(int32_t pos)
+{
+    theta_uint = pos;
+}
+
 /**
  * @brief Calculates last known cable length and returns it.
  * @return Cable length in mm.
@@ -223,9 +229,15 @@ int32_t GetCableVelocity(void)
 
 void PMSM_Update_Position(void)
 {
+    int32_t u;
+    int32_t mu;
+    LATDbits.LATD3 = 1;
 	indexCount = Read32bitQEI1PositionCounter();
-
-	y = theta - ((float) (int32_t) (indexCount) * 0.0030679616); //Scaling it back into radians.
+    
+	//y = theta - ((float) (int32_t) (indexCount) * 0.0030679616); //Scaling it back into radians.
+    //u = theta_uint*109/1000.*0.03-(indexCount/326*0.03);
+    u = theta_uint*107-indexCount*3; 
+    //u = y * 0.03;
 
 //	x_dummy[0][0] = (x_hat[0][0] * K_reg[0][0]) + (x_hat[1][0] * K_reg[0][1]) + (x_hat[2][0] * K_reg[0][2]) + (L[0][0] * y);
 //	x_dummy[1][0] = (x_hat[1][0] * K_reg[1][0]) + (x_hat[1][0] * K_reg[1][1]) + (x_hat[2][0] * K_reg[1][2]) + (L[1][0] * y);
@@ -237,27 +249,37 @@ void PMSM_Update_Position(void)
 //
 //	u = -1 * ((K[0][0] * x_hat[0][0]) + (K[0][1] * x_hat[1][0]) + (K[0][2] * x_hat[2][0]));
 
-	u = y * 0.03;
+	
 
 	//SATURATION HERE...  IF YOU REALLY NEED MORE JUICE...  UP THIS TO 1 and -1
-	if (u > uLimit) {
-		u = uLimit;
-	} else if (u < -uLimit) {
-		u = -uLimit;
-	}
+//	if (u > uLimit) {
+//		u = uLimit;
+//        
+//	} else if (u < -uLimit) {
+//		u = -uLimit;
+//	}
 
+    if(u>26214){
+        mu = 26214;
+    } else if (u<-26214){
+        mu = -26214;
+    } else {
+        mu = (int16_t)u;
+    }
+    
 //	CO(state_Current_Position) = (int32_t) ((float) indexCount * 0.02814643647496589);
 
 	if (u > 0) {
 		//Commutation phase offset
-		FOC_Update_Commutation((int16_t) (u * 32767), indexCount + 512);//(int16_t) (d_u * 32767), indexCount);
+		FOC_Update_Commutation(mu, indexCount + 512);//(int16_t) (d_u * 32767), indexCount);
 	} else if (u < 0) {
-		FOC_Update_Commutation((int16_t) (-u * 32767), indexCount - 512);//(int16_t) (d_u * 32767), indexCount);
+		FOC_Update_Commutation(-mu, indexCount - 512);//(int16_t) (d_u * 32767), indexCount);
 	} else {
-		FOC_Update_Commutation((int16_t) (0 * 32767), indexCount);//(int16_t) (d_u * 32767), indexCount);
+		FOC_Update_Commutation(0, indexCount);//(int16_t) (d_u * 32767), indexCount);
 	}
     
-    CO(state_Current_Position) = (int32_t) (indexCount) * 0.0030679616;
+    CO(state_Current_Position) = (indexCount*53)/1883;//indexCount/326;//(int32_t) (indexCount) * 0.0030679616;
+    LATDbits.LATD3 = 0;
 }
 
 static int32_t lastCheck;
