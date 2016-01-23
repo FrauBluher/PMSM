@@ -40,7 +40,7 @@ extern INTEGER32 motor72_state_Current_Motor_Current;		/* Mapped at index 0x2021
 extern UNS8 motor72_state_Undefined;		/* Mapped at index 0x2021, subindex 0x06 */
 extern UNS8 motor72_state_Undefined1;		/* Mapped at index 0x2021, subindex 0x07 */
 extern UNS8 motor72_state_Undefined2;		/* Mapped at index 0x2021, subindex 0x08 */
-extern INTEGER32 motor72_position_control_Commanded_Position;		/* Mapped at index 0x2022, subindex 0x01 */
+extern volatile INTEGER32 motor72_position_control_Commanded_Position;		/* Mapped at index 0x2022, subindex 0x01 */
 extern UNS16 motor72_position_control_P_Gain;		/* Mapped at index 0x2022, subindex 0x02 */
 extern UNS16 motor72_position_control_I_Gain;		/* Mapped at index 0x2022, subindex 0x03 */
 extern UNS16 motor72_position_control_D_Gain;		/* Mapped at index 0x2022, subindex 0x04 */
@@ -90,6 +90,6 @@ extern INTEGER32 power73_adc_state_mA_motor_current;		/* Mapped at index 0x2030,
 extern UNS32 power73_adc_state_mV_motor_voltage;		/* Mapped at index 0x2030, subindex 0x07 */
 extern INTEGER32 power73_adc_state_mW_motor_power;		/* Mapped at index 0x2030, subindex 0x08 */
 extern INTEGER8 power73_adc_state_C_temp;		/* Mapped at index 0x2030, subindex 0x09 */
-extern UNS8 power73_24V_on;		/* Mapped at index 0x2033, subindex 0x00*/
+extern volatile UNS8 power73_24V_on;		/* Mapped at index 0x2033, subindex 0x00*/
 
 #endif // MOTOR_OBJDICT_72_H

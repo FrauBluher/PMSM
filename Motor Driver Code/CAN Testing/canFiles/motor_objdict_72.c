@@ -34,7 +34,7 @@ INTEGER32 motor72_state_Current_Motor_Current = 0x0;		/* Mapped at index 0x2021,
 UNS8 motor72_state_Undefined = 0x0;		/* Mapped at index 0x2021, subindex 0x06 */
 UNS8 motor72_state_Undefined1 = 0x0;		/* Mapped at index 0x2021, subindex 0x07 */
 UNS8 motor72_state_Undefined2 = 0x0;		/* Mapped at index 0x2021, subindex 0x08 */
-INTEGER32 motor72_position_control_Commanded_Position = 0x0;		/* Mapped at index 0x2022, subindex 0x01 */
+volatile INTEGER32 motor72_position_control_Commanded_Position = 0x0;		/* Mapped at index 0x2022, subindex 0x01 */
 UNS16 motor72_position_control_P_Gain = 0x0;		/* Mapped at index 0x2022, subindex 0x02 */
 UNS16 motor72_position_control_I_Gain = 0x0;		/* Mapped at index 0x2022, subindex 0x03 */
 UNS16 motor72_position_control_D_Gain = 0x0;		/* Mapped at index 0x2022, subindex 0x04 */
@@ -84,7 +84,7 @@ INTEGER32 power73_adc_state_mA_motor_current = 0x0;		/* Mapped at index 0x2030, 
 UNS32 power73_adc_state_mV_motor_voltage = 0x0;		/* Mapped at index 0x2030, subindex 0x07 */
 INTEGER32 power73_adc_state_mW_motor_power = 0x0;		/* Mapped at index 0x2030, subindex 0x08 */
 INTEGER8 power73_adc_state_C_temp = 0x0;		/* Mapped at index 0x2030, subindex 0x09 */
-UNS8 power73_24V_on = 0x0;		/* Mapped at index 0x2033, subindex 0x00 */
+volatile UNS8 power73_24V_on = 0x0;		/* Mapped at index 0x2033, subindex 0x00 */
 
 /**************************************************************************/
 /* Declaration of value range types                                       */
