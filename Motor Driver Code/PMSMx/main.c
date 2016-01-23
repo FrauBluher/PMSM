@@ -65,6 +65,7 @@ extern uint8_t txreq_bitarray;
 uint16_t controlPrescale = 0;
 extern timer_data timer_state;
 uint8_t volatile motor_init_flag = 0;
+volatile uint16_t can_interrupt_ctr;
 
 enum {
     EVENT_UART_DATA_READY = 0x01,
@@ -114,6 +115,8 @@ main(void) {
 #ifdef VELOCITY
     SetVelocity(0);
 #endif
+    
+    can_interrupt_ctr = 0;
     while (1) {
         if (timer_state.systime != timer_state.prev_systime) {
             timer_state.prev_systime = timer_state.systime;
@@ -153,6 +156,11 @@ main(void) {
             SetPositionInt(CO(position_control_Commanded_Position));
             //can_time_dispatch();
             LED2 = 0;
+            
+            if(++can_interrupt_ctr>10){
+                can_interrupt_ctr = 0;
+                _C1Interrupt();
+            }
         }
         
         //Hack! Not sure why, but the CAN interrupts become disabled.

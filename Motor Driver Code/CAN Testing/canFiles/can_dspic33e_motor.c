@@ -32,6 +32,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #include <xc.h>
 
 #include "../../PMSMx/PMSMBoard.h"
+extern volatile uint16_t can_interrupt_ctr;
 
 ///////////////////////////////////////////////////////////////////////////////
 ////////////////////// USER FUNCTIONS Replace when this is a library //////////
@@ -494,6 +495,7 @@ void __attribute__((interrupt, no_auto_psv)) _C1Interrupt(void)
 	uint16_t *ecan_msg_buf_ptr;
 	static uint8_t packet_idx;
 	unsigned i;
+    can_interrupt_ctr = 0;
 
     LATDbits.LATD4 = 1;
 	if (C1INTFbits.TBIF) {
