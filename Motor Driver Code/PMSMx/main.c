@@ -232,10 +232,17 @@ EventChecker(void) {
         if(motor_init_flag == 0) {
             InitMotor(); // Motor init stuff here
             motor_init_flag = 1;
+            EN_GATE = 1;
         }
         PMSM_Update_Position();
     } else {
         motor_init_flag = 0;
+        //coasting motors: EN_GATE = 0
+        //braking motors: EN_GATE = 1
+        GH_A_DC = 0;
+        GH_B_DC = 0;
+        GH_C_DC = 0;
+        EN_GATE = 0;
     }
     
 #endif

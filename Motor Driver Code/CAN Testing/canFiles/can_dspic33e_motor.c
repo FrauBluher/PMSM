@@ -303,7 +303,7 @@ OUTPUT	1 if successful
 	// Enable interrupts for ECAN1
 	ConfigIntCAN1(CAN_INVALID_MESSAGE_INT_DIS & CAN_WAKEUP_INT_DIS & CAN_ERR_INT_DIS &
 		CAN_FIFO_INT_DIS & CAN_RXBUF_OVERFLOW_INT_EN &
-		CAN_RXBUF_INT_EN & CAN_TXBUF_INT_DIS, CAN_INT_ENABLE & CAN_INT_PRI_6);
+		CAN_RXBUF_INT_EN & CAN_TXBUF_INT_DIS, CAN_INT_ENABLE & CAN_INT_PRI_3);
 
 	if (CB_Init(&can_rx_circ_buff, can_rx_buffer_array, CAN_RX_BUFF_SIZE) != true) {
 		return 0;

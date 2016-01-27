@@ -76,13 +76,20 @@ void InitBoard(ADCBuffer *ADBuff, CircularBuffer *cB, CircularBuffer *spi_cB, vo
 //            Nop(); //Let the DRV catch its breath...
 //        }
 
-//        SPI1_Init();
-//        {
-//            DMA2REQbits.FORCE = 1;
-//            while (DMA2REQbits.FORCE == 1);
-//            CS = 1;
-//        }
-//
+        SPI1_Init();
+        {
+            DMA2REQbits.FORCE = 1;
+            while (DMA2REQbits.FORCE == 1);
+            CS = 1;
+        }
+        
+        EN_GATE = 0;
+        uint16_t i;
+        for (i = 0; i < 2000; i++) {
+            Nop(); //Let the DRV catch its breath...
+        }
+        DRV8301_Reset();
+
         DMA1_UART2_Enable_RX(cB);
         DMA3_SPI_Enable_RX(spi_cB);
         DMA6_ADC_Enable(ADBuff);
@@ -116,12 +123,12 @@ void InitMotor(void) {
         Nop(); //Let the DRV catch its breath...
     }
     
-    SPI1_Init();
-    {
-        DMA2REQbits.FORCE = 1;
-        while (DMA2REQbits.FORCE == 1);
-        CS = 1;
-    }
+//    SPI1_Init();
+//    {
+//        DMA2REQbits.FORCE = 1;
+//        while (DMA2REQbits.FORCE == 1);
+//        CS = 1;
+//    }
 
     DRV8301_Init(&motorDriverInfo);
 #ifndef SINE
@@ -324,8 +331,8 @@ void TimersInit(void) {
     T7CONbits.TGATE = 0;
     T7CONbits.TCKPS = 0b0; // Select 1:1 Prescaler
     TMR7 = 0x00;
-    //PR7 = 4662; // 15015 Hz
-    PR7 = 7000;//8750;//7000;
+//    PR7 = 4662; // 15015 Hz
+    PR7 = 7000;// 8750, 7000: 8kHz and 10kHz respectively 
     IPC12bits.T7IP = 0x04;
     IFS3bits.T7IF = 0;
     IEC3bits.T7IE = 1;
