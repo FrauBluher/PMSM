@@ -1,4 +1,4 @@
 PMSM
 ====
 
-Permenant Magnet Syncronous Motor Driver and Supporting Code/Sims
+Permanent Magnet Syncronous Motor Driver and Supporting Code/Sims
